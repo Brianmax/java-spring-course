@@ -67,7 +67,20 @@ code{overflow-wrap:anywhere}pre code{overflow-wrap:normal}
 .language-card .route span{color:var(--muted);font-size:1.2cqw;text-align:center}
 .language-card .down{color:var(--cyan);font-size:1.5cqw;font-weight:800;line-height:.8}
 .language-footnote{margin:0;color:var(--muted);font-size:1.15cqw;line-height:1.35}
-@media(max-width:750px){.slide:not(.hero){align-content:start}.opening{gap:18px}.opening-note{font-size:16px}.visual-flow{grid-template-columns:1fr;gap:10px}.visual-node{min-height:0;padding:16px;gap:8px}.visual-node strong{font-size:18px}.visual-node span{font-size:14px}.visual-node svg{width:54px;height:54px}.visual-arrow{transform:rotate(90deg);justify-self:center;font-size:24px}.runtime-flow{grid-template-columns:1fr;gap:8px}.runtime-card{min-height:0;padding:14px;gap:5px}.runtime-card strong{font-size:17px}.runtime-card span,.runtime-card code{font-size:14px}.runtime-arrow{transform:rotate(90deg);justify-self:center;font-size:20px}.cpu-row{grid-template-columns:1fr;gap:8px}.cpu-part{padding:12px}.cpu-part strong{font-size:16px}.cpu-part span{font-size:14px}.language-compare{grid-template-columns:1fr;gap:10px}.language-card{gap:8px;padding:14px}.language-card h3{font-size:20px}.language-card .route{gap:4px;padding:9px}.language-card .route strong{font-size:15px}.language-card .route span{font-size:13px}.language-card .down{font-size:16px}.language-footnote{font-size:13px}}
+.execution-flow{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr) auto minmax(0,1fr) auto minmax(0,1.15fr);align-items:stretch;gap:.7cqw}
+.execution-step{position:relative;min-width:0;min-height:20cqw;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.8cqw;padding:1cqw;border:1px solid var(--line);border-radius:15px;background:var(--surface);text-align:center}
+.execution-step.primary{border:2px solid var(--blue);background:var(--surface-2)}
+.execution-step .step-number{position:absolute;top:.7cqw;left:.8cqw;color:var(--blue);font-size:1.1cqw;font-weight:800}
+.execution-step strong{font-size:1.65cqw;line-height:1.15}
+.execution-step span{color:var(--muted);font-size:1.25cqw;line-height:1.35}
+.execution-step code{font-size:1.35cqw}
+.execution-step svg{width:4.6cqw;height:4.6cqw;color:var(--blue)}
+.execution-arrow{align-self:center;color:var(--cyan);font-size:2.1cqw;font-weight:800}
+.hardware-parts{width:100%;display:grid;grid-template-rows:auto auto auto;justify-items:center;gap:.55cqw}
+.hardware-part{width:100%;padding:.65cqw;border:1px solid #b8e5f5;border-radius:10px;background:#fff}
+.hardware-link{color:var(--blue);font-size:1.55cqw;font-weight:800;line-height:1}
+.result-chip{padding:.3em .7em;border-radius:999px;background:var(--success);color:#fff!important;font-weight:800}
+@media(max-width:750px){.slide:not(.hero){align-content:start}.opening{gap:18px}.opening-note{font-size:16px}.visual-flow{grid-template-columns:1fr;gap:10px}.visual-node{min-height:0;padding:16px;gap:8px}.visual-node strong{font-size:18px}.visual-node span{font-size:14px}.visual-node svg{width:54px;height:54px}.visual-arrow{transform:rotate(90deg);justify-self:center;font-size:24px}.runtime-flow{grid-template-columns:1fr;gap:8px}.runtime-card{min-height:0;padding:14px;gap:5px}.runtime-card strong{font-size:17px}.runtime-card span,.runtime-card code{font-size:14px}.runtime-arrow{transform:rotate(90deg);justify-self:center;font-size:20px}.cpu-row{grid-template-columns:1fr;gap:8px}.cpu-part{padding:12px}.cpu-part strong{font-size:16px}.cpu-part span{font-size:14px}.language-compare{grid-template-columns:1fr;gap:10px}.language-card{gap:8px;padding:14px}.language-card h3{font-size:20px}.language-card .route{gap:4px;padding:9px}.language-card .route strong{font-size:15px}.language-card .route span{font-size:13px}.language-card .down{font-size:16px}.language-footnote{font-size:13px}.execution-flow{grid-template-columns:1fr;gap:8px}.execution-step{min-height:0;padding:18px;gap:7px}.execution-step .step-number{top:8px;left:10px;font-size:12px}.execution-step strong{font-size:18px}.execution-step span,.execution-step code{font-size:14px}.execution-step svg{width:48px;height:48px}.execution-arrow{justify-self:center;transform:rotate(90deg);font-size:20px}.hardware-parts{gap:5px}.hardware-part{padding:9px}.hardware-link{font-size:17px}}
 </style>
 </head>
 <body>
@@ -90,21 +103,18 @@ code{overflow-wrap:anywhere}pre code{overflow-wrap:normal}
   <p class="opening-note">Un programa es una receta clara que la computadora puede seguir.</p>
 </section>
 <section class="slide opening" data-title="Cómo ejecuta instrucciones una computadora">
-  <div class="kicker">02 · Del código a la máquina</div>
-  <h2>La computadora ejecuta instrucciones que su procesador entiende.</h2>
-  <div class="runtime-flow" aria-label="El código se traduce para el procesador y produce un resultado">
-    <div class="runtime-card"><code>total = 20 + 5</code><strong>Código</strong><span>Lo escribimos las personas</span></div>
-    <div class="runtime-arrow" aria-hidden="true">→</div>
-    <div class="runtime-card primary"><svg viewBox="0 0 64 64" width="54" height="54" aria-hidden="true"><rect x="15" y="15" width="34" height="34" rx="5" fill="none" stroke="#007fae" stroke-width="3"/><path d="M23 26h18M23 33h18M23 40h10M8 22h7M8 32h7M8 42h7M49 22h7M49 32h7M49 42h7M22 8v7M32 8v7M42 8v7M22 49v7M32 49v7M42 49v7" fill="none" stroke="#007fae" stroke-width="3" stroke-linecap="round"/></svg><strong>Traductor</strong><span>Compilador o intérprete</span></div>
-    <div class="runtime-arrow" aria-hidden="true">→</div>
-    <div class="runtime-card"><strong>Instrucciones</strong><span>Pasos que la CPU puede ejecutar</span></div>
+  <div class="kicker">02 · Del código al resultado</div>
+  <h2>El programa se traduce a pasos que ejecuta el procesador.</h2>
+  <div class="execution-flow" aria-label="Código fuente, traductor, código máquina y procesador conectado a memoria">
+    <div class="execution-step"><span class="step-number">01</span><code>total = 20 + 5</code><strong>Código fuente</strong><span>Lo escribe la persona</span></div>
+    <div class="execution-arrow" aria-hidden="true">→</div>
+    <div class="execution-step"><span class="step-number">02</span><svg viewBox="0 0 64 64" aria-hidden="true"><rect x="15" y="15" width="34" height="34" rx="5" fill="none" stroke="currentColor" stroke-width="3"/><path d="M23 26h18M23 33h18M23 40h10M8 22h7M8 32h7M8 42h7M49 22h7M49 32h7M49 42h7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg><strong>Traductor</strong><span>Compilador o intérprete</span></div>
+    <div class="execution-arrow" aria-hidden="true">→</div>
+    <div class="execution-step"><span class="step-number">03</span><strong>Código máquina</strong><span>Instrucciones que entiende la CPU</span></div>
+    <div class="execution-arrow" aria-hidden="true">→</div>
+    <div class="execution-step primary"><span class="step-number">04</span><div class="hardware-parts"><div class="hardware-part"><strong>CPU</strong><br><span>ejecuta los pasos</span></div><div class="hardware-link" aria-label="lee y actualiza">↕</div><div class="hardware-part"><strong>Memoria</strong><br><span>guarda datos e instrucciones</span></div></div><span class="result-chip">resultado: 25</span></div>
   </div>
-  <div class="cpu-row" aria-label="El procesador usa memoria y ejecuta las instrucciones">
-    <div class="cpu-part"><strong>Memoria</strong><span>guarda datos e instrucciones</span></div>
-    <div class="visual-arrow" aria-hidden="true">↔</div>
-    <div class="cpu-part"><strong>CPU</strong><span>lee, calcula y actualiza datos</span></div>
-  </div>
-  <p class="opening-note">El detalle cambia según el lenguaje; la CPU siempre recibe instrucciones de máquina.</p>
+  <p class="opening-note">El traductor cambia según el lenguaje; el procesador ejecuta instrucciones de máquina y usa la memoria.</p>
 </section>
 <section class="slide opening" data-title="Cómo se ejecuta Java">
   <div class="kicker">03 · El camino de Java</div>
