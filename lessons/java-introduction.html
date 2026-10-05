@@ -129,6 +129,17 @@ code{overflow-wrap:anywhere}pre code{overflow-wrap:normal}
 .message-transition b{color:var(--cyan);font-size:2cqw;line-height:1}
 @keyframes counter-pop{0%{transform:scale(.7)}65%{transform:scale(1.2)}100%{transform:scale(1)}}
 @media(max-width:750px){.variable-everyday{width:100%;gap:10px}.everyday-value{padding:14px;gap:6px}.everyday-value span{font-size:14px}.everyday-value strong{font-size:40px}.everyday-change{font-size:12px}.everyday-change b{font-size:22px}.message-flow{grid-template-columns:1fr;gap:8px;width:100%}.message-flow{gap:6px}.message-step{gap:5px;padding:12px}.chat-visual{width:48px;height:48px}.notification-count{min-width:19px;height:19px;padding:0 3px;font-size:12px}.message-step strong{font-size:18px}.message-step>span:last-child{font-size:14px}.message-transition{grid-auto-flow:column;align-items:center;gap:8px;font-size:14px}.message-transition b{transform:rotate(90deg);font-size:20px}}
+
+.types-layout{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);align-items:center;gap:2cqw;width:100%}
+.types-code{align-self:center;width:100%;height:max-content;min-height:0;white-space:pre;overflow:auto}
+.type-cards{display:grid;gap:.7cqw}
+.type-card{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:.9cqw;padding:.75cqw 1cqw;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+.type-card>code{padding:.3em .55em;border-radius:7px;background:var(--surface-2);color:#075a7a;font-size:1.25cqw;font-weight:800}
+.type-card>span{display:grid;gap:.15em;min-width:0}
+.type-card strong{font-size:1.35cqw;overflow-wrap:anywhere}
+.type-card small{font-size:1.05cqw;color:var(--muted)}
+.type-card>b{font-size:1.25cqw;color:var(--blue);text-align:right;overflow-wrap:anywhere}
+@media(max-width:750px){.types-layout{grid-template-columns:1fr;gap:10px}.types-code{font-size:14px;padding:14px}.type-cards{gap:8px}.type-card{gap:10px;padding:10px}.type-card>code{font-size:14px}.type-card strong{font-size:14px}.type-card small{font-size:12px}.type-card>b{font-size:14px}}
 </style>
 </head>
 <body>
@@ -250,11 +261,21 @@ java Welcome</pre></div><div class="panel blue"><h3>Resultado esperado</h3><pre 
   <p class="opening-note">El mismo contador se actualiza: <strong>3 → 4 → 0</strong>.</p>
 </section>
 <section class="slide" data-title="Modelo mental de variables"><div class="kicker">10 · Variables</div><h2>En Java, el contador tiene un nombre, un tipo y un valor que puede cambiar.</h2><div class="memory"><div class="box"><span>Antes</span><strong>mensajesSinLeer</strong><b>3 mensajes</b></div><div class="pointer">Llega 1 mensaje<code>mensajesSinLeer = mensajesSinLeer + 1;</code><span class="memory-arrow" aria-hidden="true">→</span></div><div class="box"><span>Después</span><strong>mensajesSinLeer</strong><b>4 mensajes</b></div></div><div class="grid two"><div class="panel"><h3>Nombre</h3><p><code>mensajesSinLeer</code> identifica el contador.</p></div><div class="panel"><h3>Tipo</h3><p><code>int</code> indica que guarda un número entero, como 3 o 4.</p></div></div><div class="callout"><strong>Observa:</strong> el nombre se conserva y el valor cambia de 3 a 4 cuando llega un mensaje.</div></section>
-<section class="slide" data-title="Tipos y declaraciones"><div class="kicker">11 · Variables</div><h2>Declara primero el tipo; después asigna un valor a la variable.</h2><div class="grid two"><pre class="code"><span class="tok-type">int</span> mensajesSinLeer = <span class="tok-number">3</span>;
-<span class="tok-type">String</span> nombreChat =
-    <span class="tok-string">"Familia"</span>;
-<span class="tok-type">boolean</span> mensajeLeido =
-    <span class="tok-keyword">false</span>;</pre><div class="panel"><h3>Los datos del chat</h3><p><code>int</code> guarda el contador entero; <code>String</code>, el nombre del chat; <code>boolean</code>, si el mensaje ya se leyó.</p><div class="callout"><strong>Forma:</strong> tipo + nombre + valor inicial.</div></div></div></section>
+<section class="slide types-slide" data-title="Tipos y declaraciones">
+  <div class="kicker">11 · Variables</div>
+  <h2>El tipo indica si el dato es una cantidad, un texto o una respuesta.</h2>
+  <div class="types-layout">
+    <pre class="code types-code"><span class="tok-type">int</span> mensajesSinLeer = <span class="tok-number">3</span>;
+<span class="tok-type">String</span> nombreChat = <span class="tok-string">"Familia"</span>;
+<span class="tok-type">boolean</span> mensajeLeido = <span class="tok-keyword">false</span>;</pre>
+    <div class="type-cards" aria-label="Ejemplos de tipos de datos del chat">
+      <div class="type-card"><code>int</code><span><strong>mensajesSinLeer</strong><small>cantidad</small></span><b>3</b></div>
+      <div class="type-card"><code>String</code><span><strong>nombreChat</strong><small>texto</small></span><b>Familia</b></div>
+      <div class="type-card"><code>boolean</code><span><strong>mensajeLeido</strong><small>sí o no</small></span><b>false</b></div>
+    </div>
+  </div>
+  <p class="opening-note">Cada nombre y su tipo ayudan a entender qué dato guarda la aplicación.</p>
+</section>
 <section class="slide" data-title="Actualizar una variable"><div class="kicker">Variables · del valor inicial al nuevo estado</div><h2>Al llegar un mensaje, Java calcula y guarda el nuevo contador.</h2><div class="grid two"><pre class="code"><span class="tok-type">int</span> mensajesSinLeer = <span class="tok-number">3</span>;
 mensajesSinLeer = mensajesSinLeer + <span class="tok-number">1</span>;
 System.out.println(mensajesSinLeer); <span class="tok-comment">// 4</span>
