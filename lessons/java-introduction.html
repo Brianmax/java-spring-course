@@ -144,6 +144,17 @@ code{overflow-wrap:anywhere}pre code{overflow-wrap:normal}
 .type-card small{font-size:1.05cqw;color:var(--muted)}
 .type-card>b{font-size:1.25cqw;color:var(--blue);text-align:right;overflow-wrap:anywhere}
 @media(max-width:750px){.types-layout{grid-template-columns:1fr;gap:10px}.types-code{font-size:14px;padding:14px}.type-cards{gap:8px}.type-card{gap:10px;padding:10px}.type-card>code{font-size:14px}.type-card strong{font-size:14px}.type-card small{font-size:12px}.type-card>b{font-size:14px}}
+@media(max-height:600px) and (min-width:751px){
+  .array-choice-slide{padding:2vh 4vw;gap:1.2vh;font-size:clamp(12px,3.8vh,16px);align-content:start}
+  .array-choice-slide h2{font-size:clamp(20px,5.2vh,28px);line-height:1.08}
+  .array-choice-slide .kicker{font-size:clamp(10px,2.8vh,12px)}
+  .array-choice-slide .compare>div{padding:1.2vh 1.4vw}
+  .array-choice-slide .compare p{font-size:clamp(11px,3.5vh,15px);line-height:1.25;margin:.45em 0}
+  .array-choice-slide .label{font-size:clamp(10px,2.8vh,12px)}
+  .array-choice-slide .code{font-size:clamp(10px,3vh,13px);line-height:1.35;padding:1vh 1vw}
+  .array-choice-slide .callout{font-size:clamp(11px,3.3vh,14px);line-height:1.25;padding:1vh 1.2vw}
+  .array-choice-slide .lede{font-size:clamp(11px,3.3vh,14px);line-height:1.25}
+}
 </style>
 </head>
 <body>
@@ -332,7 +343,7 @@ String primero = asistentes.get(<span class="tok-number">0</span>);
 asistentes.set(<span class="tok-number">0</span>, <span class="tok-string">"Ari"</span>);
 asistentes.remove(<span class="tok-number">1</span>);
 int cantidad = asistentes.size();</pre><div class="panel blue"><span class="label">Cambios en orden</span><p><strong>1 · add</strong> agrega Ana, luego Luis; insertar Mía en el índice 1 da <code>[Ana, Mía, Luis]</code>.</p><p><strong>2 · get / set</strong> lee la posición 0 y reemplaza Ana por Ari.</p><p><strong>3 · remove(1)</strong> quita Mía. Queda <code>[Ari, Luis]</code> y <code>size()</code> vale 2.</p></div></div><div class="callout warning"><strong>Atención:</strong> al quitar un elemento, los siguientes se desplazan y sus índices pueden cambiar.</div></section>
-<section class="slide" data-title="Elegir entre array y ArrayList"><div class="kicker">21 · Decidir y practicar</div><h2>Elige según si necesitas un tamaño fijo o una lista que cambia.</h2><div class="compare"><div class="bad"><span class="label">Array · tamaño fijo</span><p>Úsalo si conoces cuántas posiciones necesitas y ese número no cambiará.</p><pre class="code"><span class="tok-type">String</span>[] dias = {
+<section class="slide array-choice-slide" data-title="Elegir entre array y ArrayList"><div class="kicker">21 · Decidir y practicar</div><h2>Elige según si necesitas un tamaño fijo o una lista que cambia.</h2><div class="compare"><div class="bad"><span class="label">Array · tamaño fijo</span><p>Úsalo si conoces cuántas posiciones necesitas y ese número no cambiará.</p><pre class="code"><span class="tok-type">String</span>[] dias = {
   <span class="tok-string">"lun"</span>, <span class="tok-string">"mar"</span>, <span class="tok-string">"mié"</span>
 };</pre><p>Consulta la cantidad con <code>dias.length</code>.</p></div><div class="good"><span class="label">ArrayList · tamaño variable</span><p>Úsalo si debes agregar o quitar datos durante la ejecución.</p><pre class="code">ArrayList&lt;String&gt; tareas = <span class="tok-keyword">new</span> ArrayList&lt;&gt;();
 tareas.add(<span class="tok-string">"Leer capítulo"</span>);</pre><p>Consulta la cantidad con <code>tareas.size()</code>.</p></div></div><div class="callout success"><strong>Práctica breve:</strong> guarda tres nombres en un array; luego crea un <code>ArrayList</code> de asistentes, agrega un cuarto nombre y muestra cuántos hay. <strong>Desafío:</strong> cambia el segundo nombre.</div><p class="lede">Ya puedes ubicar cada elemento por su posición. Los bucles ayudarán a visitar esas posiciones sin repetir instrucciones a mano.</p></section>
@@ -385,6 +396,7 @@ total = total + shipping;</pre><div class="panel blue"><span class="label">Sigue
       slide.classList.toggle('is-active', active);
       slide.hidden = !active;
       slide.setAttribute('aria-hidden', String(!active));
+      if (active) slide.scrollTop = 0;
     });
     indicator.textContent = `${index + 1} / ${slides.length}`;
     progress.style.width = `${((index + 1) / slides.length) * 100}%`;
