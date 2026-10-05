@@ -118,7 +118,7 @@ code{overflow-wrap:anywhere}pre code{overflow-wrap:normal}
 </section>
 <section class="slide opening" data-title="Cómo se ejecuta Java">
   <div class="kicker">03 · El camino de Java</div>
-  <h2>Java agrega una capa que permite usar el mismo bytecode en varias plataformas.</h2>
+  <h2>Java genera bytecode; cada sistema lo ejecuta con su JVM.</h2>
   <div class="runtime-flow" aria-label="Archivo Java se compila a bytecode y lo ejecuta una JVM">
     <div class="runtime-card"><code>Welcome.java</code><strong>Fuente</strong><span>El programa que escribimos</span></div>
     <div class="runtime-arrow" aria-hidden="true">→</div>
@@ -126,12 +126,12 @@ code{overflow-wrap:anywhere}pre code{overflow-wrap:normal}
     <div class="runtime-arrow" aria-hidden="true">→</div>
     <div class="runtime-card primary"><code>Welcome.class</code><strong>Bytecode</strong><span>Formato intermedio de Java</span></div>
   </div>
-  <div class="visual-flow" aria-label="El mismo bytecode puede ejecutarse con una JVM compatible en cada sistema">
-    <div class="visual-node"><strong>Windows</strong><span>JVM compatible</span></div><div class="visual-arrow" aria-hidden="true">↔</div>
-    <div class="visual-node primary"><strong>Welcome.class</strong><span>el mismo bytecode<br>en cada plataforma</span></div><div class="visual-arrow" aria-hidden="true">↔</div>
-    <div class="visual-node"><strong>macOS o Linux</strong><span>JVM compatible</span></div>
+  <div class="visual-flow" aria-label="El mismo archivo Welcome.class se ejecuta en las JVM de Windows, macOS o Linux">
+    <div class="visual-node"><strong>Windows</strong><span>JVM ejecuta<br>Welcome.class</span></div><div class="visual-arrow" aria-hidden="true">←</div>
+    <div class="visual-node primary"><strong>Welcome.class</strong><span>el mismo bytecode<br>se usa en cada sistema</span></div><div class="visual-arrow" aria-hidden="true">→</div>
+    <div class="visual-node"><strong>macOS o Linux</strong><span>JVM ejecuta<br>Welcome.class</span></div>
   </div>
-  <p class="opening-note">Cada sistema necesita una JVM compatible; el bytecode y las librerías también deben ser compatibles.</p>
+  <p class="opening-note">Cada sistema aporta una JVM compatible; las librerías también deben ser compatibles.</p>
 </section>
 <section class="slide opening" data-title="Java y otros lenguajes">
   <div class="kicker">04 · Tres recorridos típicos</div>
