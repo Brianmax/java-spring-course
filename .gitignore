@@ -1,2 +1,5 @@
 .DS_Store
-.pi/
+.pi/*
+!.pi/skills/
+.pi/skills/*
+!.pi/skills/java-course-slide-generator/
