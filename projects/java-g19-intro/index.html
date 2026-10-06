@@ -6,8 +6,12 @@
   <meta name="description" content="Ejemplos y ejercicios introductorios de Java 21 del grupo G19.">
   <title>Introducción a Java · G19 · Curso de Java Tecsup</title>
   <link rel="stylesheet" href="../../assets/site.css">
+  <link rel="stylesheet" href="../../assets/project-code.css">
+  <script defer src="project-data.js"></script>
+  <script defer src="../../assets/project-code.js"></script>
 </head>
-<body>
+<body class="code-page">
+  <a class="skip-code" href="#file-pane">Saltar al código</a>
   <header class="topbar">
     <nav class="shell nav" aria-label="Navegación principal">
       <a class="brand" href="../../index.html"><span class="brand-mark">J</span><span class="brand-name">Curso de Java · Tecsup</span></a>
@@ -15,15 +19,47 @@
     </nav>
   </header>
   <main class="shell">
-    <div class="page-head"><div class="eyebrow">Java 21 · Semana 1</div><h1>Introducción a Java · G19</h1><p>Ejemplos breves y ejercicios para practicar los fundamentos del lenguaje. Abre una clase con método <code>main</code> para ejecutarla.</p></div>
-    <section class="section" style="padding-top:0" aria-label="Código fuente por tema">
-      <div class="card-grid">
-        <a class="card" href="src/variables/Hello.java"><span class="tag">Fundamentos</span><h3>Variables</h3><p>Tipos, valores, operaciones y concatenación de texto.</p><span class="more">Ver ejemplo →</span></a>
-        <a class="card" href="src/condicionales/Teoria.java"><span class="tag">Decisiones</span><h3>Condicionales</h3><p>Comparaciones, operadores lógicos y selección de caminos.</p><span class="more">Ver ejemplo →</span></a>
-        <a class="card" href="src/arrays/Teoria.java"><span class="tag">Colecciones</span><h3>Arrays y ArrayList</h3><p>Consultar, actualizar y organizar varios valores.</p><span class="more">Ver ejemplo →</span></a>
-        <a class="card" href="src/loops/Teoria.java"><span class="tag">Repetición</span><h3>Bucles</h3><p>Repetir instrucciones con <code>for</code> y <code>while</code>.</p><span class="more">Ver ejemplo →</span></a>
+    <header class="project-head">
+      <a class="project-back" href="../index.html">← Todos los proyectos</a>
+      <div class="project-heading">
+        <div><h1>Introducción a Java · G19</h1><p>Explora los ejemplos por tema, revisa el código y llévalo a tu editor para practicar.</p></div>
+        <div class="project-download">
+          <a class="button" id="download-project" href="java-g19-intro.zip" download>↓ Descargar proyecto</a>
+          <small id="archive-size">Solo este proyecto · ZIP</small>
+        </div>
       </div>
-      <div class="project-guide"><h2>Cómo abrirlo</h2><p>Usa JDK 21 e IntelliJ IDEA; abre <code>javag19_semana1.iml</code> y ejecuta la clase que quieras revisar. <a href="README.md">Lee las instrucciones completas →</a></p></div>
+      <div class="project-tags"><span class="java-tag">Java 21</span><span>Semana 1</span><span id="source-count">10 archivos Java</span></div>
+    </header>
+    <noscript><p>Activa JavaScript para explorar el código aquí, o descarga el proyecto con el botón de arriba.</p></noscript>
+    <section class="browser" id="project-browser" data-default-file="src/arrays/Teoria.java" aria-label="Explorador de código">
+      <details class="file-sidebar" id="file-sidebar" open>
+        <summary>Archivos <span id="file-count">11</span></summary>
+        <label class="file-filter"><span>Buscar archivo</span><input id="file-filter" type="search" placeholder="Nombre o carpeta…" autocomplete="off" spellcheck="false" aria-controls="file-tree"></label>
+        <nav class="file-tree" id="file-tree" aria-label="Archivos del proyecto"></nav>
+        <p class="search-status" id="search-status" role="status"></p>
+      </details>
+      <div class="file-pane" id="file-pane" tabindex="-1">
+        <p class="file-path" id="file-path">java-g19-intro / src / arrays / <strong>Teoria.java</strong></p>
+        <div class="file-toolbar">
+          <div class="file-heading"><h2 id="file-name" tabindex="-1">Teoria.java</h2><span class="file-meta" id="file-meta">Java</span></div>
+          <div class="code-actions" aria-label="Acciones del archivo">
+            <button class="code-action" id="wrap-code" type="button" aria-pressed="false">Ajustar líneas</button>
+            <button class="code-action" id="copy-code" type="button">Copiar</button>
+            <a class="code-action" id="raw-file" href="src/arrays/Teoria.java" target="_blank" rel="noopener" aria-label="Ver archivo original en otra pestaña">Original ↗</a>
+            <a class="code-action" id="download-file" href="src/arrays/Teoria.java" download>Descargar archivo</a>
+          </div>
+        </div>
+        <div class="code-scroll" id="code-scroll" tabindex="0" role="region" aria-label="Código fuente; usa las flechas para desplazarte"><div class="source-code" id="source-code"></div></div>
+        <div class="file-footer"><p>Selecciona un número de línea para compartir su enlace.</p><p id="viewer-status" role="status"></p></div>
+      </div>
+    </section>
+    <section class="project-start" aria-labelledby="start-title">
+      <div><h2 id="start-title">Del código a la práctica</h2><p>Todo lo necesario para abrir este proyecto en tu computadora. <a href="#file=README.md">Ver instrucciones</a></p></div>
+      <ol>
+        <li><strong>Descarga y extrae</strong>Descomprime el ZIP para obtener la carpeta <code>java-g19-intro</code>.</li>
+        <li><strong>Abre el proyecto</strong>Abre la carpeta en IntelliJ IDEA y selecciona un JDK 21.</li>
+        <li><strong>Ejecuta un ejemplo</strong>Entra en <code>src</code>, elige una clase con <code>main</code> y pulsa ▶ junto al método.</li>
+      </ol>
     </section>
   </main>
   <footer class="footer"><div class="shell"><a href="../index.html">← Todos los proyectos</a></div></footer>

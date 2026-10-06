@@ -4,9 +4,10 @@ Ejemplos y ejercicios de la primera semana del curso, organizados por tema. El p
 
 ## Abrir el proyecto
 
-1. Instala o selecciona un JDK 21.
-2. Abre `javag19_semana1.iml` en IntelliJ IDEA.
-3. Elige una clase que tenga `main` y ejecútala.
+1. Descarga el ZIP desde la página del proyecto y descomprímelo. Contiene solo este proyecto.
+2. Abre la carpeta `java-g19-intro` en IntelliJ IDEA. Incluye el módulo `javag19_semana1.iml`.
+3. Instala o selecciona un JDK 21 en la configuración del proyecto.
+4. Dentro de `src`, elige una clase que tenga `main` y ejecútala con el botón junto al método.
 
 ## Contenido
 
