@@ -56,6 +56,10 @@ class DeckParser(HTMLParser):
             value = values[attr].strip()
             if not value or value.startswith("#") or value.startswith("data:"):
                 continue
+            # A lesson may link back to the course landing page. This is navigation,
+            # not a runtime dependency on adjacent lesson content or an external asset.
+            if tag == "a" and attr == "href" and value == "../":
+                continue
             # SVG namespace declarations are not href attributes and are ignored.
             parsed = urlparse(value)
             if parsed.scheme in REMOTE_SCHEMES or value.startswith("//"):

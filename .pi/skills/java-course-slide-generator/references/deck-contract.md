@@ -108,7 +108,7 @@ The final HTML must not contain or depend on:
 - external fonts, images, videos, iframes, modules, or source maps
 - data loaded from adjacent files
 
-Inline SVG, CSS artwork, and data URIs are permitted, but simple native elements are preferable. Ordinary fragment links beginning with `#` are permitted.
+Inline SVG, CSS artwork, and data URIs are permitted, but simple native elements are preferable. Ordinary fragment links beginning with `#` and a link from a lesson back to the course home (`../`) are permitted. The home link is navigation only; do not load lesson content from adjacent files.
 
 ## Practical browser quality
 
