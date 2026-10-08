@@ -1,0 +1,9 @@
+# The primary agent owns the lesson plan and uses the strongest available model.
+model = "gpt-6-astra"
+model_reasoning_effort = "high"
+
+[features]
+multi_agent = true
+
+[agents]
+max_concurrent_threads_per_session = 3

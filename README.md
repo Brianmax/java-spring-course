@@ -15,4 +15,8 @@ Las diapositivas de cada lección son archivos HTML independientes y se pueden a
 
 Para publicar una lección, agrega su archivo HTML en `lessons/` y enlázalo desde `lessons/index.html` y la página de inicio. Para publicar un proyecto, agrega una página o carpeta dentro de `projects/` y enlázala desde `projects/index.html`.
 
+Para crear o mejorar una diapositiva con Pi, inicia el flujo con `/crear-diapositiva <tema o cambio>`. El agente principal define primero el objetivo, el lugar de la diapositiva en la lección, el contenido, la composición y cómo evaluar la claridad. Después asigna el HTML a `slide-implementer` y, para cambios sustanciales, solicita a `slide-reviewer` una revisión de solo lectura. En Codex se sigue el mismo proceso con la skill `java-course-slide-generator` y los roles del proyecto en `.codex/agents/`.
+
+El coordinador usa GPT-6 Astra con razonamiento alto en Codex; los roles de implementación y revisión usan GPT-6 Luna. Pi usa el mismo modelo menor para esos roles y requiere confiar el proyecto para cargar sus agentes y extensiones locales. Un solo agente escribe cada presentación HTML para evitar conflictos.
+
 El sitio no requiere compilación ni dependencias. GitHub Pages puede servir estos archivos estáticos directamente desde la rama `main`.

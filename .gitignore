@@ -3,3 +3,8 @@
 !.pi/skills/
 .pi/skills/*
 !.pi/skills/java-course-slide-generator/
+!.pi/extensions/
+.pi/extensions/*
+!.pi/extensions/subagent/
+!.pi/agents/
+!.pi/prompts/

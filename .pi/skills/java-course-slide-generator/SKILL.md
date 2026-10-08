@@ -95,6 +95,12 @@ Choose representations by meaning, not by template. Examples include object/refe
 
 A simple topic may need roughly 8–12 slides; a broad topic may need 25–40. Use exactly the number needed for coherent pacing. One slide should normally make one teaching point.
 
+Before implementation, the primary agent must produce a concrete slide plan. For a single-slide change, specify its place in the lesson, one learning objective, the exact learner-facing message, the visual metaphor and layout, the sections and content, reading order, labels/arrows/state changes, and acceptance checks. For a new or extended lesson, first create a slide-by-slide map with the same visual and pedagogical decisions at deck scale. This primary agent owns the plan and keeps the strongest available model with high reasoning effort.
+
+After the plan is complete, delegate implementation to the project `slide-implementer` subagent using the `subagent` tool in Pi or the `slide-implementer` role in Codex. Give it the exact plan, target file, allowed scope, and checks. The implementer must follow the plan and course standards; it should report a concrete issue to the primary agent instead of silently changing the learning objective or sequence. Keep a single writer on any one HTML file: use one implementer for a deck or single-file slide edit, and parallelize only when tasks own separate files. The primary agent integrates the work and remains responsible for correctness and final acceptance.
+
+When the implementation is substantial or visual clarity is uncertain, ask the read-only `slide-reviewer` subagent to check the rendered result against the plan and quality checklist. It must report findings with slide numbers and evidence, without editing. The primary agent resolves findings, runs the validator, and inspects the final slides. Do not delegate trivial wording edits that are quicker to make directly.
+
 ### 4. Build the complete artifact
 
 Write a single `.html` file containing all markup, styles, scripts, diagrams, notes, and controls. Use only:
