@@ -139,7 +139,7 @@ code { overflow-wrap: anywhere; }
 .arrow, .visual-arrow, .runtime-arrow, .execution-arrow { color: var(--tecsup-cyan); font-size: 28px; font-weight: 800; }
 .flow-link { display: grid; justify-items: center; color: #006b94; font-size: 18px; font-weight: 700; }
 .flow-link b { color: var(--tecsup-cyan); font-size: 26px; line-height: 1; }
-.opening { gap: 20px; }
+.opening { align-content: center; gap: 20px; }
 .opening-note { color: var(--muted); font-size: 18px; line-height: 1.4; }
 .visual-flow { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr); align-items: stretch; gap: 16px; }
 .visual-node { display: flex; min-width: 0; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 20px; border: 1px solid var(--line); border-radius: 16px; background: #ffffff; text-align: center; }
@@ -272,6 +272,7 @@ code { overflow-wrap: anywhere; }
   body { height: auto; min-height: 100dvh; overflow: auto; }
   .deck { height: calc(100dvh - 64px); }
   .slide { gap: 18px; padding: 24px; font-size: 17px; }
+  .opening { align-content: start; }
   .slide h1 { font-size: 42px; }
   .slide h2 { font-size: 29px; }
   .slide h3 { font-size: 21px; }
