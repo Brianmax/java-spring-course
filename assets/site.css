@@ -64,6 +64,14 @@ a.card:hover { transform: translateY(-3px); border-color: #a8dce8; box-shadow: 0
 .project-guide { margin-top: 18px; padding: 23px; border-radius: 13px; background: var(--navy); color: #fff; }
 .project-guide h2 { margin-bottom: 9px; font-size: 20px; }
 .project-guide p { margin: 0; color: #d5e4e9; line-height: 1.6; }
+.exercise-source { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 22px 26px; border: 1px solid #c4e7ef; border-radius: 13px; background: var(--pale); }
+.exercise-source strong { display: block; margin-bottom: 6px; }
+.exercise-source p { margin: 0; max-width: 700px; color: var(--muted); line-height: 1.6; }
+.exercise-source .button { flex-shrink: 0; }
+.exercise-grid .card { scroll-margin-top: 24px; }
+.exercise-grid ul { margin: 0 0 24px; padding-left: 19px; color: var(--muted); line-height: 1.65; }
+.exercise-grid .more { display: inline-block; padding-block: 10px; text-underline-offset: 4px; }
+.exercise-grid .more:hover { color: var(--navy); }
 :focus-visible { outline: 3px solid var(--cyan); outline-offset: 3px; }
 @media (max-width: 720px) {
   .shell { width: min(100% - 30px, 560px); }
@@ -75,6 +83,7 @@ a.card:hover { transform: translateY(-3px); border-color: #a8dce8; box-shadow: 0
   .card-grid { grid-template-columns: 1fr; }
   .card { min-height: 185px; }
   .section-heading, .callout { align-items: flex-start; flex-direction: column; }
+  .exercise-source { align-items: flex-start; flex-direction: column; padding: 22px; }
   .lesson-row { grid-template-columns: 42px minmax(0, 1fr); gap: 13px; padding: 17px; }
   .lesson-number { width: 40px; height: 40px; }
   .lesson-arrow { display: none; }
