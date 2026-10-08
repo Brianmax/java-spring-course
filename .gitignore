@@ -1,4 +1,6 @@
 .DS_Store
+/_site/
+__pycache__/
 .pi/*
 !.pi/skills/
 .pi/skills/*

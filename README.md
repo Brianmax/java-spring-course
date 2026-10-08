@@ -22,4 +22,8 @@ Para crear o mejorar una diapositiva con Pi, inicia el flujo con `/crear-diaposi
 
 El coordinador usa GPT-6 Astra con razonamiento alto en Codex; los roles de implementación y revisión usan GPT-6 Luna. Pi usa el mismo modelo menor para esos roles y requiere confiar el proyecto para cargar sus agentes y extensiones locales. Un solo agente escribe cada presentación HTML para evitar conflictos.
 
-El sitio no requiere compilación ni dependencias. GitHub Pages puede servir estos archivos estáticos directamente desde la rama `main`.
+## Publicación
+
+Cada push a `main` ejecuta `.github/workflows/pages.yml`. El workflow usa Python 3 (sin dependencias adicionales) para construir `_site/`, regenerar el código del visor y los ZIP de los proyectos, y desplegar el resultado en GitHub Pages. La fuente de Pages debe estar configurada como **GitHub Actions**.
+
+Para publicar cambios de Java, basta con guardar los archivos fuente, crear un commit y hacer push. Espera a que **Publish course site** finalice y recarga la página. Consulta [la guía de proyectos](projects/README.md) para los comandos de actualización y generación local.
