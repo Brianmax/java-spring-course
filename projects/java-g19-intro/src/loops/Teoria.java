@@ -41,3 +41,4 @@ public class Teoria {
 // verificar si un numero es primo (solo divisible entre el mismo y la unidad)
 // ejemplo 7 solo se puede dividir entre 7 y 1
 // ejemplo 11 solo se puede dividir entre 11 y 1
+// dado un array de 10 elementos, encontrar la suma de todos
