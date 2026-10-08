@@ -5,162 +5,320 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Introducción a Java — Curso de Java Tecsup</title>
 <style>
-:root{--bg:#fff;--surface:#f5f5f5;--surface-2:#dcf3ff;--text:#111;--muted:#555;--blue:#0097d0;--cyan:#00b3e0;--success:#16835b;--warning:#9a6700;--danger:#c62828;--line:#ddd;--ink:#111;--shadow:0 14px 36px rgb(17 17 17/.12);--font:Arial,"Helvetica Neue",sans-serif;--mono:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace}
-*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#e9eef1;color:var(--text);font-family:var(--font)}body{display:grid;place-items:center;padding:18px}.deck{position:relative;width:min(1200px,100vw);aspect-ratio:16/9;background:var(--bg);overflow:hidden;border-radius:18px;box-shadow:var(--shadow)}.slide{position:absolute;inset:0;padding:clamp(28px,5vw,68px);display:grid;align-content:space-between;gap:24px;opacity:0;transform:translateX(18px);pointer-events:none;visibility:hidden;transition:opacity .35s ease,transform .35s ease}.slide.is-active{opacity:1;transform:none;pointer-events:auto;visibility:visible}.slide:before{content:"";position:absolute;left:0;top:0;width:9px;height:100%;background:var(--cyan)}.hero{align-content:center;grid-template-columns:1.1fr .9fr;gap:8%;background:linear-gradient(120deg,#fff 0 63%,var(--surface-2) 63%)}.hero:after{content:"";position:absolute;right:8%;top:16%;width:180px;height:180px;border:22px solid var(--cyan);border-radius:50%;opacity:.16}.eyebrow{color:var(--blue);font-size:.72rem;letter-spacing:.16em;font-weight:800;text-transform:uppercase}.kicker{color:var(--blue);font-size:.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em}.slide h1,.slide h2,.slide h3{margin:0;line-height:1.08;letter-spacing:-.03em}.slide h1{font-size:clamp(2.4rem,6vw,5.4rem);max-width:760px}.slide h2{font-size:clamp(1.8rem,3.8vw,3.3rem)}.slide h3{font-size:1.15rem}.lede{font-size:clamp(1.05rem,1.7vw,1.45rem);line-height:1.5;color:var(--muted);max-width:720px}.accent{color:var(--blue)}.rule{height:5px;width:78px;background:var(--cyan);border-radius:3px}.grid{display:grid;gap:18px}.two{grid-template-columns:1fr 1fr}.three{grid-template-columns:repeat(3,1fr)}.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px}.panel.blue{background:var(--surface-2);border-color:#b8e5f5}.panel.dark{background:var(--ink);color:#fff;border-color:#333}.panel p,.panel li{line-height:1.45;color:inherit}.muted{color:var(--muted)}.big-number{font-size:3rem;font-weight:800;color:var(--blue)}.badge{display:inline-block;padding:6px 10px;border-radius:999px;background:var(--surface-2);color:var(--blue);font-size:.75rem;font-weight:800}.flow{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap}.node{padding:16px 18px;background:#fff;border:2px solid var(--blue);border-radius:12px;text-align:center;font-weight:700;min-width:130px}.arrow{color:var(--cyan);font-size:1.7rem;font-weight:800}.stack{display:grid;gap:8px;max-width:580px;margin:auto}.stack div{padding:14px;text-align:center;border-radius:9px;font-weight:700}.stack .top{background:#d9f4ff;border:2px solid var(--cyan)}.stack .mid{background:#a9e2f5;border:2px solid var(--blue)}.stack .bottom{background:#333;color:white;border:2px solid #111}.code{background:var(--ink);color:#f6f8f9;border-radius:14px;padding:18px 20px;overflow:auto;font:clamp(.75rem,1.3vw,1rem)/1.55 var(--mono);border-left:4px solid var(--cyan);white-space:pre}.tok-keyword{color:#63d4f2}.tok-type{color:#fff}.tok-string{color:#8be28b}.tok-number{color:#ffd166}.tok-comment{color:#9da8ad}.focus{background:#064b60;border-radius:3px}.callout{border-left:5px solid var(--cyan);padding:12px 16px;background:#effaff;border-radius:0 9px 9px 0}.callout.warning{border-color:var(--warning);background:#fff9e9}.callout.success{border-color:var(--success);background:#effaf5}.label{font-size:.76rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--blue)}.editor{display:grid;grid-template-columns:48px 1fr;align-items:center;gap:16px;padding:14px;border:1px solid var(--line);border-radius:12px;background:#fff}.editor strong{color:var(--blue)}.editor .icon{width:42px;height:42px;border-radius:10px;background:var(--surface-2);display:grid;place-items:center;color:var(--blue);font-weight:900}.compare{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line);border-radius:14px;overflow:hidden}.compare>div{padding:20px}.compare .bad{background:#fff4f3;border-right:1px solid #f0cdca}.compare .good{background:#effaf5}.memory{display:flex;justify-content:center;align-items:center;gap:28px}.box{width:150px;height:100px;border:2px solid var(--blue);border-radius:12px;display:grid;place-items:center;text-align:center;background:var(--surface-2);font-weight:700}.pointer{font-size:2rem;color:var(--cyan)}.progress{position:fixed;left:0;bottom:0;height:5px;width:100%;background:#d5e5eb;z-index:5}.progress i{display:block;height:100%;background:var(--cyan);width:0;transition:width .3s ease}.controls{position:fixed;bottom:15px;right:18px;display:flex;align-items:center;gap:8px;z-index:6}.controls button,.help{border:1px solid #b7c7cc;background:#fff;color:var(--text);border-radius:8px;min-width:42px;height:38px;font-weight:700;cursor:pointer}.controls button:hover,.help:hover{border-color:var(--blue);color:var(--blue)}button:focus-visible,.help:focus-visible{outline:3px solid var(--cyan);outline-offset:2px}.indicator{font-size:.82rem;color:var(--muted);padding:0 5px}.notes{position:fixed;left:18px;bottom:65px;width:min(430px,calc(100vw - 36px));padding:18px;background:#fff;border:2px solid var(--blue);border-radius:12px;box-shadow:var(--shadow);z-index:8}.notes[hidden]{display:none}.notes h3{margin:0 0 8px;color:var(--blue)}.helpbox{position:fixed;inset:0;background:#0008;display:grid;place-items:center;z-index:9}.helpbox[hidden]{display:none}.helpbox .panel{max-width:430px;background:#fff}.key{display:inline-block;border:1px solid #aaa;border-bottom-width:3px;border-radius:5px;padding:2px 7px;font:700 .8rem var(--mono);background:#fafafa}.mini-list{margin:0;padding-left:20px}.mini-list li{margin:8px 0}.footer-label{position:absolute;right:32px;bottom:25px;color:#79909a;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase}.exercise{background:linear-gradient(135deg,#fff 0 65%,var(--surface-2) 65%)}@media(max-width:750px){body{padding:0}.deck{width:100vw;height:100vh;aspect-ratio:auto;border-radius:0}.slide{overflow:auto;padding:34px 25px 70px}.hero,.two,.three,.compare{grid-template-columns:1fr}.hero:after{right:5%;top:5%;width:90px;height:90px;border-width:12px}.flow{justify-content:flex-start}.memory{gap:10px}.box{width:120px;height:80px}.footer-label{display:none}.controls{bottom:9px;right:8px}}
-@media(prefers-reduced-motion:reduce){.slide,.progress i{transition:none}.message-step.changed .notification-count{animation:none}}
-/* Layout calibrated against the stage, not the browser width. */
-[hidden]{display:none!important}
-html,body{height:100%;min-height:100%}
-body{padding:12px 16px 68px}
-.deck{width:min(1600px,calc(100vw - 32px),calc((100dvh - 80px)*16/9));container-type:inline-size}
-.slide{padding:3.4cqw 4cqw;gap:1.5cqw;align-content:center;font-size:1.65cqw;overflow:auto}
-.slide h1{font-size:6cqw}.slide h2{font-size:3.5cqw;line-height:1.12}.slide h3{font-size:1.9cqw;line-height:1.2}
-.kicker,.eyebrow,.label{font-size:1.2cqw;color:#006b94;text-transform:uppercase}
-.lede{font-size:1.85cqw;max-width:none;line-height:1.45;margin:0}
-.panel{padding:1.7cqw}.panel p{margin:.8em 0 0}.panel p:last-child{margin-bottom:0}
-.grid{gap:1.5cqw}.grid>*{min-width:0}.code{margin:0;font-size:1.45cqw;line-height:1.5;padding:1.5cqw}
-.node,.box,.stack div{text-align:center}.node{font-size:1.7cqw;min-width:0}.node small{font-weight:400}
-.flow{gap:1cqw}.stack{width:85%;max-width:none;margin:0 auto}.stack div{padding:1.1cqw}
-.callout{padding:1cqw 1.4cqw;font-size:1.5cqw;line-height:1.4}
-.hero{align-content:center}.hero .panel{align-self:center}.hero:after{pointer-events:none}
-.compare .bad,.compare .good{background:var(--surface);border-color:var(--line)}
-.compare .good{background:var(--surface-2)}.compare>div{padding:1.5cqw}
-.editor{padding:1.2cqw}.controls button,.help{min-width:44px;height:44px}
-.controls{left:50%;right:auto;transform:translateX(-50%);bottom:12px;width:max-content}
-.controls button:disabled{opacity:.4;cursor:default}.indicator{min-width:60px;text-align:center}
-.branch{display:grid;grid-template-columns:1fr 1fr;gap:1cqw;text-align:center}
-.branch>.node:first-child{grid-column:1/-1;justify-self:center}
-.branch .path{padding:.8cqw;border:1px solid var(--line);border-radius:10px;background:var(--surface-2)}
-.branch .path strong{display:block;color:#006b94;margin-bottom:.5em}
-.trace{border-collapse:collapse;width:100%;font-size:1.5cqw}.trace th,.trace td{padding:.6cqw;border-bottom:1px solid #a3ccdc;text-align:left}
-code{overflow-wrap:anywhere}pre code{overflow-wrap:normal}
-@media(max-width:750px){body{padding:0 0 66px;height:auto;min-height:100dvh;display:block}.deck{width:100%;height:calc(100dvh - 66px);aspect-ratio:auto;container-type:normal}.slide{padding:24px;gap:20px;align-content:start;font-size:17px}.slide h1{font-size:42px}.slide h2{font-size:29px}.slide h3{font-size:21px}.kicker,.eyebrow,.label{font-size:13px}.lede{font-size:19px}.panel,.compare>div{padding:18px}.code{font-size:14px;padding:16px}.grid,.flow{gap:16px}.callout{font-size:16px;padding:12px}.stack{width:100%}.stack div{padding:12px}.node,.trace{font-size:16px}.editor{padding:14px}.branch{gap:12px}.branch .path{padding:12px}.trace td,.trace th{padding:8px}.hero{background:#fff}.controls{bottom:10px}}
-/* Use the full stage for content; the previous centered stack left large empty bands. */
-.slide:not(.hero){align-content:space-between}
-.opening{gap:1.1cqw}
-.opening h2{max-width:1000px}
-.opening-note{margin:0;color:var(--muted);font-size:1.5cqw;line-height:1.4}
-.visual-flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:stretch;gap:1cqw}
-.visual-node{display:flex;min-width:0;min-height:20cqw;flex-direction:column;align-items:center;justify-content:center;gap:.8cqw;padding:1.2cqw;border:2px solid var(--line);border-radius:16px;background:#fff;text-align:center}
-.visual-node.primary{border-color:var(--blue);background:var(--surface-2)}
-.visual-node strong{font-size:1.8cqw}
-.visual-node span{color:var(--muted);font-size:1.35cqw;line-height:1.35}
-.visual-node svg{width:6cqw;height:6cqw;max-width:100px;max-height:100px;color:var(--blue)}
-.visual-arrow{align-self:center;color:var(--cyan);font-size:2.6cqw;font-weight:800}
-.runtime-flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:center;gap:.8cqw}
-.runtime-card{min-height:9cqw;display:grid;align-content:center;justify-items:center;gap:.45cqw;padding:.75cqw;border-radius:14px;border:1px solid var(--line);background:var(--surface);text-align:center}
-.runtime-card.primary{background:var(--surface-2);border:2px solid var(--blue)}
-.runtime-card strong{font-size:1.65cqw}
-.runtime-card span{font-size:1.3cqw;color:var(--muted);line-height:1.35}
-.runtime-card code{font-size:1.35cqw}
-.runtime-arrow{color:var(--cyan);font-size:2.2cqw;font-weight:800}
-.cpu-row{display:grid;grid-template-columns:1fr 1.2fr 1fr;align-items:center;gap:1.2cqw}
-.cpu-part{padding:1.2cqw;border-radius:13px;background:var(--surface-2);text-align:center}
-.cpu-part strong{display:block;font-size:1.6cqw}
-.cpu-part span{font-size:1.25cqw;color:var(--muted)}
-.language-compare{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2cqw}
-.language-card{display:grid;align-content:start;gap:.8cqw;padding:1.25cqw;border:1px solid var(--line);border-radius:15px;background:#fff}
-.language-card.java{border:2px solid var(--blue);background:var(--surface-2)}
-.language-card h3{font-size:2cqw}
-.language-card .route{display:grid;justify-items:center;gap:.45cqw;padding:.7cqw;border-radius:9px;background:var(--surface)}
-.language-card .route strong{font-size:1.35cqw}
-.language-card .route span{color:var(--muted);font-size:1.2cqw;text-align:center}
-.language-card .targets{display:flex;justify-content:center;flex-wrap:wrap;gap:.35cqw}
-.language-card .targets span{padding:.25em .55em;border:1px solid var(--line);border-radius:999px;background:#fff;font-size:1cqw;color:var(--text)}
-.language-card .down{color:var(--cyan);font-size:1.5cqw;font-weight:800;line-height:.8}
-.language-card.java{gap:.5cqw;padding:.85cqw}
-.language-card.java .route{gap:.25cqw;padding:.45cqw}
-.language-card.java .route strong{font-size:1.2cqw}
-.language-card.java .route span{font-size:1.05cqw}
-.language-card.java .down{font-size:1.2cqw}
-.language-footnote{margin:0;color:var(--muted);font-size:1.15cqw;line-height:1.35}
-.execution-flow{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr) auto minmax(0,1fr) auto minmax(0,1.15fr);align-items:stretch;gap:.7cqw}
-.execution-step{position:relative;min-width:0;min-height:20cqw;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.8cqw;padding:1cqw;border:1px solid var(--line);border-radius:15px;background:var(--surface);text-align:center}
-.execution-step.primary{border:2px solid var(--blue);background:var(--surface-2)}
-.execution-step .step-number{position:absolute;top:.7cqw;left:.8cqw;color:var(--blue);font-size:1.1cqw;font-weight:800}
-.execution-step strong{font-size:1.65cqw;line-height:1.15}
-.execution-step span{color:var(--muted);font-size:1.25cqw;line-height:1.35}
-.execution-step code{font-size:1.35cqw}
-.execution-step svg{width:4.6cqw;height:4.6cqw;color:var(--blue)}
-.execution-arrow{align-self:center;color:var(--cyan);font-size:2.1cqw;font-weight:800}
-.hardware-parts{width:100%;display:grid;grid-template-rows:auto auto auto;justify-items:center;gap:.55cqw}
-.hardware-part{width:100%;padding:.65cqw;border:1px solid #b8e5f5;border-radius:10px;background:#fff}
-.hardware-link{color:var(--blue);font-size:1.55cqw;font-weight:800;line-height:1}
-.result-chip{padding:.3em .7em;border-radius:999px;background:var(--success);color:#fff!important;font-weight:800}
-.java-platform-intro{display:flex;justify-content:center;align-items:center;gap:.65cqw;color:var(--muted);font-size:1.4cqw;font-weight:700;text-align:center}
-.java-platform-intro .down{color:var(--cyan);font-size:1.8cqw;line-height:1}
-.java-platforms{display:grid;grid-template-columns:1fr 1fr;gap:1cqw;width:min(100%,1050px);margin:0 auto}
-.java-platform-row{display:grid;grid-template-columns:1fr auto 1fr auto 1.25fr;align-items:center;gap:.6cqw;padding:.8cqw 1cqw;border:1px solid var(--line);border-radius:13px;background:#fff;text-align:center}
-.java-platform-row strong,.java-platform-row span{font-size:1.25cqw;line-height:1.2}
-.java-platform-row .platform-name{font-size:1.4cqw;font-weight:800}
-.java-platform-row .platform-arrow{color:var(--cyan);font-size:1.6cqw;font-weight:800}
-.java-platform-row .platform-result{padding:.5em;border-radius:8px;background:var(--surface-2);color:#075a7a;font-weight:750}
-@media(max-width:750px){.slide:not(.hero){align-content:start}.opening{gap:18px}.opening-note{font-size:16px}.visual-flow{grid-template-columns:1fr;gap:10px}.visual-node{min-height:0;padding:16px;gap:8px}.visual-node strong{font-size:18px}.visual-node span{font-size:14px}.visual-node svg{width:54px;height:54px}.visual-arrow{transform:rotate(90deg);justify-self:center;font-size:24px}.runtime-flow{grid-template-columns:1fr;gap:8px}.runtime-card{min-height:0;padding:14px;gap:5px}.runtime-card strong{font-size:17px}.runtime-card span,.runtime-card code{font-size:14px}.runtime-arrow{transform:rotate(90deg);justify-self:center;font-size:20px}.cpu-row{grid-template-columns:1fr;gap:8px}.cpu-part{padding:12px}.cpu-part strong{font-size:16px}.cpu-part span{font-size:14px}.language-compare{grid-template-columns:1fr;gap:10px}.language-card{gap:8px;padding:14px}.language-card h3{font-size:20px}.language-card .route{gap:4px;padding:9px}.language-card .route strong{font-size:15px}.language-card .route span{font-size:13px}.language-card .targets{gap:5px}.language-card .targets span{font-size:12px;padding:4px 8px}.language-card .down{font-size:16px}.language-footnote{font-size:13px}.execution-flow{grid-template-columns:1fr;gap:8px}.execution-step{min-height:0;padding:18px;gap:7px}.execution-step .step-number{top:8px;left:10px;font-size:12px}.execution-step strong{font-size:18px}.execution-step span,.execution-step code{font-size:14px}.execution-step svg{width:48px;height:48px}.execution-arrow{justify-self:center;transform:rotate(90deg);font-size:20px}.hardware-parts{gap:5px}.hardware-part{padding:9px}.hardware-link{font-size:17px}}
-@media(max-width:750px){.java-platform-intro{gap:8px;font-size:14px}.java-platform-intro .down{font-size:18px}.java-platforms{grid-template-columns:1fr;gap:8px}.java-platform-row{gap:8px;padding:10px}.java-platform-row strong,.java-platform-row span{font-size:14px}.java-platform-row .platform-name{font-size:15px}.java-platform-row .platform-arrow{font-size:17px}.language-card.java{gap:8px;padding:14px}.language-card.java .route{gap:4px;padding:9px}.language-card.java .route strong{font-size:15px}.language-card.java .route span{font-size:13px}.language-card.java .down{font-size:16px}}
-@media(min-width:751px){html,body{width:100%;height:100%;overflow:hidden}body{display:block;padding:0}.deck{width:100vw;height:100dvh;aspect-ratio:auto;border-radius:0;box-shadow:none}}
-.memory{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr) minmax(0,1fr);align-items:center;gap:2cqw;width:min(90%,1200px);margin-inline:auto}
-.box{width:100%;min-height:11cqw;height:auto;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.2em;padding:1.2cqw;font-size:1.65cqw;line-height:1.2}
-.box>span{font-size:1.05cqw;color:var(--blue);letter-spacing:.1em;text-transform:uppercase}
-.box>strong{font-size:1.45cqw}
-.box>b{font-size:2.4cqw}
-.pointer{font-size:1.35cqw;line-height:1.35;text-align:center}
-.pointer code{display:block;margin:.35em 0;font-size:1.25cqw;white-space:nowrap}
-.memory-arrow{display:block;color:var(--cyan);font-size:1.8cqw;font-weight:800}
-.array-visual{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.8cqw;width:min(100%,1000px);margin:0 auto}
-.array-cell{position:relative;display:grid;justify-items:center;gap:.35cqw;padding:1.2cqw .7cqw;border:2px solid var(--blue);border-radius:12px;background:var(--surface-2);text-align:center}
-.array-cell strong{font-size:1.7cqw;overflow-wrap:anywhere}.array-cell span{font-size:1.2cqw;color:#075a7a}.array-cell small{position:absolute;top:-1.7em;color:var(--muted);font-size:1.1cqw}
-.array-row{display:flex;align-items:center;gap:.5cqw}.array-row code{font-size:1.35cqw}.array-row-label{color:var(--muted);font-size:1.25cqw}
-@media(max-width:750px){.memory{grid-template-columns:1fr;gap:10px;width:100%}.box{width:100%;min-height:95px;padding:12px;font-size:17px}.box>span{font-size:12px}.box>strong{font-size:16px}.box>b{font-size:25px}.pointer{font-size:14px}.pointer code{font-size:14px;white-space:normal}.memory-arrow{font-size:20px;transform:rotate(90deg)}.array-visual{gap:8px}.array-cell{gap:5px;padding:14px 6px}.array-cell strong{font-size:16px}.array-cell span{font-size:13px}.array-cell small{font-size:12px;top:-1.5em}.array-row{gap:6px;flex-wrap:wrap}.array-row code{font-size:14px}.array-row-label{font-size:14px}}
+:root {
+  --bg: #ffffff;
+  --surface: #f5f5f5;
+  --surface-2: #dcf3ff;
+  --text: #111111;
+  --muted: #555555;
+  --tecsup-blue: #0097d0;
+  --tecsup-cyan: #00b3e0;
+  --tecsup-pale: #dcf3ff;
+  --success: #16835b;
+  --warning: #9a6700;
+  --danger: #c62828;
+  --line: #dddddd;
+  --ink-panel: #111111;
+  --shadow: 0 14px 36px rgb(17 17 17 / 12%);
+  --font-sans: "Arial Nova", Arial, Helvetica, ui-sans-serif, system-ui, sans-serif;
+  --font-heading: "Arial Nova", Arial, Helvetica, ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  --blue: var(--tecsup-blue);
+  --cyan: var(--tecsup-cyan);
+  --ink: var(--ink-panel);
+  --font: var(--font-sans);
+  --mono: var(--font-mono);
+}
 
-.variable-everyday{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;justify-items:center;gap:2cqw;width:min(72%,900px);margin:0 auto}
-.everyday-value{display:grid;justify-items:center;gap:.5cqw;width:100%;padding:1.2cqw;border:2px solid var(--line);border-radius:16px;background:var(--surface);text-align:center}
-.everyday-value.changed{border-color:var(--blue);background:var(--surface-2)}
-.everyday-value span{color:var(--muted);font-size:1.4cqw}
-.everyday-value strong{color:var(--blue);font-size:4cqw;line-height:1}
-.everyday-change{display:grid;justify-items:center;gap:.35cqw;color:var(--muted);font-size:1.3cqw;text-align:center}
-.everyday-change b{color:var(--cyan);font-size:2.4cqw}
-.message-flow{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:.8cqw;width:96%;margin:0 auto}
-.message-step{display:grid;justify-items:center;gap:.4cqw;min-width:0;padding:.9cqw;border:1px solid var(--line);border-radius:14px;background:var(--surface);text-align:center}
-.message-step.changed{border:2px solid var(--blue);background:var(--surface-2)}
-.chat-visual{position:relative;display:grid;place-items:center;width:4.3cqw;height:4.3cqw;color:var(--blue)}
-.chat-visual svg{width:100%;height:100%}
-.notification-count{position:absolute;top:0;right:-.15cqw;display:grid;place-items:center;min-width:1.65cqw;height:1.65cqw;padding:0 .25cqw;border:2px solid #fff;border-radius:999px;background:#16835b;color:#fff;font-size:1.1cqw;font-weight:800;line-height:1}
-.chat-visual.read .notification-count{background:#687780}
-.message-step.changed .notification-count{animation:counter-pop .55s ease-out both}
-.message-step strong{font-size:1.55cqw}
-.message-step>span:last-child{font-size:1.05cqw;color:var(--muted)}
-.message-transition{display:grid;justify-items:center;gap:.2cqw;color:var(--muted);font-size:1.05cqw;font-weight:700;text-align:center;white-space:nowrap}
-.message-transition b{color:var(--cyan);font-size:2cqw;line-height:1}
-@keyframes counter-pop{0%{transform:scale(.7)}65%{transform:scale(1.2)}100%{transform:scale(1)}}
-@media(max-width:750px){.variable-everyday{width:100%;gap:10px}.everyday-value{padding:14px;gap:6px}.everyday-value span{font-size:14px}.everyday-value strong{font-size:40px}.everyday-change{font-size:12px}.everyday-change b{font-size:22px}.message-flow{grid-template-columns:1fr;gap:8px;width:100%}.message-flow{gap:6px}.message-step{gap:5px;padding:12px}.chat-visual{width:48px;height:48px}.notification-count{min-width:19px;height:19px;padding:0 3px;font-size:12px}.message-step strong{font-size:18px}.message-step>span:last-child{font-size:14px}.message-transition{grid-auto-flow:column;align-items:center;gap:8px;font-size:14px}.message-transition b{transform:rotate(90deg);font-size:20px}}
+* { box-sizing: border-box; }
+html, body { width: 100%; min-height: 100%; margin: 0; }
+body {
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+}
+button { font: inherit; }
+[hidden] { display: none !important; }
+.deck {
+  position: relative;
+  width: 100vw;
+  height: calc(100dvh - 64px);
+  overflow: hidden;
+  background: var(--bg);
+  container-type: inline-size;
+}
+.slide {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-auto-rows: max-content;
+  align-content: start;
+  gap: 20px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 32px clamp(24px, 4vw, 56px);
+  opacity: 0;
+  transform: translateX(16px);
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 320ms ease, transform 320ms ease;
+  font-size: clamp(18px, 1.6vw, 22px);
+  line-height: 1.5;
+}
+.slide::before {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 6px;
+  background: var(--tecsup-cyan);
+  content: "";
+}
+.slide.is-active { opacity: 1; transform: none; visibility: visible; pointer-events: auto; }
+.hero { align-content: center; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: clamp(32px, 8vw, 112px); }
+.footer-label { position: absolute; right: 32px; bottom: 22px; color: var(--muted); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
+.slide h1, .slide h2, .slide h3 { margin: 0; line-height: 1.12; letter-spacing: -0.025em; font-family: var(--font-heading); }
+.slide h1 { max-width: 760px; font-size: clamp(48px, 5.5vw, 76px); line-height: 1.04; }
+.slide h2 { max-width: 1200px; font-size: clamp(36px, 2.8vw, 44px); }
+.slide h3 { font-size: clamp(19px, 1.7vw, 24px); }
+p { margin: 0; }
+code, .code { font-family: var(--font-mono); }
+code { overflow-wrap: anywhere; }
+.lede { max-width: 760px; color: var(--muted); font-size: clamp(20px, 1.8vw, 25px); line-height: 1.45; }
+.eyebrow, .kicker, .label { color: #006b94; font-size: 13px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+.eyebrow { letter-spacing: .16em; }
+.rule { width: 78px; height: 5px; border-radius: 3px; background: var(--tecsup-cyan); }
+.accent, .editor strong { color: var(--tecsup-blue); }
+.muted { color: var(--muted); }
+.badge { display: inline-block; width: max-content; padding: 6px 10px; border-radius: 999px; background: var(--tecsup-pale); color: #075a7a; font-size: 14px; font-weight: 800; }
+.footer-label { color: var(--muted); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
 
-.types-layout{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);align-items:center;gap:2cqw;width:100%}
-.types-code{align-self:center;width:100%;height:max-content;min-height:0;white-space:pre;overflow:auto}
-.type-cards{display:grid;gap:.7cqw}
-.type-card{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:.9cqw;padding:.75cqw 1cqw;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
-.type-card>code{padding:.3em .55em;border-radius:7px;background:var(--surface-2);color:#075a7a;font-size:1.25cqw;font-weight:800}
-.type-card>span{display:grid;gap:.15em;min-width:0}
-.type-card strong{font-size:1.35cqw;overflow-wrap:anywhere}
-.type-card small{font-size:1.05cqw;color:var(--muted)}
-.type-card>b{font-size:1.25cqw;color:var(--blue);text-align:right;overflow-wrap:anywhere}
-@media(max-width:750px){.types-layout{grid-template-columns:1fr;gap:10px}.types-code{font-size:14px;padding:14px}.type-cards{gap:8px}.type-card{gap:10px;padding:10px}.type-card>code{font-size:14px}.type-card strong{font-size:14px}.type-card small{font-size:12px}.type-card>b{font-size:14px}}
+.grid { display: grid; align-items: start; gap: clamp(16px, 2vw, 24px); }
+.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.panel { min-width: 0; padding: clamp(16px, 1.8vw, 24px); border: 1px solid var(--line); border-radius: 14px; background: var(--surface); }
+.panel.blue { border-color: #b8e5f5; background: var(--tecsup-pale); }
+.panel.dark { border-color: #333333; background: var(--ink-panel); color: #ffffff; }
+.panel p, .panel li { line-height: 1.45; }
+.panel p + p { margin-top: .65em; }
+.big-number { color: var(--tecsup-blue); font-size: clamp(36px, 3.4vw, 48px); font-weight: 800; line-height: 1; }
+.mini-list { margin: 0; padding-left: 1.25em; }
+.mini-list li { margin: .4em 0; }
+.callout { padding: 12px 16px; border-left: 5px solid var(--tecsup-cyan); border-radius: 0 9px 9px 0; background: #effaff; line-height: 1.45; }
+.callout.warning { border-color: var(--warning); background: #fff9e9; }
+.callout.success { border-color: var(--success); background: #effaf5; }
+.exercise { border-top: 5px solid var(--tecsup-blue); }
 
-.controls .home-control{width:44px;height:44px;display:grid;place-items:center;border:1px solid #b7c7cc;border-radius:8px;background:#fff;color:var(--text);text-decoration:none;cursor:pointer}
-.controls .home-control:hover{border-color:var(--blue);color:var(--blue)}
-.controls .home-control:focus-visible{outline:3px solid var(--cyan);outline-offset:2px}
-.controls .home-control svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-@media(max-width:750px){.controls{gap:4px}.controls button,.controls .home-control,.help{min-width:40px;height:40px}.controls .home-control{width:40px}.indicator{min-width:50px;padding:0 2px}}
+.code {
+  min-width: 0;
+  max-width: 100%;
+  align-self: start;
+  margin: 0;
+  overflow: auto;
+  padding: clamp(14px, 1.5vw, 20px);
+  border-left: 4px solid var(--tecsup-cyan);
+  border-radius: 12px;
+  background: var(--ink-panel);
+  color: #f6f8f9;
+  font-size: clamp(16px, 1.3vw, 18px);
+  line-height: 1.5;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  tab-size: 2;
+}
+.code code { white-space: inherit; overflow-wrap: inherit; }
+.tok-keyword { color: #63d4f2; }
+.tok-type { color: #ffffff; font-weight: 700; }
+.tok-string { color: #8be28b; }
+.tok-number { color: #ffd166; }
+.tok-comment { color: #aab7bd; }
+.focus { border-radius: 3px; background: #064b60; }
+
+.flow { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; }
+.node { min-width: 130px; padding: 14px 18px; border: 2px solid var(--tecsup-blue); border-radius: 12px; background: #ffffff; text-align: center; font-weight: 750; line-height: 1.35; }
+.node small { font-weight: 400; }
+.arrow, .visual-arrow, .runtime-arrow, .execution-arrow { color: var(--tecsup-cyan); font-size: 28px; font-weight: 800; }
+.flow-link { display: grid; justify-items: center; color: #006b94; font-size: 18px; font-weight: 700; }
+.flow-link b { color: var(--tecsup-cyan); font-size: 26px; line-height: 1; }
+.opening { gap: 20px; }
+.opening-note { color: var(--muted); font-size: 18px; line-height: 1.4; }
+.visual-flow { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr); align-items: stretch; gap: 16px; }
+.visual-node { display: flex; min-width: 0; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 20px; border: 1px solid var(--line); border-radius: 16px; background: #ffffff; text-align: center; }
+.visual-node.primary { border: 2px solid var(--tecsup-blue); background: var(--tecsup-pale); }
+.visual-node strong { font-size: 22px; }
+.visual-node span { color: var(--muted); line-height: 1.4; }
+.visual-node svg { width: 64px; height: 64px; color: var(--tecsup-blue); }
+.visual-arrow { align-self: center; }
+.execution-flow { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1.15fr); align-items: stretch; gap: 10px; }
+.execution-step { position: relative; display: flex; min-width: 0; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 20px 14px; border: 1px solid var(--line); border-radius: 15px; background: var(--surface); text-align: center; }
+.execution-step.primary { border: 2px solid var(--tecsup-blue); background: var(--tecsup-pale); }
+.execution-step .step-number { position: absolute; top: 8px; left: 10px; color: var(--tecsup-blue); font-size: 13px; font-weight: 800; }
+.execution-step strong { font-size: 20px; line-height: 1.2; }
+.execution-step span { color: var(--muted); font-size: 16px; line-height: 1.35; }
+.execution-step code { font-size: 16px; }
+.execution-step svg { width: 54px; height: 54px; color: var(--tecsup-blue); }
+.execution-arrow { align-self: center; }
+.hardware-parts { display: grid; width: 100%; justify-items: center; gap: 8px; }
+.hardware-part { width: 100%; padding: 10px; border: 1px solid #b8e5f5; border-radius: 10px; background: #ffffff; }
+.hardware-link { color: var(--tecsup-blue); font-size: 22px; font-weight: 800; }
+.result-chip { padding: 5px 10px; border-radius: 999px; background: var(--success); color: #ffffff !important; font-weight: 800; }
+.runtime-flow { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: 12px; }
+.runtime-card { display: grid; min-width: 0; align-content: center; justify-items: center; gap: 8px; padding: 14px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); text-align: center; }
+.runtime-card.primary { border: 2px solid var(--tecsup-blue); background: var(--tecsup-pale); }
+.runtime-card strong { font-size: 20px; }
+.runtime-card span { color: var(--muted); line-height: 1.35; }
+.runtime-card code { font-size: 17px; }
+.java-platform-intro { display: flex; align-items: center; justify-content: center; gap: 10px; color: var(--muted); font-weight: 700; text-align: center; }
+.java-platform-intro .down, .language-card .down { color: var(--tecsup-cyan); font-size: 22px; font-weight: 800; }
+.java-platforms { display: grid; width: min(100%, 1120px); grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-inline: auto; }
+.java-platform-row { display: grid; min-width: 0; grid-template-columns: minmax(0, 1fr) auto minmax(0, .7fr) auto minmax(0, 1.4fr); align-items: center; gap: 8px; padding: 12px; border: 1px solid var(--line); border-radius: 13px; background: #ffffff; text-align: center; }
+.java-platform-row strong, .java-platform-row span { font-size: 16px; line-height: 1.2; }
+.java-platform-row .platform-name { font-size: 18px; font-weight: 800; }
+.java-platform-row .platform-arrow { color: var(--tecsup-cyan); font-size: 20px; font-weight: 800; }
+.java-platform-row .platform-result { padding: 7px; border-radius: 8px; background: var(--tecsup-pale); color: #075a7a; font-weight: 750; }
+.language-compare { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: start; gap: 16px; }
+.language-card { display: grid; min-width: 0; align-content: start; gap: 6px; padding: 12px; border: 1px solid var(--line); border-radius: 15px; background: #ffffff; }
+.language-card.java { border: 2px solid var(--tecsup-blue); background: var(--tecsup-pale); }
+.language-card h3 { font-size: 22px; }
+.language-card .route { display: grid; justify-items: center; gap: 3px; padding: 7px; border-radius: 9px; background: var(--surface); text-align: center; }
+.language-card .route strong { font-size: 18px; }
+.language-card .route span { color: var(--muted); font-size: 16px; line-height: 1.3; }
+.language-card .targets { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
+.language-card .targets span { padding: 4px 8px; border: 1px solid var(--line); border-radius: 999px; background: #ffffff; color: var(--text); font-size: 14px; }
+.language-card .down { justify-self: center; color: var(--tecsup-cyan); font-size: 20px; line-height: .8; }
+.language-footnote { color: var(--muted); font-size: 16px; line-height: 1.35; }
+.cpu-row { display: grid; grid-template-columns: 1fr 1.2fr 1fr; align-items: center; gap: 16px; }
+.cpu-part { padding: 16px; border-radius: 13px; background: var(--tecsup-pale); text-align: center; }
+.cpu-part strong { display: block; font-size: 20px; }
+.cpu-part span { color: var(--muted); }
+
+.editor { display: grid; grid-template-columns: 48px minmax(0, 1fr); align-items: center; gap: 16px; padding: 14px; border: 1px solid var(--line); border-radius: 12px; background: #ffffff; }
+.editor .icon { display: grid; width: 42px; height: 42px; place-items: center; border-radius: 10px; background: var(--tecsup-pale); color: var(--tecsup-blue); font-weight: 900; }
+.compare { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 14px; }
+.compare > div { min-width: 0; padding: 20px; }
+.compare .bad { border-right: 1px solid var(--line); background: var(--surface); }
+.compare .good { background: var(--tecsup-pale); }
+.memory { display: grid; width: min(100%, 1200px); grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr) minmax(0, 1fr); align-items: center; gap: 24px; margin-inline: auto; }
+.box { display: flex; min-width: 0; min-height: 128px; flex-direction: column; align-items: center; justify-content: center; gap: 4px; padding: 16px; border: 2px solid var(--tecsup-blue); border-radius: 12px; background: var(--tecsup-pale); text-align: center; line-height: 1.2; }
+.box > span { color: var(--tecsup-blue); font-size: 13px; letter-spacing: .1em; text-transform: uppercase; }
+.box > strong { overflow-wrap: anywhere; font-size: 19px; }
+.box > b { font-size: 30px; }
+.pointer { text-align: center; }
+.pointer code { display: block; margin: 6px 0; font-size: 16px; white-space: normal; }
+.memory-arrow { display: block; color: var(--tecsup-cyan); font-size: 26px; font-weight: 800; }
+.variable-everyday { display: grid; width: min(100%, 880px); grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: 20px; margin-inline: auto; }
+.everyday-value { display: grid; justify-items: center; gap: 8px; padding: 18px; border: 2px solid var(--line); border-radius: 16px; background: var(--surface); text-align: center; }
+.everyday-value span { color: var(--muted); }
+.everyday-value strong { color: var(--tecsup-blue); font-size: 40px; }
+.everyday-change { display: grid; justify-items: center; gap: 8px; text-align: center; }
+.everyday-change b { color: var(--tecsup-cyan); font-size: 28px; }
+.message-flow { display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap; }
+.message-step { display: grid; justify-items: center; gap: 6px; min-width: 110px; text-align: center; }
+.message-transition { display: grid; justify-items: center; gap: 5px; color: var(--muted); }
+.message-transition b { color: var(--tecsup-cyan); font-size: 26px; }
+.chat-visual { position: relative; display: grid; width: 58px; height: 58px; place-items: center; border-radius: 14px; background: var(--tecsup-pale); color: var(--tecsup-blue); }
+.chat-visual svg { width: 46px; height: 46px; }
+.notification-count { position: absolute; top: -5px; right: -7px; display: grid; min-width: 25px; height: 25px; place-items: center; padding: 0 5px; border-radius: 999px; background: var(--success); color: #ffffff; font-size: 13px; font-weight: 800; }
+.chat-visual.read .notification-count { background: var(--muted); }
+.types-layout { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); align-items: start; gap: 20px; }
+.types-code { align-self: start; }
+.type-cards { display: grid; gap: 12px; }
+.type-card { display: grid; grid-template-columns: max-content minmax(0, 1fr) auto; align-items: center; gap: 12px; padding: 14px; border: 1px solid var(--line); border-radius: 12px; background: #ffffff; }
+.type-card code { color: var(--tecsup-blue); font-weight: 800; white-space: nowrap; }
+.type-card span { display: grid; }
+.type-card small { color: var(--muted); }
+.type-card b { overflow-wrap: anywhere; }
+.array-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.array-row code { font-size: 17px; }
+.array-row-label { color: var(--muted); }
+.array-growth { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: 8px; margin: 16px 0; text-align: center; }
+.array-growth-state { display: grid; min-width: 0; gap: 6px; padding: 12px 8px; border: 1px solid var(--line); border-radius: 10px; background: #ffffff; }
+.array-growth-state strong { overflow-wrap: anywhere; font-size: 17px; }
+.array-growth-state span { color: var(--muted); font-size: 14px; }
+.array-growth-event { display: grid; justify-items: center; gap: 3px; color: #075a7a; }
+.array-growth-event span { color: var(--tecsup-cyan); font-size: 23px; font-weight: 800; }
+.array-visual { display: grid; width: min(100%, 1000px); grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-inline: auto; }
+.array-cell { position: relative; display: grid; min-width: 0; justify-items: center; gap: 6px; padding: 18px 10px 12px; border: 2px solid var(--tecsup-blue); border-radius: 12px; background: var(--tecsup-pale); text-align: center; }
+.array-cell strong { overflow-wrap: anywhere; font-size: 21px; }
+.array-cell span { color: #075a7a; font-size: 15px; }
+.array-cell small { position: static; color: var(--muted); font-size: 14px; }
+.branch { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; text-align: center; }
+.branch > .node:first-child { grid-column: 1 / -1; justify-self: center; }
+.switch-branch { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.branch .path { padding: 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--tecsup-pale); }
+.branch .path strong { display: block; margin-bottom: 6px; color: #075a7a; }
+.trace { width: 100%; border-collapse: collapse; font-size: 16px; }
+.trace caption { margin-bottom: 8px; text-align: left; font-weight: 700; }
+.trace th, .trace td { padding: 8px; border-bottom: 1px solid #a3ccdc; text-align: left; }
+
+.progress { position: fixed; z-index: 5; right: 0; bottom: 64px; left: 0; height: 4px; background: #d5e5eb; }
+.progress i { display: block; width: 0; height: 100%; background: var(--tecsup-cyan); transition: width 180ms ease; }
+.controls { position: fixed; z-index: 6; right: 0; bottom: 0; left: 0; display: flex; width: 100%; height: 64px; align-items: center; justify-content: center; gap: 8px; border-top: 1px solid var(--line); background: var(--bg); }
+.controls::before { position: absolute; left: 24px; color: var(--muted); content: "JAVA DESDE CERO"; font-size: 12px; font-weight: 700; letter-spacing: .08em; }
+.controls button, .controls .home-control, .help { display: inline-grid; min-width: 44px; height: 44px; place-items: center; padding: 0 10px; border: 1px solid #b7c7cc; border-radius: 8px; background: #ffffff; color: var(--text); font-weight: 700; text-decoration: none; cursor: pointer; }
+.controls button:hover, .controls .home-control:hover, .help:hover { border-color: var(--tecsup-blue); color: var(--tecsup-blue); }
+.controls button:disabled { opacity: .45; cursor: default; }
+.controls button:focus-visible, .controls .home-control:focus-visible, .help:focus-visible, .helpbox button:focus-visible { outline: 3px solid var(--tecsup-cyan); outline-offset: 2px; }
+.controls .home-control { width: 44px; padding: 0; }
+.controls .home-control svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.indicator { min-width: 64px; padding: 0 4px; color: var(--muted); font-size: 14px; text-align: center; }
+.notes { position: fixed; z-index: 8; bottom: 76px; left: 18px; width: min(430px, calc(100vw - 36px)); padding: 18px; border: 2px solid var(--tecsup-blue); border-radius: 12px; background: #ffffff; box-shadow: var(--shadow); }
+.notes h3 { margin: 0 0 8px; color: var(--tecsup-blue); }
+.helpbox { position: fixed; z-index: 9; inset: 0; display: grid; place-items: center; padding: 18px; background: rgb(0 0 0 / 55%); }
+.helpbox[hidden] { display: none; }
+.helpbox .panel { width: min(430px, 100%); background: #ffffff; }
+.key { display: inline-block; padding: 2px 7px; border: 1px solid #aaaaaa; border-bottom-width: 3px; border-radius: 5px; background: #fafafa; font: 700 13px var(--font-mono); }
+
+@media (max-width: 900px) {
+  body { height: auto; min-height: 100dvh; overflow: auto; }
+  .deck { height: calc(100dvh - 64px); }
+  .slide { gap: 18px; padding: 24px; font-size: 17px; }
+  .slide h1 { font-size: 42px; }
+  .slide h2 { font-size: 29px; }
+  .slide h3 { font-size: 21px; }
+  .lede { font-size: 19px; }
+  .two, .three, .compare, .hero, .types-layout, .language-compare, .java-platforms,
+  .visual-flow, .execution-flow, .runtime-flow, .cpu-row, .memory, .variable-everyday { grid-template-columns: 1fr; }
+  .hero { align-content: start; }
+  .compare > div { border-right: 0; border-bottom: 1px solid var(--line); }
+  .visual-node, .execution-step { min-height: 0; }
+  .visual-arrow, .execution-arrow, .runtime-arrow, .memory-arrow { justify-self: center; transform: rotate(90deg); }
+  .flow { flex-direction: column; align-items: stretch; }
+  .flow .arrow, .everyday-change b { align-self: center; transform: rotate(90deg); }
+  .flow-link b { transform: rotate(90deg); }
+  .controls::before { display: none; }
+  .branch, .switch-branch, .array-growth { grid-template-columns: 1fr; }
+  .array-growth-event span { transform: rotate(90deg); }
+  .branch > .node:first-child { grid-column: auto; }
+  .message-flow { flex-direction: column; }
+  .message-transition b { transform: rotate(90deg); }
+  .array-visual { gap: 8px; }
+  .array-cell { padding: 14px 6px 10px; }
+  .controls { gap: 4px; }
+}
+@media (max-width: 480px) {
+  .slide { padding: 20px; }
+  .slide h1 { font-size: 38px; }
+  .slide h2 { font-size: 27px; }
+  .controls { gap: 3px; }
+  .controls button, .controls .home-control, .help { min-width: 44px; padding-inline: 7px; }
+  .indicator { min-width: 54px; font-size: 12px; }
+  .type-card { grid-template-columns: max-content minmax(0, 1fr) auto; gap: 8px; }
+  .controls::before { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation: none !important; transition: none !important; }
+}
 </style>
 </head>
 <body>
 <main class="deck" aria-live="polite">
 <section class="slide hero is-active" data-title="Introducción a Java">
-  <div><div class="eyebrow">TECSUP · CURSO DE JAVA</div><div class="rule" style="margin:22px 0"></div><h1>Java desde cero</h1><p class="lede">De las instrucciones al programa en ejecución: entiende la máquina, la JVM y las herramientas básicas de Java.</p><span class="badge">Lección inicial</span></div>
+  <div><div class="eyebrow">TECSUP · JAVA COURSE</div><div class="rule" style="margin:22px 0"></div><h1>Java desde cero</h1><p class="lede">Aprende cómo unas instrucciones se convierten en resultados y practica los primeros conceptos de Java.</p><span class="badge">Lección inicial</span></div>
   <div class="panel dark"><div class="label" style="color:#63d4f2">Ruta de hoy</div><ol class="mini-list"><li>Qué es programar</li><li>Cómo se ejecuta el código</li><li>Qué es Java y qué hace la JVM</li><li>Primer programa</li><li>Variables, decisiones, arrays, ArrayList y bucles</li></ol></div>
   <div class="footer-label">Fundamentos de Java</div>
 </section>
-<section class="slide opening" data-title="Qué es programar">
-  <div class="kicker">01 · Una idea sencilla</div>
+<section class="slide opening" hidden data-title="Qué es programar">
+  <div class="kicker">02 · Una idea sencilla</div>
   <h2>Programar es dar instrucciones para transformar datos en resultados.</h2>
   <div class="visual-flow" aria-label="Entrada, instrucciones del programa y resultado">
     <div class="visual-node"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M12 18h40v32H12zM20 11h24v7H20zM20 27h24M20 35h15M20 43h24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="44" cy="35" r="2" fill="currentColor"/></svg><strong>Datos</strong><span>precio: 20<br>envío: 5</span></div>
@@ -171,23 +329,24 @@ code{overflow-wrap:anywhere}pre code{overflow-wrap:normal}
   </div>
   <p class="opening-note">El código reúne las instrucciones que la computadora sigue.</p>
 </section>
-<section class="slide opening" data-title="Cómo ejecuta instrucciones una computadora">
-  <div class="kicker">02 · Del código al resultado</div>
-  <h2>El programa se traduce a pasos que ejecuta el procesador.</h2>
-  <div class="execution-flow" aria-label="Código fuente, traductor, código máquina y procesador conectado a memoria">
+<section class="slide opening" hidden data-title="Cómo ejecuta instrucciones una computadora">
+  <div class="kicker">03 · Del código al resultado</div>
+  <h2>Un compilador puede traducir código fuente a instrucciones de máquina.</h2>
+  <div class="label">Ejemplo: compilación a código nativo</div>
+  <div class="execution-flow" aria-label="Ejemplo de compilación de código fuente a código máquina que el procesador ejecuta usando memoria">
     <div class="execution-step"><span class="step-number">01</span><code>total = 20 + 5</code><strong>Código fuente</strong><span>Lo escribe la persona</span></div>
     <div class="execution-arrow" aria-hidden="true">→</div>
-    <div class="execution-step"><span class="step-number">02</span><svg viewBox="0 0 64 64" aria-hidden="true"><rect x="15" y="15" width="34" height="34" rx="5" fill="none" stroke="currentColor" stroke-width="3"/><path d="M23 26h18M23 33h18M23 40h10M8 22h7M8 32h7M8 42h7M49 22h7M49 32h7M49 42h7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg><strong>Traductor</strong><span>Compilador o intérprete</span></div>
+    <div class="execution-step"><span class="step-number">02</span><svg viewBox="0 0 64 64" aria-hidden="true"><rect x="15" y="15" width="34" height="34" rx="5" fill="none" stroke="currentColor" stroke-width="3"/><path d="M23 26h18M23 33h18M23 40h10M8 22h7M8 32h7M8 42h7M49 22h7M49 32h7M49 42h7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg><strong>Compilador</strong><span>traduce el código</span></div>
     <div class="execution-arrow" aria-hidden="true">→</div>
-    <div class="execution-step"><span class="step-number">03</span><strong>Código máquina</strong><span>Instrucciones que entiende la CPU</span></div>
+    <div class="execution-step"><span class="step-number">03</span><strong>Código máquina</strong><span>Instrucciones que entiende el procesador</span></div>
     <div class="execution-arrow" aria-hidden="true">→</div>
-    <div class="execution-step primary"><span class="step-number">04</span><div class="hardware-parts"><div class="hardware-part"><strong>CPU</strong><br><span>ejecuta los pasos</span></div><div class="hardware-link" aria-label="lee y actualiza">↕</div><div class="hardware-part"><strong>Memoria</strong><br><span>guarda datos e instrucciones</span></div></div><span class="result-chip">resultado: 25</span></div>
+    <div class="execution-step primary"><span class="step-number">04</span><div class="hardware-parts"><div class="hardware-part"><strong>Procesador (CPU)</strong><br><span>ejecuta los pasos</span></div><div class="hardware-link" aria-label="lee y actualiza">↕</div><div class="hardware-part"><strong>Memoria</strong><br><span>guarda datos e instrucciones</span></div></div><span class="result-chip">resultado: 25</span></div>
   </div>
-  <p class="opening-note">El traductor cambia según el lenguaje; el procesador ejecuta instrucciones de máquina y usa la memoria.</p>
+  <p class="opening-note">Este es un recorrido posible. Java usa un paso intermedio que veremos a continuación. El procesador (CPU) ejecuta pasos y usa la memoria.</p>
 </section>
-<section class="slide opening" data-title="Cómo se ejecuta Java">
-  <div class="kicker">03 · El camino de Java</div>
-  <h2>Mismo bytecode; cada sistema usa su JVM.</h2>
+<section class="slide opening" hidden data-title="Cómo se ejecuta Java">
+  <div class="kicker">04 · El camino de Java</div>
+  <h2>Mismo bytecode; cada sistema usa una Máquina Virtual de Java (JVM).</h2>
   <div class="runtime-flow java-compile-flow" aria-label="Welcome.java se compila con javac para generar Welcome.class">
     <div class="runtime-card"><code>Welcome.java</code><strong>Fuente</strong><span>El programa que escribimos</span></div>
     <div class="runtime-arrow" aria-hidden="true">→</div>
@@ -195,26 +354,27 @@ code{overflow-wrap:anywhere}pre code{overflow-wrap:normal}
     <div class="runtime-arrow" aria-hidden="true">→</div>
     <div class="runtime-card primary"><code>Welcome.class</code><strong>Bytecode</strong><span>Formato intermedio de Java</span></div>
   </div>
-  <div class="java-platform-intro"><span class="down" aria-hidden="true">↓</span><span>El mismo bytecode sigue estas dos rutas:</span></div>
+  <div class="java-platform-intro"><span class="down" aria-hidden="true">↓</span><span>El mismo bytecode sigue estas tres rutas:</span></div>
   <div class="java-platforms" aria-label="Rutas para ejecutar Welcome.class en distintos sistemas">
-    <div class="java-platform-row"><strong class="platform-name">Windows</strong><span class="platform-arrow" aria-hidden="true">→</span><span>JVM</span><span class="platform-arrow" aria-hidden="true">→</span><strong class="platform-result">App en ejecución</strong></div>
-    <div class="java-platform-row"><strong class="platform-name">macOS / Linux</strong><span class="platform-arrow" aria-hidden="true">→</span><span>JVM</span><span class="platform-arrow" aria-hidden="true">→</span><strong class="platform-result">App en ejecución</strong></div>
+    <div class="java-platform-row"><strong class="platform-name">Windows</strong><span class="platform-arrow" aria-hidden="true">→</span><span>JVM</span><span class="platform-arrow" aria-hidden="true">→</span><strong class="platform-result">Programa en ejecución</strong></div>
+    <div class="java-platform-row"><strong class="platform-name">macOS</strong><span class="platform-arrow" aria-hidden="true">→</span><span>JVM</span><span class="platform-arrow" aria-hidden="true">→</span><strong class="platform-result">Programa en ejecución</strong></div>
+    <div class="java-platform-row"><strong class="platform-name">Linux</strong><span class="platform-arrow" aria-hidden="true">→</span><span>JVM</span><span class="platform-arrow" aria-hidden="true">→</span><strong class="platform-result">Programa en ejecución</strong></div>
   </div>
-  <p class="opening-note">Cada plataforma necesita una JVM compatible con la versión de Java y las librerías.</p>
+  <p class="opening-note">Cada sistema operativo necesita una Máquina Virtual de Java (JVM) compatible para ejecutar el mismo bytecode.</p>
 </section>
-<section class="slide opening" data-title="Java y otros lenguajes">
-  <div class="kicker">04 · Tres recorridos típicos</div>
+<section class="slide opening" hidden data-title="Java y otros lenguajes">
+  <div class="kicker">05 · Tres recorridos típicos</div>
   <h2>Tres rutas del código a la ejecución.</h2>
   <div class="language-compare" aria-label="Comparación de rutas de ejecución habituales">
     <article class="language-card"><h3>C</h3><div class="route"><strong>Código fuente</strong><span>programa.c</span></div><div class="down" aria-hidden="true">↓</div><div class="route"><strong>Compilador</strong><span>genera un binario para el destino elegido</span></div><div class="down" aria-hidden="true">↓</div><div class="route"><strong>Ejecutables nativos</strong><div class="targets"><span>Windows</span><span>macOS</span><span>Linux</span></div><span>se compila uno por sistema y arquitectura</span></div></article>
     <article class="language-card java"><h3>Java</h3><div class="route"><strong>Código fuente</strong><span>programa.java</span></div><div class="down" aria-hidden="true">↓</div><div class="route"><strong>Compilador</strong><span>javac · compila antes de ejecutar</span></div><div class="down" aria-hidden="true">↓</div><div class="route"><strong>Bytecode</strong><span>programa.class</span></div><div class="down" aria-hidden="true">↓</div><div class="route"><strong>JVM</strong><span>interpreta y compila partes frecuentes a código nativo (JIT)</span></div></article>
     <article class="language-card"><h3>Python · CPython</h3><div class="route"><strong>Código fuente</strong><span>programa.py</span></div><div class="down" aria-hidden="true">↓</div><div class="route"><strong>Bytecode propio</strong><span>se genera durante la ejecución</span></div><div class="down" aria-hidden="true">↓</div><div class="route"><strong>Máquina virtual</strong><span>ejecuta ese bytecode</span></div></article>
   </div>
-  <p class="language-footnote">javac compila antes de ejecutar; durante la ejecución, la JVM interpreta bytecode y puede compilar con JIT las partes frecuentes. El mismo bytecode corre en JVM compatibles.</p>
+  <p class="language-footnote">javac compila el código fuente antes de ejecutar. En tiempo de ejecución, la JVM interpreta bytecode y puede compilar a código nativo las partes frecuentes (JIT). El mismo bytecode corre en JVM compatibles.</p>
 </section>
-<section class="slide" data-title="Objetivos de aprendizaje"><div class="kicker">05 · Ruta de aprendizaje</div><h2>Al final, podrás seguir y escribir un pequeño programa en Java.</h2><div class="grid three"><div class="panel blue"><div class="big-number">1</div><h3>Explicar</h3><p>Describir Java como lenguaje, plataforma y ecosistema.</p></div><div class="panel"><div class="big-number">2</div><h3>Seguir el recorrido</h3><p>Seguir el código fuente durante la compilación y la JVM.</p></div><div class="panel"><div class="big-number">3</div><h3>Construir</h3><p>Usar variables, operadores, condicionales, arrays, ArrayList y bucles.</p></div></div><div class="callout"><strong>Prerrequisito:</strong> ideas básicas de programación, como «una instrucción cambia el estado del programa».</div></section>
-<section class="slide" data-title="Definir el problema">
-  <div class="kicker">06 · Antes de programar</div>
+<section class="slide" hidden data-title="Objetivos de aprendizaje"><div class="kicker">06 · Ruta de aprendizaje</div><h2>Al final podrás explicar y construir programas pequeños.</h2><div class="grid three"><div class="panel blue"><div class="big-number">1</div><h3>Explicar</h3><p>Seguir el recorrido del código hasta ver un resultado.</p></div><div class="panel"><div class="big-number">2</div><h3>Leer estado y reglas</h3><p>Interpretar variables, colecciones y decisiones.</p></div><div class="panel"><div class="big-number">3</div><h3>Escribir</h3><p>Crear un programa con valores, decisiones y repeticiones.</p></div></div><div class="callout"><strong>Prerrequisito:</strong> saber usar archivos y un editor. Los conceptos de programación se enseñan en esta lección.</div></section>
+<section class="slide" hidden data-title="Definir el problema">
+  <div class="kicker">07 · Antes de programar</div>
   <h2>El código aplica reglas que primero debemos definir.</h2>
   <p class="lede">En una compra, acordemos qué significa «hay stock suficiente» y cómo se calcula el subtotal.</p>
   <div class="flow" aria-label="Datos de una compra, reglas acordadas y resultado esperado">
@@ -226,32 +386,32 @@ code{overflow-wrap:anywhere}pre code{overflow-wrap:normal}
   </div>
   <div class="callout"><strong>¿Qué hace el código?</strong> Contiene las instrucciones que aplican estas reglas. Sin reglas claras, podemos obtener resultados incorrectos.</div>
 </section>
-<section class="slide" data-title="Qué es Java"><div class="kicker">07 · Propósito</div><h2>Java es un lenguaje y una plataforma para crear y ejecutar aplicaciones.</h2><div class="grid three"><div class="panel blue"><span class="label">Lenguaje</span><h3>Cómo expresamos reglas</h3><p>Tipos, variables, operadores, métodos y flujo de control.</p></div><div class="panel"><span class="label">Plataforma</span><h3>Dónde se ejecuta el código</h3><p>La Máquina Virtual de Java ejecuta el bytecode compilado.</p></div><div class="panel"><span class="label">Ecosistema</span><h3>Con qué construimos</h3><p>Librerías, herramientas, servidores, IDE y frameworks.</p></div></div><p class="lede">Esta lección se enfoca en el <strong>lenguaje Java</strong> y la JVM. Spring es una capa de framework independiente.</p></section>
-<section class="slide" data-title="Editores recomendados"><div class="kicker">08 · Herramientas</div><h2>Elige un editor que te ayude a ver el programa, no a ocultarlo.</h2><div class="grid"><div class="editor"><div class="icon">IDE</div><div><strong>IntelliJ IDEA Community</strong><br><span class="muted">La mejor opción general para aprender Java: ejecutar, depurar, autocompletar y refactorizar.</span></div></div><div class="editor"><div class="icon">VS</div><div><strong>Visual Studio Code</strong><br><span class="muted">Ligero y flexible; instala un paquete de extensiones para Java.</span></div></div><div class="editor"><div class="icon">NB</div><div><strong>Apache NetBeans</strong><br><span class="muted">IDE de Java amigable para principiantes y con buen soporte de proyectos.</span></div></div></div><div class="callout"><strong>Recomendación:</strong> usa IntelliJ IDEA Community en este curso. Los conceptos siguen siendo de Java, sin importar el editor.</div></section>
-<section class="slide" data-title="Preparar el entorno"><div class="kicker">Preparación · JDK 21</div><h2>El editor no reemplaza al kit de desarrollo.</h2><div class="grid two"><div class="panel blue"><h3>Instala y selecciona un JDK</h3><p>El JDK incluye <code>javac</code>, la JVM y las bibliotecas estándar. Configura JDK 21 en tu IDE.</p><p>Un editor organiza archivos. Un IDE añade ejecución, depuración y herramientas de proyecto.</p></div><div class="panel"><h3>Comprueba la instalación</h3><pre class="code">java --version
-javac --version</pre><p>Ambos comandos deben mostrar la versión 21. Si no se encuentran, revisa la instalación y la variable PATH.</p></div></div><div class="callout"><strong>Modelo:</strong> editor → código; compilador → bytecode; JVM → ejecución. No necesitas Spring para comenzar.</div></section>
-<section class="slide" data-title="Primer programa"><div class="kicker">09 · Implementación</div><h2>Escribe un programa Java que imprima un mensaje en la consola.</h2><div class="grid two"><pre class="code"><span class="tok-keyword">public class</span> <span class="tok-type">Welcome</span> {
+<section class="slide" hidden data-title="Qué es Java"><div class="kicker">08 · Propósito</div><h2>Java es un lenguaje y una plataforma para crear y ejecutar programas.</h2><div class="grid three"><div class="panel blue"><span class="label">Lenguaje</span><h3>Cómo expresamos reglas</h3><p>Tipos, variables, operadores, métodos y flujo de control.</p></div><div class="panel"><span class="label">Plataforma</span><h3>Dónde se ejecuta el código</h3><p>La Máquina Virtual de Java (JVM) ejecuta el bytecode compilado.</p></div><div class="panel"><span class="label">Herramientas y bibliotecas</span><h3>Piezas para crear programas</h3><p>Una biblioteca es código reutilizable. Un IDE reúne editor, ejecución y depuración. Un framework ofrece una base para crear una aplicación; Spring es uno de ellos.</p></div></div><p class="lede">El lenguaje Java y sus herramientas forman parte del ecosistema; Spring es un framework independiente.</p></section>
+<section class="slide" hidden data-title="Herramientas para Java"><div class="kicker">09 · Herramientas</div><h2>Varias herramientas permiten escribir y ejecutar Java.</h2><div class="grid"><div class="editor"><div class="icon">IDE</div><div><strong>IntelliJ IDEA</strong><br><span class="muted">Entorno integrado para escribir, ejecutar y depurar.</span></div></div><div class="editor"><div class="icon">VS</div><div><strong>Visual Studio Code</strong><br><span class="muted">Editor extensible; agrega las extensiones de Java.</span></div></div><div class="editor"><div class="icon">NB</div><div><strong>Apache NetBeans</strong><br><span class="muted">Entorno integrado con herramientas para proyectos Java.</span></div></div></div><div class="callout"><strong>En este curso:</strong> trabajaremos con IntelliJ IDEA. Un IDE reúne el editor y herramientas para ejecutar y depurar.</div></section>
+<section class="slide" hidden data-title="Preparar el entorno"><div class="kicker">10 · Preparación · JDK 21</div><h2>El editor no reemplaza al kit de desarrollo.</h2><div class="grid two"><div class="panel blue"><h3>Instala y selecciona un JDK</h3><p>JDK significa kit de desarrollo de Java. Incluye <code>javac</code>, la JVM y bibliotecas estándar. Configura JDK 21 en tu IDE.</p><p>Un editor organiza archivos. Un IDE añade ejecución, depuración y herramientas de proyecto.</p></div><div class="panel"><h3>Comprueba la instalación</h3><pre class="code">java --version
+javac --version</pre><p>Ambos comandos deben mostrar la versión 21. Si no se encuentran, revisa la instalación y PATH, las carpetas donde la terminal busca comandos.</p></div></div><div class="callout"><strong>Modelo:</strong> editor → código; compilador → bytecode; JVM → ejecución. No necesitas Spring para comenzar.</div></section>
+<section class="slide" hidden data-title="Primer programa"><div class="kicker">11 · Implementación</div><h2>Escribe un programa Java que imprima un mensaje en la consola.</h2><div class="grid two"><pre class="code"><span class="tok-keyword">public class</span> <span class="tok-type">Welcome</span> {
   <span class="tok-keyword">public static void</span> main(
       <span class="tok-type">String</span>[] args) {
     <span class="tok-type">System</span>.out.println(
       <span class="tok-string">"¡Bienvenido a Tecsup!"</span>);
   }
-}</pre><div class="panel blue"><span class="label">Léelo de arriba abajo</span><ol class="mini-list"><li>Una clase agrupa el programa.</li><li><code>main</code> es el método de inicio.</li><li><code>println</code> imprime texto.</li></ol><div class="callout" style="margin-top:15px"><strong>Característica de Java:</strong> sintaxis de clases, métodos y cadenas. El editor solo inicia el programa.</div></div></div><aside class="speaker-notes" hidden>No pidas memorizar cada palabra clave todavía. El objetivo es identificar el punto de entrada y la salida observable.</aside></section>
-<section class="slide" data-title="Ejecutar el primer programa"><div class="kicker">Aplicación · tu primera ejecución</div><h2>Del archivo a un mensaje visible.</h2><div class="grid two"><div class="panel"><h3>Guarda como Welcome.java</h3><p>El nombre coincide exactamente con la clase pública <code>Welcome</code>. Abre la terminal en esa carpeta.</p><pre class="code">javac -encoding UTF-8 Welcome.java
+}</pre><div class="panel blue"><span class="label">Léelo de arriba abajo</span><ol class="mini-list"><li>Para este ejemplo, la clase es el grupo de instrucciones Java.</li><li><code>main</code> es el método de inicio.</li><li><code>println</code> imprime texto.</li></ol><div class="callout"><strong>Ubicación del código:</strong> los siguientes fragmentos van dentro de <code>main</code>. Los <code>import</code> van antes de la clase.</div></div></div><aside class="speaker-notes" hidden>No pidas memorizar cada palabra clave todavía. El objetivo es identificar el punto de entrada y la salida observable.</aside></section>
+<section class="slide" hidden data-title="Ejecutar el primer programa"><div class="kicker">12 · Aplicación · tu primera ejecución</div><h2>Del archivo a un mensaje visible.</h2><div class="grid two"><div class="panel"><h3>Guarda como Welcome.java</h3><p>El nombre coincide exactamente con la clase pública <code>Welcome</code>. Abre la terminal en esa carpeta.</p><pre class="code">javac -encoding UTF-8 Welcome.java
 java Welcome</pre></div><div class="panel blue"><h3>Resultado esperado</h3><pre class="code">¡Bienvenido a Tecsup!</pre><p><code>javac</code> genera <code>Welcome.class</code>. <code>java Welcome</code> ejecuta la clase: no escribas <code>.class</code> en el comando.</p></div></div><div class="callout"><strong>Practica:</strong> cambia el mensaje, vuelve a compilar y ejecuta. Si el mensaje no cambia, ¿qué paso faltó?</div></section>
-<section class="slide opening" data-title="Qué es una variable">
-  <div class="kicker">Variables · una idea cotidiana</div>
-  <h2>Una variable es una etiqueta para un dato que puede cambiar.</h2>
+<section class="slide opening" hidden data-title="Qué es una variable">
+  <div class="kicker">13 · Variables · una idea cotidiana</div>
+  <h2>Un nombre guarda un valor que el programa puede consultar o cambiar.</h2>
   <div class="variable-everyday" aria-label="El dato llamado mensajes sin leer cambia de 3 a 4">
     <div class="everyday-value"><span>Mensajes sin leer</span><strong>3</strong></div>
     <div class="everyday-change"><span>Llega un mensaje</span><b aria-hidden="true">→</b></div>
     <div class="everyday-value changed"><span>Mensajes sin leer</span><strong>4</strong></div>
   </div>
-  <p class="opening-note">La etiqueta sigue igual; la cantidad se actualiza.</p>
+  <p class="opening-note">El nombre mensajesSinLeer guarda una cantidad que puede cambiar.</p>
 </section>
-<section class="slide opening" data-title="Variable en una app de mensajería">
-  <div class="kicker">Variables · un ejemplo con WhatsApp</div>
-  <h2>WhatsApp actualiza el contador de mensajes sin leer.</h2>
+<section class="slide opening" hidden data-title="Variable en una app de mensajería">
+  <div class="kicker">14 · Variables · un ejemplo de chat</div>
+  <h2>Una app de chat puede actualizar el contador de mensajes sin leer.</h2>
   <div class="message-flow" aria-label="El contador de WhatsApp cambia de 3 a 4 cuando llega un mensaje, y a 0 al abrir el chat">
     <div class="message-step">
       <div class="chat-visual" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M8 10h32v24H23l-9 7v-7H8zM15 18h18M15 24h12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="notification-count">3</span></div>
@@ -270,9 +430,9 @@ java Welcome</pre></div><div class="panel blue"><h3>Resultado esperado</h3><pre 
   </div>
   <p class="opening-note">El mismo contador se actualiza: <strong>3 → 4 → 0</strong>.</p>
 </section>
-<section class="slide" data-title="Modelo mental de variables"><div class="kicker">10 · Variables</div><h2>En Java, el contador tiene un nombre, un tipo y un valor que puede cambiar.</h2><div class="memory"><div class="box"><span>Antes</span><strong>mensajesSinLeer</strong><b>3 mensajes</b></div><div class="pointer">Llega 1 mensaje<code>mensajesSinLeer = mensajesSinLeer + 1;</code><span class="memory-arrow" aria-hidden="true">→</span></div><div class="box"><span>Después</span><strong>mensajesSinLeer</strong><b>4 mensajes</b></div></div><div class="grid two"><div class="panel"><h3>Nombre</h3><p><code>mensajesSinLeer</code> identifica el contador.</p></div><div class="panel"><h3>Tipo</h3><p><code>int</code> indica que guarda un número entero, como 3 o 4.</p></div></div><div class="callout"><strong>Observa:</strong> el nombre se conserva y el valor cambia de 3 a 4 cuando llega un mensaje.</div></section>
-<section class="slide types-slide" data-title="Tipos y declaraciones">
-  <div class="kicker">11 · Variables</div>
+<section class="slide" hidden data-title="Modelo mental de variables"><div class="kicker">15 · Variables</div><h2>En Java, el contador tiene un nombre, un tipo y un valor que puede cambiar.</h2><div class="memory"><div class="box"><span>Antes</span><strong>mensajesSinLeer</strong><b>3 mensajes</b></div><div class="pointer">Llega 1 mensaje<code>mensajesSinLeer = mensajesSinLeer + 1;</code><span class="memory-arrow" aria-hidden="true">→</span></div><div class="box"><span>Después</span><strong>mensajesSinLeer</strong><b>4 mensajes</b></div></div><div class="grid two"><div class="panel"><h3>Nombre</h3><p><code>mensajesSinLeer</code> identifica el contador.</p></div><div class="panel"><h3>Tipo</h3><p><code>int</code> indica que guarda un número entero, como 3 o 4.</p></div></div><div class="callout"><strong>Observa:</strong> el nombre se conserva y el valor cambia de 3 a 4 cuando llega un mensaje.</div></section>
+<section class="slide types-slide" hidden data-title="Tipos y declaraciones">
+  <div class="kicker">16 · Variables</div>
   <h2>El tipo indica si el dato es una cantidad, un texto o una respuesta.</h2>
   <div class="types-layout">
     <pre class="code types-code"><span class="tok-type">int</span> mensajesSinLeer = <span class="tok-number">3</span>;
@@ -281,104 +441,110 @@ java Welcome</pre></div><div class="panel blue"><h3>Resultado esperado</h3><pre 
     <div class="type-cards" aria-label="Ejemplos de tipos de datos del chat">
       <div class="type-card"><code>int</code><span><strong>mensajesSinLeer</strong><small>cantidad</small></span><b>3</b></div>
       <div class="type-card"><code>String</code><span><strong>nombreChat</strong><small>texto</small></span><b>Familia</b></div>
-      <div class="type-card"><code>boolean</code><span><strong>mensajeLeido</strong><small>sí o no</small></span><b>false</b></div>
+      <div class="type-card"><code>boolean</code><span><strong>mensajeLeido</strong><small>respuesta</small></span><b>false</b></div>
     </div>
   </div>
-  <p class="opening-note">Cada nombre y su tipo ayudan a entender qué dato guarda la aplicación.</p>
+  <p class="opening-note"><code>boolean</code> solo puede valer <code>true</code> (verdadero) o <code>false</code> (falso).</p>
 </section>
-<section class="slide" data-title="Actualizar una variable"><div class="kicker">Variables · del valor inicial al nuevo estado</div><h2>Al llegar un mensaje, Java calcula y guarda el nuevo contador.</h2><div class="grid two"><pre class="code"><span class="tok-type">int</span> mensajesSinLeer = <span class="tok-number">3</span>;
+<section class="slide" hidden data-title="Actualizar una variable"><div class="kicker">17 · Variables · actualizar</div><h2>Al llegar un mensaje, se calcula y guarda el nuevo contador.</h2><div class="grid two"><pre class="code"><span class="tok-type">int</span> mensajesSinLeer = <span class="tok-number">3</span>;
 mensajesSinLeer = mensajesSinLeer + <span class="tok-number">1</span>;
-System.out.println(mensajesSinLeer); <span class="tok-comment">// 4</span>
-
-<span class="tok-keyword">if</span> (mensajesSinLeer == <span class="tok-number">4</span>) {
-  System.out.println(<span class="tok-string">"Hay 4 sin leer"</span>);
-}</pre><div class="panel blue"><h3>De 3 a 4</h3><ol class="mini-list"><li>Lee el valor actual: 3.</li><li>Suma 1: el resultado es 4.</li><li>Guarda 4 con el mismo nombre.</li></ol><p><code>=</code> actualiza el contador; <code>==</code> pregunta si vale 4.</p></div></div><div class="callout"><strong>Resultado:</strong> <code>mensajesSinLeer</code> conserva su nombre y ahora contiene <strong>4</strong>.</div></section>
-<section class="slide" data-title="Operadores"><div class="kicker">12 · Mecánica</div><h2>Los operadores transforman valores o los comparan.</h2><div class="grid three"><div class="panel blue"><span class="label">Aritméticos</span><h3>+ − * / %</h3><p><code>subtotal + shipping</code><br><code>5 % 2</code> → residuo 1</p></div><div class="panel"><span class="label">Comparación</span><h3>== != &gt; &lt; &gt;= &lt;=</h3><p>Produce una respuesta booleana: verdadero o falso.</p></div><div class="panel"><span class="label">Lógicos</span><h3>&amp;&amp; || !</h3><p><code>&amp;&amp;</code>: ambas verdaderas.<br><code>||</code>: al menos una.<br><code>!</code>: invierte el resultado.</p></div></div><pre class="code"><span class="tok-type">double</span> total = subtotal + shipping;
-<span class="tok-type">boolean</span> eligible = total &gt;= <span class="tok-number">100</span> &amp;&amp; member;
-<span class="tok-type">boolean</span> blocked = !eligible;</pre><div class="callout"><strong>Léelo por su significado:</strong> «Elegible cuando el total es al menos 100 y el cliente es miembro».</div></section>
-<section class="slide" data-title="Condicionales"><div class="kicker">13 · Decisiones</div><h2>Un <code>if</code> permite que el programa elija un camino.</h2><div class="branch"><div class="node">¿Hay unidades? <code>stock &gt; 0</code></div><div class="path"><strong>↙ true · verdadero</strong>Confirmar disponibilidad</div><div class="path"><strong>↘ false · falso</strong>Informar que no hay stock</div></div><pre class="code"><span class="tok-keyword">if</span> (stock &gt; <span class="tok-number">0</span>) {
-  System.out.println("Disponible");
+System.out.println(mensajesSinLeer); <span class="tok-comment">// 4</span></pre><div class="panel blue"><span class="label">De 3 a 4</span><ol class="mini-list"><li>Lee el valor actual: 3.</li><li>Suma 1: el resultado es 4.</li><li>Guarda 4 con el mismo nombre.</li></ol><strong>¿Qué valor habría después de leer todos los mensajes?</strong></div></div><div class="callout">El mismo nombre conserva el estado actual. La salida muestra <strong>4</strong>.</div></section>
+<section class="slide" hidden data-title="Decimales en una compra"><div class="kicker">18 · Variables · decimales</div><h2>Una compra también puede tener cantidades con decimales.</h2><p class="lede">Ahora calcularemos una compra: subtotal S/ 75.0 más envío S/ 8.0.</p><div class="grid two"><pre class="code"><span class="tok-type">double</span> subtotal = <span class="tok-number">75.0</span>;
+<span class="tok-type">double</span> envio = <span class="tok-number">8.0</span>;
+<span class="tok-type">double</span> total = subtotal + envio;
+System.out.println(total); <span class="tok-comment">// 83.0</span></pre><div class="panel blue"><span class="label">Tipo y resultado</span><p><code>double</code> guarda números que pueden tener parte decimal.</p><p><strong>75.0 + 8.0 = 83.0</strong></p></div></div><div class="callout warning"><strong>Alcance:</strong> usamos montos simplificados para practicar. Los sistemas de dinero reales requieren manejo decimal especializado.</div></section>
+<section class="slide" hidden data-title="Aritmética de una compra"><div class="kicker">19 · Variables · calcular</div><h2>Los operadores aritméticos calculan un resultado a partir de valores.</h2><div class="grid two"><pre class="code"><span class="tok-type">double</span> subtotal = <span class="tok-number">75.0</span>;
+<span class="tok-type">double</span> envio = <span class="tok-number">8.0</span>;
+<span class="tok-type">double</span> total = subtotal + envio;
+System.out.println(total); <span class="tok-comment">// 83.0</span></pre><div class="panel blue"><span class="label">Operación y resultado</span><p><code>75.0 + 8.0 = 83.0</code></p><p><code>*</code> multiplica; <code>/</code> divide; <code>%</code> entrega el residuo.</p><p><code>5 / 2</code> con enteros da <strong>2</strong>; <code>5 % 2</code> da <strong>1</strong>.</p></div></div><div class="callout warning"><strong>Alcance:</strong> estos montos simplifican el ejercicio. Los sistemas de dinero requieren manejo decimal especializado.</div></section>
+<section class="slide" hidden data-title="Comparar valores"><div class="kicker">20 · Variables · condiciones</div><h2>Una comparación responde verdadero o falso.</h2><div class="grid two"><div class="panel blue"><span class="label">Compra y resultados</span><p>subtotal = S/ 75.0 · miembro = false</p><p><code>subtotal &gt;= 100</code> → <strong>false</strong></p><p><code>miembro &amp;&amp; subtotal &gt; 0</code> → <strong>false</strong> · ambas</p><p><code>envioGratis || miembro</code> → <strong>false</strong> · alguna</p><p><code>!miembro</code> → <strong>true</strong> · opuesto</p></div><pre class="code"><span class="tok-type">double</span> subtotal = <span class="tok-number">75.0</span>;
+<span class="tok-type">boolean</span> miembro = <span class="tok-keyword">false</span>;
+<span class="tok-type">boolean</span> envioGratis = subtotal &gt;= <span class="tok-number">100</span>;
+<span class="tok-type">boolean</span> ambasReglas = miembro &amp;&amp; subtotal &gt; <span class="tok-number">0</span>;
+<span class="tok-type">boolean</span> algunaRegla = envioGratis || miembro;
+<span class="tok-type">boolean</span> noEsMiembro = !miembro;</pre></div><div class="callout"><code>&amp;&amp;</code> significa «ambas»; <code>||</code>, «al menos una»; <code>!</code>, «lo opuesto». <code>=</code> guarda un valor; <code>==</code> compara valores numéricos.</div></section>
+<section class="slide" hidden data-title="Condicionales"><div class="kicker">21 · Decisiones</div><h2>Una condición verdadera acepta el pedido; una falsa lo rechaza.</h2><div class="branch"><div class="node">stock 3 ≥ cantidad 2 ?</div><div class="path"><strong>true · verdadero</strong>Aceptar pedido</div><div class="path"><strong>false · falso</strong>Rechazar pedido</div></div><pre class="code"><span class="tok-type">int</span> stock = <span class="tok-number">3</span>;
+<span class="tok-type">int</span> cantidad = <span class="tok-number">2</span>;
+<span class="tok-keyword">if</span> (stock &gt;= cantidad) {
+  System.out.println(<span class="tok-string">"Pedido aceptado"</span>);
 } <span class="tok-keyword">else</span> {
-  System.out.println("Sin stock");
-}</pre><div class="callout"><strong>Regla:</strong> la condición debe ser una expresión booleana. Las llaves hacen visible cada camino y facilitan editarlo con seguridad.</div></section>
-<section class="slide" data-title="Else if y switch"><div class="kicker">14 · Decisiones</div><h2>Elige la herramienta de decisión que corresponde a la pregunta.</h2><div class="compare"><div class="bad"><span class="label">Rangos y reglas compuestas</span><pre class="code"><span class="tok-keyword">if</span> (score &gt;= <span class="tok-number">90</span>) {
-  grade = <span class="tok-string">"A"</span>;
-} <span class="tok-keyword">else if</span> (score &gt;= <span class="tok-number">70</span>) {
-  grade = <span class="tok-string">"C"</span>;
-}</pre><p>Supón que <code>score</code> es un entero y <code>grade</code> ya vale «Pendiente». Se toma solo la primera condición verdadera; si ninguna se cumple, no cambia.</p></div><div class="good"><span class="label">Un valor, casos conocidos</span><pre class="code"><span class="tok-keyword">switch</span> (status) {
-  <span class="tok-keyword">case</span> <span class="tok-string">"PAID"</span> -&gt;
-    System.out.println("Enviar");
-  <span class="tok-keyword">case</span> <span class="tok-string">"NEW"</span> -&gt;
-    System.out.println("Revisar");
-  <span class="tok-keyword">default</span> -&gt;
-    System.out.println("Pendiente");
-}</pre><p>Aquí <code>status</code> es un <code>String</code>. Las flechas ejecutan solo el caso elegido (Java 14+); usamos JDK 21.</p></div></div></section>
-<section class="slide" data-title="El problema de guardar varios datos"><div class="kicker">15 · Muchos datos relacionados</div><h2>Guardar cada nombre en una variable se vuelve difícil de manejar.</h2><div class="compare"><div class="bad"><span class="label">Una variable por persona</span><pre class="code"><span class="tok-type">String</span> asistente1 = <span class="tok-string">"Ana"</span>;
+  System.out.println(<span class="tok-string">"Pedido rechazado"</span>);
+}</pre><div class="callout"><strong>Regla:</strong> aceptar si el stock es al menos la cantidad solicitada. Predice qué cambia cuando stock pasa a 1.</div></section>
+<section class="slide" hidden data-title="Else if y rangos"><div class="kicker">22 · Decisiones · varios rangos</div><h2>Con <code>else if</code>, se elige la primera regla verdadera.</h2><div class="grid two"><div class="panel blue"><span class="label">Regla de tarifas de este ejemplo</span><p>Subtotal ≥ 100 → envío S/ 0</p><p>Si no, subtotal ≥ 50 → envío S/ 5</p><p>Si no → envío S/ 8</p><p>Con subtotal S/ 75, el envío es S/ 5.</p></div><pre class="code"><span class="tok-type">double</span> subtotal = <span class="tok-number">75.0</span>;
+<span class="tok-type">double</span> envio;
+<span class="tok-keyword">if</span> (subtotal &gt;= <span class="tok-number">100</span>) {
+  envio = <span class="tok-number">0</span>;
+} <span class="tok-keyword">else if</span> (subtotal &gt;= <span class="tok-number">50</span>) {
+  envio = <span class="tok-number">5</span>;
+} <span class="tok-keyword">else</span> { envio = <span class="tok-number">8</span>; }</pre></div><div class="callout">Este ejemplo usa tres tarifas. La compra integrada más adelante tendrá una regla más simple. Java toma la primera rama que coincide.</div></section>
+<section class="slide" hidden data-title="Elegir un caso con switch"><div class="kicker">23 · Decisiones · valor exacto</div><h2>Cuando comparas un valor con opciones conocidas, <code>switch</code> organiza los casos.</h2><div class="grid two"><div class="panel blue"><span class="label">Estado recibido</span><p><code>estado = "PAGADO"</code></p><div class="branch switch-branch"><div class="node">¿Qué valor tiene estado?</div><div class="path"><strong>PAGADO</strong>Enviar</div><div class="path"><strong>NUEVO</strong>Revisar</div><div class="path"><strong>otro valor</strong>Pendiente</div></div></div><pre class="code"><span class="tok-type">String</span> estado = <span class="tok-string">"PAGADO"</span>;
+<span class="tok-keyword">switch</span> (estado) {
+  <span class="tok-keyword">case</span> <span class="tok-string">"PAGADO"</span> -&gt; System.out.println(<span class="tok-string">"Enviar"</span>);
+  <span class="tok-keyword">case</span> <span class="tok-string">"NUEVO"</span> -&gt; System.out.println(<span class="tok-string">"Revisar"</span>);
+  <span class="tok-keyword">default</span> -&gt; System.out.println(<span class="tok-string">"Pendiente"</span>);
+}</pre></div><div class="callout">Se ejecuta el caso que coincide exactamente; <code>default</code> cubre los demás. Para rangos como «mayor o igual que», usa <code>if</code>. Esta forma funciona en Java 21.</div></section>
+<section class="slide" hidden data-title="El problema de guardar varios datos"><div class="kicker">24 · Muchos datos relacionados</div><h2>Guardar cada nombre en una variable se vuelve difícil de manejar.</h2><div class="compare"><div class="bad"><span class="label">Una variable por persona</span><pre class="code"><span class="tok-type">String</span> asistente1 = <span class="tok-string">"Ana"</span>;
 <span class="tok-type">String</span> asistente2 = <span class="tok-string">"Luis"</span>;
 <span class="tok-type">String</span> asistente3 = <span class="tok-string">"Mía"</span>;</pre><p>Con cada persona nueva, hay que crear otro nombre y cambiar el código que usa la lista.</p></div><div class="good"><span class="label">Una lista con todos</span><div class="array-visual"><div class="array-cell"><strong>Ana</strong></div><div class="array-cell"><strong>Luis</strong></div><div class="array-cell"><strong>Mía</strong></div></div><p>Los nombres relacionados viven juntos y se pueden ubicar por posición.</p></div></div><div class="callout"><strong>Idea:</strong> agrupar datos del mismo tipo facilita consultarlos y trabajar con ellos como conjunto.</div></section>
-<section class="slide" data-title="Modelo mental de un array"><div class="kicker">16 · Arrays</div><h2>Un array guarda varios valores del mismo tipo en posiciones numeradas.</h2><div class="array-row"><span class="array-row-label">Array</span><code>String[] asistentes</code><span class="array-row-label">3 posiciones</span></div><div class="array-visual" aria-label="Array asistentes con índices 0, 1 y 2: Ana, Luis y Mía"><div class="array-cell"><small>índice 0</small><strong>Ana</strong><span>asistentes[0]</span></div><div class="array-cell"><small>índice 1</small><strong>Luis</strong><span>asistentes[1]</span></div><div class="array-cell"><small>índice 2</small><strong>Mía</strong><span>asistentes[2]</span></div></div><div class="grid two"><div class="panel blue"><h3>Mismo tipo</h3><p>Cada posición contiene un <code>String</code>, igual que indica el tipo del array.</p></div><div class="panel"><h3>Orden definido</h3><p>La posición identifica cada dato. El conteo de índices empieza en cero.</p></div></div></section>
-<section class="slide" data-title="Crear y consultar un array"><div class="kicker">17 · Arrays · implementación</div><h2>El índice permite leer o cambiar una posición específica.</h2><div class="grid two"><pre class="code"><span class="tok-type">String</span>[] asistentes = {
+<section class="slide" hidden data-title="Modelo mental de un array"><div class="kicker">25 · Arrays</div><h2>Un array guarda varios valores del mismo tipo en posiciones numeradas.</h2><div class="array-row"><span class="array-row-label">Array</span><code>String[] asistentes</code><span class="array-row-label">3 posiciones</span></div><div class="array-visual" aria-label="Array asistentes con índices 0, 1 y 2: Ana, Luis y Mía"><div class="array-cell"><small>índice 0</small><strong>Ana</strong><span>asistentes[0]</span></div><div class="array-cell"><small>índice 1</small><strong>Luis</strong><span>asistentes[1]</span></div><div class="array-cell"><small>índice 2</small><strong>Mía</strong><span>asistentes[2]</span></div></div><div class="grid two"><div class="panel blue"><h3>Mismo tipo</h3><p>Cada posición contiene un <code>String</code>, igual que indica el tipo del array.</p></div><div class="panel"><h3>Orden definido</h3><p>La posición identifica cada dato. El conteo de índices empieza en cero.</p></div></div></section>
+<section class="slide" hidden data-title="Crear y consultar un array"><div class="kicker">26 · Arrays · implementación</div><h2>El índice permite leer o cambiar una posición específica.</h2><div class="grid two"><pre class="code"><span class="tok-type">String</span>[] asistentes = {
   <span class="tok-string">"Ana"</span>, <span class="tok-string">"Luis"</span>, <span class="tok-string">"Mía"</span>
 };
 
 System.out.println(asistentes[<span class="tok-number">1</span>]); <span class="tok-comment">// Luis</span>
 asistentes[<span class="tok-number">1</span>] = <span class="tok-string">"Luz"</span>;</pre><div class="panel blue"><span class="label">Después de cambiar el índice 1</span><div class="array-visual" aria-label="Array actualizado: Ana, Luz, Mía"><div class="array-cell"><small>0</small><strong>Ana</strong></div><div class="array-cell"><small>1</small><strong>Luz</strong></div><div class="array-cell"><small>2</small><strong>Mía</strong></div></div><p>Se imprime primero <strong>Luis</strong>; luego esa misma posición guarda <strong>Luz</strong>.</p></div></div><div class="callout"><strong>Lee los corchetes:</strong> <code>asistentes[1]</code> significa «el valor guardado en la posición 1».</div></section>
-<section class="slide" data-title="Tamaño e índices válidos"><div class="kicker">18 · Arrays · límites</div><h2>El tamaño no cambia y los índices válidos van de 0 a <code>length - 1</code>.</h2><div class="grid two"><div class="panel blue"><div class="array-row"><span class="array-row-label">asistentes.length =</span><strong class="accent">3</strong><span class="array-row-label">· índices válidos</span></div><div class="array-visual" aria-label="Tres posiciones con índices válidos 0, 1 y 2"><div class="array-cell"><strong>0</strong></div><div class="array-cell"><strong>1</strong></div><div class="array-cell"><strong>2</strong></div></div><p>El primer índice es 0; el último es 2 porque hay tres espacios.</p></div><div><pre class="code"><span class="tok-type">int</span> cantidad = asistentes.length;
+<section class="slide" hidden data-title="Tamaño e índices válidos"><div class="kicker">27 · Arrays · límites</div><h2>El tamaño no cambia y los índices válidos van de 0 a <code>length - 1</code>.</h2><div class="grid two"><div class="panel blue"><div class="array-row"><span class="array-row-label">asistentes.length =</span><strong class="accent">3</strong><span class="array-row-label">· índices válidos</span></div><div class="array-visual" aria-label="Tres posiciones con índices válidos 0, 1 y 2"><div class="array-cell"><strong>0</strong></div><div class="array-cell"><strong>1</strong></div><div class="array-cell"><strong>2</strong></div></div><p>El primer índice es 0; el último es 2 porque hay tres espacios.</p></div><div><pre class="code"><span class="tok-type">int</span> cantidad = asistentes.length;
 System.out.println(asistentes[<span class="tok-number">2</span>]); <span class="tok-comment">// Mía</span>
 System.out.println(asistentes[<span class="tok-number">3</span>]); <span class="tok-comment">// error</span></pre><div class="callout warning"><strong>Fuera de rango:</strong> con tres posiciones, el índice 3 no existe. Java lanza <code>ArrayIndexOutOfBoundsException</code>.</div></div></div><div class="callout"><strong>Regla:</strong> <code>length</code> cuenta espacios; los índices empiezan en cero.</div></section>
-<section class="slide" data-title="Cuando la cantidad puede cambiar"><div class="kicker">19 · ArrayList</div><h2>Si la lista crecerá o reducirá, conviene usar un contenedor flexible.</h2><div class="grid two"><div class="panel"><span class="label">Array</span><div class="array-visual" aria-label="Array de tres posiciones que no puede crecer"><div class="array-cell"><strong>Ana</strong></div><div class="array-cell"><strong>Luis</strong></div><div class="array-cell"><strong>Mía</strong></div></div><p>Tiene tres posiciones desde su creación. No puede añadir una cuarta posición.</p></div><div class="panel blue"><span class="label">ArrayList</span><div class="array-visual" aria-label="Lista flexible con Ana, Luis y Mía"><div class="array-cell"><strong>Ana</strong></div><div class="array-cell"><strong>Luis</strong></div><div class="array-cell"><strong>Mía</strong></div></div><p>Es una lista de Java que puede crecer al agregar personas y reducirse al quitarlas.</p></div></div><div class="callout"><strong>Nombre completo:</strong> <code>ArrayList&lt;String&gt;</code> indica una lista flexible cuyos elementos son textos. Pertenece a la biblioteca estándar de Java.</div></section>
-<section class="slide" data-title="Operaciones básicas de ArrayList"><div class="kicker">20 · ArrayList · implementación</div><h2>Agregar, consultar y quitar elementos cambia el tamaño de la lista.</h2><div class="grid two"><pre class="code"><span class="tok-keyword">import</span> java.util.ArrayList;
+<section class="slide" hidden data-title="Cuando la cantidad puede cambiar"><div class="kicker">28 · ArrayList</div><h2>Una lista puede crecer cuando se agrega otra persona.</h2><div class="grid two"><div class="panel"><span class="label">Array · tamaño fijo</span><div class="array-visual" aria-label="Array de tres posiciones: Ana, Luis y Mía"><div class="array-cell"><strong>Ana</strong><small>0</small></div><div class="array-cell"><strong>Luis</strong><small>1</small></div><div class="array-cell"><strong>Mía</strong><small>2</small></div></div><p>Tiene tres posiciones desde su creación; no puede añadir una cuarta.</p></div><div class="panel blue"><span class="label">ArrayList · crece al agregar</span><div class="array-growth" aria-label="La lista cambia de tres nombres a cuatro al agregar Noa"><div class="array-growth-state"><strong>[Ana, Luis, Mía]</strong><span>3 elementos</span></div><div class="array-growth-event"><strong>+ Noa</strong><span aria-hidden="true">→</span></div><div class="array-growth-state"><strong>[Ana, Luis, Mía, Noa]</strong><span>4 elementos</span></div></div><p><code>ArrayList&lt;String&gt;</code> es una lista flexible de textos de la biblioteca estándar.</p></div></div><div class="callout">El array mantiene su tamaño; el ArrayList puede crecer al agregar datos y reducirse al quitarlos.</div></section>
+<section class="slide" hidden data-title="Crear y llenar un ArrayList"><div class="kicker">29 · ArrayList · crear</div><h2><code>new</code> crea una lista vacía; <code>add</code> agrega asistentes.</h2><div class="grid two"><div><p class="muted">La línea <code>import</code> va antes de la clase.</p><pre class="code"><span class="tok-keyword">import</span> java.util.ArrayList;
 
 ArrayList&lt;String&gt; asistentes = <span class="tok-keyword">new</span> ArrayList&lt;&gt;();
 asistentes.add(<span class="tok-string">"Ana"</span>);
 asistentes.add(<span class="tok-string">"Luis"</span>);
-asistentes.add(<span class="tok-number">1</span>, <span class="tok-string">"Mía"</span>);
-
-String primero = asistentes.get(<span class="tok-number">0</span>);
+asistentes.add(<span class="tok-string">"Mía"</span>);
+asistentes.add(<span class="tok-string">"Noa"</span>);</pre></div><div class="panel blue"><span class="label">Valores tras cada paso</span><p><code>[]</code> → [Ana] → [Ana, Luis, Mía] → [Ana, Luis, Mía, Noa]</p><p>Termina con cuatro textos. <code>ArrayList&lt;String&gt;</code> es una lista flexible de textos de la biblioteca estándar.</p></div></div></section>
+<section class="slide" hidden data-title="Leer y cambiar elementos"><div class="kicker">30 · ArrayList · operaciones</div><h2>Leer no cambia el tamaño; reemplazar conserva la posición.</h2><div class="grid two"><pre class="code"><span class="tok-comment">// Estado inicial: [Ana, Luis, Mía, Noa]</span>
+<span class="tok-type">String</span> primero = asistentes.get(<span class="tok-number">0</span>); <span class="tok-comment">// Ana</span>
 asistentes.set(<span class="tok-number">0</span>, <span class="tok-string">"Ari"</span>);
-asistentes.remove(<span class="tok-number">1</span>);
-int cantidad = asistentes.size();</pre><div class="panel blue"><span class="label">Cambios en orden</span><p><strong>1 · add</strong> agrega Ana, luego Luis; insertar Mía en el índice 1 da <code>[Ana, Mía, Luis]</code>.</p><p><strong>2 · get / set</strong> lee la posición 0 y reemplaza Ana por Ari.</p><p><strong>3 · remove(1)</strong> quita Mía. Queda <code>[Ari, Luis]</code> y <code>size()</code> vale 2.</p></div></div><div class="callout warning"><strong>Atención:</strong> al quitar un elemento, los siguientes se desplazan y sus índices pueden cambiar.</div></section>
-<section class="slide" data-title="Elegir entre array y ArrayList"><div class="kicker">21 · Comparación</div><h2>Elige según si necesitas un tamaño fijo o una lista que cambia.</h2><div class="compare"><div class="bad"><span class="label">Array · tamaño fijo</span><p>Úsalo si conoces cuántas posiciones necesitas y ese número no cambiará.</p><pre class="code"><span class="tok-type">String</span>[] dias = {
-  <span class="tok-string">"lun"</span>, <span class="tok-string">"mar"</span>, <span class="tok-string">"mié"</span>
-};</pre><p>Consulta la cantidad con <code>dias.length</code>.</p></div><div class="good"><span class="label">ArrayList · tamaño variable</span><p>Úsalo si debes agregar o quitar datos durante la ejecución.</p><pre class="code">ArrayList&lt;String&gt; tareas = <span class="tok-keyword">new</span> ArrayList&lt;&gt;();
-tareas.add(<span class="tok-string">"Leer capítulo"</span>);</pre><p>Consulta la cantidad con <code>tareas.size()</code>.</p></div></div></section>
-<section class="slide exercise" data-title="Práctica con arrays y ArrayList"><div class="kicker">22 · Práctica guiada</div><h2>Prueba las dos colecciones con los mismos asistentes.</h2><div class="grid two"><div class="panel"><span class="label">Punto de partida</span><pre class="code"><span class="tok-keyword">import</span> java.util.ArrayList;
+asistentes.remove(<span class="tok-number">3</span>);</pre><div class="panel blue"><span class="label">Cambios visibles</span><p>Inicial: <code>[Ana, Luis, Mía, Noa]</code> · tamaño 4</p><p><code>get(0)</code> lee Ana · tamaño 4</p><p><code>set(0, "Ari")</code> → [Ari, Luis, Mía, Noa] · tamaño 4</p><p><code>remove(3)</code> → [Ari, Luis, Mía] · tamaño 3</p></div></div><div class="callout">Después de quitar un elemento, los siguientes se desplazan. <code>size()</code> devuelve cuántos hay; los paréntesis indican una llamada a ese método.</div></section>
+<section class="slide" hidden data-title="Elegir entre array y ArrayList"><div class="kicker">31 · Comparación</div><h2>Elige según si la cantidad de asistentes puede cambiar.</h2><div class="panel"><table class="trace"><caption>El mismo grupo de asistentes</caption><thead><tr><th>Operación</th><th>Array · asistentes</th><th>ArrayList · asistentes</th></tr></thead><tbody><tr><th>Inicio</th><td>[Ana, Luis, Mía] · 3 espacios</td><td>[Ana, Luis, Mía] · 3 elementos</td></tr><tr><th>Consultar cantidad</th><td><code>length</code></td><td><code>size()</code></td></tr><tr><th>Leer posición</th><td><code>asistentes[1]</code></td><td><code>asistentes.get(1)</code></td></tr><tr><th>Reemplazar</th><td><code>asistentes[1] = "Luz"</code></td><td><code>asistentes.set(1, "Luz")</code></td></tr><tr><th>Agregar Noa</th><td>No cambia de tamaño</td><td><code>add("Noa")</code> · 4 elementos</td></tr><tr><th>Quitar un dato</th><td>Posiciones fijas</td><td><code>remove(...)</code> · reduce tamaño</td></tr></tbody></table></div><div class="callout">Usa el array cuando el número de posiciones queda fijo; usa una lista cuando necesites agregar o quitar personas.</div></section>
+<section class="slide exercise" hidden data-title="Práctica con arrays y ArrayList"><div class="kicker">32 · Práctica guiada</div><h2>Prueba las dos colecciones con los mismos asistentes.</h2><div class="grid two"><div class="panel"><span class="label">Punto de partida</span><pre class="code"><span class="tok-keyword">import</span> java.util.ArrayList;
 
-<span class="tok-type">String</span>[] asistentes = {
-  <span class="tok-string">"Ana"</span>, <span class="tok-string">"Luis"</span>, <span class="tok-string">"Mía"</span>
-};
-ArrayList&lt;String&gt; lista = <span class="tok-keyword">new</span> ArrayList&lt;&gt;();</pre><p>El array empieza con tres nombres; la lista comienza vacía.</p></div><div class="panel blue"><span class="label">Pasos y resultado</span><ol class="mini-list"><li>Imprime <code>asistentes.length</code>: debe dar <strong>3</strong>.</li><li>Agrega los tres nombres a <code>lista</code> y añade <strong>Noa</strong>.</li><li>Imprime <code>lista.size()</code>: debe dar <strong>4</strong>.</li><li>Cambia el segundo nombre a <strong>Luz</strong> en ambas colecciones.</li></ol><p>El segundo nombre está en el índice 1; usa <code>set(1, ...)</code> en la lista.</p></div></div><div class="callout success"><strong>Conexión con bucles:</strong> ambas colecciones tienen posiciones. En la siguiente sección aprenderás a recorrerlas sin repetir instrucciones a mano.</div></section>
-<section class="slide" data-title="Modelo mental de bucles"><div class="kicker">23 · Repetición</div><h2>Un bucle convierte una instrucción en una repetición controlada.</h2><div class="branch"><div class="node">Inicio → comprobar condición</div><div class="path"><strong>true · repetir</strong>Cuerpo → actualización → volver a comprobar</div><div class="path"><strong>false · terminar</strong>Continuar después del bucle</div></div><div class="grid two"><div class="panel blue"><h3>Usa un bucle <code>for</code></h3><p>Cuando conoces el contador o la colección que procesarás.</p></div><div class="panel"><h3>Usa un bucle <code>while</code></h3><p>Cuando la repetición depende de una condición que puede cambiar.</p></div></div><div class="callout warning"><strong>Verificación de seguridad:</strong> todo bucle necesita avanzar hacia su condición de salida o podría no terminar.</div></section>
-<section class="slide" data-title="For y while"><div class="kicker">24 · Implementación</div><h2>Haz explícito el trabajo repetido.</h2><div class="grid two"><div><span class="label">Repetición contada</span><pre class="code"><span class="tok-keyword">for</span> (<span class="tok-type">int</span> i = <span class="tok-number">0</span>; i &lt; <span class="tok-number">3</span>; i++) {
-  System.out.println(i);
-}</pre><p class="muted">Inicializar → verificar → cuerpo → actualizar.</p></div><div><span class="label">Controlada por condición</span><pre class="code"><span class="tok-type">int</span> attempts = <span class="tok-number">0</span>;
-<span class="tok-keyword">while</span> (attempts &lt; <span class="tok-number">3</span>) {
-  System.out.println(attempts);
-  // La actualización acerca el final.
-  attempts++;
-}</pre><p class="muted">La actualización evita un bucle infinito accidental.</p></div></div><div class="callout"><strong>Aplicación:</strong> ambos ejemplos imprimen 0, 1 y 2. Al llegar a 3, la condición es falsa y el cuerpo ya no se ejecuta. <code>++</code> suma una unidad.</div></section>
-<section class="slide" data-title="Seguir un bucle"><div class="kicker">25 · Bucles · sigue el estado</div><h2>La última comprobación también importa.</h2><div class="grid two"><pre class="code"><span class="tok-type">int</span> suma = <span class="tok-number">0</span>;
-<span class="tok-keyword">for</span> (<span class="tok-type">int</span> i = <span class="tok-number">1</span>; i &lt;= <span class="tok-number">3</span>; i++) {
-  suma = suma + i;
-}
-System.out.println(suma);</pre><div class="panel blue"><table class="trace"><caption>Estado antes y después del cuerpo</caption><thead><tr><th>i</th><th>i ≤ 3</th><th>suma al salir</th></tr></thead><tbody><tr><td>1</td><td>true</td><td>1</td></tr><tr><td>2</td><td>true</td><td>3</td></tr><tr><td>3</td><td>true</td><td>6</td></tr><tr><td>4</td><td>false</td><td>6 · no entra</td></tr></tbody></table></div></div><div class="callout"><strong>Practica:</strong> sustituye <code>&lt;= 3</code> por <code>&lt; 3</code>. Predice cuántas iteraciones habrá y qué imprimirá antes de ejecutar.</div></section>
-<section class="slide" data-title="Ejemplo integrado"><div class="kicker">26 · Aplicación</div><h2>Junta las herramientas: una regla simple de compra.</h2><div class="grid two"><pre class="code"><span class="tok-type">double</span> total = <span class="tok-number">125.0</span>;
-<span class="tok-type">boolean</span> member = <span class="tok-keyword">true</span>;
-<span class="tok-type">double</span> shipping = <span class="tok-number">8.0</span>;
-
-<span class="tok-keyword">if</span> (total &gt;= <span class="tok-number">100</span>) {
-  shipping = <span class="tok-number">0</span>;
-}
-<span class="tok-keyword">if</span> (member) {
-  total = total * <span class="tok-number">0.95</span>;
-}
-
-total = total + shipping;</pre><div class="panel blue"><span class="label">Sigue el estado</span><p><strong>1.</strong> Inicio: total 125, shipping 8.</p><p><strong>2.</strong> Se alcanza el umbral: el envío pasa a 0.</p><p><strong>3.</strong> Se aplica la regla de miembro: el total pasa a 118.75.</p><p><strong>4.</strong> Total final: 118.75.</p><div class="callout success"><strong>Observa:</strong> las variables guardan estado; los operadores calculan; los condicionales eligen reglas.</div></div></div></section>
-<section class="slide" data-title="Errores comunes"><div class="kicker">27 · Mentalidad de depuración</div><h2>La mayoría de errores iniciales son malentendidos que se vuelven visibles.</h2><div class="grid two"><div class="panel"><h3><code>=</code> vs <code>==</code></h3><p><code>total = 100</code> asigna. <code>total == 100</code> compara.</p></div><div class="panel"><h3>División entera</h3><p><code>5 / 2</code> con enteros produce <code>2</code>, no <code>2.5</code>.</p></div><div class="panel"><h3>Bucles con límite incorrecto</h3><p>En arrays, el último índice es length - 1. Comprueba el primer y último índice válido.</p></div><div class="panel"><h3>Comparar texto</h3><p>Usa <code>"PAID".equals(status)</code> para contenido. Con objetos, <code>==</code> compara referencias, no el texto.</p></div></div><div class="callout warning"><strong>Hábito de depuración:</strong> predice el valor, ejecuta el código y compara el resultado. No adivines en silencio.</div></section>
-<section class="slide" data-title="Resumen"><div class="kicker">28 · Recuperación</div><h2>De una idea a una decisión ejecutable.</h2><div class="flow" style="margin:12px 0 24px"><div class="node">Código Java</div><div class="arrow">→</div><div class="node">Bytecode</div><div class="arrow">→</div><div class="node">JVM</div><div class="arrow">→</div><div class="node">Resultado</div></div><div class="grid three"><div class="panel blue"><h3>Estado</h3><p>Las variables guardan valores; arrays y ArrayList agrupan datos relacionados.</p></div><div class="panel"><h3>Reglas</h3><p>Los operadores calculan y comparan.</p></div><div class="panel"><h3>Flujo</h3><p>Los condicionales eligen; los bucles repiten instrucciones sobre los datos.</p></div></div><p class="lede">El problema original —muchas pequeñas decisiones— se convierte en instrucciones legibles y comprobables.</p></section>
-<section class="slide exercise" data-title="Práctica"><div class="kicker">29 · Práctica</div><h2>Ejercicio: construye una calculadora de tarifa de entrega.</h2><div class="grid two"><div class="panel"><span class="label">Objetivo</span><p>Escribe un programa Java que calcule una tarifa de entrega según el total de la orden y la membresía.</p><span class="label">Punto de partida</span><p><code>double total = 75.0;</code><br><code>boolean member = false;</code></p><span class="label">Restricciones</span><p>Envío: 8 unidades; gratis si el total original es ≥ 100. Descuenta 5 al total si es miembro, sin bajar de 0. Luego suma el envío. Usa variables y condicionales.</p></div><div class="panel blue"><span class="label">Resultado esperado</span><p>Imprime el monto final y la regla aplicada. Prueba: 75 sin membresía → 83; 75 con membresía → 78; 100 sin membresía → 100.</p><span class="label">Desafío opcional</span><p>Guarda tres totales en un array; recórrelo con un bucle e informa cuántos califican para envío gratis.</p><div class="callout success"><strong>Prueba de éxito:</strong> cambia las entradas y verifica que cada camino se comporte correctamente.</div></div></div><aside class="speaker-notes" hidden>Pide primero escribir las reglas en lenguaje natural y luego traducir una regla a la vez. No entregues la solución completa de inmediato.</aside></section>
+<span class="tok-type">String</span>[] asistentes = {<span class="tok-string">"Ana"</span>, <span class="tok-string">"Luis"</span>, <span class="tok-string">"Mía"</span>};
+ArrayList&lt;String&gt; lista = <span class="tok-keyword">new</span> ArrayList&lt;&gt;();</pre><p>El array empieza con tres nombres; la lista empieza vacía.</p></div><div class="panel blue"><span class="label">Pasos, límites y resultado</span><ol class="mini-list"><li>Imprime <code>asistentes.length</code>: debe dar <strong>3</strong>.</li><li>Agrega los tres nombres y <strong>Noa</strong> a <code>lista</code>; su tamaño será <strong>4</strong>.</li><li>Cambia el segundo nombre a <strong>Luz</strong> en ambas colecciones.</li></ol><p>El índice 1 es el segundo. Usa <code>set(1, ...)</code> para cambiarlo en la lista.</p><p><strong>Restricción:</strong> todavía no uses bucles.</p><div class="callout success"><strong>Desafío opcional:</strong> quita el último nombre de la lista y predice su nuevo tamaño.</div></div></div></section>
+<section class="slide" hidden data-title="Modelo mental de bucles"><div class="kicker">33 · Repetición</div><h2>Saluda a Ana, Luis y Mía sin copiar la instrucción tres veces.</h2><div class="branch"><div class="node">Posición 0 → comprobar: ¿i &lt; 3?</div><div class="path"><strong>Sí · repetir</strong>Saludar al asistente · incrementar i · volver a comprobar</div><div class="path"><strong>No · terminar</strong>En posición 3 ya no queda un asistente</div></div><div class="grid two"><div class="panel blue"><h3>Usa <code>for</code></h3><p>Cuando conoces el contador o la colección que vas a recorrer.</p></div><div class="panel"><h3>Usa <code>while</code></h3><p>Cuando la repetición depende de una condición que puede cambiar.</p></div></div><div class="callout warning"><strong>Detención:</strong> el contador pasa por 0, 1 y 2; al llegar a 3, termina antes de intentar otro saludo.</div></section>
+<section class="slide" hidden data-title="Recorrer con for"><div class="kicker">34 · Bucles · colección</div><h2><code>for</code> repite una acción para cada asistente.</h2><div class="grid two"><pre class="code"><span class="tok-type">String</span>[] asistentes = {<span class="tok-string">"Ana"</span>, <span class="tok-string">"Luis"</span>, <span class="tok-string">"Mía"</span>};
+<span class="tok-keyword">for</span> (<span class="tok-type">int</span> i = <span class="tok-number">0</span>; i &lt; asistentes.length; i++) {
+  System.out.println(asistentes[i]);
+}</pre><div class="panel blue"><span class="label">Recorrido y salida</span><p><strong>Ana · Luis · Mía</strong></p><p>Inicia i en 0 → comprueba i &lt; 3 → imprime → actualiza.</p><p><code>i++</code> incrementa i en uno. En i = 3, la condición es falsa y el bucle termina antes de acceder al array.</p></div></div></section>
+<section class="slide" hidden data-title="Recorrer con while"><div class="kicker">35 · Bucles · condición</div><h2><code>while</code> repite mientras su condición siga siendo verdadera.</h2><div class="panel blue"><span class="label">Estado inicial</span><p><code>asistentes = [Ana, Luis, Mía]</code> · índices 0, 1 y 2</p></div><div class="grid two"><pre class="code"><span class="tok-type">String</span>[] asistentes = {<span class="tok-string">"Ana"</span>, <span class="tok-string">"Luis"</span>, <span class="tok-string">"Mía"</span>};
+<span class="tok-type">int</span> i = <span class="tok-number">0</span>;
+<span class="tok-keyword">while</span> (i &lt; asistentes.length) {
+  System.out.println(asistentes[i]);
+  i++;
+}</pre><div class="panel"><span class="label">Mismo resultado</span><p>Se imprimen Ana, Luis y Mía.</p><p><code>i++</code> actualiza el índice. Cuando i vale 3, la condición es falsa y termina.</p><p><code>for</code> reúne inicio, comprobación y actualización; <code>while</code> los deja visibles por separado.</p></div></div><div class="callout warning"><strong>Atención:</strong> sin actualizar i, el bucle podría no terminar.</div></section>
+<section class="slide" hidden data-title="Seguir un bucle"><div class="kicker">36 · Bucles · traza</div><h2>La última comprobación evita consultar una posición que no existe.</h2><div class="grid two"><pre class="code"><span class="tok-type">String</span>[] asistentes = {<span class="tok-string">"Ana"</span>, <span class="tok-string">"Luis"</span>, <span class="tok-string">"Mía"</span>};
+<span class="tok-keyword">for</span> (<span class="tok-type">int</span> i = <span class="tok-number">0</span>; i &lt; asistentes.length; i++) {
+  System.out.println(asistentes[i]);
+}</pre><div class="panel blue"><table class="trace"><caption>Una vuelta por índice</caption><thead><tr><th>i</th><th>i &lt; 3</th><th>Acción</th></tr></thead><tbody><tr><td>0</td><td>true</td><td>imprime Ana</td></tr><tr><td>1</td><td>true</td><td>imprime Luis</td></tr><tr><td>2</td><td>true</td><td>imprime Mía</td></tr><tr><td>3</td><td>false</td><td>termina; no lee el array</td></tr></tbody></table></div></div><div class="callout warning"><strong>Error común:</strong> usar <code>i &lt;= asistentes.length</code> intentaría leer índice 3, que no existe.</div></section>
+<section class="slide" hidden data-title="Recorrer un ArrayList"><div class="kicker">37 · Bucles · ArrayList</div><h2>Un índice también permite visitar cada posición de una lista.</h2><div class="grid two"><pre class="code"><span class="tok-comment">// Estado inicial: [Ana, Luis, Mía]</span>
+<span class="tok-keyword">for</span> (<span class="tok-type">int</span> i = <span class="tok-number">0</span>; i &lt; asistentes.size(); i++) {
+  System.out.println(asistentes.get(i));
+}</pre><div class="panel blue"><span class="label">Salida</span><p>Ana</p><p>Luis</p><p>Mía</p><p><code>i</code> visita 0, 1 y 2; en 3 la condición es falsa.</p></div></div><div class="callout">En un array usamos <code>length</code> y <code>asistentes[i]</code>; en un ArrayList usamos <code>size()</code> y <code>get(i)</code>.</div></section>
+<section class="slide" hidden data-title="Ejemplo integrado"><div class="kicker">38 · Aplicación</div><h2>Calcula el total con un estado original y una regla clara.</h2><div class="grid two"><div><div class="callout"><strong>Reglas:</strong> envío S/ 0 si el subtotal original es ≥ S/ 100; si no, S/ 8. Si la persona es miembro, descuenta 5% antes de sumar el envío.</div><pre class="code"><span class="tok-type">double</span> subtotalOriginal = <span class="tok-number">125.0</span>;
+<span class="tok-type">boolean</span> miembro = <span class="tok-keyword">true</span>;
+<span class="tok-type">double</span> envio = <span class="tok-number">8.0</span>;
+<span class="tok-keyword">if</span> (subtotalOriginal &gt;= <span class="tok-number">100</span>) envio = <span class="tok-number">0</span>;
+<span class="tok-type">double</span> descuento = <span class="tok-number">0.0</span>;
+<span class="tok-keyword">if</span> (miembro) descuento = subtotalOriginal * <span class="tok-number">0.05</span>;
+<span class="tok-type">double</span> total = subtotalOriginal - descuento + envio;
+System.out.println(total); <span class="tok-comment">// 118.75</span></pre></div><div class="panel blue"><span class="label">Traza del estado</span><table class="trace"><tbody><tr><th>Inicio</th><td>original 125.0 · miembro true · envío 8.0</td></tr><tr><th>Envío</th><td>125.0 ≥ 100 → 0.0</td></tr><tr><th>Descuento</th><td>125.0 × 0.05 = 6.25</td></tr><tr><th>Total</th><td>125.0 − 6.25 + 0.0 = 118.75</td></tr></tbody></table></div></div></section>
+<section class="slide" hidden data-title="Errores comunes"><div class="kicker">39 · Mentalidad de depuración</div><h2>Un pequeño cambio puede explicar un resultado inesperado.</h2><div class="grid two"><div class="panel"><h3><code>=</code> vs <code>==</code></h3><p><code>total = 100</code> guarda. <code>total == 100</code> compara números.</p></div><div class="panel"><h3>División entera</h3><p><code>5 / 2</code> con enteros produce <code>2</code>, no <code>2.5</code>.</p></div><div class="panel"><h3>Límite de una colección</h3><p>Si hay 3 elementos, los índices válidos son 0, 1 y 2.</p></div><div class="panel"><h3>Comparar texto</h3><p><code>==</code> no compara las letras de dos textos. Usa <code>"PAGADO".equals(estado)</code> para comparar su contenido.</p></div></div><div class="callout warning"><strong>Depura así:</strong> predice el valor, ejecuta y compara el resultado.</div></section>
+<section class="slide" hidden data-title="Resumen"><div class="kicker">40 · Recuperación</div><h2>De la fuente al resultado y de los datos a una regla.</h2><div class="flow" aria-label="Código fuente pasa por javac, genera bytecode, lo ejecuta la JVM y produce un resultado"><div class="node">Fuente Java</div><div class="flow-link"><span>javac</span><b aria-hidden="true">→</b></div><div class="node">Bytecode</div><div class="flow-link"><span>JVM</span><b aria-hidden="true">→</b></div><div class="node">Resultado</div></div><div class="grid three"><div class="panel blue"><h3>Estado</h3><p>Variables guardan valores; arrays y listas agrupan datos.</p></div><div class="panel"><h3>Reglas</h3><p>Operadores calculan; condicionales eligen.</p></div><div class="panel"><h3>Repetición</h3><p>Los bucles aplican instrucciones a cada dato.</p></div></div><div class="callout"><strong>Recuerda:</strong> ¿qué genera <code>javac</code>? ¿Qué condición detiene un recorrido de tres elementos? ¿Cuál es la diferencia entre <code>length</code> y <code>size()</code>?</div></section>
+<section class="slide exercise" hidden data-title="Práctica final"><div class="kicker">41 · Práctica</div><h2>Construye una calculadora de tarifa de entrega.</h2><div class="grid two"><div class="panel"><span class="label">Objetivo y punto de partida</span><p>Escribe un programa Java con <code>double subtotal = 75.0;</code> y <code>boolean miembro = false;</code>.</p><span class="label">Reglas y límites</span><p>Envío S/ 8, gratis si el subtotal ORIGINAL es ≥ S/ 100. Si es miembro, descuenta 5% del subtotal y después suma envío. Supón entradas no negativas. Usa variables e <code>if</code>.</p></div><div class="panel blue"><span class="label">Resultados para comprobar</span><p>75 y false → <strong>83.0</strong></p><p>75 y true → <strong>79.25</strong></p><p>100 y false → <strong>100.0</strong></p><p>100 y true → <strong>95.0</strong></p><p>Imprime el total y la regla aplicada.</p><span class="label">Desafío opcional</span><p>Prueba tres subtotales y cuenta cuántas compras reciben envío gratis.</p></div></div><aside class="speaker-notes" hidden>Pide escribir primero las reglas en lenguaje natural y luego implementar una por una.</aside></section>
 </main>
-<nav class="controls" aria-label="Controles de presentación"><a class="home-control" href="../" aria-label="Volver al inicio del curso" title="Inicio del curso"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m3 10 9-7 9 7M5.5 9v11h13V9M9 20v-7h6v7"/></svg></a><button type="button" id="prev" aria-label="Diapositiva anterior">←</button><span class="indicator" id="slide-indicator" aria-live="polite">1 / 35</span><button type="button" id="next" aria-label="Diapositiva siguiente">→</button><button type="button" id="notes-toggle" aria-label="Mostrar u ocultar notas">N</button><button type="button" id="fullscreen" aria-label="Alternar pantalla completa">⛶</button><button type="button" class="help" id="help" aria-label="Ayuda de teclado">?</button></nav>
+<nav class="controls" aria-label="Controles de presentación"><a class="home-control" href="../" aria-label="Volver al inicio del curso" title="Inicio del curso"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m3 10 9-7 9 7M5.5 9v11h13V9M9 20v-7h6v7"/></svg></a><button type="button" id="prev" aria-label="Diapositiva anterior">←</button><span class="indicator" id="slide-indicator" aria-live="polite">1 / 41</span><button type="button" id="next" aria-label="Diapositiva siguiente">→</button><button type="button" id="notes-toggle" aria-label="Mostrar u ocultar notas">N</button><button type="button" id="fullscreen" aria-label="Alternar pantalla completa">⛶</button><button type="button" class="help" id="help" aria-label="Ayuda de teclado">?</button></nav>
 <div class="progress" aria-hidden="true"><i id="progress-bar"></i></div>
 <div class="notes" id="notes" hidden><h3>Notas del presentador</h3><div id="notes-content"></div></div>
 <div class="helpbox" id="helpbox" role="dialog" aria-modal="true" aria-labelledby="help-title" hidden><div class="panel"><h2 id="help-title">Controles</h2><p>← / ↑ anterior · → / ↓ / Espacio siguiente</p><p>Home: primera · End: última · F: pantalla completa · N: notas · Esc: cerrar paneles</p><button type="button" id="close-help">Cerrar</button></div></div>
@@ -420,11 +586,26 @@ total = total + shipping;</pre><div class="panel blue"><span class="label">Sigue
   const helpbox = document.querySelector('#helpbox');
   const helpButton = document.querySelector('#help');
   const closeHelp = document.querySelector('#close-help');
-  function hideHelp() { helpbox.hidden = true; helpButton.focus(); }
-  helpButton.addEventListener('click', () => { helpbox.hidden = false; closeHelp.focus(); });
+  let helpReturnFocus = null;
+  function setBackgroundInert(value) {
+    document.querySelector('main.deck').inert = value;
+    document.querySelector('nav.controls').inert = value;
+    notes.inert = value;
+  }
+  function hideHelp() {
+    helpbox.hidden = true;
+    setBackgroundInert(false);
+    (helpReturnFocus || helpButton).focus();
+  }
+  helpButton.addEventListener('click', () => {
+    helpReturnFocus = document.activeElement;
+    helpbox.hidden = false;
+    setBackgroundInert(true);
+    closeHelp.focus();
+  });
   closeHelp.addEventListener('click', hideHelp);
   document.querySelector('#fullscreen').addEventListener('click', async () => {
-    try { if (!document.fullscreenElement) await document.documentElement.requestFullscreen(); else await document.exitFullscreen(); } catch (_) {}
+    try { if (!document.fullscreenElement && document.documentElement.requestFullscreen) await document.documentElement.requestFullscreen(); else if (document.fullscreenElement && document.exitFullscreen) await document.exitFullscreen(); } catch (_) {}
   });
   document.addEventListener('fullscreenchange', () => {
     document.querySelector('#fullscreen').setAttribute('aria-pressed', String(!!document.fullscreenElement));
@@ -451,8 +632,8 @@ total = total + shipping;</pre><div class="panel blue"><span class="label">Sigue
     const value = Number(location.hash.match(/^#slide-(\d+)$/)?.[1]);
     return Number.isInteger(value) && value >= 1 && value <= slides.length ? value - 1 : 0;
   }
-  window.addEventListener('hashchange', () => render(readHash(), false));
-  render(readHash(), false);
+  window.addEventListener('hashchange', () => render(readHash(), true));
+  render(readHash(), true);
 })();
 </script>
 </body>
