@@ -711,14 +711,14 @@ System.out.println(total); <span class="tok-comment">// 118.75</span></pre></div
 
     let zoom = 1;
     const ratio = naturalHeight / available;
-    if (ratio < 0.55) zoom = Math.min(1.55, 0.70 / ratio);
+    if (ratio < 0.70) zoom = Math.min(1.55, 0.78 / ratio);
     body.style.zoom = String(zoom);
 
     const fits = () => {
       const rect = body.getBoundingClientRect();
       const renderedRatio = rect.height / available;
       const horizontalRoom = slide.clientWidth - parseFloat(styles.paddingLeft) - parseFloat(styles.paddingRight);
-      return renderedRatio <= 0.75 && rect.width <= horizontalRoom + 1;
+      return renderedRatio <= 0.82 && rect.width <= horizontalRoom + 1;
     };
     while (zoom > 1 && !fits()) {
       zoom = Math.max(1, Math.round((zoom - 0.05) * 100) / 100);
