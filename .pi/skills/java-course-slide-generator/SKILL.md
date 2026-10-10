@@ -11,6 +11,10 @@ Create the finished lesson, not merely an outline. The primary artifact is one b
 
 Keep the requested topic in its proper place in the lesson. Do not move a later topic to the opening of the full deck just to simplify its introduction. Unless the user explicitly asks to reorder the course, put its plain-language introduction at the start of that topic's section and preserve the surrounding curriculum sequence.
 
+For every new major topic, the first teaching slide must make the learner's concrete problem visible in plain Spanish before naming the technical concept or showing syntax. Use a familiar, specific example and show what makes the current approach repetitive, error-prone, or difficult; then show the simple idea that helps. A title that states only the solution or benefit is not enough. A useful pattern is “persona por persona” beside “una misma tarea para cada persona,” followed by the technical name on the next step. Do not expose unexplained jargon or code on this plain-language introduction slide.
+
+When the topic involves repetition or a process that returns to an earlier step, draw the return path explicitly and show where the process stops. A linear sequence, a “sí/no” label, or prose that says “volver” does not make the cycle visible by itself. Keep the ordinary-language example first; define terms such as *bucle*, *vuelta*, and *condición* on the following technical step, then progress to code examples.
+
 For a beginner-facing abstract concept, use this progression when it fits:
 
 1. **Plain-language idea** — explain it without unexplained technical terms.

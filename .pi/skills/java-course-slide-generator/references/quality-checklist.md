@@ -6,6 +6,7 @@ Apply this checklist manually after generating the deck. Do not claim an item pa
 
 - [ ] Defines what the topic is in beginner-appropriate language.
 - [ ] Establishes a realistic problem before syntax.
+- [ ] Opens each new major topic with a concrete, plain-language example that makes the problem visible before naming the technical concept or showing code; a solution-only title or definition does not count.
 - [ ] Explains why the concept exists and what developers would do without it.
 - [ ] Provides a simple mental model before implementation details.
 - [ ] Progresses from simple to complex without relying on unexplained concepts.
@@ -23,6 +24,7 @@ Apply this checklist manually after generating the deck. Do not claim an item pa
 
 - [ ] The deck is visual rather than a sequence of text-heavy pages.
 - [ ] Processes are shown as flows or sequences.
+- [ ] For repetition or return-based processes, the diagram visibly connects the repeated step back to its start and shows a clear stopping path; prose or a yes/no label alone is insufficient.
 - [ ] Relationships are shown spatially with labeled connections.
 - [ ] State changes show meaningful before/after states.
 - [ ] State values appear inside the visual itself, and the event causing a change is labeled.
