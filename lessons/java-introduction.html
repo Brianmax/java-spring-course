@@ -51,9 +51,9 @@ button { font: inherit; }
 .slide {
   position: absolute;
   inset: 0;
-  display: grid;
-  grid-auto-rows: max-content;
-  align-content: start;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
   gap: 20px;
   overflow-y: auto;
   overscroll-behavior: contain;
@@ -74,8 +74,12 @@ button { font: inherit; }
   content: "";
 }
 .slide.is-active { opacity: 1; transform: none; visibility: visible; pointer-events: auto; }
-.hero { align-content: center; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: clamp(32px, 8vw, 112px); }
+.slide-header { flex: 0 0 auto; }
+.slide-body { display: grid; grid-auto-rows: max-content; flex: 0 0 auto; gap: 20px; margin-block: auto; }
+.hero .slide-body { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); align-items: center; gap: clamp(32px, 8vw, 112px); }
+.hero-body .lede { margin-bottom: 16px; }
 .footer-label { position: absolute; right: 32px; bottom: 22px; color: var(--muted); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
+.slide > .kicker, .slide > h2 { flex-shrink: 0; }
 .slide h1, .slide h2, .slide h3 { margin: 0; line-height: 1.12; letter-spacing: -0.025em; font-family: var(--font-heading); }
 .slide h1 { max-width: 760px; font-size: clamp(48px, 5.5vw, 76px); line-height: 1.04; }
 .slide h2 { max-width: 1200px; font-size: clamp(36px, 2.8vw, 44px); }
@@ -139,7 +143,6 @@ code { overflow-wrap: anywhere; }
 .arrow, .visual-arrow, .runtime-arrow, .execution-arrow { color: var(--tecsup-cyan); font-size: 28px; font-weight: 800; }
 .flow-link { display: grid; justify-items: center; color: #006b94; font-size: 18px; font-weight: 700; }
 .flow-link b { color: var(--tecsup-cyan); font-size: 26px; line-height: 1; }
-.opening { align-content: center; gap: 20px; }
 .opening-note { color: var(--muted); font-size: 18px; line-height: 1.4; }
 .visual-flow { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr); align-items: stretch; gap: 16px; }
 .visual-node { display: flex; min-width: 0; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 20px; border: 1px solid var(--line); border-radius: 16px; background: #ffffff; text-align: center; }
@@ -272,14 +275,15 @@ code { overflow-wrap: anywhere; }
   body { height: auto; min-height: 100dvh; overflow: auto; }
   .deck { height: calc(100dvh - 64px); }
   .slide { gap: 18px; padding: 24px; font-size: 17px; }
-  .opening { align-content: start; }
+  .slide-body { gap: 18px; }
+
   .slide h1 { font-size: 42px; }
   .slide h2 { font-size: 29px; }
   .slide h3 { font-size: 21px; }
   .lede { font-size: 19px; }
-  .two, .three, .compare, .hero, .types-layout, .language-compare, .java-platforms,
+  .two, .three, .compare, .types-layout, .language-compare, .java-platforms,
   .visual-flow, .execution-flow, .runtime-flow, .cpu-row, .memory, .variable-everyday { grid-template-columns: 1fr; }
-  .hero { align-content: start; }
+  .hero .slide-body { grid-template-columns: 1fr; }
   .compare > div { border-right: 0; border-bottom: 1px solid var(--line); }
   .visual-node, .execution-step { min-height: 0; }
   .visual-arrow, .execution-arrow, .runtime-arrow, .memory-arrow { justify-self: center; transform: rotate(90deg); }
@@ -314,13 +318,15 @@ code { overflow-wrap: anywhere; }
 <body>
 <main class="deck" aria-live="polite">
 <section class="slide hero is-active" data-title="Introducción a Java">
-  <div><div class="eyebrow">TECSUP · JAVA COURSE</div><div class="rule" style="margin:22px 0"></div><h1>Java desde cero</h1><p class="lede">Aprende cómo unas instrucciones se convierten en resultados y practica los primeros conceptos de Java.</p><span class="badge">Lección inicial</span></div>
-  <div class="panel dark"><div class="label" style="color:#63d4f2">Ruta de hoy</div><ol class="mini-list"><li>Qué es programar</li><li>Cómo se ejecuta el código</li><li>Qué es Java y qué hace la JVM</li><li>Primer programa</li><li>Variables, decisiones, arrays, ArrayList y bucles</li></ol></div>
+  <div class="slide-header"><div class="eyebrow">TECSUP · JAVA COURSE</div><div class="rule" style="margin:22px 0"></div><h1>Java desde cero</h1></div>
+  <div class="slide-body hero-body"><div><p class="lede">Aprende cómo unas instrucciones se convierten en resultados y practica los primeros conceptos de Java.</p><span class="badge">Lección inicial</span></div>
+  <div class="panel dark"><div class="label" style="color:#63d4f2">Ruta de hoy</div><ol class="mini-list"><li>Qué es programar</li><li>Cómo se ejecuta el código</li><li>Qué es Java y qué hace la JVM</li><li>Primer programa</li><li>Variables, decisiones, arrays, ArrayList y bucles</li></ol></div></div>
   <div class="footer-label">Fundamentos de Java</div>
 </section>
 <section class="slide opening" hidden data-title="Qué es programar">
   <div class="kicker">02 · Una idea sencilla</div>
   <h2>Programar es dar instrucciones para transformar datos en resultados.</h2>
+  <div class="slide-body">
   <div class="visual-flow" aria-label="Entrada, instrucciones del programa y resultado">
     <div class="visual-node"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M12 18h40v32H12zM20 11h24v7H20zM20 27h24M20 35h15M20 43h24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="44" cy="35" r="2" fill="currentColor"/></svg><strong>Datos</strong><span>precio: 20<br>envío: 5</span></div>
     <div class="visual-arrow" aria-hidden="true">→</div>
@@ -329,10 +335,12 @@ code { overflow-wrap: anywhere; }
     <div class="visual-node"><svg viewBox="0 0 64 64" aria-hidden="true"><rect x="8" y="11" width="48" height="34" rx="4" fill="none" stroke="currentColor" stroke-width="3"/><path d="M23 54h18M32 45v9M18 27l9 8 18-17" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><strong>Resultado</strong><span>total: 25</span></div>
   </div>
   <p class="opening-note">El código reúne las instrucciones que la computadora sigue.</p>
+  </div>
 </section>
 <section class="slide opening" hidden data-title="Cómo ejecuta instrucciones una computadora">
   <div class="kicker">03 · Del código al resultado</div>
   <h2>Un compilador puede traducir código fuente a instrucciones de máquina.</h2>
+  <div class="slide-body">
   <div class="label">Ejemplo: compilación a código nativo</div>
   <div class="execution-flow" aria-label="Ejemplo de compilación de código fuente a código máquina que el procesador ejecuta usando memoria">
     <div class="execution-step"><span class="step-number">01</span><code>total = 20 + 5</code><strong>Código fuente</strong><span>Lo escribe la persona</span></div>
@@ -344,10 +352,12 @@ code { overflow-wrap: anywhere; }
     <div class="execution-step primary"><span class="step-number">04</span><div class="hardware-parts"><div class="hardware-part"><strong>Procesador (CPU)</strong><br><span>ejecuta los pasos</span></div><div class="hardware-link" aria-label="lee y actualiza">↕</div><div class="hardware-part"><strong>Memoria</strong><br><span>guarda datos e instrucciones</span></div></div><span class="result-chip">resultado: 25</span></div>
   </div>
   <p class="opening-note">Este es un recorrido posible. Java usa un paso intermedio que veremos a continuación. El procesador (CPU) ejecuta pasos y usa la memoria.</p>
+  </div>
 </section>
 <section class="slide opening" hidden data-title="Cómo se ejecuta Java">
   <div class="kicker">04 · El camino de Java</div>
   <h2>Mismo bytecode; cada sistema usa una Máquina Virtual de Java (JVM).</h2>
+  <div class="slide-body">
   <div class="runtime-flow java-compile-flow" aria-label="Welcome.java se compila con javac para generar Welcome.class">
     <div class="runtime-card"><code>Welcome.java</code><strong>Fuente</strong><span>El programa que escribimos</span></div>
     <div class="runtime-arrow" aria-hidden="true">→</div>
@@ -362,21 +372,28 @@ code { overflow-wrap: anywhere; }
     <div class="java-platform-row"><strong class="platform-name">Linux</strong><span class="platform-arrow" aria-hidden="true">→</span><span>JVM</span><span class="platform-arrow" aria-hidden="true">→</span><strong class="platform-result">Programa en ejecución</strong></div>
   </div>
   <p class="opening-note">Cada sistema operativo necesita una Máquina Virtual de Java (JVM) compatible para ejecutar el mismo bytecode.</p>
+  </div>
 </section>
 <section class="slide opening" hidden data-title="Java y otros lenguajes">
   <div class="kicker">05 · Tres recorridos típicos</div>
   <h2>Tres rutas del código a la ejecución.</h2>
+  <div class="slide-body">
   <div class="language-compare" aria-label="Comparación de rutas de ejecución habituales">
     <article class="language-card"><h3>C</h3><div class="route"><strong>Código fuente</strong><span>programa.c</span></div><div class="down" aria-hidden="true">↓</div><div class="route"><strong>Compilador</strong><span>genera un binario para el destino elegido</span></div><div class="down" aria-hidden="true">↓</div><div class="route"><strong>Ejecutables nativos</strong><div class="targets"><span>Windows</span><span>macOS</span><span>Linux</span></div><span>se compila uno por sistema y arquitectura</span></div></article>
     <article class="language-card java"><h3>Java</h3><div class="route"><strong>Código fuente</strong><span>programa.java</span></div><div class="down" aria-hidden="true">↓</div><div class="route"><strong>Compilador</strong><span>javac · compila antes de ejecutar</span></div><div class="down" aria-hidden="true">↓</div><div class="route"><strong>Bytecode</strong><span>programa.class</span></div><div class="down" aria-hidden="true">↓</div><div class="route"><strong>JVM</strong><span>interpreta y compila partes frecuentes a código nativo (JIT)</span></div></article>
     <article class="language-card"><h3>Python · CPython</h3><div class="route"><strong>Código fuente</strong><span>programa.py</span></div><div class="down" aria-hidden="true">↓</div><div class="route"><strong>Bytecode propio</strong><span>se genera durante la ejecución</span></div><div class="down" aria-hidden="true">↓</div><div class="route"><strong>Máquina virtual</strong><span>ejecuta ese bytecode</span></div></article>
   </div>
   <p class="language-footnote">javac compila el código fuente antes de ejecutar. En tiempo de ejecución, la JVM interpreta bytecode y puede compilar a código nativo las partes frecuentes (JIT). El mismo bytecode corre en JVM compatibles.</p>
+  </div>
 </section>
-<section class="slide" hidden data-title="Objetivos de aprendizaje"><div class="kicker">06 · Ruta de aprendizaje</div><h2>Al final podrás explicar y construir programas pequeños.</h2><div class="grid three"><div class="panel blue"><div class="big-number">1</div><h3>Explicar</h3><p>Seguir el recorrido del código hasta ver un resultado.</p></div><div class="panel"><div class="big-number">2</div><h3>Leer estado y reglas</h3><p>Interpretar variables, colecciones y decisiones.</p></div><div class="panel"><div class="big-number">3</div><h3>Escribir</h3><p>Crear un programa con valores, decisiones y repeticiones.</p></div></div><div class="callout"><strong>Prerrequisito:</strong> saber usar archivos y un editor. Los conceptos de programación se enseñan en esta lección.</div></section>
+<section class="slide" hidden data-title="Objetivos de aprendizaje"><div class="kicker">06 · Ruta de aprendizaje</div><h2>Al final podrás explicar y construir programas pequeños.</h2>
+  <div class="slide-body"><div class="grid three"><div class="panel blue"><div class="big-number">1</div><h3>Explicar</h3><p>Seguir el recorrido del código hasta ver un resultado.</p></div><div class="panel"><div class="big-number">2</div><h3>Leer estado y reglas</h3><p>Interpretar variables, colecciones y decisiones.</p></div><div class="panel"><div class="big-number">3</div><h3>Escribir</h3><p>Crear un programa con valores, decisiones y repeticiones.</p></div></div><div class="callout"><strong>Prerrequisito:</strong> saber usar archivos y un editor. Los conceptos de programación se enseñan en esta lección.</div>
+  </div>
+</section>
 <section class="slide" hidden data-title="Definir el problema">
   <div class="kicker">07 · Antes de programar</div>
   <h2>El código aplica reglas que primero debemos definir.</h2>
+  <div class="slide-body">
   <p class="lede">En una compra, acordemos qué significa «hay stock suficiente» y cómo se calcula el subtotal.</p>
   <div class="flow" aria-label="Datos de una compra, reglas acordadas y resultado esperado">
     <div class="node"><strong>Pedido</strong><br><small>2 cuadernos × S/ 15<br>stock disponible: 3</small></div>
@@ -386,33 +403,52 @@ code { overflow-wrap: anywhere; }
     <div class="node"><strong>Resultado esperado</strong><br><small>orden aceptada<br>subtotal: S/ 30</small></div>
   </div>
   <div class="callout"><strong>¿Qué hace el código?</strong> Contiene las instrucciones que aplican estas reglas. Sin reglas claras, podemos obtener resultados incorrectos.</div>
+  </div>
 </section>
-<section class="slide" hidden data-title="Qué es Java"><div class="kicker">08 · Propósito</div><h2>Java es un lenguaje y una plataforma para crear y ejecutar programas.</h2><div class="grid three"><div class="panel blue"><span class="label">Lenguaje</span><h3>Cómo expresamos reglas</h3><p>Tipos, variables, operadores, métodos y flujo de control.</p></div><div class="panel"><span class="label">Plataforma</span><h3>Dónde se ejecuta el código</h3><p>La Máquina Virtual de Java (JVM) ejecuta el bytecode compilado.</p></div><div class="panel"><span class="label">Herramientas y bibliotecas</span><h3>Piezas para crear programas</h3><p>Una biblioteca es código reutilizable. Un IDE reúne editor, ejecución y depuración. Un framework ofrece una base para crear una aplicación; Spring es uno de ellos.</p></div></div><p class="lede">El lenguaje Java y sus herramientas forman parte del ecosistema; Spring es un framework independiente.</p></section>
-<section class="slide" hidden data-title="Herramientas para Java"><div class="kicker">09 · Herramientas</div><h2>Varias herramientas permiten escribir y ejecutar Java.</h2><div class="grid"><div class="editor"><div class="icon">IDE</div><div><strong>IntelliJ IDEA</strong><br><span class="muted">Entorno integrado para escribir, ejecutar y depurar.</span></div></div><div class="editor"><div class="icon">VS</div><div><strong>Visual Studio Code</strong><br><span class="muted">Editor extensible; agrega las extensiones de Java.</span></div></div><div class="editor"><div class="icon">NB</div><div><strong>Apache NetBeans</strong><br><span class="muted">Entorno integrado con herramientas para proyectos Java.</span></div></div></div><div class="callout"><strong>En este curso:</strong> trabajaremos con IntelliJ IDEA. Un IDE reúne el editor y herramientas para ejecutar y depurar.</div></section>
-<section class="slide" hidden data-title="Preparar el entorno"><div class="kicker">10 · Preparación · JDK 21</div><h2>El editor no reemplaza al kit de desarrollo.</h2><div class="grid two"><div class="panel blue"><h3>Instala y selecciona un JDK</h3><p>JDK significa kit de desarrollo de Java. Incluye <code>javac</code>, la JVM y bibliotecas estándar. Configura JDK 21 en tu IDE.</p><p>Un editor organiza archivos. Un IDE añade ejecución, depuración y herramientas de proyecto.</p></div><div class="panel"><h3>Comprueba la instalación</h3><pre class="code">java --version
-javac --version</pre><p>Ambos comandos deben mostrar la versión 21. Si no se encuentran, revisa la instalación y PATH, las carpetas donde la terminal busca comandos.</p></div></div><div class="callout"><strong>Modelo:</strong> editor → código; compilador → bytecode; JVM → ejecución. No necesitas Spring para comenzar.</div></section>
-<section class="slide" hidden data-title="Primer programa"><div class="kicker">11 · Implementación</div><h2>Escribe un programa Java que imprima un mensaje en la consola.</h2><div class="grid two"><pre class="code"><span class="tok-keyword">public class</span> <span class="tok-type">Welcome</span> {
+<section class="slide" hidden data-title="Qué es Java"><div class="kicker">08 · Propósito</div><h2>Java es un lenguaje y una plataforma para crear y ejecutar programas.</h2>
+  <div class="slide-body"><div class="grid three"><div class="panel blue"><span class="label">Lenguaje</span><h3>Cómo expresamos reglas</h3><p>Tipos, variables, operadores, métodos y flujo de control.</p></div><div class="panel"><span class="label">Plataforma</span><h3>Dónde se ejecuta el código</h3><p>La Máquina Virtual de Java (JVM) ejecuta el bytecode compilado.</p></div><div class="panel"><span class="label">Herramientas y bibliotecas</span><h3>Piezas para crear programas</h3><p>Una biblioteca es código reutilizable. Un IDE reúne editor, ejecución y depuración. Un framework ofrece una base para crear una aplicación; Spring es uno de ellos.</p></div></div><p class="lede">El lenguaje Java y sus herramientas forman parte del ecosistema; Spring es un framework independiente.</p>
+  </div>
+</section>
+<section class="slide" hidden data-title="Herramientas para Java"><div class="kicker">09 · Herramientas</div><h2>Varias herramientas permiten escribir y ejecutar Java.</h2>
+  <div class="slide-body"><div class="grid"><div class="editor"><div class="icon">IDE</div><div><strong>IntelliJ IDEA</strong><br><span class="muted">Entorno integrado para escribir, ejecutar y depurar.</span></div></div><div class="editor"><div class="icon">VS</div><div><strong>Visual Studio Code</strong><br><span class="muted">Editor extensible; agrega las extensiones de Java.</span></div></div><div class="editor"><div class="icon">NB</div><div><strong>Apache NetBeans</strong><br><span class="muted">Entorno integrado con herramientas para proyectos Java.</span></div></div></div><div class="callout"><strong>En este curso:</strong> trabajaremos con IntelliJ IDEA. Un IDE reúne el editor y herramientas para ejecutar y depurar.</div>
+  </div>
+</section>
+<section class="slide" hidden data-title="Preparar el entorno"><div class="kicker">10 · Preparación · JDK 21</div><h2>El editor no reemplaza al kit de desarrollo.</h2>
+  <div class="slide-body"><div class="grid two"><div class="panel blue"><h3>Instala y selecciona un JDK</h3><p>JDK significa kit de desarrollo de Java. Incluye <code>javac</code>, la JVM y bibliotecas estándar. Configura JDK 21 en tu IDE.</p><p>Un editor organiza archivos. Un IDE añade ejecución, depuración y herramientas de proyecto.</p></div><div class="panel"><h3>Comprueba la instalación</h3><pre class="code">java --version
+javac --version</pre><p>Ambos comandos deben mostrar la versión 21. Si no se encuentran, revisa la instalación y PATH, las carpetas donde la terminal busca comandos.</p></div></div><div class="callout"><strong>Modelo:</strong> editor → código; compilador → bytecode; JVM → ejecución. No necesitas Spring para comenzar.</div>
+  </div>
+</section>
+<section class="slide" hidden data-title="Primer programa"><div class="kicker">11 · Implementación</div><h2>Escribe un programa Java que imprima un mensaje en la consola.</h2>
+  <div class="slide-body"><div class="grid two"><pre class="code"><span class="tok-keyword">public class</span> <span class="tok-type">Welcome</span> {
   <span class="tok-keyword">public static void</span> main(
       <span class="tok-type">String</span>[] args) {
     <span class="tok-type">System</span>.out.println(
       <span class="tok-string">"¡Bienvenido a Tecsup!"</span>);
   }
-}</pre><div class="panel blue"><span class="label">Léelo de arriba abajo</span><ol class="mini-list"><li>Para este ejemplo, la clase es el grupo de instrucciones Java.</li><li><code>main</code> es el método de inicio.</li><li><code>println</code> imprime texto.</li></ol><div class="callout"><strong>Ubicación del código:</strong> los siguientes fragmentos van dentro de <code>main</code>. Los <code>import</code> van antes de la clase.</div></div></div><aside class="speaker-notes" hidden>No pidas memorizar cada palabra clave todavía. El objetivo es identificar el punto de entrada y la salida observable.</aside></section>
-<section class="slide" hidden data-title="Ejecutar el primer programa"><div class="kicker">12 · Aplicación · tu primera ejecución</div><h2>Del archivo a un mensaje visible.</h2><div class="grid two"><div class="panel"><h3>Guarda como Welcome.java</h3><p>El nombre coincide exactamente con la clase pública <code>Welcome</code>. Abre la terminal en esa carpeta.</p><pre class="code">javac -encoding UTF-8 Welcome.java
-java Welcome</pre></div><div class="panel blue"><h3>Resultado esperado</h3><pre class="code">¡Bienvenido a Tecsup!</pre><p><code>javac</code> genera <code>Welcome.class</code>. <code>java Welcome</code> ejecuta la clase: no escribas <code>.class</code> en el comando.</p></div></div><div class="callout"><strong>Practica:</strong> cambia el mensaje, vuelve a compilar y ejecuta. Si el mensaje no cambia, ¿qué paso faltó?</div></section>
+}</pre><div class="panel blue"><span class="label">Léelo de arriba abajo</span><ol class="mini-list"><li>Para este ejemplo, la clase es el grupo de instrucciones Java.</li><li><code>main</code> es el método de inicio.</li><li><code>println</code> imprime texto.</li></ol><div class="callout"><strong>Ubicación del código:</strong> los siguientes fragmentos van dentro de <code>main</code>. Los <code>import</code> van antes de la clase.</div></div></div><aside class="speaker-notes" hidden>No pidas memorizar cada palabra clave todavía. El objetivo es identificar el punto de entrada y la salida observable.</aside>
+  </div>
+</section>
+<section class="slide" hidden data-title="Ejecutar el primer programa"><div class="kicker">12 · Aplicación · tu primera ejecución</div><h2>Del archivo a un mensaje visible.</h2>
+  <div class="slide-body"><div class="grid two"><div class="panel"><h3>Guarda como Welcome.java</h3><p>El nombre coincide exactamente con la clase pública <code>Welcome</code>. Abre la terminal en esa carpeta.</p><pre class="code">javac -encoding UTF-8 Welcome.java
+java Welcome</pre></div><div class="panel blue"><h3>Resultado esperado</h3><pre class="code">¡Bienvenido a Tecsup!</pre><p><code>javac</code> genera <code>Welcome.class</code>. <code>java Welcome</code> ejecuta la clase: no escribas <code>.class</code> en el comando.</p></div></div><div class="callout"><strong>Practica:</strong> cambia el mensaje, vuelve a compilar y ejecuta. Si el mensaje no cambia, ¿qué paso faltó?</div>
+  </div>
+</section>
 <section class="slide opening" hidden data-title="Qué es una variable">
   <div class="kicker">13 · Variables · una idea cotidiana</div>
   <h2>Un nombre guarda un valor que el programa puede consultar o cambiar.</h2>
+  <div class="slide-body">
   <div class="variable-everyday" aria-label="El dato llamado mensajes sin leer cambia de 3 a 4">
     <div class="everyday-value"><span>Mensajes sin leer</span><strong>3</strong></div>
     <div class="everyday-change"><span>Llega un mensaje</span><b aria-hidden="true">→</b></div>
     <div class="everyday-value changed"><span>Mensajes sin leer</span><strong>4</strong></div>
   </div>
   <p class="opening-note">El nombre mensajesSinLeer guarda una cantidad que puede cambiar.</p>
+  </div>
 </section>
 <section class="slide opening" hidden data-title="Variable en una app de mensajería">
   <div class="kicker">14 · Variables · un ejemplo de chat</div>
   <h2>Una app de chat puede actualizar el contador de mensajes sin leer.</h2>
+  <div class="slide-body">
   <div class="message-flow" aria-label="El contador de WhatsApp cambia de 3 a 4 cuando llega un mensaje, y a 0 al abrir el chat">
     <div class="message-step">
       <div class="chat-visual" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M8 10h32v24H23l-9 7v-7H8zM15 18h18M15 24h12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="notification-count">3</span></div>
@@ -430,11 +466,16 @@ java Welcome</pre></div><div class="panel blue"><h3>Resultado esperado</h3><pre 
     </div>
   </div>
   <p class="opening-note">El mismo contador se actualiza: <strong>3 → 4 → 0</strong>.</p>
+  </div>
 </section>
-<section class="slide" hidden data-title="Modelo mental de variables"><div class="kicker">15 · Variables</div><h2>En Java, el contador tiene un nombre, un tipo y un valor que puede cambiar.</h2><div class="memory"><div class="box"><span>Antes</span><strong>mensajesSinLeer</strong><b>3 mensajes</b></div><div class="pointer">Llega 1 mensaje<code>mensajesSinLeer = mensajesSinLeer + 1;</code><span class="memory-arrow" aria-hidden="true">→</span></div><div class="box"><span>Después</span><strong>mensajesSinLeer</strong><b>4 mensajes</b></div></div><div class="grid two"><div class="panel"><h3>Nombre</h3><p><code>mensajesSinLeer</code> identifica el contador.</p></div><div class="panel"><h3>Tipo</h3><p><code>int</code> indica que guarda un número entero, como 3 o 4.</p></div></div><div class="callout"><strong>Observa:</strong> el nombre se conserva y el valor cambia de 3 a 4 cuando llega un mensaje.</div></section>
+<section class="slide" hidden data-title="Modelo mental de variables"><div class="kicker">15 · Variables</div><h2>En Java, el contador tiene un nombre, un tipo y un valor que puede cambiar.</h2>
+  <div class="slide-body"><div class="memory"><div class="box"><span>Antes</span><strong>mensajesSinLeer</strong><b>3 mensajes</b></div><div class="pointer">Llega 1 mensaje<code>mensajesSinLeer = mensajesSinLeer + 1;</code><span class="memory-arrow" aria-hidden="true">→</span></div><div class="box"><span>Después</span><strong>mensajesSinLeer</strong><b>4 mensajes</b></div></div><div class="grid two"><div class="panel"><h3>Nombre</h3><p><code>mensajesSinLeer</code> identifica el contador.</p></div><div class="panel"><h3>Tipo</h3><p><code>int</code> indica que guarda un número entero, como 3 o 4.</p></div></div><div class="callout"><strong>Observa:</strong> el nombre se conserva y el valor cambia de 3 a 4 cuando llega un mensaje.</div>
+  </div>
+</section>
 <section class="slide types-slide" hidden data-title="Tipos y declaraciones">
   <div class="kicker">16 · Variables</div>
   <h2>El tipo indica si el dato es una cantidad, un texto o una respuesta.</h2>
+  <div class="slide-body">
   <div class="types-layout">
     <pre class="code types-code"><span class="tok-type">int</span> mensajesSinLeer = <span class="tok-number">3</span>;
 <span class="tok-type">String</span> nombreChat = <span class="tok-string">"Familia"</span>;
@@ -446,104 +487,180 @@ java Welcome</pre></div><div class="panel blue"><h3>Resultado esperado</h3><pre 
     </div>
   </div>
   <p class="opening-note"><code>boolean</code> solo puede valer <code>true</code> (verdadero) o <code>false</code> (falso).</p>
+  </div>
 </section>
-<section class="slide" hidden data-title="Actualizar una variable"><div class="kicker">17 · Variables · actualizar</div><h2>Al llegar un mensaje, se calcula y guarda el nuevo contador.</h2><div class="grid two"><pre class="code"><span class="tok-type">int</span> mensajesSinLeer = <span class="tok-number">3</span>;
+<section class="slide" hidden data-title="Actualizar una variable"><div class="kicker">17 · Variables · actualizar</div><h2>Al llegar un mensaje, se calcula y guarda el nuevo contador.</h2>
+  <div class="slide-body"><div class="grid two"><pre class="code"><span class="tok-type">int</span> mensajesSinLeer = <span class="tok-number">3</span>;
 mensajesSinLeer = mensajesSinLeer + <span class="tok-number">1</span>;
-System.out.println(mensajesSinLeer); <span class="tok-comment">// 4</span></pre><div class="panel blue"><span class="label">De 3 a 4</span><ol class="mini-list"><li>Lee el valor actual: 3.</li><li>Suma 1: el resultado es 4.</li><li>Guarda 4 con el mismo nombre.</li></ol><strong>¿Qué valor habría después de leer todos los mensajes?</strong></div></div><div class="callout">El mismo nombre conserva el estado actual. La salida muestra <strong>4</strong>.</div></section>
-<section class="slide" hidden data-title="Decimales en una compra"><div class="kicker">18 · Variables · decimales</div><h2>Una compra también puede tener cantidades con decimales.</h2><p class="lede">Ahora calcularemos una compra: subtotal S/ 75.0 más envío S/ 8.0.</p><div class="grid two"><pre class="code"><span class="tok-type">double</span> subtotal = <span class="tok-number">75.0</span>;
+System.out.println(mensajesSinLeer); <span class="tok-comment">// 4</span></pre><div class="panel blue"><span class="label">De 3 a 4</span><ol class="mini-list"><li>Lee el valor actual: 3.</li><li>Suma 1: el resultado es 4.</li><li>Guarda 4 con el mismo nombre.</li></ol><strong>¿Qué valor habría después de leer todos los mensajes?</strong></div></div><div class="callout">El mismo nombre conserva el estado actual. La salida muestra <strong>4</strong>.</div>
+  </div>
+</section>
+<section class="slide" hidden data-title="Decimales en una compra"><div class="kicker">18 · Variables · decimales</div><h2>Una compra también puede tener cantidades con decimales.</h2>
+  <div class="slide-body"><p class="lede">Ahora calcularemos una compra: subtotal S/ 75.0 más envío S/ 8.0.</p><div class="grid two"><pre class="code"><span class="tok-type">double</span> subtotal = <span class="tok-number">75.0</span>;
 <span class="tok-type">double</span> envio = <span class="tok-number">8.0</span>;
 <span class="tok-type">double</span> total = subtotal + envio;
-System.out.println(total); <span class="tok-comment">// 83.0</span></pre><div class="panel blue"><span class="label">Tipo y resultado</span><p><code>double</code> guarda números que pueden tener parte decimal.</p><p><strong>75.0 + 8.0 = 83.0</strong></p></div></div><div class="callout warning"><strong>Alcance:</strong> usamos montos simplificados para practicar. Los sistemas de dinero reales requieren manejo decimal especializado.</div></section>
-<section class="slide" hidden data-title="Aritmética de una compra"><div class="kicker">19 · Variables · calcular</div><h2>Los operadores aritméticos calculan un resultado a partir de valores.</h2><div class="grid two"><pre class="code"><span class="tok-type">double</span> subtotal = <span class="tok-number">75.0</span>;
+System.out.println(total); <span class="tok-comment">// 83.0</span></pre><div class="panel blue"><span class="label">Tipo y resultado</span><p><code>double</code> guarda números que pueden tener parte decimal.</p><p><strong>75.0 + 8.0 = 83.0</strong></p></div></div><div class="callout warning"><strong>Alcance:</strong> usamos montos simplificados para practicar. Los sistemas de dinero reales requieren manejo decimal especializado.</div>
+  </div>
+</section>
+<section class="slide" hidden data-title="Aritmética de una compra"><div class="kicker">19 · Variables · calcular</div><h2>Los operadores aritméticos calculan un resultado a partir de valores.</h2>
+  <div class="slide-body"><div class="grid two"><pre class="code"><span class="tok-type">double</span> subtotal = <span class="tok-number">75.0</span>;
 <span class="tok-type">double</span> envio = <span class="tok-number">8.0</span>;
 <span class="tok-type">double</span> total = subtotal + envio;
-System.out.println(total); <span class="tok-comment">// 83.0</span></pre><div class="panel blue"><span class="label">Operación y resultado</span><p><code>75.0 + 8.0 = 83.0</code></p><p><code>*</code> multiplica; <code>/</code> divide; <code>%</code> entrega el residuo.</p><p><code>5 / 2</code> con enteros da <strong>2</strong>; <code>5 % 2</code> da <strong>1</strong>.</p></div></div><div class="callout warning"><strong>Alcance:</strong> estos montos simplifican el ejercicio. Los sistemas de dinero requieren manejo decimal especializado.</div></section>
-<section class="slide" hidden data-title="Comparar valores"><div class="kicker">20 · Variables · condiciones</div><h2>Una comparación responde verdadero o falso.</h2><div class="grid two"><div class="panel blue"><span class="label">Compra y resultados</span><p>subtotal = S/ 75.0 · miembro = false</p><p><code>subtotal &gt;= 100</code> → <strong>false</strong></p><p><code>miembro &amp;&amp; subtotal &gt; 0</code> → <strong>false</strong> · ambas</p><p><code>envioGratis || miembro</code> → <strong>false</strong> · alguna</p><p><code>!miembro</code> → <strong>true</strong> · opuesto</p></div><pre class="code"><span class="tok-type">double</span> subtotal = <span class="tok-number">75.0</span>;
+System.out.println(total); <span class="tok-comment">// 83.0</span></pre><div class="panel blue"><span class="label">Operación y resultado</span><p><code>75.0 + 8.0 = 83.0</code></p><p><code>*</code> multiplica; <code>/</code> divide; <code>%</code> entrega el residuo.</p><p><code>5 / 2</code> con enteros da <strong>2</strong>; <code>5 % 2</code> da <strong>1</strong>.</p></div></div><div class="callout warning"><strong>Alcance:</strong> estos montos simplifican el ejercicio. Los sistemas de dinero requieren manejo decimal especializado.</div>
+  </div>
+</section>
+<section class="slide" hidden data-title="Comparar valores"><div class="kicker">20 · Variables · condiciones</div><h2>Una comparación responde verdadero o falso.</h2>
+  <div class="slide-body"><div class="grid two"><div class="panel blue"><span class="label">Compra y resultados</span><p>subtotal = S/ 75.0 · miembro = false</p><p><code>subtotal &gt;= 100</code> → <strong>false</strong></p><p><code>miembro &amp;&amp; subtotal &gt; 0</code> → <strong>false</strong> · ambas</p><p><code>envioGratis || miembro</code> → <strong>false</strong> · alguna</p><p><code>!miembro</code> → <strong>true</strong> · opuesto</p></div><pre class="code"><span class="tok-type">double</span> subtotal = <span class="tok-number">75.0</span>;
 <span class="tok-type">boolean</span> miembro = <span class="tok-keyword">false</span>;
 <span class="tok-type">boolean</span> envioGratis = subtotal &gt;= <span class="tok-number">100</span>;
 <span class="tok-type">boolean</span> ambasReglas = miembro &amp;&amp; subtotal &gt; <span class="tok-number">0</span>;
 <span class="tok-type">boolean</span> algunaRegla = envioGratis || miembro;
-<span class="tok-type">boolean</span> noEsMiembro = !miembro;</pre></div><div class="callout"><code>&amp;&amp;</code> significa «ambas»; <code>||</code>, «al menos una»; <code>!</code>, «lo opuesto». <code>=</code> guarda un valor; <code>==</code> compara valores numéricos.</div></section>
-<section class="slide" hidden data-title="Condicionales"><div class="kicker">21 · Decisiones</div><h2>Una condición verdadera acepta el pedido; una falsa lo rechaza.</h2><div class="branch"><div class="node">stock 3 ≥ cantidad 2 ?</div><div class="path"><strong>true · verdadero</strong>Aceptar pedido</div><div class="path"><strong>false · falso</strong>Rechazar pedido</div></div><pre class="code"><span class="tok-type">int</span> stock = <span class="tok-number">3</span>;
+<span class="tok-type">boolean</span> noEsMiembro = !miembro;</pre></div><div class="callout"><code>&amp;&amp;</code> significa «ambas»; <code>||</code>, «al menos una»; <code>!</code>, «lo opuesto». <code>=</code> guarda un valor; <code>==</code> compara valores numéricos.</div>
+  </div>
+</section>
+<section class="slide" hidden data-title="Condicionales"><div class="kicker">21 · Decisiones</div><h2>Una condición verdadera acepta el pedido; una falsa lo rechaza.</h2>
+  <div class="slide-body"><div class="branch"><div class="node">stock 3 ≥ cantidad 2 ?</div><div class="path"><strong>true · verdadero</strong>Aceptar pedido</div><div class="path"><strong>false · falso</strong>Rechazar pedido</div></div><pre class="code"><span class="tok-type">int</span> stock = <span class="tok-number">3</span>;
 <span class="tok-type">int</span> cantidad = <span class="tok-number">2</span>;
 <span class="tok-keyword">if</span> (stock &gt;= cantidad) {
   System.out.println(<span class="tok-string">"Pedido aceptado"</span>);
 } <span class="tok-keyword">else</span> {
   System.out.println(<span class="tok-string">"Pedido rechazado"</span>);
-}</pre><div class="callout"><strong>Regla:</strong> aceptar si el stock es al menos la cantidad solicitada. Predice qué cambia cuando stock pasa a 1.</div></section>
-<section class="slide" hidden data-title="Else if y rangos"><div class="kicker">22 · Decisiones · varios rangos</div><h2>Con <code>else if</code>, se elige la primera regla verdadera.</h2><div class="grid two"><div class="panel blue"><span class="label">Regla de tarifas de este ejemplo</span><p>Subtotal ≥ 100 → envío S/ 0</p><p>Si no, subtotal ≥ 50 → envío S/ 5</p><p>Si no → envío S/ 8</p><p>Con subtotal S/ 75, el envío es S/ 5.</p></div><pre class="code"><span class="tok-type">double</span> subtotal = <span class="tok-number">75.0</span>;
+}</pre><div class="callout"><strong>Regla:</strong> aceptar si el stock es al menos la cantidad solicitada. Predice qué cambia cuando stock pasa a 1.</div>
+  </div>
+</section>
+<section class="slide" hidden data-title="Else if y rangos"><div class="kicker">22 · Decisiones · varios rangos</div><h2>Con <code>else if</code>, se elige la primera regla verdadera.</h2>
+  <div class="slide-body"><div class="grid two"><div class="panel blue"><span class="label">Regla de tarifas de este ejemplo</span><p>Subtotal ≥ 100 → envío S/ 0</p><p>Si no, subtotal ≥ 50 → envío S/ 5</p><p>Si no → envío S/ 8</p><p>Con subtotal S/ 75, el envío es S/ 5.</p></div><pre class="code"><span class="tok-type">double</span> subtotal = <span class="tok-number">75.0</span>;
 <span class="tok-type">double</span> envio;
 <span class="tok-keyword">if</span> (subtotal &gt;= <span class="tok-number">100</span>) {
   envio = <span class="tok-number">0</span>;
 } <span class="tok-keyword">else if</span> (subtotal &gt;= <span class="tok-number">50</span>) {
   envio = <span class="tok-number">5</span>;
-} <span class="tok-keyword">else</span> { envio = <span class="tok-number">8</span>; }</pre></div><div class="callout">Este ejemplo usa tres tarifas. La compra integrada más adelante tendrá una regla más simple. Java toma la primera rama que coincide.</div></section>
-<section class="slide" hidden data-title="Elegir un caso con switch"><div class="kicker">23 · Decisiones · valor exacto</div><h2>Cuando comparas un valor con opciones conocidas, <code>switch</code> organiza los casos.</h2><div class="grid two"><div class="panel blue"><span class="label">Estado recibido</span><p><code>estado = "PAGADO"</code></p><div class="branch switch-branch"><div class="node">¿Qué valor tiene estado?</div><div class="path"><strong>PAGADO</strong>Enviar</div><div class="path"><strong>NUEVO</strong>Revisar</div><div class="path"><strong>otro valor</strong>Pendiente</div></div></div><pre class="code"><span class="tok-type">String</span> estado = <span class="tok-string">"PAGADO"</span>;
+} <span class="tok-keyword">else</span> { envio = <span class="tok-number">8</span>; }</pre></div><div class="callout">Este ejemplo usa tres tarifas. La compra integrada más adelante tendrá una regla más simple. Java toma la primera rama que coincide.</div>
+  </div>
+</section>
+<section class="slide" hidden data-title="Elegir un caso con switch"><div class="kicker">23 · Decisiones · valor exacto</div><h2>Cuando comparas un valor con opciones conocidas, <code>switch</code> organiza los casos.</h2>
+  <div class="slide-body"><div class="grid two"><div class="panel blue"><span class="label">Estado recibido</span><p><code>estado = "PAGADO"</code></p><div class="branch switch-branch"><div class="node">¿Qué valor tiene estado?</div><div class="path"><strong>PAGADO</strong>Enviar</div><div class="path"><strong>NUEVO</strong>Revisar</div><div class="path"><strong>otro valor</strong>Pendiente</div></div></div><pre class="code"><span class="tok-type">String</span> estado = <span class="tok-string">"PAGADO"</span>;
 <span class="tok-keyword">switch</span> (estado) {
   <span class="tok-keyword">case</span> <span class="tok-string">"PAGADO"</span> -&gt; System.out.println(<span class="tok-string">"Enviar"</span>);
   <span class="tok-keyword">case</span> <span class="tok-string">"NUEVO"</span> -&gt; System.out.println(<span class="tok-string">"Revisar"</span>);
   <span class="tok-keyword">default</span> -&gt; System.out.println(<span class="tok-string">"Pendiente"</span>);
-}</pre></div><div class="callout">Se ejecuta el caso que coincide exactamente; <code>default</code> cubre los demás. Para rangos como «mayor o igual que», usa <code>if</code>. Esta forma funciona en Java 21.</div></section>
-<section class="slide" hidden data-title="El problema de guardar varios datos"><div class="kicker">24 · Muchos datos relacionados</div><h2>Guardar cada nombre en una variable se vuelve difícil de manejar.</h2><div class="compare"><div class="bad"><span class="label">Una variable por persona</span><pre class="code"><span class="tok-type">String</span> asistente1 = <span class="tok-string">"Ana"</span>;
+}</pre></div><div class="callout">Se ejecuta el caso que coincide exactamente; <code>default</code> cubre los demás. Para rangos como «mayor o igual que», usa <code>if</code>. Esta forma funciona en Java 21.</div>
+  </div>
+</section>
+<section class="slide" hidden data-title="El problema de guardar varios datos"><div class="kicker">24 · Muchos datos relacionados</div><h2>Guardar cada nombre en una variable se vuelve difícil de manejar.</h2>
+  <div class="slide-body"><div class="compare"><div class="bad"><span class="label">Una variable por persona</span><pre class="code"><span class="tok-type">String</span> asistente1 = <span class="tok-string">"Ana"</span>;
 <span class="tok-type">String</span> asistente2 = <span class="tok-string">"Luis"</span>;
-<span class="tok-type">String</span> asistente3 = <span class="tok-string">"Mía"</span>;</pre><p>Con cada persona nueva, hay que crear otro nombre y cambiar el código que usa la lista.</p></div><div class="good"><span class="label">Una lista con todos</span><div class="array-visual"><div class="array-cell"><strong>Ana</strong></div><div class="array-cell"><strong>Luis</strong></div><div class="array-cell"><strong>Mía</strong></div></div><p>Los nombres relacionados viven juntos y se pueden ubicar por posición.</p></div></div><div class="callout"><strong>Idea:</strong> agrupar datos del mismo tipo facilita consultarlos y trabajar con ellos como conjunto.</div></section>
-<section class="slide" hidden data-title="Modelo mental de un array"><div class="kicker">25 · Arrays</div><h2>Un array guarda varios valores del mismo tipo en posiciones numeradas.</h2><div class="array-row"><span class="array-row-label">Array</span><code>String[] asistentes</code><span class="array-row-label">3 posiciones</span></div><div class="array-visual" aria-label="Array asistentes con índices 0, 1 y 2: Ana, Luis y Mía"><div class="array-cell"><small>índice 0</small><strong>Ana</strong><span>asistentes[0]</span></div><div class="array-cell"><small>índice 1</small><strong>Luis</strong><span>asistentes[1]</span></div><div class="array-cell"><small>índice 2</small><strong>Mía</strong><span>asistentes[2]</span></div></div><div class="grid two"><div class="panel blue"><h3>Mismo tipo</h3><p>Cada posición contiene un <code>String</code>, igual que indica el tipo del array.</p></div><div class="panel"><h3>Orden definido</h3><p>La posición identifica cada dato. El conteo de índices empieza en cero.</p></div></div></section>
-<section class="slide" hidden data-title="Crear y consultar un array"><div class="kicker">26 · Arrays · implementación</div><h2>El índice permite leer o cambiar una posición específica.</h2><div class="grid two"><pre class="code"><span class="tok-type">String</span>[] asistentes = {
+<span class="tok-type">String</span> asistente3 = <span class="tok-string">"Mía"</span>;</pre><p>Con cada persona nueva, hay que crear otro nombre y cambiar el código que usa la lista.</p></div><div class="good"><span class="label">Una lista con todos</span><div class="array-visual"><div class="array-cell"><strong>Ana</strong></div><div class="array-cell"><strong>Luis</strong></div><div class="array-cell"><strong>Mía</strong></div></div><p>Los nombres relacionados viven juntos y se pueden ubicar por posición.</p></div></div><div class="callout"><strong>Idea:</strong> agrupar datos del mismo tipo facilita consultarlos y trabajar con ellos como conjunto.</div>
+  </div>
+</section>
+<section class="slide" hidden data-title="Modelo mental de un array"><div class="kicker">25 · Arrays</div><h2>Un array guarda varios valores del mismo tipo en posiciones numeradas.</h2>
+  <div class="slide-body"><div class="array-row"><span class="array-row-label">Array</span><code>String[] asistentes</code><span class="array-row-label">3 posiciones</span></div><div class="array-visual" aria-label="Array asistentes con índices 0, 1 y 2: Ana, Luis y Mía"><div class="array-cell"><small>índice 0</small><strong>Ana</strong><span>asistentes[0]</span></div><div class="array-cell"><small>índice 1</small><strong>Luis</strong><span>asistentes[1]</span></div><div class="array-cell"><small>índice 2</small><strong>Mía</strong><span>asistentes[2]</span></div></div><div class="grid two"><div class="panel blue"><h3>Mismo tipo</h3><p>Cada posición contiene un <code>String</code>, igual que indica el tipo del array.</p></div><div class="panel"><h3>Orden definido</h3><p>La posición identifica cada dato. El conteo de índices empieza en cero.</p></div></div>
+  </div>
+</section>
+<section class="slide" hidden data-title="Crear y consultar un array"><div class="kicker">26 · Arrays · implementación</div><h2>El índice permite leer o cambiar una posición específica.</h2>
+  <div class="slide-body"><div class="grid two"><pre class="code"><span class="tok-type">String</span>[] asistentes = {
   <span class="tok-string">"Ana"</span>, <span class="tok-string">"Luis"</span>, <span class="tok-string">"Mía"</span>
 };
 
 System.out.println(asistentes[<span class="tok-number">1</span>]); <span class="tok-comment">// Luis</span>
-asistentes[<span class="tok-number">1</span>] = <span class="tok-string">"Luz"</span>;</pre><div class="panel blue"><span class="label">Después de cambiar el índice 1</span><div class="array-visual" aria-label="Array actualizado: Ana, Luz, Mía"><div class="array-cell"><small>0</small><strong>Ana</strong></div><div class="array-cell"><small>1</small><strong>Luz</strong></div><div class="array-cell"><small>2</small><strong>Mía</strong></div></div><p>Se imprime primero <strong>Luis</strong>; luego esa misma posición guarda <strong>Luz</strong>.</p></div></div><div class="callout"><strong>Lee los corchetes:</strong> <code>asistentes[1]</code> significa «el valor guardado en la posición 1».</div></section>
-<section class="slide" hidden data-title="Tamaño e índices válidos"><div class="kicker">27 · Arrays · límites</div><h2>El tamaño no cambia y los índices válidos van de 0 a <code>length - 1</code>.</h2><div class="grid two"><div class="panel blue"><div class="array-row"><span class="array-row-label">asistentes.length =</span><strong class="accent">3</strong><span class="array-row-label">· índices válidos</span></div><div class="array-visual" aria-label="Tres posiciones con índices válidos 0, 1 y 2"><div class="array-cell"><strong>0</strong></div><div class="array-cell"><strong>1</strong></div><div class="array-cell"><strong>2</strong></div></div><p>El primer índice es 0; el último es 2 porque hay tres espacios.</p></div><div><pre class="code"><span class="tok-type">int</span> cantidad = asistentes.length;
+asistentes[<span class="tok-number">1</span>] = <span class="tok-string">"Luz"</span>;</pre><div class="panel blue"><span class="label">Después de cambiar el índice 1</span><div class="array-visual" aria-label="Array actualizado: Ana, Luz, Mía"><div class="array-cell"><small>0</small><strong>Ana</strong></div><div class="array-cell"><small>1</small><strong>Luz</strong></div><div class="array-cell"><small>2</small><strong>Mía</strong></div></div><p>Se imprime primero <strong>Luis</strong>; luego esa misma posición guarda <strong>Luz</strong>.</p></div></div><div class="callout"><strong>Lee los corchetes:</strong> <code>asistentes[1]</code> significa «el valor guardado en la posición 1».</div>
+  </div>
+</section>
+<section class="slide" hidden data-title="Tamaño e índices válidos"><div class="kicker">27 · Arrays · límites</div><h2>El tamaño no cambia y los índices válidos van de 0 a <code>length - 1</code>.</h2>
+  <div class="slide-body"><div class="grid two"><div class="panel blue"><div class="array-row"><span class="array-row-label">asistentes.length =</span><strong class="accent">3</strong><span class="array-row-label">· índices válidos</span></div><div class="array-visual" aria-label="Tres posiciones con índices válidos 0, 1 y 2"><div class="array-cell"><strong>0</strong></div><div class="array-cell"><strong>1</strong></div><div class="array-cell"><strong>2</strong></div></div><p>El primer índice es 0; el último es 2 porque hay tres espacios.</p></div><div><pre class="code"><span class="tok-type">int</span> cantidad = asistentes.length;
 System.out.println(asistentes[<span class="tok-number">2</span>]); <span class="tok-comment">// Mía</span>
-System.out.println(asistentes[<span class="tok-number">3</span>]); <span class="tok-comment">// error</span></pre><div class="callout warning"><strong>Fuera de rango:</strong> con tres posiciones, el índice 3 no existe. Java lanza <code>ArrayIndexOutOfBoundsException</code>.</div></div></div><div class="callout"><strong>Regla:</strong> <code>length</code> cuenta espacios; los índices empiezan en cero.</div></section>
-<section class="slide" hidden data-title="Cuando la cantidad puede cambiar"><div class="kicker">28 · ArrayList</div><h2>Una lista puede crecer cuando se agrega otra persona.</h2><div class="grid two"><div class="panel"><span class="label">Array · tamaño fijo</span><div class="array-visual" aria-label="Array de tres posiciones: Ana, Luis y Mía"><div class="array-cell"><strong>Ana</strong><small>0</small></div><div class="array-cell"><strong>Luis</strong><small>1</small></div><div class="array-cell"><strong>Mía</strong><small>2</small></div></div><p>Tiene tres posiciones desde su creación; no puede añadir una cuarta.</p></div><div class="panel blue"><span class="label">ArrayList · crece al agregar</span><div class="array-growth" aria-label="La lista cambia de tres nombres a cuatro al agregar Noa"><div class="array-growth-state"><strong>[Ana, Luis, Mía]</strong><span>3 elementos</span></div><div class="array-growth-event"><strong>+ Noa</strong><span aria-hidden="true">→</span></div><div class="array-growth-state"><strong>[Ana, Luis, Mía, Noa]</strong><span>4 elementos</span></div></div><p><code>ArrayList&lt;String&gt;</code> es una lista flexible de textos de la biblioteca estándar.</p></div></div><div class="callout">El array mantiene su tamaño; el ArrayList puede crecer al agregar datos y reducirse al quitarlos.</div></section>
-<section class="slide" hidden data-title="Crear y llenar un ArrayList"><div class="kicker">29 · ArrayList · crear</div><h2><code>new</code> crea una lista vacía; <code>add</code> agrega asistentes.</h2><div class="grid two"><div><p class="muted">La línea <code>import</code> va antes de la clase.</p><pre class="code"><span class="tok-keyword">import</span> java.util.ArrayList;
+System.out.println(asistentes[<span class="tok-number">3</span>]); <span class="tok-comment">// error</span></pre><div class="callout warning"><strong>Fuera de rango:</strong> con tres posiciones, el índice 3 no existe. Java lanza <code>ArrayIndexOutOfBoundsException</code>.</div></div></div><div class="callout"><strong>Regla:</strong> <code>length</code> cuenta espacios; los índices empiezan en cero.</div>
+  </div>
+</section>
+<section class="slide" hidden data-title="Cuando la cantidad puede cambiar"><div class="kicker">28 · ArrayList</div><h2>Una lista puede crecer cuando se agrega otra persona.</h2>
+  <div class="slide-body"><div class="grid two"><div class="panel"><span class="label">Array · tamaño fijo</span><div class="array-visual" aria-label="Array de tres posiciones: Ana, Luis y Mía"><div class="array-cell"><strong>Ana</strong><small>0</small></div><div class="array-cell"><strong>Luis</strong><small>1</small></div><div class="array-cell"><strong>Mía</strong><small>2</small></div></div><p>Tiene tres posiciones desde su creación; no puede añadir una cuarta.</p></div><div class="panel blue"><span class="label">ArrayList · crece al agregar</span><div class="array-growth" aria-label="La lista cambia de tres nombres a cuatro al agregar Noa"><div class="array-growth-state"><strong>[Ana, Luis, Mía]</strong><span>3 elementos</span></div><div class="array-growth-event"><strong>+ Noa</strong><span aria-hidden="true">→</span></div><div class="array-growth-state"><strong>[Ana, Luis, Mía, Noa]</strong><span>4 elementos</span></div></div><p><code>ArrayList&lt;String&gt;</code> es una lista flexible de textos de la biblioteca estándar.</p></div></div><div class="callout">El array mantiene su tamaño; el ArrayList puede crecer al agregar datos y reducirse al quitarlos.</div>
+  </div>
+</section>
+<section class="slide" hidden data-title="Crear y llenar un ArrayList"><div class="kicker">29 · ArrayList · crear</div><h2><code>new</code> crea una lista vacía; <code>add</code> agrega asistentes.</h2>
+  <div class="slide-body"><div class="grid two"><div><p class="muted">La línea <code>import</code> va antes de la clase.</p><pre class="code"><span class="tok-keyword">import</span> java.util.ArrayList;
 
 ArrayList&lt;String&gt; asistentes = <span class="tok-keyword">new</span> ArrayList&lt;&gt;();
 asistentes.add(<span class="tok-string">"Ana"</span>);
 asistentes.add(<span class="tok-string">"Luis"</span>);
 asistentes.add(<span class="tok-string">"Mía"</span>);
-asistentes.add(<span class="tok-string">"Noa"</span>);</pre></div><div class="panel blue"><span class="label">Valores tras cada paso</span><p><code>[]</code> → [Ana] → [Ana, Luis, Mía] → [Ana, Luis, Mía, Noa]</p><p>Termina con cuatro textos. <code>ArrayList&lt;String&gt;</code> es una lista flexible de textos de la biblioteca estándar.</p></div></div></section>
-<section class="slide" hidden data-title="Leer y cambiar elementos"><div class="kicker">30 · ArrayList · operaciones</div><h2>Leer no cambia el tamaño; reemplazar conserva la posición.</h2><div class="grid two"><pre class="code"><span class="tok-comment">// Estado inicial: [Ana, Luis, Mía, Noa]</span>
+asistentes.add(<span class="tok-string">"Noa"</span>);</pre></div><div class="panel blue"><span class="label">Valores tras cada paso</span><p><code>[]</code> → [Ana] → [Ana, Luis, Mía] → [Ana, Luis, Mía, Noa]</p><p>Termina con cuatro textos. <code>ArrayList&lt;String&gt;</code> es una lista flexible de textos de la biblioteca estándar.</p></div></div>
+  </div>
+</section>
+<section class="slide" hidden data-title="Leer y cambiar elementos"><div class="kicker">30 · ArrayList · operaciones</div><h2>Leer no cambia el tamaño; reemplazar conserva la posición.</h2>
+  <div class="slide-body"><div class="grid two"><pre class="code"><span class="tok-comment">// Estado inicial: [Ana, Luis, Mía, Noa]</span>
 <span class="tok-type">String</span> primero = asistentes.get(<span class="tok-number">0</span>); <span class="tok-comment">// Ana</span>
 asistentes.set(<span class="tok-number">0</span>, <span class="tok-string">"Ari"</span>);
-asistentes.remove(<span class="tok-number">3</span>);</pre><div class="panel blue"><span class="label">Cambios visibles</span><p>Inicial: <code>[Ana, Luis, Mía, Noa]</code> · tamaño 4</p><p><code>get(0)</code> lee Ana · tamaño 4</p><p><code>set(0, "Ari")</code> → [Ari, Luis, Mía, Noa] · tamaño 4</p><p><code>remove(3)</code> → [Ari, Luis, Mía] · tamaño 3</p></div></div><div class="callout">Después de quitar un elemento, los siguientes se desplazan. <code>size()</code> devuelve cuántos hay; los paréntesis indican una llamada a ese método.</div></section>
-<section class="slide" hidden data-title="Elegir entre array y ArrayList"><div class="kicker">31 · Comparación</div><h2>Elige según si la cantidad de asistentes puede cambiar.</h2><div class="panel"><table class="trace"><caption>El mismo grupo de asistentes</caption><thead><tr><th>Operación</th><th>Array · asistentes</th><th>ArrayList · asistentes</th></tr></thead><tbody><tr><th>Inicio</th><td>[Ana, Luis, Mía] · 3 espacios</td><td>[Ana, Luis, Mía] · 3 elementos</td></tr><tr><th>Consultar cantidad</th><td><code>length</code></td><td><code>size()</code></td></tr><tr><th>Leer posición</th><td><code>asistentes[1]</code></td><td><code>asistentes.get(1)</code></td></tr><tr><th>Reemplazar</th><td><code>asistentes[1] = "Luz"</code></td><td><code>asistentes.set(1, "Luz")</code></td></tr><tr><th>Agregar Noa</th><td>No cambia de tamaño</td><td><code>add("Noa")</code> · 4 elementos</td></tr><tr><th>Quitar un dato</th><td>Posiciones fijas</td><td><code>remove(...)</code> · reduce tamaño</td></tr></tbody></table></div><div class="callout">Usa el array cuando el número de posiciones queda fijo; usa una lista cuando necesites agregar o quitar personas.</div></section>
-<section class="slide exercise" hidden data-title="Práctica con arrays y ArrayList"><div class="kicker">32 · Práctica guiada</div><h2>Prueba las dos colecciones con los mismos asistentes.</h2><div class="grid two"><div class="panel"><span class="label">Punto de partida</span><pre class="code"><span class="tok-keyword">import</span> java.util.ArrayList;
+asistentes.remove(<span class="tok-number">3</span>);</pre><div class="panel blue"><span class="label">Cambios visibles</span><p>Inicial: <code>[Ana, Luis, Mía, Noa]</code> · tamaño 4</p><p><code>get(0)</code> lee Ana · tamaño 4</p><p><code>set(0, "Ari")</code> → [Ari, Luis, Mía, Noa] · tamaño 4</p><p><code>remove(3)</code> → [Ari, Luis, Mía] · tamaño 3</p></div></div><div class="callout">Después de quitar un elemento, los siguientes se desplazan. <code>size()</code> devuelve cuántos hay; los paréntesis indican una llamada a ese método.</div>
+  </div>
+</section>
+<section class="slide" hidden data-title="Elegir entre array y ArrayList"><div class="kicker">31 · Comparación</div><h2>Elige según si la cantidad de asistentes puede cambiar.</h2>
+  <div class="slide-body"><div class="panel"><table class="trace"><caption>El mismo grupo de asistentes</caption><thead><tr><th>Operación</th><th>Array · asistentes</th><th>ArrayList · asistentes</th></tr></thead><tbody><tr><th>Inicio</th><td>[Ana, Luis, Mía] · 3 espacios</td><td>[Ana, Luis, Mía] · 3 elementos</td></tr><tr><th>Consultar cantidad</th><td><code>length</code></td><td><code>size()</code></td></tr><tr><th>Leer posición</th><td><code>asistentes[1]</code></td><td><code>asistentes.get(1)</code></td></tr><tr><th>Reemplazar</th><td><code>asistentes[1] = "Luz"</code></td><td><code>asistentes.set(1, "Luz")</code></td></tr><tr><th>Agregar Noa</th><td>No cambia de tamaño</td><td><code>add("Noa")</code> · 4 elementos</td></tr><tr><th>Quitar un dato</th><td>Posiciones fijas</td><td><code>remove(...)</code> · reduce tamaño</td></tr></tbody></table></div><div class="callout">Usa el array cuando el número de posiciones queda fijo; usa una lista cuando necesites agregar o quitar personas.</div>
+  </div>
+</section>
+<section class="slide exercise" hidden data-title="Práctica con arrays y ArrayList"><div class="kicker">32 · Práctica guiada</div><h2>Prueba las dos colecciones con los mismos asistentes.</h2>
+  <div class="slide-body"><div class="grid two"><div class="panel"><span class="label">Punto de partida</span><pre class="code"><span class="tok-keyword">import</span> java.util.ArrayList;
 
 <span class="tok-type">String</span>[] asistentes = {<span class="tok-string">"Ana"</span>, <span class="tok-string">"Luis"</span>, <span class="tok-string">"Mía"</span>};
-ArrayList&lt;String&gt; lista = <span class="tok-keyword">new</span> ArrayList&lt;&gt;();</pre><p>El array empieza con tres nombres; la lista empieza vacía.</p></div><div class="panel blue"><span class="label">Pasos, límites y resultado</span><ol class="mini-list"><li>Imprime <code>asistentes.length</code>: debe dar <strong>3</strong>.</li><li>Agrega los tres nombres y <strong>Noa</strong> a <code>lista</code>; su tamaño será <strong>4</strong>.</li><li>Cambia el segundo nombre a <strong>Luz</strong> en ambas colecciones.</li></ol><p>El índice 1 es el segundo. Usa <code>set(1, ...)</code> para cambiarlo en la lista.</p><p><strong>Restricción:</strong> todavía no uses bucles.</p><div class="callout success"><strong>Desafío opcional:</strong> quita el último nombre de la lista y predice su nuevo tamaño.</div></div></div></section>
-<section class="slide" hidden data-title="Modelo mental de bucles"><div class="kicker">33 · Repetición</div><h2>Saluda a Ana, Luis y Mía sin copiar la instrucción tres veces.</h2><div class="branch"><div class="node">Posición 0 → comprobar: ¿i &lt; 3?</div><div class="path"><strong>Sí · repetir</strong>Saludar al asistente · incrementar i · volver a comprobar</div><div class="path"><strong>No · terminar</strong>En posición 3 ya no queda un asistente</div></div><div class="grid two"><div class="panel blue"><h3>Usa <code>for</code></h3><p>Cuando conoces el contador o la colección que vas a recorrer.</p></div><div class="panel"><h3>Usa <code>while</code></h3><p>Cuando la repetición depende de una condición que puede cambiar.</p></div></div><div class="callout warning"><strong>Detención:</strong> el contador pasa por 0, 1 y 2; al llegar a 3, termina antes de intentar otro saludo.</div></section>
-<section class="slide" hidden data-title="Recorrer con for"><div class="kicker">34 · Bucles · colección</div><h2><code>for</code> repite una acción para cada asistente.</h2><div class="grid two"><pre class="code"><span class="tok-type">String</span>[] asistentes = {<span class="tok-string">"Ana"</span>, <span class="tok-string">"Luis"</span>, <span class="tok-string">"Mía"</span>};
+ArrayList&lt;String&gt; lista = <span class="tok-keyword">new</span> ArrayList&lt;&gt;();</pre><p>El array empieza con tres nombres; la lista empieza vacía.</p></div><div class="panel blue"><span class="label">Pasos, límites y resultado</span><ol class="mini-list"><li>Imprime <code>asistentes.length</code>: debe dar <strong>3</strong>.</li><li>Agrega los tres nombres y <strong>Noa</strong> a <code>lista</code>; su tamaño será <strong>4</strong>.</li><li>Cambia el segundo nombre a <strong>Luz</strong> en ambas colecciones.</li></ol><p>El índice 1 es el segundo. Usa <code>set(1, ...)</code> para cambiarlo en la lista.</p><p><strong>Restricción:</strong> todavía no uses bucles.</p><div class="callout success"><strong>Desafío opcional:</strong> quita el último nombre de la lista y predice su nuevo tamaño.</div></div></div>
+  </div>
+</section>
+<section class="slide" hidden data-title="Modelo mental de bucles"><div class="kicker">33 · Repetición</div><h2>Saluda a Ana, Luis y Mía sin copiar la instrucción tres veces.</h2>
+  <div class="slide-body"><div class="branch"><div class="node">Posición 0 → comprobar: ¿i &lt; 3?</div><div class="path"><strong>Sí · repetir</strong>Saludar al asistente · incrementar i · volver a comprobar</div><div class="path"><strong>No · terminar</strong>En posición 3 ya no queda un asistente</div></div><div class="grid two"><div class="panel blue"><h3>Usa <code>for</code></h3><p>Cuando conoces el contador o la colección que vas a recorrer.</p></div><div class="panel"><h3>Usa <code>while</code></h3><p>Cuando la repetición depende de una condición que puede cambiar.</p></div></div><div class="callout warning"><strong>Detención:</strong> el contador pasa por 0, 1 y 2; al llegar a 3, termina antes de intentar otro saludo.</div>
+  </div>
+</section>
+<section class="slide" hidden data-title="Recorrer con for"><div class="kicker">34 · Bucles · colección</div><h2><code>for</code> repite una acción para cada asistente.</h2>
+  <div class="slide-body"><div class="grid two"><pre class="code"><span class="tok-type">String</span>[] asistentes = {<span class="tok-string">"Ana"</span>, <span class="tok-string">"Luis"</span>, <span class="tok-string">"Mía"</span>};
 <span class="tok-keyword">for</span> (<span class="tok-type">int</span> i = <span class="tok-number">0</span>; i &lt; asistentes.length; i++) {
   System.out.println(asistentes[i]);
-}</pre><div class="panel blue"><span class="label">Recorrido y salida</span><p><strong>Ana · Luis · Mía</strong></p><p>Inicia i en 0 → comprueba i &lt; 3 → imprime → actualiza.</p><p><code>i++</code> incrementa i en uno. En i = 3, la condición es falsa y el bucle termina antes de acceder al array.</p></div></div></section>
-<section class="slide" hidden data-title="Recorrer con while"><div class="kicker">35 · Bucles · condición</div><h2><code>while</code> repite mientras su condición siga siendo verdadera.</h2><div class="panel blue"><span class="label">Estado inicial</span><p><code>asistentes = [Ana, Luis, Mía]</code> · índices 0, 1 y 2</p></div><div class="grid two"><pre class="code"><span class="tok-type">String</span>[] asistentes = {<span class="tok-string">"Ana"</span>, <span class="tok-string">"Luis"</span>, <span class="tok-string">"Mía"</span>};
+}</pre><div class="panel blue"><span class="label">Recorrido y salida</span><p><strong>Ana · Luis · Mía</strong></p><p>Inicia i en 0 → comprueba i &lt; 3 → imprime → actualiza.</p><p><code>i++</code> incrementa i en uno. En i = 3, la condición es falsa y el bucle termina antes de acceder al array.</p></div></div>
+  </div>
+</section>
+<section class="slide" hidden data-title="Recorrer con while"><div class="kicker">35 · Bucles · condición</div><h2><code>while</code> repite mientras su condición siga siendo verdadera.</h2>
+  <div class="slide-body"><div class="panel blue"><span class="label">Estado inicial</span><p><code>asistentes = [Ana, Luis, Mía]</code> · índices 0, 1 y 2</p></div><div class="grid two"><pre class="code"><span class="tok-type">String</span>[] asistentes = {<span class="tok-string">"Ana"</span>, <span class="tok-string">"Luis"</span>, <span class="tok-string">"Mía"</span>};
 <span class="tok-type">int</span> i = <span class="tok-number">0</span>;
 <span class="tok-keyword">while</span> (i &lt; asistentes.length) {
   System.out.println(asistentes[i]);
   i++;
-}</pre><div class="panel"><span class="label">Mismo resultado</span><p>Se imprimen Ana, Luis y Mía.</p><p><code>i++</code> actualiza el índice. Cuando i vale 3, la condición es falsa y termina.</p><p><code>for</code> reúne inicio, comprobación y actualización; <code>while</code> los deja visibles por separado.</p></div></div><div class="callout warning"><strong>Atención:</strong> sin actualizar i, el bucle podría no terminar.</div></section>
-<section class="slide" hidden data-title="Seguir un bucle"><div class="kicker">36 · Bucles · traza</div><h2>La última comprobación evita consultar una posición que no existe.</h2><div class="grid two"><pre class="code"><span class="tok-type">String</span>[] asistentes = {<span class="tok-string">"Ana"</span>, <span class="tok-string">"Luis"</span>, <span class="tok-string">"Mía"</span>};
+}</pre><div class="panel"><span class="label">Mismo resultado</span><p>Se imprimen Ana, Luis y Mía.</p><p><code>i++</code> actualiza el índice. Cuando i vale 3, la condición es falsa y termina.</p><p><code>for</code> reúne inicio, comprobación y actualización; <code>while</code> los deja visibles por separado.</p></div></div><div class="callout warning"><strong>Atención:</strong> sin actualizar i, el bucle podría no terminar.</div>
+  </div>
+</section>
+<section class="slide" hidden data-title="Seguir un bucle"><div class="kicker">36 · Bucles · traza</div><h2>La última comprobación evita consultar una posición que no existe.</h2>
+  <div class="slide-body"><div class="grid two"><pre class="code"><span class="tok-type">String</span>[] asistentes = {<span class="tok-string">"Ana"</span>, <span class="tok-string">"Luis"</span>, <span class="tok-string">"Mía"</span>};
 <span class="tok-keyword">for</span> (<span class="tok-type">int</span> i = <span class="tok-number">0</span>; i &lt; asistentes.length; i++) {
   System.out.println(asistentes[i]);
-}</pre><div class="panel blue"><table class="trace"><caption>Una vuelta por índice</caption><thead><tr><th>i</th><th>i &lt; 3</th><th>Acción</th></tr></thead><tbody><tr><td>0</td><td>true</td><td>imprime Ana</td></tr><tr><td>1</td><td>true</td><td>imprime Luis</td></tr><tr><td>2</td><td>true</td><td>imprime Mía</td></tr><tr><td>3</td><td>false</td><td>termina; no lee el array</td></tr></tbody></table></div></div><div class="callout warning"><strong>Error común:</strong> usar <code>i &lt;= asistentes.length</code> intentaría leer índice 3, que no existe.</div></section>
-<section class="slide" hidden data-title="Recorrer un ArrayList"><div class="kicker">37 · Bucles · ArrayList</div><h2>Un índice también permite visitar cada posición de una lista.</h2><div class="grid two"><pre class="code"><span class="tok-comment">// Estado inicial: [Ana, Luis, Mía]</span>
+}</pre><div class="panel blue"><table class="trace"><caption>Una vuelta por índice</caption><thead><tr><th>i</th><th>i &lt; 3</th><th>Acción</th></tr></thead><tbody><tr><td>0</td><td>true</td><td>imprime Ana</td></tr><tr><td>1</td><td>true</td><td>imprime Luis</td></tr><tr><td>2</td><td>true</td><td>imprime Mía</td></tr><tr><td>3</td><td>false</td><td>termina; no lee el array</td></tr></tbody></table></div></div><div class="callout warning"><strong>Error común:</strong> usar <code>i &lt;= asistentes.length</code> intentaría leer índice 3, que no existe.</div>
+  </div>
+</section>
+<section class="slide" hidden data-title="Recorrer un ArrayList"><div class="kicker">37 · Bucles · ArrayList</div><h2>Un índice también permite visitar cada posición de una lista.</h2>
+  <div class="slide-body"><div class="grid two"><pre class="code"><span class="tok-comment">// Estado inicial: [Ana, Luis, Mía]</span>
 <span class="tok-keyword">for</span> (<span class="tok-type">int</span> i = <span class="tok-number">0</span>; i &lt; asistentes.size(); i++) {
   System.out.println(asistentes.get(i));
-}</pre><div class="panel blue"><span class="label">Salida</span><p>Ana</p><p>Luis</p><p>Mía</p><p><code>i</code> visita 0, 1 y 2; en 3 la condición es falsa.</p></div></div><div class="callout">En un array usamos <code>length</code> y <code>asistentes[i]</code>; en un ArrayList usamos <code>size()</code> y <code>get(i)</code>.</div></section>
-<section class="slide" hidden data-title="Ejemplo integrado"><div class="kicker">38 · Aplicación</div><h2>Calcula el total con un estado original y una regla clara.</h2><div class="grid two"><div><div class="callout"><strong>Reglas:</strong> envío S/ 0 si el subtotal original es ≥ S/ 100; si no, S/ 8. Si la persona es miembro, descuenta 5% antes de sumar el envío.</div><pre class="code"><span class="tok-type">double</span> subtotalOriginal = <span class="tok-number">125.0</span>;
+}</pre><div class="panel blue"><span class="label">Salida</span><p>Ana</p><p>Luis</p><p>Mía</p><p><code>i</code> visita 0, 1 y 2; en 3 la condición es falsa.</p></div></div><div class="callout">En un array usamos <code>length</code> y <code>asistentes[i]</code>; en un ArrayList usamos <code>size()</code> y <code>get(i)</code>.</div>
+  </div>
+</section>
+<section class="slide" hidden data-title="Ejemplo integrado"><div class="kicker">38 · Aplicación</div><h2>Calcula el total con un estado original y una regla clara.</h2>
+  <div class="slide-body"><div class="grid two"><div><div class="callout"><strong>Reglas:</strong> envío S/ 0 si el subtotal original es ≥ S/ 100; si no, S/ 8. Si la persona es miembro, descuenta 5% antes de sumar el envío.</div><pre class="code"><span class="tok-type">double</span> subtotalOriginal = <span class="tok-number">125.0</span>;
 <span class="tok-type">boolean</span> miembro = <span class="tok-keyword">true</span>;
 <span class="tok-type">double</span> envio = <span class="tok-number">8.0</span>;
 <span class="tok-keyword">if</span> (subtotalOriginal &gt;= <span class="tok-number">100</span>) envio = <span class="tok-number">0</span>;
 <span class="tok-type">double</span> descuento = <span class="tok-number">0.0</span>;
 <span class="tok-keyword">if</span> (miembro) descuento = subtotalOriginal * <span class="tok-number">0.05</span>;
 <span class="tok-type">double</span> total = subtotalOriginal - descuento + envio;
-System.out.println(total); <span class="tok-comment">// 118.75</span></pre></div><div class="panel blue"><span class="label">Traza del estado</span><table class="trace"><tbody><tr><th>Inicio</th><td>original 125.0 · miembro true · envío 8.0</td></tr><tr><th>Envío</th><td>125.0 ≥ 100 → 0.0</td></tr><tr><th>Descuento</th><td>125.0 × 0.05 = 6.25</td></tr><tr><th>Total</th><td>125.0 − 6.25 + 0.0 = 118.75</td></tr></tbody></table></div></div></section>
-<section class="slide" hidden data-title="Errores comunes"><div class="kicker">39 · Mentalidad de depuración</div><h2>Un pequeño cambio puede explicar un resultado inesperado.</h2><div class="grid two"><div class="panel"><h3><code>=</code> vs <code>==</code></h3><p><code>total = 100</code> guarda. <code>total == 100</code> compara números.</p></div><div class="panel"><h3>División entera</h3><p><code>5 / 2</code> con enteros produce <code>2</code>, no <code>2.5</code>.</p></div><div class="panel"><h3>Límite de una colección</h3><p>Si hay 3 elementos, los índices válidos son 0, 1 y 2.</p></div><div class="panel"><h3>Comparar texto</h3><p><code>==</code> no compara las letras de dos textos. Usa <code>"PAGADO".equals(estado)</code> para comparar su contenido.</p></div></div><div class="callout warning"><strong>Depura así:</strong> predice el valor, ejecuta y compara el resultado.</div></section>
-<section class="slide" hidden data-title="Resumen"><div class="kicker">40 · Recuperación</div><h2>De la fuente al resultado y de los datos a una regla.</h2><div class="flow" aria-label="Código fuente pasa por javac, genera bytecode, lo ejecuta la JVM y produce un resultado"><div class="node">Fuente Java</div><div class="flow-link"><span>javac</span><b aria-hidden="true">→</b></div><div class="node">Bytecode</div><div class="flow-link"><span>JVM</span><b aria-hidden="true">→</b></div><div class="node">Resultado</div></div><div class="grid three"><div class="panel blue"><h3>Estado</h3><p>Variables guardan valores; arrays y listas agrupan datos.</p></div><div class="panel"><h3>Reglas</h3><p>Operadores calculan; condicionales eligen.</p></div><div class="panel"><h3>Repetición</h3><p>Los bucles aplican instrucciones a cada dato.</p></div></div><div class="callout"><strong>Recuerda:</strong> ¿qué genera <code>javac</code>? ¿Qué condición detiene un recorrido de tres elementos? ¿Cuál es la diferencia entre <code>length</code> y <code>size()</code>?</div></section>
-<section class="slide exercise" hidden data-title="Práctica final"><div class="kicker">41 · Práctica</div><h2>Construye una calculadora de tarifa de entrega.</h2><div class="grid two"><div class="panel"><span class="label">Objetivo y punto de partida</span><p>Escribe un programa Java con <code>double subtotal = 75.0;</code> y <code>boolean miembro = false;</code>.</p><span class="label">Reglas y límites</span><p>Envío S/ 8, gratis si el subtotal ORIGINAL es ≥ S/ 100. Si es miembro, descuenta 5% del subtotal y después suma envío. Supón entradas no negativas. Usa variables e <code>if</code>.</p></div><div class="panel blue"><span class="label">Resultados para comprobar</span><p>75 y false → <strong>83.0</strong></p><p>75 y true → <strong>79.25</strong></p><p>100 y false → <strong>100.0</strong></p><p>100 y true → <strong>95.0</strong></p><p>Imprime el total y la regla aplicada.</p><span class="label">Desafío opcional</span><p>Prueba tres subtotales y cuenta cuántas compras reciben envío gratis.</p></div></div><aside class="speaker-notes" hidden>Pide escribir primero las reglas en lenguaje natural y luego implementar una por una.</aside></section>
+System.out.println(total); <span class="tok-comment">// 118.75</span></pre></div><div class="panel blue"><span class="label">Traza del estado</span><table class="trace"><tbody><tr><th>Inicio</th><td>original 125.0 · miembro true · envío 8.0</td></tr><tr><th>Envío</th><td>125.0 ≥ 100 → 0.0</td></tr><tr><th>Descuento</th><td>125.0 × 0.05 = 6.25</td></tr><tr><th>Total</th><td>125.0 − 6.25 + 0.0 = 118.75</td></tr></tbody></table></div></div>
+  </div>
+</section>
+<section class="slide" hidden data-title="Errores comunes"><div class="kicker">39 · Mentalidad de depuración</div><h2>Un pequeño cambio puede explicar un resultado inesperado.</h2>
+  <div class="slide-body"><div class="grid two"><div class="panel"><h3><code>=</code> vs <code>==</code></h3><p><code>total = 100</code> guarda. <code>total == 100</code> compara números.</p></div><div class="panel"><h3>División entera</h3><p><code>5 / 2</code> con enteros produce <code>2</code>, no <code>2.5</code>.</p></div><div class="panel"><h3>Límite de una colección</h3><p>Si hay 3 elementos, los índices válidos son 0, 1 y 2.</p></div><div class="panel"><h3>Comparar texto</h3><p><code>==</code> no compara las letras de dos textos. Usa <code>"PAGADO".equals(estado)</code> para comparar su contenido.</p></div></div><div class="callout warning"><strong>Depura así:</strong> predice el valor, ejecuta y compara el resultado.</div>
+  </div>
+</section>
+<section class="slide" hidden data-title="Resumen"><div class="kicker">40 · Recuperación</div><h2>De la fuente al resultado y de los datos a una regla.</h2>
+  <div class="slide-body"><div class="flow" aria-label="Código fuente pasa por javac, genera bytecode, lo ejecuta la JVM y produce un resultado"><div class="node">Fuente Java</div><div class="flow-link"><span>javac</span><b aria-hidden="true">→</b></div><div class="node">Bytecode</div><div class="flow-link"><span>JVM</span><b aria-hidden="true">→</b></div><div class="node">Resultado</div></div><div class="grid three"><div class="panel blue"><h3>Estado</h3><p>Variables guardan valores; arrays y listas agrupan datos.</p></div><div class="panel"><h3>Reglas</h3><p>Operadores calculan; condicionales eligen.</p></div><div class="panel"><h3>Repetición</h3><p>Los bucles aplican instrucciones a cada dato.</p></div></div><div class="callout"><strong>Recuerda:</strong> ¿qué genera <code>javac</code>? ¿Qué condición detiene un recorrido de tres elementos? ¿Cuál es la diferencia entre <code>length</code> y <code>size()</code>?</div>
+  </div>
+</section>
+<section class="slide exercise" hidden data-title="Práctica final"><div class="kicker">41 · Práctica</div><h2>Construye una calculadora de tarifa de entrega.</h2>
+  <div class="slide-body"><div class="grid two"><div class="panel"><span class="label">Objetivo y punto de partida</span><p>Escribe un programa Java con <code>double subtotal = 75.0;</code> y <code>boolean miembro = false;</code>.</p><span class="label">Reglas y límites</span><p>Envío S/ 8, gratis si el subtotal ORIGINAL es ≥ S/ 100. Si es miembro, descuenta 5% del subtotal y después suma envío. Supón entradas no negativas. Usa variables e <code>if</code>.</p></div><div class="panel blue"><span class="label">Resultados para comprobar</span><p>75 y false → <strong>83.0</strong></p><p>75 y true → <strong>79.25</strong></p><p>100 y false → <strong>100.0</strong></p><p>100 y true → <strong>95.0</strong></p><p>Imprime el total y la regla aplicada.</p><span class="label">Desafío opcional</span><p>Prueba tres subtotales y cuenta cuántas compras reciben envío gratis.</p></div></div><aside class="speaker-notes" hidden>Pide escribir primero las reglas en lenguaje natural y luego implementar una por una.</aside>
+  </div>
+</section>
 </main>
 <nav class="controls" aria-label="Controles de presentación"><a class="home-control" href="../" aria-label="Volver al inicio del curso" title="Inicio del curso"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m3 10 9-7 9 7M5.5 9v11h13V9M9 20v-7h6v7"/></svg></a><button type="button" id="prev" aria-label="Diapositiva anterior">←</button><span class="indicator" id="slide-indicator" aria-live="polite">1 / 41</span><button type="button" id="next" aria-label="Diapositiva siguiente">→</button><button type="button" id="notes-toggle" aria-label="Mostrar u ocultar notas">N</button><button type="button" id="fullscreen" aria-label="Alternar pantalla completa">⛶</button><button type="button" class="help" id="help" aria-label="Ayuda de teclado">?</button></nav>
 <div class="progress" aria-hidden="true"><i id="progress-bar"></i></div>

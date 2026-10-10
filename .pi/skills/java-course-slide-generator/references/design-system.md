@@ -58,7 +58,8 @@ Keep line lengths short. Avoid shrinking text to fit; split an overcrowded slide
 - Use a 16:9 presentation stage (`aspect-ratio: 16 / 9`) sized to the available viewport. When the deck is designed for full-screen use, let the stage fill the viewport; do not place it inside a second card or leave wide unused page gutters.
 - Slides occupy the same stage and use a consistent safe area, approximately `clamp(1.5rem, 4vw, 4rem)`.
 - Use an 8px spacing rhythm: 8, 16, 24, 32, 48, 64.
-- Place slide title at the upper left except title and section-divider slides.
+- Keep slide titles and their eyebrows at the upper left of the safe area, including title and section-divider slides.
+- Group the explanation, diagrams, examples, and callouts below the title and vertically center that group in the remaining stage space. Keep panels at their natural height. When the group is taller than the available space, let it start below the title and scroll in reading order without clipping.
 - Keep navigation/progress chrome quiet and outside the core content when possible.
 - Use rounded corners of 12–18px and subtle borders; avoid excessive cards.
 - Size panels to their content. Do not stretch short code examples into tall empty blocks; align code and explanation panels to their natural height and use the remaining stage space for the diagram or example that advances the lesson.
