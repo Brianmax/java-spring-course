@@ -12,6 +12,8 @@ Sitio estático para que los estudiantes consulten las diapositivas y los proyec
 
 Las diapositivas de cada lección son archivos HTML independientes y se pueden abrir directamente en un navegador.
 
+El [temario de Programación Orientada a Objetos en Java](docs/temario-poo-java.md) organiza el aprendizaje en 16 unidades, desde los fundamentos hasta diseño, patrones y pruebas, con ejemplos y ejercicios por nivel.
+
 ## Agregar contenido
 
 Para publicar una lección, agrega su archivo HTML en `lessons/` y enlázalo desde `lessons/index.html` y la página de inicio. Para publicar un proyecto, agrega una página o carpeta dentro de `projects/` y enlázala desde `projects/index.html`.
