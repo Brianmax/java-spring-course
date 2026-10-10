@@ -249,6 +249,14 @@ code { overflow-wrap: anywhere; }
 .switch-branch { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .branch .path { padding: 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--tecsup-pale); }
 .branch .path strong { display: block; margin-bottom: 6px; color: #075a7a; }
+.greeting-repeat { display: grid; gap: 12px; margin-top: 14px; }
+.greeting-repeat div { padding: 14px 16px; border: 1px solid var(--line); border-radius: 10px; background: #ffffff; font-size: 20px; font-weight: 700; }
+.greeting-steps { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr); align-items: stretch; gap: 10px; margin-top: 14px; }
+.greeting-steps .node { display: grid; min-width: 0; min-height: 88px; place-items: center; padding: 12px; }
+.greeting-return { display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 12px; padding: 12px; border: 2px solid var(--tecsup-blue); border-radius: 12px; background: #ffffff; color: #075a7a; font-weight: 750; text-align: center; }
+.greeting-return .return-arrow { color: var(--tecsup-cyan); font-size: 30px; line-height: 1; }
+.greeting-stop { margin-top: 12px; padding: 14px; border-radius: 10px; background: #ffffff; text-align: center; line-height: 1.4; }
+.greeting-stop strong { color: #075a7a; }
 .trace { width: 100%; border-collapse: collapse; font-size: 16px; }
 .trace caption { margin-bottom: 8px; text-align: left; font-weight: 700; }
 .trace th, .trace td { padding: 8px; border-bottom: 1px solid #a3ccdc; text-align: left; }
@@ -304,6 +312,10 @@ code { overflow-wrap: anywhere; }
   .branch, .switch-branch, .array-growth { grid-template-columns: 1fr; }
   .array-growth-event span { transform: rotate(90deg); }
   .branch > .node:first-child { grid-column: auto; }
+  .greeting-steps { grid-template-columns: 1fr; }
+  .greeting-steps > .arrow { justify-self: center; transform: rotate(90deg); }
+  .greeting-return { flex-direction: column; gap: 4px; }
+  .greeting-return .return-arrow { transform: rotate(-90deg); }
   .message-flow { flex-direction: column; }
   .message-transition b { transform: rotate(90deg); }
   .array-visual { gap: 8px; }
@@ -614,8 +626,8 @@ asistentes.remove(<span class="tok-number">3</span>);</pre><div class="panel blu
 ArrayList&lt;String&gt; lista = <span class="tok-keyword">new</span> ArrayList&lt;&gt;();</pre><p>El array empieza con tres nombres; la lista empieza vacía.</p></div><div class="panel blue"><span class="label">Pasos, límites y resultado</span><ol class="mini-list"><li>Imprime <code>asistentes.length</code>: debe dar <strong>3</strong>.</li><li>Agrega los tres nombres y <strong>Noa</strong> a <code>lista</code>; su tamaño será <strong>4</strong>.</li><li>Cambia el segundo nombre a <strong>Luz</strong> en ambas colecciones.</li></ol><p>El índice 1 es el segundo. Usa <code>set(1, ...)</code> para cambiarlo en la lista.</p><p><strong>Restricción:</strong> todavía no uses bucles.</p><div class="callout success"><strong>Desafío opcional:</strong> quita el último nombre de la lista y predice su nuevo tamaño.</div></div></div>
   </div>
 </section>
-<section class="slide" hidden data-title="Una tarea para cada persona"><div class="kicker">33 · Una idea sencilla</div><h2>Si quedan personas por saludar, repetimos la misma acción.</h2>
-  <div class="slide-body"><div class="panel blue" role="note"><strong>Nombres:</strong> Ana · Luis · Mía</div><div class="visual-flow" role="img" aria-label="Tomar el siguiente nombre, saludar a esa persona y pasar al siguiente nombre"><div class="visual-node"><strong>Tomar el siguiente nombre</strong></div><div class="visual-arrow" aria-hidden="true">→</div><div class="visual-node primary"><strong>Saludar</strong></div><div class="visual-arrow" aria-hidden="true">→</div><div class="visual-node"><strong>Pasar al siguiente nombre</strong></div></div><div class="branch" role="group" aria-label="Al terminar cada saludo, revisar si queda otro nombre"><div class="node">¿Queda alguien por saludar?</div><div class="path"><strong>Sí</strong>Volver a tomar el siguiente nombre</div><div class="path"><strong>No</strong>Detenerse</div></div>
+<section class="slide" hidden data-title="Una tarea para cada persona"><div class="kicker">33 · Una idea sencilla</div><h2>Saludar a cada persona nos hace repetir la misma tarea.</h2>
+  <div class="slide-body"><div class="grid two greeting-comparison"><div class="panel"><span class="label">Persona por persona</span><div class="greeting-repeat" aria-label="La misma tarea escrita por separado para cada persona"><div>Saludar a Ana</div><div>Saludar a Luis</div><div>Saludar a Mía</div></div></div><div class="panel blue"><span class="label">Misma tarea para cada nombre</span><div class="greeting-steps" aria-label="Tomar el siguiente nombre, saludar y pasar al siguiente nombre"><div class="node">Tomar el siguiente nombre</div><div class="arrow" aria-hidden="true">→</div><div class="node">Saludar</div><div class="arrow" aria-hidden="true">→</div><div class="node">Pasar al siguiente nombre</div></div><div class="greeting-return" aria-label="Si quedan nombres, regresar al primer paso"><span class="return-arrow" aria-hidden="true">↶</span><span>Si quedan nombres: volver a tomar el siguiente nombre</span></div><div class="greeting-stop"><strong>Cuando no queden nombres → detenerse.</strong></div></div>
   </div>
 </section>
 <section class="slide" hidden data-title="Qué es un bucle"><div class="kicker">34 · Repetición · concepto</div><h2>En programación, un bucle repite instrucciones mientras se cumpla una condición.</h2>
