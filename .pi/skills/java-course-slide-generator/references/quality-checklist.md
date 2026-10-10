@@ -24,7 +24,9 @@ Apply this checklist manually after generating the deck. Do not claim an item pa
 
 - [ ] The deck is visual rather than a sequence of text-heavy pages.
 - [ ] Processes are shown as flows or sequences.
-- [ ] For repetition or return-based processes, the diagram visibly connects the repeated step back to its start and shows a clear stopping path; prose or a yes/no label alone is insufficient.
+- [ ] For decisions, each labeled outcome visibly connects to its action or terminal node; no route is implied only by card placement or prose.
+- [ ] For repetition or return-based processes, the diagram visibly connects the repeated step back to its actual condition/start and shows a separate stopping path; labels or inline arrow characters alone are insufficient.
+- [ ] Loop diagrams match the construct's execution order (for example, `while`: check → body → check; counted `for`: initialize → check → body → update → check).
 - [ ] Relationships are shown spatially with labeled connections.
 - [ ] State changes show meaningful before/after states.
 - [ ] State values appear inside the visual itself, and the event causing a change is labeled.
@@ -35,6 +37,7 @@ Apply this checklist manually after generating the deck. Do not claim an item pa
 - [ ] Slide compositions vary appropriately while retaining one design system.
 - [ ] Flow and diagrams use the slide's available area without oversized boxes, blank code panels, or unused outer gutters.
 - [ ] The main content fits a typical laptop screen without unnecessary scrolling; narrow layouts preserve reading order.
+- [ ] Essential diagram nodes, labels, and definitions remain above the controls at 1366×768 and 1280×720; narrow layouts may scroll without hiding the route logic.
 
 ## Examples and technical accuracy
 

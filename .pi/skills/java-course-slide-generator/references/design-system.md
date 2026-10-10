@@ -96,6 +96,9 @@ Always HTML-escape `<`, `>`, and `&` inside code.
 - Use solid lines for direct relationships and dashed lines for optional/indirect relationships.
 - Use CSS/HTML for simple layouts and inline SVG for connectors or spatial diagrams.
 - Include concise text labels; icon-only diagrams are not acceptable.
+- For decisions, place each branch label beside its outgoing connector and route each outcome to a distinct action or terminal node. Keep connectors visible between nodes; an inline arrow character or a row of cards is not a process diagram by itself.
+- For loops, draw a return connector from the repeated work to the actual condition or start point, with an arrowhead that shows the direction. Give the exit path a separate, explicit stop node. For a `while`, show condition → body → condition; for a counted `for`, show initialization → condition → body → update → condition. Keep the routes apart so return and exit cannot be confused.
+- If desktop and mobile use separate SVG layouts, preserve the same route and labels in both, and add accessible `<title>` and `<desc>` text with unique IDs. At 1366×768 and 1280×720, check that all essential nodes, labels, and definitions fit above the presentation controls.
 - For before/after diagrams, put the actual values in the visual and label the event between them. Do not make students infer the value change from a caption alone.
 - Show arrows in a clear reading direction. Label an arrow when it means a concrete event or operation, such as `+1 mensaje`.
 
