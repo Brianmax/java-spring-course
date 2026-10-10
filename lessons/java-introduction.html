@@ -249,6 +249,21 @@ code { overflow-wrap: anywhere; }
 .switch-branch { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .branch .path { padding: 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--tecsup-pale); }
 .branch .path strong { display: block; margin-bottom: 6px; color: #075a7a; }
+.loop-diagram { width: 100%; max-width: 1120px; margin-inline: auto; }
+.loop-diagram svg { display: block; width: 100%; height: auto; overflow: visible; }
+.loop-diagram .mobile-loop { display: none; }
+.loop-diagram text { fill: var(--text); font-family: var(--font-sans); text-anchor: middle; }
+.loop-diagram .question-box, .loop-diagram .action-box, .loop-diagram .finish-box { stroke: var(--tecsup-blue); stroke-width: 3; }
+.loop-diagram .question-box, .loop-diagram .finish-box { fill: #ffffff; }
+.loop-diagram .action-box { fill: var(--tecsup-pale); }
+.loop-diagram .route { fill: none; stroke: var(--tecsup-cyan); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+.loop-diagram .loop-word { fill: #075a7a; font-weight: 800; font-size: 21px; }
+.loop-diagram .node-word { font-weight: 800; font-size: 25px; }
+.loop-diagram .node-detail { font-size: 20px; }
+@media (max-width: 900px) {
+  .loop-diagram .desktop-loop { display: none; }
+  .loop-diagram .mobile-loop { display: block; }
+}
 .greeting-repeat { display: grid; gap: 12px; margin-top: 14px; }
 .greeting-repeat div { padding: 14px 16px; border: 1px solid var(--line); border-radius: 10px; background: #ffffff; font-size: 20px; font-weight: 700; }
 .greeting-steps { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr); align-items: stretch; gap: 10px; margin-top: 14px; }
@@ -631,7 +646,29 @@ ArrayList&lt;String&gt; lista = <span class="tok-keyword">new</span> ArrayList&l
   </div>
 </section>
 <section class="slide" hidden data-title="Qué es un bucle"><div class="kicker">34 · Repetición · concepto</div><h2>En programación, un bucle repite instrucciones mientras se cumpla una condición.</h2>
-  <div class="slide-body"><div class="branch" role="img" aria-label="Mientras quede otro asistente, saludar al actual y pasar al siguiente nombre; cuando no quede, terminar"><div class="node">¿Queda otro asistente?</div><div class="path"><strong>Sí</strong>Saludar al actual → pasar al siguiente nombre → volver a preguntar</div><div class="path"><strong>No</strong>Terminar</div></div><div class="grid three"><div class="panel blue"><h3>Bucle</h3><p>Instrucciones que se repiten.</p></div><div class="panel"><h3>Vuelta</h3><p>Una ejecución de esas instrucciones.</p></div><div class="panel"><h3>Condición</h3><p>La pregunta que decide si se continúa.</p></div></div>
+  <div class="slide-body"><div class="loop-diagram">
+    <svg class="desktop-loop" viewBox="0 0 1000 260" role="img" aria-labelledby="loop-title-desktop loop-desc-desktop">
+      <title id="loop-title-desktop">Recorrido de un bucle</title><desc id="loop-desc-desktop">La pregunta divide el recorrido. Sí lleva a saludar y pasar al siguiente nombre; una flecha regresa desde esas acciones a la pregunta. No lleva a terminar.</desc>
+      <defs><marker id="loop-arrow-desktop" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="var(--tecsup-cyan)"/></marker></defs>
+      <path class="route" d="M500 60 V85 H280 V110 M500 85 H750 V110" marker-end="url(#loop-arrow-desktop)"/>
+      <path class="route" d="M280 205 V225 H35 V35 H350" marker-end="url(#loop-arrow-desktop)"/>
+      <rect class="question-box" x="350" y="5" width="300" height="55" rx="16"/><text class="node-word" x="500" y="40">¿Queda otro asistente?</text>
+      <rect class="action-box" x="100" y="110" width="360" height="95" rx="16"/><text class="loop-word" x="280" y="141">SÍ · repetir</text><text class="node-detail" x="280" y="168">Saludar al actual</text><text class="node-detail" x="280" y="193">Pasar al siguiente nombre</text>
+      <rect class="finish-box" x="600" y="110" width="300" height="95" rx="16"/><text class="loop-word" x="750" y="141">NO · salir</text><text class="node-word" x="750" y="180">Terminar</text>
+      <text class="loop-word" x="150" y="254">Siguiente vuelta</text>
+    </svg>
+    <svg class="mobile-loop" viewBox="0 0 420 500" role="img" aria-labelledby="loop-title-mobile loop-desc-mobile">
+      <title id="loop-title-mobile">Recorrido de un bucle</title><desc id="loop-desc-mobile">Desde la pregunta, Sí baja a saludar y pasar al siguiente nombre; la flecha lateral regresa a la pregunta. No sigue por una ruta aparte hasta terminar.</desc>
+      <defs><marker id="loop-arrow-mobile" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="var(--tecsup-cyan)"/></marker></defs>
+      <path class="route" d="M210 85 V145" marker-end="url(#loop-arrow-mobile)"/>
+      <path class="route" d="M365 52 H400 V410 H365" marker-end="url(#loop-arrow-mobile)"/>
+      <path class="route" d="M210 275 V310 H20 V52 H55" marker-end="url(#loop-arrow-mobile)"/>
+      <rect class="question-box" x="55" y="20" width="310" height="65" rx="16"/><text class="node-word" x="210" y="60">¿Queda otro asistente?</text>
+      <rect class="action-box" x="55" y="145" width="310" height="130" rx="16"/><text class="loop-word" x="210" y="180">SÍ · repetir</text><text class="node-detail" x="210" y="215">Saludar al actual</text><text class="node-detail" x="210" y="246">Pasar al siguiente nombre</text>
+      <text class="loop-word" x="210" y="350">Siguiente vuelta</text>
+      <rect class="finish-box" x="55" y="375" width="310" height="70" rx="16"/><text class="loop-word" x="210" y="403">NO · salir</text><text class="node-word" x="210" y="433">Terminar</text>
+    </svg>
+  </div><div class="grid three"><div class="panel blue"><h3>Bucle</h3><p>Instrucciones que se repiten.</p></div><div class="panel"><h3>Vuelta</h3><p>Una ejecución de esas instrucciones.</p></div><div class="panel"><h3>Condición</h3><p>La pregunta que decide si se continúa.</p></div></div>
   </div>
 </section>
 <section class="slide" hidden data-title="Recorrer con for"><div class="kicker">35 · Bucles · colección</div><h2><code>for</code> repite una acción para cada asistente.</h2>
