@@ -60,6 +60,7 @@ Keep line lengths short. Avoid shrinking text to fit; split an overcrowded slide
 - Use an 8px spacing rhythm: 8, 16, 24, 32, 48, 64.
 - Keep slide titles and their eyebrows at the upper left of the safe area, including title and section-divider slides.
 - Group the explanation, diagrams, examples, and callouts below the title and vertically center that group in the remaining stage space. Keep panels at their natural height. When the group is taller than the available space, let it start below the title and scroll in reading order without clipping.
+- Set body and diagram text for the actual slide's reading needs. When a short slide leaves room and its supporting text looks small, enlarge that text while keeping the title scale consistent. When content is crowded, simplify or rearrange it and split the teaching point across slides if needed; reduce font size only when the text remains comfortably readable.
 - Keep navigation/progress chrome quiet and outside the core content when possible.
 - Use rounded corners of 12–18px and subtle borders; avoid excessive cards.
 - Size panels to their content. Do not stretch short code examples into tall empty blocks; align code and explanation panels to their natural height and use the remaining stage space for the diagram or example that advances the lesson.
