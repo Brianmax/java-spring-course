@@ -614,18 +614,22 @@ asistentes.remove(<span class="tok-number">3</span>);</pre><div class="panel blu
 ArrayList&lt;String&gt; lista = <span class="tok-keyword">new</span> ArrayList&lt;&gt;();</pre><p>El array empieza con tres nombres; la lista empieza vacía.</p></div><div class="panel blue"><span class="label">Pasos, límites y resultado</span><ol class="mini-list"><li>Imprime <code>asistentes.length</code>: debe dar <strong>3</strong>.</li><li>Agrega los tres nombres y <strong>Noa</strong> a <code>lista</code>; su tamaño será <strong>4</strong>.</li><li>Cambia el segundo nombre a <strong>Luz</strong> en ambas colecciones.</li></ol><p>El índice 1 es el segundo. Usa <code>set(1, ...)</code> para cambiarlo en la lista.</p><p><strong>Restricción:</strong> todavía no uses bucles.</p><div class="callout success"><strong>Desafío opcional:</strong> quita el último nombre de la lista y predice su nuevo tamaño.</div></div></div>
   </div>
 </section>
-<section class="slide" hidden data-title="Modelo mental de bucles"><div class="kicker">33 · Repetición</div><h2>Saluda a Ana, Luis y Mía sin copiar la instrucción tres veces.</h2>
-  <div class="slide-body"><div class="branch"><div class="node">Posición 0 → comprobar: ¿i &lt; 3?</div><div class="path"><strong>Sí · repetir</strong>Saludar al asistente · incrementar i · volver a comprobar</div><div class="path"><strong>No · terminar</strong>En posición 3 ya no queda un asistente</div></div><div class="grid two"><div class="panel blue"><h3>Usa <code>for</code></h3><p>Cuando conoces el contador o la colección que vas a recorrer.</p></div><div class="panel"><h3>Usa <code>while</code></h3><p>Cuando la repetición depende de una condición que puede cambiar.</p></div></div><div class="callout warning"><strong>Detención:</strong> el contador pasa por 0, 1 y 2; al llegar a 3, termina antes de intentar otro saludo.</div>
+<section class="slide" hidden data-title="Una tarea para cada persona"><div class="kicker">33 · Una idea sencilla</div><h2>Si quedan personas por saludar, repetimos la misma acción.</h2>
+  <div class="slide-body"><div class="panel blue" role="note"><strong>Nombres:</strong> Ana · Luis · Mía</div><div class="visual-flow" role="img" aria-label="Tomar el siguiente nombre, saludar a esa persona y pasar al siguiente nombre"><div class="visual-node"><strong>Tomar el siguiente nombre</strong></div><div class="visual-arrow" aria-hidden="true">→</div><div class="visual-node primary"><strong>Saludar</strong></div><div class="visual-arrow" aria-hidden="true">→</div><div class="visual-node"><strong>Pasar al siguiente nombre</strong></div></div><div class="branch" role="group" aria-label="Al terminar cada saludo, revisar si queda otro nombre"><div class="node">¿Queda alguien por saludar?</div><div class="path"><strong>Sí</strong>Volver a tomar el siguiente nombre</div><div class="path"><strong>No</strong>Detenerse</div></div>
   </div>
 </section>
-<section class="slide" hidden data-title="Recorrer con for"><div class="kicker">34 · Bucles · colección</div><h2><code>for</code> repite una acción para cada asistente.</h2>
+<section class="slide" hidden data-title="Qué es un bucle"><div class="kicker">34 · Repetición · concepto</div><h2>En programación, un bucle repite instrucciones mientras se cumpla una condición.</h2>
+  <div class="slide-body"><div class="branch" role="img" aria-label="Mientras quede otro asistente, saludar al actual y pasar al siguiente nombre; cuando no quede, terminar"><div class="node">¿Queda otro asistente?</div><div class="path"><strong>Sí</strong>Saludar al actual → pasar al siguiente nombre → volver a preguntar</div><div class="path"><strong>No</strong>Terminar</div></div><div class="grid three"><div class="panel blue"><h3>Bucle</h3><p>Instrucciones que se repiten.</p></div><div class="panel"><h3>Vuelta</h3><p>Una ejecución de esas instrucciones.</p></div><div class="panel"><h3>Condición</h3><p>La pregunta que decide si se continúa.</p></div></div>
+  </div>
+</section>
+<section class="slide" hidden data-title="Recorrer con for"><div class="kicker">35 · Bucles · colección</div><h2><code>for</code> repite una acción para cada asistente.</h2>
   <div class="slide-body"><div class="grid two"><pre class="code"><span class="tok-type">String</span>[] asistentes = {<span class="tok-string">"Ana"</span>, <span class="tok-string">"Luis"</span>, <span class="tok-string">"Mía"</span>};
 <span class="tok-keyword">for</span> (<span class="tok-type">int</span> i = <span class="tok-number">0</span>; i &lt; asistentes.length; i++) {
   System.out.println(asistentes[i]);
 }</pre><div class="panel blue"><span class="label">Recorrido y salida</span><p><strong>Ana · Luis · Mía</strong></p><p>Inicia i en 0 → comprueba i &lt; 3 → imprime → actualiza.</p><p><code>i++</code> incrementa i en uno. En i = 3, la condición es falsa y el bucle termina antes de acceder al array.</p></div></div>
   </div>
 </section>
-<section class="slide" hidden data-title="Recorrer con while"><div class="kicker">35 · Bucles · condición</div><h2><code>while</code> repite mientras su condición siga siendo verdadera.</h2>
+<section class="slide" hidden data-title="Recorrer con while"><div class="kicker">36 · Bucles · condición</div><h2><code>while</code> repite mientras su condición siga siendo verdadera.</h2>
   <div class="slide-body"><div class="panel blue"><span class="label">Estado inicial</span><p><code>asistentes = [Ana, Luis, Mía]</code> · índices 0, 1 y 2</p></div><div class="grid two"><pre class="code"><span class="tok-type">String</span>[] asistentes = {<span class="tok-string">"Ana"</span>, <span class="tok-string">"Luis"</span>, <span class="tok-string">"Mía"</span>};
 <span class="tok-type">int</span> i = <span class="tok-number">0</span>;
 <span class="tok-keyword">while</span> (i &lt; asistentes.length) {
@@ -634,21 +638,21 @@ ArrayList&lt;String&gt; lista = <span class="tok-keyword">new</span> ArrayList&l
 }</pre><div class="panel"><span class="label">Mismo resultado</span><p>Se imprimen Ana, Luis y Mía.</p><p><code>i++</code> actualiza el índice. Cuando i vale 3, la condición es falsa y termina.</p><p><code>for</code> reúne inicio, comprobación y actualización; <code>while</code> los deja visibles por separado.</p></div></div><div class="callout warning"><strong>Atención:</strong> sin actualizar i, el bucle podría no terminar.</div>
   </div>
 </section>
-<section class="slide" hidden data-title="Seguir un bucle"><div class="kicker">36 · Bucles · traza</div><h2>La última comprobación evita consultar una posición que no existe.</h2>
+<section class="slide" hidden data-title="Seguir un bucle"><div class="kicker">37 · Bucles · traza</div><h2>La última comprobación evita consultar una posición que no existe.</h2>
   <div class="slide-body"><div class="grid two"><pre class="code"><span class="tok-type">String</span>[] asistentes = {<span class="tok-string">"Ana"</span>, <span class="tok-string">"Luis"</span>, <span class="tok-string">"Mía"</span>};
 <span class="tok-keyword">for</span> (<span class="tok-type">int</span> i = <span class="tok-number">0</span>; i &lt; asistentes.length; i++) {
   System.out.println(asistentes[i]);
 }</pre><div class="panel blue"><table class="trace"><caption>Una vuelta por índice</caption><thead><tr><th>i</th><th>i &lt; 3</th><th>Acción</th></tr></thead><tbody><tr><td>0</td><td>true</td><td>imprime Ana</td></tr><tr><td>1</td><td>true</td><td>imprime Luis</td></tr><tr><td>2</td><td>true</td><td>imprime Mía</td></tr><tr><td>3</td><td>false</td><td>termina; no lee el array</td></tr></tbody></table></div></div><div class="callout warning"><strong>Error común:</strong> usar <code>i &lt;= asistentes.length</code> intentaría leer índice 3, que no existe.</div>
   </div>
 </section>
-<section class="slide" hidden data-title="Recorrer un ArrayList"><div class="kicker">37 · Bucles · ArrayList</div><h2>Un índice también permite visitar cada posición de una lista.</h2>
+<section class="slide" hidden data-title="Recorrer un ArrayList"><div class="kicker">38 · Bucles · ArrayList</div><h2>Un índice también permite visitar cada posición de una lista.</h2>
   <div class="slide-body"><div class="grid two"><pre class="code"><span class="tok-comment">// Estado inicial: [Ana, Luis, Mía]</span>
 <span class="tok-keyword">for</span> (<span class="tok-type">int</span> i = <span class="tok-number">0</span>; i &lt; asistentes.size(); i++) {
   System.out.println(asistentes.get(i));
 }</pre><div class="panel blue"><span class="label">Salida</span><p>Ana</p><p>Luis</p><p>Mía</p><p><code>i</code> visita 0, 1 y 2; en 3 la condición es falsa.</p></div></div><div class="callout">En un array usamos <code>length</code> y <code>asistentes[i]</code>; en un ArrayList usamos <code>size()</code> y <code>get(i)</code>.</div>
   </div>
 </section>
-<section class="slide" hidden data-title="Ejemplo integrado"><div class="kicker">38 · Aplicación</div><h2>Calcula el total con un estado original y una regla clara.</h2>
+<section class="slide" hidden data-title="Ejemplo integrado"><div class="kicker">39 · Aplicación</div><h2>Calcula el total con un estado original y una regla clara.</h2>
   <div class="slide-body"><div class="grid two"><div><div class="callout"><strong>Reglas:</strong> envío S/ 0 si el subtotal original es ≥ S/ 100; si no, S/ 8. Si la persona es miembro, descuenta 5% antes de sumar el envío.</div><pre class="code"><span class="tok-type">double</span> subtotalOriginal = <span class="tok-number">125.0</span>;
 <span class="tok-type">boolean</span> miembro = <span class="tok-keyword">true</span>;
 <span class="tok-type">double</span> envio = <span class="tok-number">8.0</span>;
@@ -659,15 +663,15 @@ ArrayList&lt;String&gt; lista = <span class="tok-keyword">new</span> ArrayList&l
 System.out.println(total); <span class="tok-comment">// 118.75</span></pre></div><div class="panel blue"><span class="label">Traza del estado</span><table class="trace"><tbody><tr><th>Inicio</th><td>original 125.0 · miembro true · envío 8.0</td></tr><tr><th>Envío</th><td>125.0 ≥ 100 → 0.0</td></tr><tr><th>Descuento</th><td>125.0 × 0.05 = 6.25</td></tr><tr><th>Total</th><td>125.0 − 6.25 + 0.0 = 118.75</td></tr></tbody></table></div></div>
   </div>
 </section>
-<section class="slide" hidden data-title="Errores comunes"><div class="kicker">39 · Mentalidad de depuración</div><h2>Un pequeño cambio puede explicar un resultado inesperado.</h2>
+<section class="slide" hidden data-title="Errores comunes"><div class="kicker">40 · Mentalidad de depuración</div><h2>Un pequeño cambio puede explicar un resultado inesperado.</h2>
   <div class="slide-body"><div class="grid two"><div class="panel"><h3><code>=</code> vs <code>==</code></h3><p><code>total = 100</code> guarda. <code>total == 100</code> compara números.</p></div><div class="panel"><h3>División entera</h3><p><code>5 / 2</code> con enteros produce <code>2</code>, no <code>2.5</code>.</p></div><div class="panel"><h3>Límite de una colección</h3><p>Si hay 3 elementos, los índices válidos son 0, 1 y 2.</p></div><div class="panel"><h3>Comparar texto</h3><p><code>==</code> no compara las letras de dos textos. Usa <code>"PAGADO".equals(estado)</code> para comparar su contenido.</p></div></div><div class="callout warning"><strong>Depura así:</strong> predice el valor, ejecuta y compara el resultado.</div>
   </div>
 </section>
-<section class="slide" hidden data-title="Resumen"><div class="kicker">40 · Recuperación</div><h2>De la fuente al resultado y de los datos a una regla.</h2>
+<section class="slide" hidden data-title="Resumen"><div class="kicker">41 · Recuperación</div><h2>De la fuente al resultado y de los datos a una regla.</h2>
   <div class="slide-body"><div class="flow" aria-label="Código fuente pasa por javac, genera bytecode, lo ejecuta la JVM y produce un resultado"><div class="node">Fuente Java</div><div class="flow-link"><span>javac</span><b aria-hidden="true">→</b></div><div class="node">Bytecode</div><div class="flow-link"><span>JVM</span><b aria-hidden="true">→</b></div><div class="node">Resultado</div></div><div class="grid three"><div class="panel blue"><h3>Estado</h3><p>Variables guardan valores; arrays y listas agrupan datos.</p></div><div class="panel"><h3>Reglas</h3><p>Operadores calculan; condicionales eligen.</p></div><div class="panel"><h3>Repetición</h3><p>Los bucles aplican instrucciones a cada dato.</p></div></div><div class="callout"><strong>Recuerda:</strong> ¿qué genera <code>javac</code>? ¿Qué condición detiene un recorrido de tres elementos? ¿Cuál es la diferencia entre <code>length</code> y <code>size()</code>?</div>
   </div>
 </section>
-<section class="slide exercise" hidden data-title="Práctica final"><div class="kicker">41 · Práctica</div><h2>Construye una calculadora de tarifa de entrega.</h2>
+<section class="slide exercise" hidden data-title="Práctica final"><div class="kicker">42 · Práctica</div><h2>Construye una calculadora de tarifa de entrega.</h2>
   <div class="slide-body"><div class="grid two"><div class="panel"><span class="label">Objetivo y punto de partida</span><p>Escribe un programa Java con <code>double subtotal = 75.0;</code> y <code>boolean miembro = false;</code>.</p><span class="label">Reglas y límites</span><p>Envío S/ 8, gratis si el subtotal ORIGINAL es ≥ S/ 100. Si es miembro, descuenta 5% del subtotal y después suma envío. Supón entradas no negativas. Usa variables e <code>if</code>.</p></div><div class="panel blue"><span class="label">Resultados para comprobar</span><p>75 y false → <strong>83.0</strong></p><p>75 y true → <strong>79.25</strong></p><p>100 y false → <strong>100.0</strong></p><p>100 y true → <strong>95.0</strong></p><p>Imprime el total y la regla aplicada.</p><span class="label">Desafío opcional</span><p>Prueba tres subtotales y cuenta cuántas compras reciben envío gratis.</p></div></div><aside class="speaker-notes" hidden>Pide escribir primero las reglas en lenguaje natural y luego implementar una por una.</aside>
   </div>
 </section>
