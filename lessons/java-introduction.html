@@ -79,6 +79,10 @@ button { font: inherit; }
 .hero .slide-body { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); align-items: center; gap: clamp(32px, 8vw, 112px); }
 .hero-body .lede { margin-bottom: 16px; }
 .slide[data-title="Definir el problema"] .slide-body { font-size: clamp(22px, 2vw, 28px); }
+.slide[data-title="Elegir entre array y ArrayList"] .slide-body { font-size: clamp(24px, 1.5vw, 29px); }
+.slide[data-title="Elegir entre array y ArrayList"] .trace { font-size: clamp(19px, 1.25vw, 24px); }
+.slide[data-title="Elegir entre array y ArrayList"] .trace th,
+.slide[data-title="Elegir entre array y ArrayList"] .trace td { padding: 12px 10px; }
 .footer-label { position: absolute; right: 32px; bottom: 22px; color: var(--muted); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
 .slide > .kicker, .slide > h2 { flex-shrink: 0; }
 .slide h1, .slide h2, .slide h3 { margin: 0; line-height: 1.12; letter-spacing: -0.025em; font-family: var(--font-heading); }
@@ -278,6 +282,20 @@ code { overflow-wrap: anywhere; }
   .slide { gap: 18px; padding: 24px; font-size: 17px; }
   .slide-body { gap: 18px; }
   .slide[data-title="Definir el problema"] .slide-body { font-size: 19px; }
+  .slide[data-title="Elegir entre array y ArrayList"] .slide-body { font-size: 19px; }
+  .slide[data-title="Elegir entre array y ArrayList"] .trace { font-size: 16px; }
+  .slide[data-title="Elegir entre array y ArrayList"] .trace th,
+  .slide[data-title="Elegir entre array y ArrayList"] .trace td { padding: 8px 6px; }
+  .slide[data-title="Elegir entre array y ArrayList"] .trace { display: block; min-width: 0; }
+  .slide[data-title="Elegir entre array y ArrayList"] .trace thead,
+  .slide[data-title="Elegir entre array y ArrayList"] .trace tbody { display: block; }
+  .slide[data-title="Elegir entre array y ArrayList"] .trace thead { display: none; }
+  .slide[data-title="Elegir entre array y ArrayList"] .trace tr { display: block; padding: 8px 0; border-bottom: 1px solid #a3ccdc; }
+  .slide[data-title="Elegir entre array y ArrayList"] .trace tbody th { display: block; padding: 0 6px 4px; border: 0; }
+  .slide[data-title="Elegir entre array y ArrayList"] .trace td { display: grid; grid-template-columns: 90px minmax(0, 1fr); padding: 4px 6px; border: 0; white-space: normal; overflow-wrap: anywhere; }
+  .slide[data-title="Elegir entre array y ArrayList"] .trace td::before { color: var(--muted); font-weight: 700; }
+  .slide[data-title="Elegir entre array y ArrayList"] .trace td:nth-child(2)::before { content: "Array"; }
+  .slide[data-title="Elegir entre array y ArrayList"] .trace td:nth-child(3)::before { content: "ArrayList"; }
 
   .slide h1 { font-size: 42px; }
   .slide h2 { font-size: 29px; }
@@ -301,6 +319,12 @@ code { overflow-wrap: anywhere; }
   .array-visual { gap: 8px; }
   .array-cell { padding: 14px 6px 10px; }
   .controls { gap: 4px; }
+}
+@media (min-width: 901px) and (max-height: 800px) {
+  .slide[data-title="Elegir entre array y ArrayList"] .slide-body { font-size: 22px; }
+  .slide[data-title="Elegir entre array y ArrayList"] .trace { font-size: 17px; }
+  .slide[data-title="Elegir entre array y ArrayList"] .trace th,
+  .slide[data-title="Elegir entre array y ArrayList"] .trace td { padding: 8px 6px; }
 }
 @media (max-width: 480px) {
   .slide { padding: 20px; }
