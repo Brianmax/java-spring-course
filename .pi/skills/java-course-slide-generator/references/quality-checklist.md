@@ -7,9 +7,18 @@ Apply this checklist manually after generating the deck. Do not claim an item pa
 - [ ] Defines what the topic is in beginner-appropriate language.
 - [ ] Establishes a realistic problem before syntax.
 - [ ] Opens each new major topic with a concrete, plain-language example that makes the problem visible before naming the technical concept or showing code; a solution-only title or definition does not count.
+- [ ] Defines the familiar thing in the example (such as what a purchase order records) before asking learners to reason about it.
+- [ ] Shows what learners can already accomplish with familiar tools, including a correct result, before explaining the limits or trade-offs that motivate the new concept.
+- [ ] Makes the motivation specific and traceable: show the actual values, action, and difficulty; do not imply a possible mistake is inevitable or manufacture a failure to justify the concept.
+- [ ] For organizational concepts such as OOP, explains what the new organization helps keep together and acknowledges that a procedural approach can also solve the task correctly.
+- [ ] Keeps one example and its names, values, units, event, and result consistent across the situation, baseline, motivating difficulty, conceptual model, and code comparison.
+- [ ] Places the course roadmap after learners understand the example and the reason for the topic.
 - [ ] Explains why the concept exists and what developers would do without it.
 - [ ] Provides a simple mental model before implementation details.
 - [ ] Progresses from simple to complex without relying on unexplained concepts.
+- [ ] When teaching Java classes, shows a valid declaration and identifies the class name, braces/body, fields, methods, and per-instance field state.
+- [ ] When teaching Java methods, explains the method in plain language and labels return type (`void` where relevant), name, parameters, body, `return` where present, and a concrete call with its argument values and result.
+- [ ] Clearly labels code fragments versus complete programs, and keeps the class, method, and call examples consistent with the running scenario.
 - [ ] Introduces a topic in its relevant course section instead of moving a later unit to the opening without being asked.
 - [ ] Defines unfamiliar ideas in plain language before introducing jargon.
 - [ ] Breaks broad topics into logically ordered subtopics.
@@ -36,6 +45,7 @@ Apply this checklist manually after generating the deck. Do not claim an item pa
 - [ ] Every diagram is legible, labeled, and technically accurate.
 - [ ] Slide compositions vary appropriately while retaining one design system.
 - [ ] Flow and diagrams use the slide's available area without oversized boxes, blank code panels, or unused outer gutters.
+- [ ] Adjacent inline labels and values have visible separation after rendering; HTML does not insert a space between adjacent tags.
 - [ ] The main content fits a typical laptop screen without unnecessary scrolling; narrow layouts preserve reading order.
 - [ ] Essential diagram nodes, labels, and definitions remain above the controls at 1366×768 and 1280×720; narrow layouts may scroll without hiding the route logic.
 
