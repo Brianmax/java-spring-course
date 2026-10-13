@@ -24,6 +24,7 @@ Apply this checklist manually after generating the deck. Do not claim an item pa
 - [ ] Breaks broad topics into logically ordered subtopics.
 - [ ] Grounds abstractions in a realistic, progressively developed example.
 - [ ] Carries the same example, names, values, and cause/effect through its conceptual and technical explanation, or clearly signals why the example changes.
+- [ ] When adjacent slides change examples or subtopics, explicitly explains how the previous idea connects to the next one and why the sequence advances.
 - [ ] States the relevant rule before describing a result as correct or incorrect.
 - [ ] Identifies common mistakes, limitations, or misconceptions where useful.
 - [ ] Clearly distinguishes language, library, protocol, database, and framework concerns.

@@ -26,6 +26,8 @@ Build the learner's understanding in this order:
 
 A title that states only a solution or benefit is not enough. Avoid vague friction such as “the data is separate” unless the slide identifies which data, where it is held, who needs to combine it, and what that costs. Do not create an artificial failure just to make the requested concept appear necessary. Explicitly state when two approaches both work and describe the real trade-off the new concept offers.
 
+Make transitions between adjacent lessons explicit when the example or subtopic changes. Name what the previous slide established, how it relates to the new example, and why the next concept follows; do not rely on adjacency, a unit label, or an unexplained new domain noun to carry the connection.
+
 When the topic involves repetition or a process that returns to an earlier step, draw the return path explicitly and show where the process stops. A linear sequence, a “sí/no” label, or prose that says “volver” does not make the cycle visible by itself. Put branch labels beside their connector and make the Yes/continue and No/exit routes spatially distinct. Match the connector order to the construct being taught: a `while` checks its condition before the body; a counted `for` initializes, checks, runs the body, updates, then checks again. Do not make one generic diagram imply that every loop has the same order. Keep the ordinary-language example first; define terms such as *bucle*, *vuelta*, and *condición* on the following technical step, then progress to code examples.
 
 For a beginner-facing abstract concept, use this progression when it fits:
