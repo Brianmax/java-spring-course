@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Reto final de bucles en Java: registra notas, valida entradas y genera un reporte usando Scanner, arrays, for, while y condicionales.">
+  <title>Reporte de notas · Reto de bucles · Curso de Java</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <style>
+    .exercise-body { max-width: 820px; padding-bottom: 48px; }
+    .exercise-block { margin-bottom: 22px; padding: 28px; border: 1px solid var(--line); border-radius: 15px; background: var(--white); }
+    .exercise-block h2 { font-size: 25px; letter-spacing: -.035em; }
+    .exercise-block p, .exercise-block li { line-height: 1.7; }
+    .exercise-block li + li { margin-top: 8px; }
+    .exercise-block ul, .exercise-block ol { padding-left: 24px; }
+    .exercise-block > :last-child { margin-bottom: 0; }
+    .exercise-block pre { overflow-x: auto; padding: 20px; border-radius: 10px; background: var(--navy); color: #fff; line-height: 1.7; font-size: 14px; }
+    .exercise-block code { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
+    .exercise-block .note { padding: 16px; border-radius: 10px; background: var(--pale); }
+    .exercise-block.optional { background: var(--pale); }
+    .back-link { display: inline-block; margin-bottom: 22px; color: var(--blue); text-underline-offset: 4px; }
+    @media (max-width: 720px) { .exercise-block { padding: 21px; } }
+    @media print { .topbar, .footer, .back-link { display: none; } .exercise-block { break-inside: avoid; } }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <nav class="shell nav" aria-label="Navegación principal">
+      <a class="brand" href="../index.html"><span class="brand-mark">J</span><span class="brand-name">Curso de Java · Tecsup</span></a>
+      <div class="nav-links"><a href="../lessons/index.html">Lecciones</a><a href="index.html">Ejercicios</a><a href="../projects/index.html">Proyectos</a></div>
+    </nav>
+  </header>
+  <main class="shell">
+    <header class="page-head">
+      <a class="back-link" href="index.html#bucles">← Volver a bucles y arrays</a>
+      <div class="eyebrow">Reto final · Bucles y arrays</div>
+      <h1>Reporte de notas</h1>
+      <p>Un profesor necesita registrar las notas de su salón y obtener un resumen. Construye un programa de consola en Java que le permita ingresar los datos y consultar los resultados.</p>
+    </header>
+    <div class="exercise-body">
+      <section class="exercise-block" aria-labelledby="objetivo">
+        <h2 id="objetivo">Lo que vas a practicar</h2>
+        <p>Combina lectura con <code>Scanner</code>, arrays, bucles <code>for</code> y <code>while</code>, condicionales, contadores y acumuladores para resolver un problema completo.</p>
+      </section>
+      <section class="exercise-block" aria-labelledby="reglas">
+        <h2 id="reglas">Requisitos del programa</h2>
+        <ol>
+          <li><strong>Pide la cantidad de estudiantes:</strong> debe ser un número entero entre <strong>1 y 30</strong>, ambos incluidos. Si está fuera del rango, muestra un mensaje y vuelve a pedirlo.</li>
+          <li><strong>Registra una nota por estudiante:</strong> cada nota debe ser un entero entre <strong>0 y 20</strong>, ambos incluidos. Guarda las notas en un array. Si una nota es inválida, pide nuevamente la del mismo estudiante; no avances al siguiente.</li>
+          <li><strong>Calcula y muestra el resumen:</strong> promedio del salón con decimales, nota mayor, nota menor, cantidad de aprobados y cantidad de desaprobados. Se aprueba con una nota de <strong>11 o más</strong>.</li>
+          <li><strong>Muestra quiénes superan el promedio:</strong> indica el número y la nota de cada estudiante con una nota estrictamente mayor que el promedio. Numera a los estudiantes desde el <strong>1</strong> y conserva el orden de registro. Si ninguno lo supera, muestra <em>“Ningún estudiante supera el promedio”</em>.</li>
+        </ol>
+        <p class="note">Puedes asumir que el usuario siempre escribe números enteros. Debes validar sus rangos; no se requiere manejar letras ni otros formatos de entrada. Compara las notas con el promedio sin redondearlo.</p>
+      </section>
+      <section class="exercise-block" aria-labelledby="ejemplo">
+        <h2 id="ejemplo">Ejemplo de funcionamiento</h2>
+        <p>El usuario registra <strong>5 estudiantes</strong> e ingresa, en este orden, las notas <code>15, 8, 20, 11, 6</code>. El reporte debe contener:</p>
+        <pre><code>Promedio del salón: 12.0
+Nota mayor: 20
+Nota menor: 6
+Aprobados: 3
+Desaprobados: 2
+Estudiantes por encima del promedio:
+Estudiante 1: 15
+Estudiante 3: 20</code></pre>
+        <p>Los textos y el formato pueden variar, pero los resultados y las reglas deben coincidir.</p>
+      </section>
+      <section class="exercise-block" aria-labelledby="condiciones">
+        <h2 id="condiciones">Condiciones de entrega</h2>
+        <ul>
+          <li>Crea el archivo <code>ReporteNotas.java</code> con la clase <code>ReporteNotas</code> y resuelve el ejercicio dentro de <code>main</code>.</li>
+          <li>Usa <code>Scanner</code>, un array para guardar las notas, al menos un <code>for</code>, al menos un <code>while</code> y condicionales.</li>
+          <li>Calcula los resultados recorriendo los datos. No uses streams ni funciones de biblioteca para obtener la suma, el promedio, el máximo o el mínimo.</li>
+          <li>Entrega tu archivo Java y evidencia de ejecución de los casos de prueba siguientes, como texto o capturas de consola.</li>
+        </ul>
+      </section>
+      <section class="exercise-block" aria-labelledby="pruebas">
+        <h2 id="pruebas">Comprueba tu solución</h2>
+        <ul>
+          <li><strong>Un estudiante con nota 11:</strong> promedio 11.0, mayor y menor 11, un aprobado, ningún desaprobado y nadie por encima del promedio.</li>
+          <li><strong>Tres estudiantes con notas 14, 14, 14:</strong> promedio 14.0, tres aprobados y nadie por encima del promedio.</li>
+          <li><strong>Cuatro estudiantes con notas 0, 20, 10, 11:</strong> promedio 10.25, mayor 20, menor 0, dos aprobados y dos desaprobados. Los estudiantes 2 y 4 superan el promedio.</li>
+          <li><strong>Entradas inválidas:</strong> ingresa 0 y 31 como cantidad de estudiantes antes de ingresar 2. Luego ingresa −1 y 21 antes de registrar la primera nota válida. El programa debe repetir cada solicitud sin contar ni guardar los valores inválidos.</li>
+        </ul>
+        <p>Antes de entregar, comprueba que el total de aprobados y desaprobados sea igual a la cantidad de estudiantes y que todos los bucles terminen.</p>
+      </section>
+      <section class="exercise-block" aria-labelledby="pistas">
+        <h2 id="pistas">Preguntas para guiarte</h2>
+        <ul>
+          <li>¿Qué bucle conviene cuando conoces la cantidad de repeticiones? ¿Cuál sirve para insistir hasta recibir un valor válido?</li>
+          <li>¿Qué variables cuentan estudiantes y cuál acumula las notas?</li>
+          <li>¿Con qué valor puedes iniciar el máximo y el mínimo para que funcionen con cualquier conjunto de notas válidas?</li>
+          <li>¿Cómo evitas perder los decimales al calcular el promedio?</li>
+          <li>¿En qué momento ya conoces el promedio y puedes recorrer las notas para compararlas con él?</li>
+        </ul>
+      </section>
+      <section class="exercise-block optional" aria-labelledby="extra">
+        <h2 id="extra">Desafío opcional: tres notas por estudiante</h2>
+        <p>Amplía el programa para leer tres notas enteras entre 0 y 20 por estudiante. Usa bucles anidados y guarda el promedio de cada estudiante en un array de <code>double</code>.</p>
+        <p>Genera el mismo reporte usando esos promedios: promedio del salón, mayor y menor promedio individual, aprobados con promedio de al menos 11 y estudiantes que superan el promedio del salón. No redondees los valores antes de compararlos.</p>
+      </section>
+      <a class="button secondary" href="../projects/java-g19-intro/index.html">Consultar los ejemplos de Java →</a>
+    </div>
+  </main>
+  <footer class="footer"><div class="shell"><a href="index.html#bucles">← Volver a los ejercicios de bucles</a></div></footer>
+</body>
+</html>
