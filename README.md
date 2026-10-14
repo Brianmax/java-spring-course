@@ -22,7 +22,7 @@ Para publicar una lección, agrega su archivo HTML en `lessons/` y enlázalo des
 
 Para agregar una colección de ejercicios, añade una tarjeta en `exercises/index.html` con su tema, descripción y enlace al enunciado. Puede enlazar al original en GitHub o a una página HTML local dentro de `exercises/`, con atribución si adapta otro material.
 
-La colección [Ejercicios de POO](exercises/poo.html) conserva los once temas de Brianmax/javaG7 en una versión local corregida, con reglas de negocio explícitas y casos de comprobación. Se mantiene de forma independiente del original y se puede abrir sin conexión.
+La colección [Ejercicios de POO](exercises/poo.md) conserva los once temas de Brianmax/javaG7 en un documento Markdown corregido, con reglas de negocio explícitas y casos de comprobación. La [página para el curso](exercises/poo.html) presenta el mismo enunciado en el formato del sitio.
 
 Para crear o mejorar una diapositiva con Pi, inicia el flujo con `/crear-diapositiva <tema o cambio>`. El agente principal define primero el objetivo, el lugar de la diapositiva en la lección, el contenido, la composición y cómo evaluar la claridad. Después asigna el HTML a `slide-implementer` y, para cambios sustanciales, solicita a `slide-reviewer` una revisión de solo lectura. En Codex se sigue el mismo proceso con la skill `java-course-slide-generator` y los roles del proyecto en `.codex/agents/`.
 
