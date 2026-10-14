@@ -189,12 +189,12 @@ li + li { margin-top:8px; }
 .opening-roadmap div { display:flex; flex-direction:column; gap:4px; padding:12px 16px; border:1px solid #abddea; border-radius:12px; background:var(--tecsup-pale); }
 .opening-roadmap b { color:#075a7a; }
 .opening-roadmap span { font-size:17px; }
-.poo-map { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; }
-.poo-map-group { min-width:0; padding:14px 16px; border:1px solid #abddea; border-radius:12px; background:var(--surface); }
+.poo-map { display:grid; grid-template-columns:1fr; gap:10px; }
+.poo-map-group { display:grid; grid-template-columns:minmax(180px,.34fr) minmax(0,1fr); align-items:center; gap:18px; min-width:0; padding:12px 16px; border:1px solid #abddea; border-radius:12px; background:var(--surface); }
 .poo-map-group:first-child { background:var(--tecsup-pale); border-color:#71cbe4; }
-.poo-map-group h3 { margin-bottom:10px; color:#075a7a; font-size:20px; }
-.poo-map-items { display:grid; gap:8px; }
-.poo-map-item { margin:0; font-size:16px; line-height:1.3; }
+.poo-map-group h3 { color:#075a7a; font-size:22px; }
+.poo-map-items { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:7px 18px; }
+.poo-map-item { margin:0; font-size:18px; line-height:1.3; }
 .poo-map-item b { color:#075a7a; }
 .poo-map-note { text-align:center; }
 .question-panel { display:flex; flex-direction:column; align-items:flex-start; gap:10px; }
@@ -216,11 +216,13 @@ li + li { margin-top:8px; }
  .opening-diagram text { font-size:23px; }
  .opening-roadmap { grid-template-columns:1fr; }
  .poo-map { grid-template-columns:1fr; }
- .poo-map-group { padding:14px 16px; }
+ .poo-map-group { grid-template-columns:1fr; gap:8px; padding:14px 16px; }
  .poo-map-items { grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px 14px; }
- .poo-map-item { font-size:16px; }
- .poo-map-group:last-child .poo-map-items { grid-template-columns:1fr; }
+ .poo-map-item { font-size:17px; }
  .code-compare .code { font-size:17px; }
+}
+@media(max-width:480px) {
+ .poo-map-items { grid-template-columns:1fr; }
 }
 
 
