@@ -6,7 +6,7 @@ Sitio estático para que los estudiantes consulten las diapositivas y los proyec
 
 - `index.html`: página de inicio.
 - `lessons/`: catálogo y archivos de las lecciones.
-- `exercises/`: catálogo por temas con enlaces a los enunciados de [Brianmax/javaG7](https://github.com/Brianmax/javaG7/tree/main/ejercicios).
+- `exercises/`: catálogo por temas con ejercicios locales y enlaces a los enunciados de [Brianmax/javaG7](https://github.com/Brianmax/javaG7/tree/main/ejercicios).
 - `projects/`: catálogo de proyectos del curso.
 - `assets/site.css`: estilos compartidos de las páginas del sitio.
 
@@ -20,7 +20,9 @@ La presentación [Programación orientada a objetos en Java](lessons/java-poo.ht
 
 Para publicar una lección, agrega su archivo HTML en `lessons/` y enlázalo desde `lessons/index.html` y la página de inicio. Para publicar un proyecto, agrega una página o carpeta dentro de `projects/` y enlázala desde `projects/index.html`.
 
-Para agregar una colección de ejercicios, añade una tarjeta en `exercises/index.html` con su tema, descripción y enlace al enunciado original. Los enunciados se consultan directamente en GitHub, por lo que sus actualizaciones no requieren copiar el contenido a este sitio.
+Para agregar una colección de ejercicios, añade una tarjeta en `exercises/index.html` con su tema, descripción y enlace al enunciado. Puede enlazar al original en GitHub o a una página HTML local dentro de `exercises/`, con atribución si adapta otro material.
+
+La colección [Ejercicios de POO](exercises/poo.html) conserva los once temas de Brianmax/javaG7 en una versión local corregida, con reglas de negocio explícitas y casos de comprobación. Se mantiene de forma independiente del original y se puede abrir sin conexión.
 
 Para crear o mejorar una diapositiva con Pi, inicia el flujo con `/crear-diapositiva <tema o cambio>`. El agente principal define primero el objetivo, el lugar de la diapositiva en la lección, el contenido, la composición y cómo evaluar la claridad. Después asigna el HTML a `slide-implementer` y, para cambios sustanciales, solicita a `slide-reviewer` una revisión de solo lectura. En Codex se sigue el mismo proceso con la skill `java-course-slide-generator` y los roles del proyecto en `.codex/agents/`.
 
