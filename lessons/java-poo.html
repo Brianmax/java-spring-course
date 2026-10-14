@@ -51,7 +51,9 @@ h3 { font-size:25px; line-height:1.2; }
 .code { margin:0; padding:16px 18px; width:100%; border:1px solid #205360; border-radius:12px; background:var(--ink-panel); color:#f4f6f8; font:17px/1.43 var(--font-mono); overflow:auto; white-space:pre; tab-size:4; }
 code { font-family:var(--font-mono); font-size:.91em; }
 .code code { font:inherit; }
-.tok-keyword,.tok-type { color:#6edaff; }
+.tok-keyword { color:#d6a8ff; font-weight:700; }
+.tok-type { color:#6edaff; }
+.tok-annotation { color:#ffd48a; }
 .tok-string { color:#a8e8b0; }
 .tok-number { color:#ffd48a; }
 .tok-comment { color:#b6bec6; }
@@ -278,10 +280,10 @@ li + li { margin-top:8px; }
 <div class="split object-notes"><p><b>Estado:</b> valores actuales, como cantidad 2 y precio 500.</p><p><b>Comportamiento:</b> acciones del objeto, como calcular el total.</p></div><p class="callout">Quien consulta pide el total al pedido; ya no reúne precio y cantidad en cada llamada. <span class="mini-note">Agrupar organiza los datos; las reglas aún deben programarse.</span></p></div></section>
 <section class="slide opening" id="slide-5" data-title="El mismo cálculo, dos formas de organizarlo" data-level="Básico" hidden>
 <header class="slide-header"><p class="eyebrow">Básico · Comparación</p><h2>El mismo cálculo, dos formas de organizarlo</h2></header>
-<div class="slide-body"><div class="code-compare"><article class="panel stack"><h3>Procedural</h3><span class="code-label">Dentro de un método; regla ya definida</span><pre class="code"><code>int precioCentimos = 500;
-int cantidad = 2;
-int total = calcularTotal(
-    precioCentimos, cantidad);</code></pre><p>El método recibe ambos valores y devuelve su producto.</p><strong class="result">1000 céntimos</strong></article><article class="panel accent stack"><h3>Orientada a objetos</h3><span class="code-label">Dentro de un método; pedido representa A-17</span><pre class="code"><code>int total = pedido.calcularTotal();</code></pre><p><code>pedido</code> ya guarda cantidad 2 y precio 500.</p><strong class="result">1000 céntimos</strong></article></div><p class="callout">Ambas formas pueden ser correctas. POO ayuda a reunir los datos y las operaciones cuando el modelo crece.</p><p class="question">¿Quién reúne los datos para calcular en cada caso?</p></div></section>
+<div class="slide-body"><div class="code-compare"><article class="panel stack"><h3>Procedural</h3><span class="code-label">Dentro de un método; regla ya definida</span><pre class="code"><code><span class="tok-keyword">int</span> precioCentimos = <span class="tok-number">500</span>;
+<span class="tok-keyword">int</span> cantidad = <span class="tok-number">2</span>;
+<span class="tok-keyword">int</span> total = calcularTotal(
+    precioCentimos, cantidad);</code></pre><p>El método recibe ambos valores y devuelve su producto.</p><strong class="result">1000 céntimos</strong></article><article class="panel accent stack"><h3>Orientada a objetos</h3><span class="code-label">Dentro de un método; pedido representa A-17</span><pre class="code"><code><span class="tok-keyword">int</span> total = pedido.calcularTotal();</code></pre><p><code>pedido</code> ya guarda cantidad 2 y precio 500.</p><strong class="result">1000 céntimos</strong></article></div><p class="callout">Ambas formas pueden ser correctas. POO ayuda a reunir los datos y las operaciones cuando el modelo crece.</p><p class="question">¿Quién reúne los datos para calcular en cada caso?</p></div></section>
 <section class="slide" id="slide-6" data-title="Fundamentos de la POO" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">TECSUP · JAVA COURSE · MAPA</p><h2>Fundamentos de la POO</h2></header><div class="slide-body"><p class="mini-note">La POO organiza el programa alrededor de objetos: reúnen estado, comportamiento y relaciones.</p><div class="poo-map"><article class="poo-map-group"><h3>Piezas de una clase</h3><div class="poo-map-items"><p class="poo-map-item"><b>Clase:</b> descripción para crear objetos.</p><p class="poo-map-item"><b>Objeto:</b> ejemplar concreto con identidad.</p><p class="poo-map-item"><b>Atributos / estado:</b> datos que conserva el objeto.</p><p class="poo-map-item"><b>Métodos / comportamiento:</b> acciones o consultas.</p><p class="poo-map-item"><b>Constructor:</b> prepara el objeto al crearlo.</p></div></article><article class="poo-map-group"><h3>Principios</h3><div class="poo-map-items"><p class="poo-map-item"><b>Abstracción:</b> mostrar lo necesario para usar algo.</p><p class="poo-map-item"><b>Encapsulamiento:</b> proteger estado y aplicar reglas al cambiarlo.</p><p class="poo-map-item"><b>Herencia:</b> especializar una clase reutilizando otra.</p><p class="poo-map-item"><b>Polimorfismo:</b> misma operación, respuesta propia del objeto.</p></div></article><article class="poo-map-group"><h3>Relaciones y contratos</h3><div class="poo-map-items"><p class="poo-map-item"><b>Asociación:</b> objetos que se conocen o colaboran.</p><p class="poo-map-item"><b>Agregación:</b> una parte que puede vivir por separado.</p><p class="poo-map-item"><b>Composición:</b> una parte pertenece a un todo y depende de él.</p><p class="poo-map-item"><b>Interfaz / contrato:</b> capacidades que una clase se compromete a ofrecer.</p></div></article></div><p class="mini-note poo-map-note">Este mapa orienta las 16 unidades; cada idea se explicará con ejemplos y práctica en Java 21.</p></div></section>
 <section class="slide" id="slide-7" data-title="Dos pedidos no deben compartir su cantidad" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Situación</p><h2>Dos pedidos no deben compartir su cantidad</h2></header><div class="slide-body"><div class="flow"><div class="node">Antes<br>A-17: 2<br>B-18: 1</div><div class="arrow"><svg viewBox="0 0 60 52" role="img" aria-label="sumar uno solo a A-17"><title>Sumar una unidad a A-17</title><path d="M2 26H48 M38 16L50 26L38 36"/></svg></div><div class="node accent">Después de +1 en A-17<br>A-17: 3<br>B-18: 1</div></div><p class="callout">Cada pedido guarda su cantidad por separado; cambiar uno deja intacto el otro.</p></div></section>
 <section class="slide" id="slide-8" data-title="Una clase describe; cada objeto guarda su estado" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 2 · Clases e instancias</p><h2>Una clase describe; cada objeto guarda su estado</h2></header><div class="slide-body"><div class="diagram"><svg viewBox="0 0 720 280" role="img" aria-labelledby="s7title s7desc"><title id="s7title">Una clase describe dos objetos</title><desc id="s7desc">ContadorPedido describe el atributo unidades y dos métodos. De esa clase se crean primero y segundo con dos unidades cada uno.</desc><defs><marker id="s7arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z"/></marker></defs><rect x="170" y="10" width="380" height="85" rx="12"/><text x="360" y="42">Clase ContadorPedido</text><text x="360" y="70">unidades · agregar · consultar</text><path d="M280 95L180 175" marker-end="url(#s7arrow)"/><text x="198" y="132">instancia</text><path d="M440 95L540 175" marker-end="url(#s7arrow)"/><text x="475" y="132">instancia</text><rect x="35" y="185" width="290" height="80" rx="12"/><text x="180" y="218">primero</text><text x="180" y="246">unidades = 2</text><rect x="395" y="185" width="290" height="80" rx="12"/><text x="540" y="218">segundo</text><text x="540" y="246">unidades = 2</text></svg></div><p class="lead">La clase es la descripción; cada instancia es un contador con su propio valor.</p><p class="mini-note">Un atributo guarda estado. Un método define una acción o consulta. Sus parámetros reciben datos y su valor de retorno entrega un resultado.</p></div></section>
@@ -290,98 +292,98 @@ int total = calcularTotal(
 <header class="slide-header"><p class="eyebrow">Básico · Unidad 2 · Métodos</p><h2>Un método nombra una tarea y puede devolver un resultado</h2></header>
 <div class="slide-body">
 <p class="lead">Un método es un grupo de instrucciones con nombre que realiza una tarea. Puede recibir datos y devolver un resultado.</p>
-<div class="code-split"><div><span class="code-label">Fragmento de método dentro de la clase Pedido</span><pre class="code"><code>int calcularTotal(int precioCentimos, int cantidad) {
-    return precioCentimos * cantidad;
+<div class="code-split"><div><span class="code-label">Fragmento de método dentro de la clase Pedido</span><pre class="code"><code><span class="tok-keyword">int</span> calcularTotal(<span class="tok-keyword">int</span> precioCentimos, <span class="tok-keyword">int</span> cantidad) {
+    <span class="tok-keyword">return</span> precioCentimos * cantidad;
 }</code></pre><div class="panel accent stack"><span class="label">Pedido A-17 · llamada y resultado</span><p><code>calcularTotal(500, 2)</code> pasa 500 y 2 a sus parámetros.</p><strong class="result">500 × 2 → 1000 céntimos</strong></div></div>
 <div class="rows"><div class="row"><b>int</b><span>Tipo del resultado que devuelve.</span></div><div class="row"><b>calcularTotal</b><span>Nombre de la tarea.</span></div><div class="row"><b>parámetros</b><span>Datos que recibe: precioCentimos y cantidad son nombres; la llamada pasa valores.</span></div><div class="row"><b>cuerpo { }</b><span>Instrucciones que realizan la tarea.</span></div><div class="row"><b>return</b><span>Entrega el resultado calculado.</span></div></div></div>
 </div></section>
-<section class="slide" id="slide-10" data-title="Una clase reúne campos y métodos" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 2 · Declarar una clase</p><h2>Una clase reúne campos y métodos</h2></header><div class="slide-body code-split"><div><span class="code-label">Declaración de la clase ContadorPedido</span><pre class="code"><code>class ContadorPedido {
-    int unidades = 2;
-    int calcularTotal(int precioCentimos) {
-        return unidades * precioCentimos;
+<section class="slide" id="slide-10" data-title="Una clase reúne campos y métodos" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 2 · Declarar una clase</p><h2>Una clase reúne campos y métodos</h2></header><div class="slide-body code-split"><div><span class="code-label">Declaración de la clase ContadorPedido</span><pre class="code"><code><span class="tok-keyword">class</span> <span class="tok-type">ContadorPedido</span> {
+    <span class="tok-keyword">int</span> unidades = <span class="tok-number">2</span>;
+    <span class="tok-keyword">int</span> calcularTotal(<span class="tok-keyword">int</span> precioCentimos) {
+        <span class="tok-keyword">return</span> unidades * precioCentimos;
     }
-    void agregarUnidad() { unidades++; }
+    <span class="tok-keyword">void</span> agregarUnidad() { unidades++; }
 }</code></pre><p class="callout">Escribe <code>class</code>, el nombre y llaves. Dentro van el campo y los métodos.</p></div><div class="stack"><div class="rows"><div class="row"><b>Nombre</b><span><code>ContadorPedido</code> identifica la clase.</span></div><div class="row"><b>Campo</b><span><code>unidades</code> guarda el estado propio de cada objeto; comienza en 2.</span></div><div class="row"><b>Método con <code>int</code></b><span><code>calcularTotal</code> recibe un precio y devuelve unidades × precio: A-17, 2 × 500 = 1000 céntimos.</span></div><div class="row"><b>Método con <code>void</code></b><span><code>agregarUnidad</code> cambia el estado y no devuelve resultado: 2 → 3.</span></div></div></div></div></section>
 <section class="slide" id="slide-11" data-title="Copiar la referencia no copia el objeto" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 2 · Referencias</p><h2>Copiar la referencia no copia el objeto</h2></header><div class="slide-body"><div class="diagram"><svg viewBox="0 0 720 280" role="img" aria-labelledby="s9title s9desc"><title id="s9title">Tres referencias, dos objetos</title><desc id="s9desc">primero y alias son referencias diferentes que apuntan al mismo contador con unidades 4. segundo apunta a otro contador con unidades 2.</desc><defs><marker id="s9arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z"/></marker></defs><text x="45" y="52">primero</text><text x="45" y="112">alias</text><text x="45" y="202">segundo</text><path d="M150 45C280 45 300 95 430 95" marker-end="url(#s9arrow)"/><path d="M150 105C280 105 300 100 430 100" marker-end="url(#s9arrow)"/><path d="M150 195H430" marker-end="url(#s9arrow)"/><rect x="445" y="55" width="235" height="90" rx="14"/><text x="562" y="90">Contador compartido</text><text x="562" y="120">unidades: 3 → 4</text><rect x="445" y="165" width="235" height="80" rx="14"/><text x="562" y="195">Otro contador</text><text x="562" y="225">unidades = 2</text></svg></div><p class="callout">A-17 tenía 3 unidades. <code>alias.agregarUnidad()</code> suma 1 y deja 4; <code>primero</code> ve el mismo cambio porque ambos alcanzan ese objeto. B-18 conserva 2. Java copia el valor de la referencia al pasarla a un método.</p><p class="mini-note"><code>null</code> no apunta a ningún objeto; llamar allí un método lanza NullPointerException. Predice los valores de primero, alias y segundo tras cambiar alias.</p></div></section>
 <section class="slide" id="slide-12" data-title="Un pedido sin cliente empieza incompleto" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Situación</p><h2>Un pedido sin cliente empieza incompleto</h2></header><div class="slide-body"><div class="before-after"><article class="panel warning"><span class="label">Ficha vacía</span><p>Pedido A-17</p><p>Cliente: ______</p></article><article class="panel accent"><span class="label">Ficha lista</span><p>Pedido A-17</p><p>Cliente: Ana</p></article></div><p class="callout">El pedido debe tener cliente al comenzar. Usar “Cliente ocasional” también es válido si esa es una regla deliberada.</p></div></section>
-<section class="slide" id="slide-13" data-title="El constructor prepara el objeto" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 3 · Inicialización</p><h2>El constructor prepara el objeto</h2></header><div class="slide-body code-split"><pre class="code"><code>class Pedido {
-    private String cliente;
-    public Pedido(String cliente) {
-        this.cliente = cliente;
+<section class="slide" id="slide-13" data-title="El constructor prepara el objeto" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 3 · Inicialización</p><h2>El constructor prepara el objeto</h2></header><div class="slide-body code-split"><pre class="code"><code><span class="tok-keyword">class</span> <span class="tok-type">Pedido</span> {
+    <span class="tok-keyword">private</span> <span class="tok-type">String</span> cliente;
+    <span class="tok-keyword">public</span> <span class="tok-type">Pedido</span>(<span class="tok-type">String</span> cliente) {
+        <span class="tok-keyword">this</span>.cliente = cliente;
     }
 }</code></pre><article class="panel accent stack"><h3>Al construir</h3><p><code>new Pedido("Ana")</code></p><p><code>this.cliente</code> nombra el campo del objeto actual.</p><p><code>cliente</code> a la derecha nombra el parámetro recibido.</p><strong class="result">Pedido listo · Ana</strong></article><p class="callout warning">El constructor usa el nombre de la clase y no tiene tipo de retorno. Escribir <code>void Pedido</code> crea un método.</p></div></section>
-<section class="slide" id="slide-14" data-title="Varias formas de crear, una inicialización" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 3 · Sobrecarga</p><h2>Varias formas de crear, una inicialización</h2></header><div class="slide-body split"><pre class="code"><code>class Pedido {
-    private String cliente;
-    public Pedido() { this("Cliente ocasional"); }
-    public Pedido(String cliente) {
-        this.cliente = cliente;
+<section class="slide" id="slide-14" data-title="Varias formas de crear, una inicialización" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 3 · Sobrecarga</p><h2>Varias formas de crear, una inicialización</h2></header><div class="slide-body split"><pre class="code"><code><span class="tok-keyword">class</span> <span class="tok-type">Pedido</span> {
+    <span class="tok-keyword">private</span> <span class="tok-type">String</span> cliente;
+    <span class="tok-keyword">public</span> <span class="tok-type">Pedido</span>() { <span class="tok-keyword">this</span>(<span class="tok-string">"Cliente ocasional"</span>); }
+    <span class="tok-keyword">public</span> <span class="tok-type">Pedido</span>(<span class="tok-type">String</span> cliente) {
+        <span class="tok-keyword">this</span>.cliente = cliente;
     }
 }</code></pre><div class="stack"><div class="rows"><div class="row"><b>Constructor generado</b><span>Solo aparece si no declaras constructor alguno.</span></div><div class="row"><b>Sin parámetros</b><span>Puede ser escrito manualmente; entonces no es el generado por defecto.</span></div><div class="row"><b>Sobrecarga</b><span>Constructores con listas de parámetros diferentes.</span></div></div><p class="callout warning"><code>this(...)</code> debe ser la primera instrucción.</p><p class="question">Práctica: añade a <code>Producto</code> una variante sin descripción; luego controlarás sus existencias en <code>Inventario</code>.</p></div></div></section>
 <section class="slide" id="slide-15" data-title="Si quedan cinco, no puedes vender ocho" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Situación</p><h2>Si quedan cinco, no puedes vender ocho</h2></header><div class="slide-body inventory-cases"><p class="mini-note">Conectamos ambos objetos: <code>Producto</code> describe qué se vende; <code>Inventario</code> controla cuántas unidades quedan.</p><p class="inventory-rule"><strong>Regla:</strong> el stock empieza en <b>5 unidades</b>. La cantidad solicitada debe ser positiva y no superar el stock disponible.</p><div class="inventory-tracks" aria-label="Dos intentos independientes parten del mismo stock inicial"><article class="inventory-track accepted"><h3>Solicitud válida</h3><div class="inventory-route"><div class="inventory-state"><span>Antes</span><strong>Stock</strong><b>5 unidades</b></div><svg viewBox="0 0 64 44" role="img" aria-labelledby="s14valid-title s14valid-desc"><title id="s14valid-title">La solicitud válida produce un cambio</title><desc id="s14valid-desc">La flecha conecta el stock inicial con el retiro aceptado.</desc><defs><marker id="s14valid-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z"/></marker></defs><path d="M4 22H54" fill="none" stroke="#00b3e0" stroke-width="3" marker-end="url(#s14valid-arrow)"/></svg><div class="inventory-state request"><span>Solicitud</span><strong>retirar(2)</strong><b>Aceptada</b></div><svg viewBox="0 0 64 44" role="img" aria-labelledby="s14valid2-title s14valid2-desc"><title id="s14valid2-title">El stock disminuye en dos unidades</title><desc id="s14valid2-desc">La flecha conecta el retiro aceptado con el stock final de tres unidades.</desc><defs><marker id="s14valid2-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z"/></marker></defs><path d="M4 22H54" fill="none" stroke="#00b3e0" stroke-width="3" marker-end="url(#s14valid2-arrow)"/></svg><div class="inventory-state after"><span>Después</span><strong>Stock</strong><b>3 unidades</b></div></div></article><article class="inventory-track rejected"><h3>Solicitud rechazada</h3><div class="inventory-route"><div class="inventory-state"><span>Antes</span><strong>Stock</strong><b>5 unidades</b></div><svg viewBox="0 0 64 44" role="img" aria-labelledby="s14reject-title s14reject-desc"><title id="s14reject-title">La solicitud excede el stock</title><desc id="s14reject-desc">La flecha conecta el stock inicial con el retiro rechazado.</desc><defs><marker id="s14reject-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z"/></marker></defs><path d="M4 22H54" fill="none" stroke="#00b3e0" stroke-width="3" marker-end="url(#s14reject-arrow)"/></svg><div class="inventory-state request"><span>Solicitud</span><strong>retirar(8)</strong><b>Rechazada</b></div><svg viewBox="0 0 64 44" role="img" aria-labelledby="s14reject2-title s14reject2-desc"><title id="s14reject2-title">El stock se conserva</title><desc id="s14reject2-desc">La flecha conecta el retiro rechazado con el stock final conservado de cinco unidades.</desc><defs><marker id="s14reject2-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M4 0L10 5L4 10Z"/></marker></defs><path d="M4 22H54" fill="none" stroke="#00b3e0" stroke-width="3" marker-end="url(#s14reject2-arrow)"/></svg><div class="inventory-state after"><span>Después</span><strong>Stock</strong><b>5 unidades</b><small>se conserva</small></div></div></article></div><p class="inventory-note">Son dos intentos separados: cada uno empieza con stock 5.</p></div></section>
-<section class="slide" id="slide-16" data-title="Encapsular: cambiar el stock mediante operaciones" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 4 · Estado protegido</p><h2>Encapsular: cambiar el stock mediante operaciones</h2></header><div class="slide-body code-split"><pre class="code"><code>class Inventario {
-    private int stock = 5;
-    public boolean retirar(int unidades) {
-        if (unidades &lt;= 0 || unidades &gt; stock) return false;
+<section class="slide" id="slide-16" data-title="Encapsular: cambiar el stock mediante operaciones" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 4 · Estado protegido</p><h2>Encapsular: cambiar el stock mediante operaciones</h2></header><div class="slide-body code-split"><pre class="code"><code><span class="tok-keyword">class</span> <span class="tok-type">Inventario</span> {
+    <span class="tok-keyword">private</span> <span class="tok-keyword">int</span> stock = <span class="tok-number">5</span>;
+    <span class="tok-keyword">public</span> <span class="tok-keyword">boolean</span> retirar(<span class="tok-keyword">int</span> unidades) {
+        <span class="tok-keyword">if</span> (unidades &lt;= <span class="tok-number">0</span> || unidades &gt; stock) <span class="tok-keyword">return</span> <span class="tok-keyword">false</span>;
         stock -= unidades;
-        return true;
+        <span class="tok-keyword">return</span> <span class="tok-keyword">true</span>;
     }
-    public int consultarStock() { return stock; }
+    <span class="tok-keyword">public</span> <span class="tok-keyword">int</span> consultarStock() { <span class="tok-keyword">return</span> stock; }
 }</code></pre><article class="panel accent stack"><span class="label">Regla y resultados · cada intento parte de 5</span><div class="inventory-outcomes"><p><code>retirar(2)</code> → <b>true</b> · stock queda en <b>3</b>.</p><p><code>retirar(8)</code> → <b>false</b> · stock sigue en <b>5</b>.</p></div></article><p class="callout">Encapsular protege el estado interno y permite cambiarlo mediante operaciones que aplican reglas. <code>stock</code> es privado; <code>retirar</code> y <code>consultarStock</code> son públicos. Un getter o setter puede ser válido si encaja con las reglas del modelo.</p></div></section>
 <section class="slide" id="slide-17" data-title="Quién puede acceder a cada miembro" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 4 · Visibilidad</p><h2>Quién puede acceder a cada miembro</h2></header><div class="slide-body"><div class="comparison"><div><b>Modificador</b><b>Alcance</b></div><div><code>public</code><span>Desde cualquier clase que pueda ver ese tipo.</span></div><div><code>private</code><span>Oculto para otras clases independientes; se usa dentro de la clase declaradora.</span></div><div><i>sin modificador</i><span>Clases del mismo paquete, un grupo de clases relacionadas.</span></div><div><code>protected</code><span>Mismo paquete; también subclases fuera de él, con restricciones sobre el tipo de referencia usado.</span></div></div><p class="callout">Un getter permite consultar cuando conviene; un setter no es obligatorio. protected no significa “todo objeto hijo puede acceder a todo”.</p></div></section>
 <section class="slide" id="slide-18" data-title="Práctica: el inventario conserva sus reglas" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 4 · Práctica</p><h2>Práctica: el inventario conserva sus reglas</h2></header><div class="slide-body exercise"><article class="panel stack"><h3>Situación y objetivo</h3><p>Completa Inventario con operaciones para retirar y reponer existencias.</p><p><b>Inicio:</b> stock = 5.</p></article><article class="panel accent stack"><h3>Resultado esperado</h3><p>Retirar 2 deja 3. En un inventario nuevo, retirar 8 se rechaza y deja 5.</p><p><b>Restricciones:</b> cantidades positivas; stock no negativo; fallar sin cambiarlo; no exponer el campo.</p><p><b>Reto:</b> valida también el stock inicial.</p></article><p class="callout warning">Evita validar solo en la pantalla o devolver una colección interna modificable.</p></div></section>
 <section class="slide" id="slide-19" data-title="El código del producto no debe cambiar después" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Situación</p><h2>El código del producto no debe cambiar después</h2></header><div class="slide-body"><div class="flow"><div class="node accent">Producto creado<br>código CU-10<br>máximo 12 caracteres</div><div class="arrow"><svg viewBox="0 0 60 52" role="img" aria-label="intentar cambiar la etiqueta"><title>Intentar cambiar el código</title><path d="M2 26H48 M38 16L50 26L38 36"/></svg></div><div class="node warning">Intentar cambiar la etiqueta a CU-99<br>los registros ya usan CU-10</div></div><p class="callout">El código identifica el producto. El límite es una regla compartida por el catálogo, no un valor distinto por ejemplar.</p></div></section>
-<section class="slide" id="slide-20" data-title="final fija la referencia; static pertenece a la clase" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 5 · static y final</p><h2>final fija la referencia; static pertenece a la clase</h2></header><div class="slide-body code-split"><pre class="code"><code>final class Producto {
-    static final int MAX_CODIGO = 12;
-    private final String codigo;
-    Producto(String codigo) { this.codigo = codigo; }
-    String getCodigo() { return codigo; }
+<section class="slide" id="slide-20" data-title="final fija la referencia; static pertenece a la clase" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 5 · static y final</p><h2>final fija la referencia; static pertenece a la clase</h2></header><div class="slide-body code-split"><pre class="code"><code><span class="tok-keyword">final</span> <span class="tok-keyword">class</span> <span class="tok-type">Producto</span> {
+    <span class="tok-keyword">static</span> <span class="tok-keyword">final</span> <span class="tok-keyword">int</span> <span class="tok-type">MAX_CODIGO</span> = <span class="tok-number">12</span>;
+    <span class="tok-keyword">private</span> <span class="tok-keyword">final</span> <span class="tok-type">String</span> codigo;
+    <span class="tok-type">Producto</span>(<span class="tok-type">String</span> codigo) { <span class="tok-keyword">this</span>.codigo = codigo; }
+    <span class="tok-type">String</span> getCodigo() { <span class="tok-keyword">return</span> codigo; }
 }</code></pre><div class="stack"><article class="panel accent"><b>Producto A:</b> CU-10<br><b>Producto B:</b> CU-20<br><b>Compartido:</b> MAX_CODIGO = 12</article><p class="callout warning">Declarar el límite no valida la entrada. Una referencia final no hace inmutable al objeto referido.</p><p class="mini-note">Atributo normal: una copia lógica por instancia. static: miembro de la clase. final impide reasignar campo; una clase final no se extiende.</p></div></div></section>
 <section class="slide" id="slide-21" data-title="Elegir instancia, constante o utilidad" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 5 · Inmutabilidad</p><h2>Elegir instancia, constante o utilidad</h2></header><div class="slide-body"><div class="rows"><div class="row"><b>Instancia</b><span>El código CU-10 pertenece a un producto concreto.</span></div><div class="row"><b>Constante</b><span>static final MAX_CODIGO describe un límite compartido.</span></div><div class="row"><b>Utilidad static</b><span>Se invoca mediante la clase y no puede usar this: no tiene una instancia actual.</span></div></div><div class="panel accent"><b>Inmutable</b><p>El valor observable no cambia luego de construir el objeto. Usa estado privado y final; copia entradas o salidas mutables cuando haga falta.</p></div><p class="callout warning">No uses estado global mutable para los datos de cada producto.</p><p class="question">Diseña una dirección inmutable: ¿qué guardarías? Para cambiarla, construye otro valor.</p></div></section>
 <section class="slide" id="slide-22" data-title="Dos entregas comparten una promesa" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Situación</p><h2>Dos entregas comparten una promesa</h2></header><div class="slide-body"><div class="before-after"><article class="panel"><b>Entrega común</b> <strong class="result">5 días</strong><p>El cliente pregunta cuándo llega.</p></article><article class="panel accent"><b>Entrega rápida</b> <strong class="result">1 día</strong><p>El cliente hace la misma pregunta.</p></article></div><p class="callout">Las modalidades anuncian un plazo estimado; cada una puede obtenerlo de modo distinto.</p></div></section>
-<section class="slide" id="slide-23" data-title="Herencia: reutilizar y especializar una clase" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 6 · Herencia</p><h2>Herencia: reutilizar y especializar una clase</h2></header><div class="slide-body code-split"><pre class="code"><code>class Entrega {
-    public int diasEstimados() { return 5; }
+<section class="slide" id="slide-23" data-title="Herencia: reutilizar y especializar una clase" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 6 · Herencia</p><h2>Herencia: reutilizar y especializar una clase</h2></header><div class="slide-body code-split"><pre class="code"><code><span class="tok-keyword">class</span> <span class="tok-type">Entrega</span> {
+    <span class="tok-keyword">public</span> <span class="tok-keyword">int</span> diasEstimados() { <span class="tok-keyword">return</span> <span class="tok-number">5</span>; }
 }
 
-class EntregaExpress extends Entrega {
-    // Hereda diasEstimados()
+<span class="tok-keyword">class</span> <span class="tok-type">EntregaExpress</span> <span class="tok-keyword">extends</span> <span class="tok-type">Entrega</span> {
+    <span class="tok-comment">// Hereda diasEstimados()</span>
 }
 
-EntregaExpress express = new EntregaExpress();
-express.diasEstimados(); // 5</code></pre><article class="panel accent stack"><h3>¿Qué significa?</h3><p>La subclase <code>EntregaExpress</code> hereda los métodos accesibles de la superclase <code>Entrega</code>. Así puede reutilizarlos y añadir o cambiar su comportamiento.</p><p><b>Aquí:</b> express puede llamar <code>diasEstimados()</code> aunque ese método esté escrito en <code>Entrega</code>.</p><p class="mini-note"><code>extends</code> declara la relación “es una”. Los constructores no se heredan; el siguiente ejemplo especializa el plazo con <code>@Override</code>.</p></article><p class="callout warning">Hereda solo si la subclase también cumple las promesas de la clase base; no uses herencia únicamente para copiar código.</p></div></section>
-<section class="slide" id="slide-24" data-title="Sobrescribir una operación con @Override" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 6 · Sobrescritura</p><h2>Sobrescribir una operación con @Override</h2></header><div class="slide-body code-split"><pre class="code"><code>class Entrega {
-    public int diasEstimados() { return 5; }
+<span class="tok-type">EntregaExpress</span> express = <span class="tok-keyword">new</span> <span class="tok-type">EntregaExpress</span>();
+express.diasEstimados(); <span class="tok-comment">// 5</span></code></pre><article class="panel accent stack"><h3>¿Qué significa?</h3><p>La subclase <code>EntregaExpress</code> hereda los métodos accesibles de la superclase <code>Entrega</code>. Así puede reutilizarlos y añadir o cambiar su comportamiento.</p><p><b>Aquí:</b> express puede llamar <code>diasEstimados()</code> aunque ese método esté escrito en <code>Entrega</code>.</p><p class="mini-note"><code>extends</code> declara la relación “es una”. Los constructores no se heredan; el siguiente ejemplo especializa el plazo con <code>@Override</code>.</p></article><p class="callout warning">Hereda solo si la subclase también cumple las promesas de la clase base; no uses herencia únicamente para copiar código.</p></div></section>
+<section class="slide" id="slide-24" data-title="Sobrescribir una operación con @Override" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 6 · Sobrescritura</p><h2>Sobrescribir una operación con @Override</h2></header><div class="slide-body code-split"><pre class="code"><code><span class="tok-keyword">class</span> <span class="tok-type">Entrega</span> {
+    <span class="tok-keyword">public</span> <span class="tok-keyword">int</span> diasEstimados() { <span class="tok-keyword">return</span> <span class="tok-number">5</span>; }
 }
-class EntregaExpress extends Entrega {
-    @Override
-    public int diasEstimados() { return 1; }
+<span class="tok-keyword">class</span> <span class="tok-type">EntregaExpress</span> <span class="tok-keyword">extends</span> <span class="tok-type">Entrega</span> {
+    <span class="tok-annotation">@Override</span>
+    <span class="tok-keyword">public</span> <span class="tok-keyword">int</span> diasEstimados() { <span class="tok-keyword">return</span> <span class="tok-number">1</span>; }
 }</code></pre><article class="panel accent stack"><h3>Misma petición</h3><p>Objeto Entrega → <b>5 días</b></p><p>Objeto EntregaExpress → <b>1 día</b></p><p>La firma coincide; @Override pide al compilador revisar ese hecho.</p></article><p class="callout warning">Los atributos heredados no se reemplazan dinámicamente como los métodos de instancia.</p></div></section>
-<section class="slide" id="slide-25" data-title="super reutiliza la parte heredada" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 6 · Inicialización de subclase</p><h2>super reutiliza la parte heredada</h2></header><div class="slide-body code-split"><pre class="code"><code>class Entrega {
-    private final String destino;
-    Entrega(String destino) { this.destino = destino; }
+<section class="slide" id="slide-25" data-title="super reutiliza la parte heredada" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 6 · Inicialización de subclase</p><h2>super reutiliza la parte heredada</h2></header><div class="slide-body code-split"><pre class="code"><code><span class="tok-keyword">class</span> <span class="tok-type">Entrega</span> {
+    <span class="tok-keyword">private</span> <span class="tok-keyword">final</span> <span class="tok-type">String</span> destino;
+    <span class="tok-type">Entrega</span>(<span class="tok-type">String</span> destino) { <span class="tok-keyword">this</span>.destino = destino; }
 }
-class EntregaExpress extends Entrega {
-    EntregaExpress(String destino) {
-        super(destino);
+<span class="tok-keyword">class</span> <span class="tok-type">EntregaExpress</span> <span class="tok-keyword">extends</span> <span class="tok-type">Entrega</span> {
+    <span class="tok-type">EntregaExpress</span>(<span class="tok-type">String</span> destino) {
+        <span class="tok-keyword">super</span>(destino);
     }
 }</code></pre><div class="stack"><p class="mini-note"><code>super(destino)</code> inicializa primero la parte base. <code>super.metodo()</code> puede llamar su implementación.</p><p class="mini-note">Los constructores no se heredan. <code>final</code> puede impedir extender una clase o sobrescribir un método.</p><p class="callout warning">No extiendas solo para reutilizar código: ¿una entrega programada cumple el contrato general?</p><p class="question">Práctica: agrega esa modalidad y justifica si es una Entrega.</p></div></div></section>
 <section class="slide" id="slide-26" data-title="El cliente quiere el plazo, no todos los cálculos" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Situación</p><h2>El cliente quiere el plazo, no todos los cálculos</h2></header><div class="slide-body"><div class="before-after"><article class="panel question-panel"><span class="label">La pregunta</span><strong class="result">¿Cuántos días?</strong><p>La rápida responde 1.</p></article><article class="panel accent"><span class="label">Detalle que no necesita conocer</span><p>Cada modalidad calcula a su manera.</p><strong>Se muestra el plazo.</strong></article></div><p class="callout">Quien usa el servicio necesita saber qué ofrece, no cómo se calcula cada alternativa.</p></div></section>
 <section class="slide" id="slide-27" data-title="Abstracción: definir qué se ofrece" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 7 · Abstracción</p><h2>Abstracción: definir qué se ofrece</h2></header><div class="slide-body"><div class="flow"><div class="node">Operación común<br>diasEstimados()</div><div class="arrow"><svg viewBox="0 0 60 52" role="img" aria-label="se implementa con"><path d="M2 26H48 M38 16L50 26L38 36"/></svg></div><div class="node">Cálculo concreto<br>5 días o 1 día</div></div><p class="lead">La abstracción decide qué pregunta necesita hacer el cliente y deja variable el cálculo.</p><div class="rows"><div class="row"><b>Clase abstracta</b><span>Puede declarar operaciones incompletas y compartir métodos completos; no se instancia.</span></div><div class="row"><b>Encapsulamiento</b><span>Controla el acceso y los cambios al estado. Es otra idea.</span></div></div></div></section>
-<section class="slide" id="slide-28" data-title="Una clase abstracta combina contrato y código" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 7 · Implementación</p><h2>Una clase abstracta combina contrato y código</h2></header><div class="slide-body code-split"><pre class="code"><code>abstract class Entrega {
-    public abstract int diasEstimados();
-    public String resumen() {
-        return "Plazo (días): " + diasEstimados();
+<section class="slide" id="slide-28" data-title="Una clase abstracta combina contrato y código" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 7 · Implementación</p><h2>Una clase abstracta combina contrato y código</h2></header><div class="slide-body code-split"><pre class="code"><code><span class="tok-keyword">abstract</span> <span class="tok-keyword">class</span> <span class="tok-type">Entrega</span> {
+    <span class="tok-keyword">public</span> <span class="tok-keyword">abstract</span> <span class="tok-keyword">int</span> diasEstimados();
+    <span class="tok-keyword">public</span> <span class="tok-type">String</span> resumen() {
+        <span class="tok-keyword">return</span> <span class="tok-string">"Plazo (días): "</span> + diasEstimados();
     }
 }
-class EntregaExpress extends Entrega {
-    public int diasEstimados() { return 1; }
+<span class="tok-keyword">class</span> <span class="tok-type">EntregaExpress</span> <span class="tok-keyword">extends</span> <span class="tok-type">Entrega</span> {
+    <span class="tok-keyword">public</span> <span class="tok-keyword">int</span> diasEstimados() { <span class="tok-keyword">return</span> <span class="tok-number">1</span>; }
 }</code></pre><div class="stack"><article class="panel accent"><p><code>new EntregaExpress().resumen()</code></p><strong class="result">Plazo (días): 1</strong></article><p class="mini-note">La clase abstracta puede tener estado y constructores. Su método abstracto no tiene cuerpo.</p><p class="callout warning">No puedes crear <code>new Entrega()</code>; falta una implementación concreta.</p><p class="question">Agrega otra variante y conserva el método resumen.</p></div></div></section>
 <section class="slide" id="slide-29" data-title="Cambiar la entrega no debería cambiar el pedido" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Situación</p><h2>Cambiar la entrega no debería cambiar el pedido</h2></header><div class="slide-body"><div class="before-after"><article class="panel warning"><b>Dos rutinas</b><p>Una rama consulta la entrega común; otra copia el trabajo para la rápida.</p></article><article class="panel accent"><b>La misma pregunta</b><p>El pedido consulta los días de la modalidad elegida.</p><strong class="result">5 o 1 día</strong></article></div><p class="callout">Evitar la duplicación hace que ambas alternativas respondan de forma uniforme.</p></div></section>
 <section class="slide" id="slide-30" data-title="Polimorfismo: mismo pedido, distinta respuesta" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 8 · Ejecución</p><h2>Polimorfismo: mismo pedido, distinta respuesta</h2></header><div class="slide-body"><div class="diagram"><svg viewBox="0 0 720 270" role="img" aria-labelledby="s28title s28desc"><title id="s28title">La clase real elige el método ejecutado</title><desc id="s28desc">Una referencia de tipo declarado Entrega apunta a un objeto real de clase EntregaExpress. La llamada diasEstimados selecciona la implementación de EntregaExpress y devuelve un día.</desc><defs><marker id="s28arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z"/></marker></defs><rect x="20" y="80" width="210" height="95" rx="12"/><text x="125" y="115">tipo declarado:</text><text x="125" y="145">Entrega</text><path d="M230 128H460" marker-end="url(#s28arrow)"/><text x="345" y="110">referencia a</text><rect x="475" y="65" width="225" height="125" rx="12"/><text x="587" y="98">clase real:</text><text x="587" y="126">EntregaExpress</text><text x="587" y="154">diasEstimados() = 1</text><path d="M570 195V240" marker-end="url(#s28arrow)"/><text x="475" y="265">se ejecuta esta implementación</text></svg></div><p class="mini-note"><b>Polimorfismo:</b> tipos relacionados responden a la misma llamada con su propia implementación. <code>Entrega</code> determina las operaciones disponibles; la clase real <code>EntregaExpress</code> determina cuál se ejecuta: <code>diasEstimados()</code> devuelve 1 día.</p><p class="callout warning">Usa la operación común sin preguntar la clase concreta.</p></div></section>
-<section class="slide" id="slide-31" data-title="Sobrecarga y sobrescritura se deciden distinto" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 8 · Comparación</p><h2>Sobrecarga y sobrescritura se deciden distinto</h2></header><div class="slide-body split"><article class="panel stack"><h3>Sobrecarga · fragmento dentro de una clase</h3><pre class="code"><code>public int estimar(int u) { return u * 500; }
-public int estimar(int u, boolean urgente) {
-    return urgente ? u * 700 : estimar(u);
-}</code></pre><p>Parámetros distintos; el compilador elige la llamada.</p></article><article class="panel accent stack"><h3>Sobrescritura · cuerpo de EntregaExpress</h3><pre class="code"><code>@Override
-public int diasEstimados() { return 1; }</code></pre><p>Firma heredada; la clase real elige el cuerpo al ejecutar.</p></article><p class="callout warning">No se sobrecarga cambiando solo el retorno. Campos y métodos static tampoco tienen despacho dinámico.</p></div></section>
+<section class="slide" id="slide-31" data-title="Sobrecarga y sobrescritura se deciden distinto" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 8 · Comparación</p><h2>Sobrecarga y sobrescritura se deciden distinto</h2></header><div class="slide-body split"><article class="panel stack"><h3>Sobrecarga · fragmento dentro de una clase</h3><pre class="code"><code><span class="tok-keyword">public</span> <span class="tok-keyword">int</span> estimar(<span class="tok-keyword">int</span> u) { <span class="tok-keyword">return</span> u * <span class="tok-number">500</span>; }
+<span class="tok-keyword">public</span> <span class="tok-keyword">int</span> estimar(<span class="tok-keyword">int</span> u, <span class="tok-keyword">boolean</span> urgente) {
+    <span class="tok-keyword">return</span> urgente ? u * <span class="tok-number">700</span> : estimar(u);
+}</code></pre><p>Parámetros distintos; el compilador elige la llamada.</p></article><article class="panel accent stack"><h3>Sobrescritura · cuerpo de EntregaExpress</h3><pre class="code"><code><span class="tok-annotation">@Override</span>
+<span class="tok-keyword">public</span> <span class="tok-keyword">int</span> diasEstimados() { <span class="tok-keyword">return</span> <span class="tok-number">1</span>; }</code></pre><p>Firma heredada; la clase real elige el cuerpo al ejecutar.</p></article><p class="callout warning">No se sobrecarga cambiando solo el retorno. Campos y métodos static tampoco tienen despacho dinámico.</p></div></section>
 <section class="slide" id="slide-32" data-title="Práctica: consultar sin preguntar la clase" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 8 · Práctica</p><h2>Práctica: consultar sin preguntar la clase</h2></header><div class="slide-body exercise"><article class="panel stack"><h3>Objetivo</h3><p>Escribe una rutina que reciba una Entrega y muestre su plazo.</p><p><b>Inicio:</b> común (5 días) y express (1 día).</p></article><article class="panel accent stack"><h3>Resultado y límites</h3><p>La rutina muestra 5 o 1 según el objeto que recibe.</p><p>No preguntes su clase con una cadena de instanceof ni conviertas a subtipo.</p><p><b>Reto:</b> añade una tercera modalidad sin cambiar la rutina.</p></article><p class="callout warning">Convertir una referencia general a un tipo hijo incorrecto puede causar ClassCastException.</p></div></section>
 <section class="slide" id="slide-33" data-title="Básico: crear, proteger y sustituir" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">TECSUP · JAVA COURSE · CIERRE BÁSICO</p><h2>Básico: crear, proteger y sustituir</h2></header><div class="slide-body"><div class="rows"><div class="row"><b>Clase y objeto</b><span>La clase describe; cada objeto guarda sus propios datos.</span></div><div class="row"><b>Encapsulamiento</b><span>Operaciones protegen el estado y aplican sus reglas.</span></div><div class="row"><b>Herencia y polimorfismo</b><span>Una entrega especializada hereda; la llamada común ejecuta su respuesta.</span></div></div><div class="split"><article class="panel"><h3>Recupera</h3><p>¿Qué comparte una referencia con otra al mismo objeto? ¿Qué hacen final y static? ¿Qué diferencia hay entre tipo declarado y clase real?</p></article><article class="panel accent"><h3>Mini proyecto</h3><p>Modela un producto válido, A-17 e inventario. Incluye dos entregas; prueba que el stock no queda negativo.</p><p><b>Reto:</b> explica por qué cada dato vive en su clase.</p></article></div></div></section>
 <section class="slide" id="slide-34" data-title="Hoy avisamos por consola; mañana por otro canal" data-level="Intermedio" hidden>
@@ -403,13 +405,13 @@ public int diasEstimados() { return 1; }</code></pre><p>Firma heredada; la clase
       <div class="panel accent stack"><h3>Contrato</h3><p>«Quien envía un mensaje ofrece <code>enviar</code>».</p><p>La interfaz nombra la capacidad común.</p></div>
       <div class="panel stack"><h3>Implementación</h3><p>Consola, correo o SMS pueden cumplir el mismo contrato con su propio código.</p></div>
     </div>
-    <pre class="code"><code>interface Notificador {
-    void enviar(String mensaje);
+    <pre class="code"><code><span class="tok-keyword">interface</span> <span class="tok-type">Notificador</span> {
+    <span class="tok-keyword">void</span> enviar(<span class="tok-type">String</span> mensaje);
 }
 
-class NotificadorConsola implements Notificador {
-    public void enviar(String mensaje) {
-        System.out.println(mensaje);
+<span class="tok-keyword">class</span> <span class="tok-type">NotificadorConsola</span> <span class="tok-keyword">implements</span> <span class="tok-type">Notificador</span> {
+    <span class="tok-keyword">public</span> <span class="tok-keyword">void</span> enviar(<span class="tok-type">String</span> mensaje) {
+        <span class="tok-type">System</span>.out.println(mensaje);
     }
 }</code></pre>
     <p class="mini-note">La consola muestra el aviso; este ejemplo no envía un correo real.</p>
@@ -432,15 +434,15 @@ class NotificadorConsola implements Notificador {
     <div class="code-split">
       <div>
         <span class="code-label">Dos métodos con propósitos distintos</span>
-        <pre class="code"><code>interface Notificador {
-    void enviar(String mensaje);
+        <pre class="code"><code><span class="tok-keyword">interface</span> <span class="tok-type">Notificador</span> {
+    <span class="tok-keyword">void</span> enviar(<span class="tok-type">String</span> mensaje);
 
-    default void confirmarPedido() {
-        enviar("Pedido confirmado");
+    <span class="tok-keyword">default</span> <span class="tok-keyword">void</span> confirmarPedido() {
+        enviar(<span class="tok-string">"Pedido confirmado"</span>);
     }
 
-    static boolean esValido(String texto) {
-        return texto != null;
+    <span class="tok-keyword">static</span> <span class="tok-keyword">boolean</span> esValido(<span class="tok-type">String</span> texto) {
+        <span class="tok-keyword">return</span> texto != <span class="tok-keyword">null</span>;
     }
 }</code></pre>
       </div>
@@ -485,14 +487,14 @@ class NotificadorConsola implements Notificador {
   <header class="slide-header"><p class="eyebrow">Intermedio · Unidad 10 · del modelo al código</p><h2>Una referencia expresa una relación</h2></header>
   <div class="slide-body">
     <div class="code-split">
-      <div><span class="code-label">Esqueleto con import java.util.*; Cliente y Linea se modelan en la práctica</span><pre class="code"><code>class Pedido {
-    private final Cliente cliente;
-    private final List&lt;Linea&gt; lineas = new ArrayList&lt;&gt;();
-    Pedido(Cliente c) { cliente = c; }
-    void agregar(Producto p, int cantidad) {
-        lineas.add(new Linea(p, cantidad));
+      <div><span class="code-label">Esqueleto con import java.util.*; Cliente y Linea se modelan en la práctica</span><pre class="code"><code><span class="tok-keyword">class</span> <span class="tok-type">Pedido</span> {
+    <span class="tok-keyword">private</span> <span class="tok-keyword">final</span> <span class="tok-type">Cliente</span> cliente;
+    <span class="tok-keyword">private</span> <span class="tok-keyword">final</span> <span class="tok-type">List</span>&lt;<span class="tok-type">Linea</span>&gt; lineas = <span class="tok-keyword">new</span> <span class="tok-type">ArrayList</span>&lt;&gt;();
+    <span class="tok-type">Pedido</span>(<span class="tok-type">Cliente</span> c) { cliente = c; }
+    <span class="tok-keyword">void</span> agregar(<span class="tok-type">Producto</span> p, <span class="tok-keyword">int</span> cantidad) {
+        lineas.add(<span class="tok-keyword">new</span> <span class="tok-type">Linea</span>(p, cantidad));
     }
-    void confirmar(Notificador n) { n.enviar(&quot;A-17&quot;); }
+    <span class="tok-keyword">void</span> confirmar(<span class="tok-type">Notificador</span> n) { n.enviar(&quot;<span class="tok-type">A</span>-<span class="tok-number">17</span>&quot;); }
 }</code></pre></div>
       <div class="stack">
         <div class="panel accent"><p><strong>Asociación:</strong> <code>cliente</code> existe aparte.</p><p><strong>Composición:</strong> cada línea pertenece a este pedido.</p></div>
@@ -525,12 +527,12 @@ class NotificadorConsola implements Notificador {
       <div class="row"><strong><code>equals</code></strong><span>Permite definir si dos objetos cuentan como iguales por su significado.</span></div>
       <div class="row"><strong><code>toString</code></strong><span>Da una descripción textual útil para revisar o registrar el objeto.</span></div>
     </div>
-    <pre class="code"><code>Object a = new String("10");
-Object b = new String("10");
-System.out.println(a == b);              // false
-System.out.println(a.equals(b));         // true
-System.out.println(a instanceof String); // true
-System.out.println(a.toString());        // 10</code></pre>
+    <pre class="code"><code><span class="tok-type">Object</span> a = <span class="tok-keyword">new</span> <span class="tok-type">String</span>(<span class="tok-string">"10"</span>);
+<span class="tok-type">Object</span> b = <span class="tok-keyword">new</span> <span class="tok-type">String</span>(<span class="tok-string">"10"</span>);
+<span class="tok-type">System</span>.out.println(a == b);              <span class="tok-comment">// false</span>
+<span class="tok-type">System</span>.out.println(a.equals(b));         <span class="tok-comment">// true</span>
+<span class="tok-type">System</span>.out.println(a <span class="tok-keyword">instanceof</span> <span class="tok-type">String</span>); <span class="tok-comment">// true</span>
+<span class="tok-type">System</span>.out.println(a.toString());        <span class="tok-comment">// 10</span></code></pre>
     <p class="mini-note">Toda clase Java hereda de <code>Object</code>; aquí <code>String</code> ya redefine <code>equals</code> y <code>toString</code>.</p>
   </div>
 </section>
@@ -538,15 +540,15 @@ System.out.println(a.toString());        // 10</code></pre>
   <header class="slide-header"><p class="eyebrow">Intermedio · Unidad 11 · contratos de igualdad</p><h2><code>equals</code> y <code>hashCode</code> deben contar la misma historia</h2></header>
   <div class="slide-body">
     <div class="code-split">
-      <div><span class="code-label">CodigoProducto compara el valor</span><pre class="code"><code>final class CodigoProducto {
-    private final int valor;
-    CodigoProducto(int valor) { this.valor = valor; }
-    @Override public boolean equals(Object otro) {
-        return otro instanceof CodigoProducto c
+      <div><span class="code-label">CodigoProducto compara el valor</span><pre class="code"><code><span class="tok-keyword">final</span> <span class="tok-keyword">class</span> <span class="tok-type">CodigoProducto</span> {
+    <span class="tok-keyword">private</span> <span class="tok-keyword">final</span> <span class="tok-keyword">int</span> valor;
+    <span class="tok-type">CodigoProducto</span>(<span class="tok-keyword">int</span> valor) { <span class="tok-keyword">this</span>.valor = valor; }
+    <span class="tok-annotation">@Override</span> <span class="tok-keyword">public</span> <span class="tok-keyword">boolean</span> equals(<span class="tok-type">Object</span> otro) {
+        <span class="tok-keyword">return</span> otro <span class="tok-keyword">instanceof</span> <span class="tok-type">CodigoProducto</span> c
             &amp;&amp; valor == c.valor;
     }
-    @Override public int hashCode() {
-        return Integer.hashCode(valor);
+    <span class="tok-annotation">@Override</span> <span class="tok-keyword">public</span> <span class="tok-keyword">int</span> hashCode() {
+        <span class="tok-keyword">return</span> <span class="tok-type">Integer</span>.hashCode(valor);
     }
 }</code></pre></div>
       <div class="stack">
@@ -599,17 +601,17 @@ System.out.println(a.toString());        // 10</code></pre>
   <header class="slide-header"><p class="eyebrow">Intermedio · Unidad 12 · declarar y lanzar</p><h2><code>throw</code> lanza; <code>throws</code> declara</h2></header>
   <div class="slide-body">
     <div class="code-split">
-      <div><span class="code-label">Versión con excepciones: reemplaza el resultado booleano</span><pre class="code"><code>class StockInsuficienteException extends RuntimeException {
-    StockInsuficienteException() { super(&quot;Stock insuficiente&quot;); }
+      <div><span class="code-label">Versión con excepciones: reemplaza el resultado booleano</span><pre class="code"><code><span class="tok-keyword">class</span> <span class="tok-type">StockInsuficienteException</span> <span class="tok-keyword">extends</span> <span class="tok-type">RuntimeException</span> {
+    <span class="tok-type">StockInsuficienteException</span>() { <span class="tok-keyword">super</span>(&quot;<span class="tok-type">Stock</span> insuficiente&quot;); }
 }
-class Inventario {
-    private int stock = 5;
-    void retirar(int n) {
-        if (n &lt;= 0) throw new IllegalArgumentException();
-        if (n &gt; stock) throw new StockInsuficienteException();
+<span class="tok-keyword">class</span> <span class="tok-type">Inventario</span> {
+    <span class="tok-keyword">private</span> <span class="tok-keyword">int</span> stock = <span class="tok-number">5</span>;
+    <span class="tok-keyword">void</span> retirar(<span class="tok-keyword">int</span> n) {
+        <span class="tok-keyword">if</span> (n &lt;= <span class="tok-number">0</span>) <span class="tok-keyword">throw</span> <span class="tok-keyword">new</span> <span class="tok-type">IllegalArgumentException</span>();
+        <span class="tok-keyword">if</span> (n &gt; stock) <span class="tok-keyword">throw</span> <span class="tok-keyword">new</span> <span class="tok-type">StockInsuficienteException</span>();
         stock -= n;
     }
-    int consultarStock() { return stock; }
+    <span class="tok-keyword">int</span> consultarStock() { <span class="tok-keyword">return</span> stock; }
 }</code></pre></div>
       <div class="stack">
         <div class="panel accent"><h3><code>throw</code></h3><p>Interrumpe ahora el método con una excepción.</p></div>
@@ -621,13 +623,13 @@ class Inventario {
 </section>
 <section class="slide" id="slide-49" data-title="Elegir el contrato de error" data-level="Intermedio" hidden>
   <header class="slide-header"><p class="eyebrow">Intermedio · Unidad 12 · tipos de excepción</p><h2>Elegir el contrato de error</h2></header>
-  <div class="slide-body"><div class="code-split"><div><span class="code-label">Dentro de main · Inventario de la diapositiva anterior</span><pre class="code"><code>Inventario inventario = new Inventario();
-try {
-    inventario.retirar(8);
-} catch (StockInsuficienteException error) {
-    System.out.println(error.getMessage());
-} finally {
-    System.out.println(&quot;Intento terminado&quot;);
+  <div class="slide-body"><div class="code-split"><div><span class="code-label">Dentro de main · Inventario de la diapositiva anterior</span><pre class="code"><code><span class="tok-type">Inventario</span> inventario = <span class="tok-keyword">new</span> <span class="tok-type">Inventario</span>();
+<span class="tok-keyword">try</span> {
+    inventario.retirar(<span class="tok-number">8</span>);
+} <span class="tok-keyword">catch</span> (<span class="tok-type">StockInsuficienteException</span> error) {
+    <span class="tok-type">System</span>.out.println(error.getMessage());
+} <span class="tok-keyword">finally</span> {
+    <span class="tok-type">System</span>.out.println(&quot;<span class="tok-type">Intento</span> terminado&quot;);
 }</code></pre></div><div class="stack"><div class="panel accent stack"><h3>Verificada</h3><p>Una subclase de <code>Exception</code> que no sea <code>RuntimeException</code>: se captura o se declara con <code>throws</code>.</p></div><div class="panel stack"><h3>No verificada</h3><p><code>RuntimeException</code> y sus subclases no obligan a capturar ni declarar.</p></div></div></div><p class="callout">El <code>catch</code> informa el rechazo; quedan 5 unidades. <code>finally</code> se ejecuta al salir del bloque, salvo terminaciones abruptas de la JVM.</p><p class="mini-note">Para recursos que implementan <code>AutoCloseable</code>, <code>try (Recurso r = abrir()) { /* usar r */ }</code> cierra el recurso automáticamente. Es una forma esquemática: cada recurso define cómo abrirse y cerrarse.</p></div></section>
 <section class="slide" id="slide-50" data-title="Práctica: fallar sin alterar el objeto" data-level="Intermedio" hidden>
   <header class="slide-header"><p class="eyebrow">Intermedio · Unidad 12 · práctica</p><h2>Práctica: fallar sin alterar el objeto</h2></header>
@@ -652,10 +654,10 @@ try {
       <div class="row"><strong><code>Set&lt;CodigoProducto&gt;</code></strong><span>¿Qué códigos únicos hay? Usa igualdad para evitar duplicados.</span></div>
       <div class="row"><strong><code>Map&lt;Integer, Producto&gt;</code></strong><span>¿Qué producto corresponde a la clave 10?</span></div>
     </div>
-    <pre class="code"><code>import java.util.*;
-List&lt;Producto&gt; productos = new ArrayList&lt;&gt;();
-Set&lt;CodigoProducto&gt; codigos = new HashSet&lt;&gt;();
-Map&lt;Integer, Producto&gt; porCodigo = new HashMap&lt;&gt;();</code></pre>
+    <pre class="code"><code><span class="tok-keyword">import</span> java.util.*;
+<span class="tok-type">List</span>&lt;<span class="tok-type">Producto</span>&gt; productos = <span class="tok-keyword">new</span> <span class="tok-type">ArrayList</span>&lt;&gt;();
+<span class="tok-type">Set</span>&lt;<span class="tok-type">CodigoProducto</span>&gt; codigos = <span class="tok-keyword">new</span> <span class="tok-type">HashSet</span>&lt;&gt;();
+<span class="tok-type">Map</span>&lt;<span class="tok-type">Integer</span>, <span class="tok-type">Producto</span>&gt; porCodigo = <span class="tok-keyword">new</span> <span class="tok-type">HashMap</span>&lt;&gt;();</code></pre>
     <p class="mini-note">Se declara el contrato de colección; la implementación concreta puede cambiar.</p>
   </div>
 </section>
@@ -663,11 +665,11 @@ Map&lt;Integer, Producto&gt; porCodigo = new HashMap&lt;&gt;();</code></pre>
   <header class="slide-header"><p class="eyebrow">Intermedio · Unidad 13 · igualdad en colecciones</p><h2>La igualdad decide qué se repite</h2></header>
   <div class="slide-body">
     <div class="code-split">
-      <div><span class="code-label">Set compara CodigoProducto por valor</span><pre class="code"><code>Set&lt;CodigoProducto&gt; codigos = new HashSet&lt;&gt;();
-codigos.add(new CodigoProducto(10));
-codigos.add(new CodigoProducto(10));
+      <div><span class="code-label">Set compara CodigoProducto por valor</span><pre class="code"><code><span class="tok-type">Set</span>&lt;<span class="tok-type">CodigoProducto</span>&gt; codigos = <span class="tok-keyword">new</span> <span class="tok-type">HashSet</span>&lt;&gt;();
+codigos.add(<span class="tok-keyword">new</span> <span class="tok-type">CodigoProducto</span>(<span class="tok-number">10</span>));
+codigos.add(<span class="tok-keyword">new</span> <span class="tok-type">CodigoProducto</span>(<span class="tok-number">10</span>));
 
-System.out.println(codigos.size()); // 1</code></pre></div>
+<span class="tok-type">System</span>.out.println(codigos.size()); <span class="tok-comment">// 1</span></code></pre></div>
       <div class="stack">
         <div class="panel accent"><p><code>CodigoProducto</code> implementa <code>equals</code> y <code>hashCode</code> por su valor.</p></div>
         <div class="panel"><p>Sin esas reglas, dos objetos separados podrían contar como distintos para el conjunto.</p></div>
@@ -688,18 +690,18 @@ System.out.println(codigos.size()); // 1</code></pre></div>
   <header class="slide-header"><p class="eyebrow">Intermedio · Unidad 13 · genéricos</p><h2>Genéricos: declarar el tipo de contenido</h2></header>
   <div class="slide-body">
     <div class="code-split">
-      <div><span class="code-label">T se determina al usar Caja; método reutiliza un tipo</span><pre class="code"><code>class Caja&lt;T&gt; {
-    private final T contenido;
-    Caja(T contenido) { this.contenido = contenido; }
-    T obtener() { return contenido; }
+      <div><span class="code-label">T se determina al usar Caja; método reutiliza un tipo</span><pre class="code"><code><span class="tok-keyword">class</span> <span class="tok-type">Caja</span>&lt;<span class="tok-type">T</span>&gt; {
+    <span class="tok-keyword">private</span> <span class="tok-keyword">final</span> <span class="tok-type">T</span> contenido;
+    <span class="tok-type">Caja</span>(<span class="tok-type">T</span> contenido) { <span class="tok-keyword">this</span>.contenido = contenido; }
+    <span class="tok-type">T</span> obtener() { <span class="tok-keyword">return</span> contenido; }
 }
-class Util {
-    static &lt;T&gt; T identidad(T valor) { return valor; }
+<span class="tok-keyword">class</span> <span class="tok-type">Util</span> {
+    <span class="tok-keyword">static</span> &lt;<span class="tok-type">T</span>&gt; <span class="tok-type">T</span> identidad(<span class="tok-type">T</span> valor) { <span class="tok-keyword">return</span> valor; }
 }
 
-CodigoProducto valor = new CodigoProducto(10);
-Caja&lt;CodigoProducto&gt; caja = new Caja&lt;&gt;(valor);
-CodigoProducto codigo = caja.obtener();</code></pre></div>
+<span class="tok-type">CodigoProducto</span> valor = <span class="tok-keyword">new</span> <span class="tok-type">CodigoProducto</span>(<span class="tok-number">10</span>);
+<span class="tok-type">Caja</span>&lt;<span class="tok-type">CodigoProducto</span>&gt; caja = <span class="tok-keyword">new</span> <span class="tok-type">Caja</span>&lt;&gt;(valor);
+<span class="tok-type">CodigoProducto</span> codigo = caja.obtener();</code></pre></div>
       <div class="stack">
         <div class="panel accent"><p><code>T</code> representa un tipo de referencia elegido al llamar o crear.</p></div>
         <div class="panel"><p>El compilador detecta incompatibilidades sin conversión desde <code>Object</code>.</p></div>
@@ -746,13 +748,13 @@ CodigoProducto codigo = caja.obtener();</code></pre></div>
 </section>
 <section class="slide" id="slide-61" data-title="SOLID: contratos pequeños y dependencias explícitas" data-level="Avanzado" hidden>
 <header class="slide-header"><p class="eyebrow">Avanzado · Unidad 14 · completa SOLID</p><h2>SOLID: contratos pequeños y dependencias explícitas</h2></header>
-<div class="slide-body"><div class="code-split"><div><span class="code-label">El servicio recibe el contrato</span><pre class="code"><code>interface Notificador {
-    void enviar(String mensaje);
+<div class="slide-body"><div class="code-split"><div><span class="code-label">El servicio recibe el contrato</span><pre class="code"><code><span class="tok-keyword">interface</span> <span class="tok-type">Notificador</span> {
+    <span class="tok-keyword">void</span> enviar(<span class="tok-type">String</span> mensaje);
 }
-class ServicioPedido {
-    private final Notificador aviso;
-    ServicioPedido(Notificador aviso) {
-        this.aviso = aviso;
+<span class="tok-keyword">class</span> <span class="tok-type">ServicioPedido</span> {
+    <span class="tok-keyword">private</span> <span class="tok-keyword">final</span> <span class="tok-type">Notificador</span> aviso;
+    <span class="tok-type">ServicioPedido</span>(<span class="tok-type">Notificador</span> aviso) {
+        <span class="tok-keyword">this</span>.aviso = aviso;
     }
 }</code></pre></div><div class="stack"><article class="panel accent"><h3>I · interfaces pequeñas</h3><p>El cliente depende solo de enviar.</p></article><article class="panel"><h3>D · inversión de dependencias</h3><p>La regla recibe el contrato, no crea el correo concreto.</p></article></div></div><p class="callout">Ejercicio: separa una clase que calcula el pedido y además envía el aviso; inyecta Notificador por constructor.</p></div>
 </section>
@@ -770,11 +772,11 @@ class ServicioPedido {
 </section>
 <section class="slide" id="slide-65" data-title="Singleton: una instancia con un coste compartido" data-level="Avanzado" hidden>
 <header class="slide-header"><p class="eyebrow">Avanzado · Unidad 15 · Singleton · implementación</p><h2>Singleton: una instancia con un coste compartido</h2></header>
-<div class="slide-body"><div class="code-split"><div><span class="code-label">El enum contiene una única constante</span><pre class="code"><code>enum ConfigCupones {
-    INSTANCIA;
-    private final String modo = "ESTRICTO";
-    String modoActual() {
-        return modo;
+<div class="slide-body"><div class="code-split"><div><span class="code-label">El enum contiene una única constante</span><pre class="code"><code><span class="tok-keyword">enum</span> <span class="tok-type">ConfigCupones</span> {
+    <span class="tok-type">INSTANCIA</span>;
+    <span class="tok-keyword">private</span> <span class="tok-keyword">final</span> <span class="tok-type">String</span> modo = <span class="tok-string">"ESTRICTO"</span>;
+    <span class="tok-type">String</span> modoActual() {
+        <span class="tok-keyword">return</span> modo;
     }
 }</code></pre></div><article class="panel accent stack"><h3>Alcance real</h3><p>Una constante por carga de la clase en una JVM; no coordina instancias entre procesos o servidores.</p><p>El estado del ejemplo no cambia. Acceso: <code>ConfigCupones.INSTANCIA.modoActual()</code>.</p></article></div><p class="callout warning">Singleton puede crear acceso global difícil de sustituir en pruebas. Úsalo solo si el requisito de instancia única es real.</p></div>
 </section>
@@ -784,14 +786,14 @@ class ServicioPedido {
 </section>
 <section class="slide" id="slide-67" data-title="Factory: concentrar la creación" data-level="Avanzado" hidden>
 <header class="slide-header"><p class="eyebrow">Avanzado · Unidad 15 · fábrica simple · implementación</p><h2>Factory: concentrar la creación</h2></header>
-<div class="slide-body"><div class="code-split"><div><span class="code-label">Una decisión; los dos canales solo simulan</span><pre class="code"><code>interface Notificador {
-    void enviar(String mensaje);
+<div class="slide-body"><div class="code-split"><div><span class="code-label">Una decisión; los dos canales solo simulan</span><pre class="code"><code><span class="tok-keyword">interface</span> <span class="tok-type">Notificador</span> {
+    <span class="tok-keyword">void</span> enviar(<span class="tok-type">String</span> mensaje);
 }
-class FabricaAvisos {
-    static Notificador crear(boolean consola) {
-        if (consola) return m -&gt; System.out.println(m);
-        return m -&gt;
-            System.out.println("Correo simulado: " + m);
+<span class="tok-keyword">class</span> <span class="tok-type">FabricaAvisos</span> {
+    <span class="tok-keyword">static</span> <span class="tok-type">Notificador</span> crear(<span class="tok-keyword">boolean</span> consola) {
+        <span class="tok-keyword">if</span> (consola) <span class="tok-keyword">return</span> m -&gt; <span class="tok-type">System</span>.out.println(m);
+        <span class="tok-keyword">return</span> m -&gt;
+            <span class="tok-type">System</span>.out.println(<span class="tok-string">"Correo simulado: "</span> + m);
     }
 }</code></pre></div><article class="panel stack"><h3>Tres nombres, distinto alcance</h3><p>Fábrica simple: un método elige y crea.</p><p>Factory Method: subclases redefinen el método creador.</p><p>Abstract Factory: crea familias compatibles de objetos.</p><p>crear(true) imprime el mensaje; crear(false) muestra “Correo simulado”.</p></article></div><p class="callout">La lambda implementa el único método de Notificador; aquí no se envía un correo real.</p></div>
 </section>
@@ -801,19 +803,19 @@ class FabricaAvisos {
 </section>
 <section class="slide" id="slide-69" data-title="Strategy: intercambiar la regla de tarifa" data-level="Avanzado" hidden>
 <header class="slide-header"><p class="eyebrow">Avanzado · Unidad 15 · Strategy · implementación</p><h2>Strategy: intercambiar la regla de tarifa</h2></header>
-<div class="slide-body"><div class="code-split"><div><span class="code-label">Cotizador delega en una tarifa inyectada</span><pre class="code"><code>interface TarifaEntrega {
-    int costoCentimos();
+<div class="slide-body"><div class="code-split"><div><span class="code-label">Cotizador delega en una tarifa inyectada</span><pre class="code"><code><span class="tok-keyword">interface</span> <span class="tok-type">TarifaEntrega</span> {
+    <span class="tok-keyword">int</span> costoCentimos();
 }
-class Estandar implements TarifaEntrega {
-    public int costoCentimos() { return 500; }
+<span class="tok-keyword">class</span> <span class="tok-type">Estandar</span> <span class="tok-keyword">implements</span> <span class="tok-type">TarifaEntrega</span> {
+    <span class="tok-keyword">public</span> <span class="tok-keyword">int</span> costoCentimos() { <span class="tok-keyword">return</span> <span class="tok-number">500</span>; }
 }
-class Express implements TarifaEntrega {
-    public int costoCentimos() { return 900; }
+<span class="tok-keyword">class</span> <span class="tok-type">Express</span> <span class="tok-keyword">implements</span> <span class="tok-type">TarifaEntrega</span> {
+    <span class="tok-keyword">public</span> <span class="tok-keyword">int</span> costoCentimos() { <span class="tok-keyword">return</span> <span class="tok-number">900</span>; }
 }
-class Cotizador {
-    private final TarifaEntrega tarifa;
-    Cotizador(TarifaEntrega t) { tarifa = t; }
-    int cotizar() { return tarifa.costoCentimos(); }
+<span class="tok-keyword">class</span> <span class="tok-type">Cotizador</span> {
+    <span class="tok-keyword">private</span> <span class="tok-keyword">final</span> <span class="tok-type">TarifaEntrega</span> tarifa;
+    <span class="tok-type">Cotizador</span>(<span class="tok-type">TarifaEntrega</span> t) { tarifa = t; }
+    <span class="tok-keyword">int</span> cotizar() { <span class="tok-keyword">return</span> tarifa.costoCentimos(); }
 }</code></pre></div><article class="panel accent stack"><h3>El resultado cambia</h3><p>Construido con Estandar: 500 céntimos.</p><p>Construido con Express: 900 céntimos.</p></article></div><p class="callout">Reto: añade una tarifa con otra regla sin cambiar Cotizador.</p></div>
 </section>
 <section class="slide" id="slide-70" data-title="Un cambio de pedido interesa a varias personas" data-level="Avanzado" hidden>
@@ -822,17 +824,17 @@ class Cotizador {
 </section>
 <section class="slide" id="slide-71" data-title="Observer: registrar y avisar a los interesados" data-level="Avanzado" hidden>
 <header class="slide-header"><p class="eyebrow">Avanzado · Unidad 15 · Observer · aviso síncrono</p><h2>Observer: registrar y avisar a los interesados</h2></header>
-<div class="slide-body"><div class="code-split"><div><span class="code-label">Fragmento con import java.util.List y java.util.ArrayList</span><pre class="code"><code>interface ObservadorPedido {
-    void actualizado(String estado);
+<div class="slide-body"><div class="code-split"><div><span class="code-label">Fragmento con import java.util.List y java.util.ArrayList</span><pre class="code"><code><span class="tok-keyword">interface</span> <span class="tok-type">ObservadorPedido</span> {
+    <span class="tok-keyword">void</span> actualizado(<span class="tok-type">String</span> estado);
 }
-class Pedido {
-    private final List&lt;ObservadorPedido&gt; lista
-        = new ArrayList&lt;&gt;();
-    void suscribir(ObservadorPedido o) { lista.add(o); }
-    void retirar(ObservadorPedido o) { lista.remove(o); }
-    void avisarConfirmacion() {
-        for (ObservadorPedido o : List.copyOf(lista)) {
-            o.actualizado("Confirmado");
+<span class="tok-keyword">class</span> <span class="tok-type">Pedido</span> {
+    <span class="tok-keyword">private</span> <span class="tok-keyword">final</span> <span class="tok-type">List</span>&lt;<span class="tok-type">ObservadorPedido</span>&gt; lista
+        = <span class="tok-keyword">new</span> <span class="tok-type">ArrayList</span>&lt;&gt;();
+    <span class="tok-keyword">void</span> suscribir(<span class="tok-type">ObservadorPedido</span> o) { lista.add(o); }
+    <span class="tok-keyword">void</span> retirar(<span class="tok-type">ObservadorPedido</span> o) { lista.remove(o); }
+    <span class="tok-keyword">void</span> avisarConfirmacion() {
+        <span class="tok-keyword">for</span> (<span class="tok-type">ObservadorPedido</span> o : <span class="tok-type">List</span>.copyOf(lista)) {
+            o.actualizado(<span class="tok-string">"Confirmado"</span>);
         }
     }
 }</code></pre></div><article class="panel accent stack"><h3>Qué ocurre</h3><p>La llamada es síncrona: cada observador corre antes de salir de avisarConfirmacion.</p><p>Retíralo al terminar su interés. Si uno lanza excepción, la iteración se interrumpe.</p></article></div><p class="callout">Este ejemplo emite el aviso de confirmación. Cambiar el estado y reservar stock son pasos previos; si un observador falla, este recorrido se detiene.</p></div>
@@ -845,16 +847,16 @@ class Pedido {
 <header class="slide-header"><p class="eyebrow">Avanzado · Unidad 16 · prueba unitaria</p><h2>Una prueba verifica una promesa observable</h2></header><div class="slide-body"><div class="flow"><div class="node stack"><span class="label">Preparar</span><strong class="big">Stock 5</strong><p>Inventario nuevo</p></div><span class="arrow"><svg viewBox="0 0 60 52" role="img" aria-labelledby="s71-first-t s71-first-d"><title id="s71-first-t">Siguiente paso</title><desc id="s71-first-d">La prueba avanza de preparar a actuar y comprobar.</desc><defs><marker id="s71-first-a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#00b3e0"/></marker></defs><path d="M2 26H52" stroke="#00b3e0" stroke-width="3" fill="none" marker-end="url(#s71-first-a)"/></svg></span><div class="node stack"><span class="label">Actuar</span><strong>retirar(2)</strong><p>Una sola operación</p></div><span class="arrow"><svg viewBox="0 0 60 52" role="img" aria-labelledby="s71-second-t s71-second-d"><title id="s71-second-t">Siguiente paso</title><desc id="s71-second-d">La prueba avanza de preparar a actuar y comprobar.</desc><defs><marker id="s71-second-a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#00b3e0"/></marker></defs><path d="M2 26H52" stroke="#00b3e0" stroke-width="3" fill="none" marker-end="url(#s71-second-a)"/></svg></span><div class="node stack"><span class="label">Comprobar</span><strong class="big">Stock 3</strong><p>Resultado esperado</p></div></div><p class="callout">Una prueba unitaria comprueba un comportamiento aislado; una prueba de integración comprueba la colaboración real entre componentes.</p></div></section>
 <section class="slide" id="slide-74" data-title="JUnit: ejecutar y comprobar el comportamiento" data-level="Avanzado" hidden>
 <header class="slide-header"><p class="eyebrow">Avanzado · Unidad 16 · dependencia externa</p><h2>JUnit: ejecutar y comprobar el comportamiento</h2></header>
-<div class="slide-body"><div class="code-split"><div><span class="code-label">Imports: import org.junit.jupiter.api.Test; import static org.junit.jupiter.api.Assertions.*; · dentro de InventarioTest</span><pre class="code"><code>@Test void retiroValidoDejaTres() {
-    Inventario i = new Inventario(); // empieza en 5
-    i.retirar(2);
-    assertEquals(3, i.consultarStock());
+<div class="slide-body"><div class="code-split"><div><span class="code-label">Imports: import org.junit.jupiter.api.Test; import static org.junit.jupiter.api.Assertions.*; · dentro de InventarioTest</span><pre class="code"><code><span class="tok-annotation">@Test</span> <span class="tok-keyword">void</span> retiroValidoDejaTres() {
+    <span class="tok-type">Inventario</span> i = <span class="tok-keyword">new</span> <span class="tok-type">Inventario</span>(); <span class="tok-comment">// empieza en 5</span>
+    i.retirar(<span class="tok-number">2</span>);
+    assertEquals(<span class="tok-number">3</span>, i.consultarStock());
 }
-@Test void rechazoConservaCinco() {
-    Inventario i = new Inventario();
-    assertThrows(StockInsuficienteException.class,
-        () -&gt; i.retirar(8));
-    assertEquals(5, i.consultarStock());
+<span class="tok-annotation">@Test</span> <span class="tok-keyword">void</span> rechazoConservaCinco() {
+    <span class="tok-type">Inventario</span> i = <span class="tok-keyword">new</span> <span class="tok-type">Inventario</span>();
+    assertThrows(<span class="tok-type">StockInsuficienteException</span>.<span class="tok-keyword">class</span>,
+        () -&gt; i.retirar(<span class="tok-number">8</span>));
+    assertEquals(<span class="tok-number">5</span>, i.consultarStock());
 }</code></pre></div><article class="panel accent stack"><h3>La lambda expresa la acción</h3><p>assertThrows la ejecuta y comprueba que se lance el tipo indicado.</p><p>JUnit Jupiter es una dependencia de prueba, no parte del JDK.</p></article></div></div>
 </section>
 <section class="slide" id="slide-75" data-title="Práctica: pruebas que protegen el contrato" data-level="Avanzado" hidden>
