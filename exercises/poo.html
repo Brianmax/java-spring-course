@@ -39,280 +39,170 @@
       <a class="back-link" href="index.html#poo">← Volver al catálogo de ejercicios</a>
       <div class="eyebrow">Práctica · Programación orientada a objetos</div>
       <h1>Ejercicios de POO en Java</h1>
-      <p>Once problemas para practicar clases, encapsulación, colecciones, herencia, polimorfismo e interfaces. Cada enunciado incluye reglas y resultados para comprobar tu solución.</p>
+      <p>Once ejercicios de clases, encapsulación, colecciones, herencia, polimorfismo e interfaces. <a href="https://github.com/Brianmax/java-spring-course/blob/main/exercises/poo.md">Leer en el formato original del documento Markdown ↗</a>.</p>
     </header>
     <div class="exercise-body">
-      <section class="exercise-block" aria-labelledby="guia">
-        <h2 id="guia">Antes de empezar</h2>
-        <p>Adaptación corregida de los <a href="https://github.com/Brianmax/javaG7/blob/main/ejercicios/poo.md">ejercicios originales de Brianmax/javaG7</a>. Se conservan los once temas y su numeración. Esta versión aclara las responsabilidades de las clases, los límites de los cálculos y el comportamiento de las operaciones. <a href="https://github.com/Brianmax/java-spring-course/blob/main/exercises/poo.md">Leer el documento en formato Markdown ↗</a></p>
-        <ul>
-          <li>Resuelve cada ejercicio en un proyecto o paquete independiente, por ejemplo, <code>ejercicio01</code>. Así podrás reutilizar nombres como <code>Main</code> o <code>Empleado</code> sin conflictos. El ejercicio 3 reutiliza la clase del ejercicio 2.</li>
-          <li>Usa atributos privados, constructores para crear objetos válidos y getters cuando necesites consultar datos. Agrega setters solo para cambios permitidos; no expongas setters para identificadores, colecciones completas ni estados calculados.</li>
-          <li>Usa nombres de métodos en <code>lowerCamelCase</code> y una clase pública por archivo. Puedes trabajar con <code>List&lt;T&gt;</code> y <code>ArrayList&lt;T&gt;</code> desde el ejercicio 3.</li>
-          <li>Desde el ejercicio 2, rechaza textos obligatorios vacíos o nulos y valores fuera de los rangos indicados. Puedes lanzar <code>IllegalArgumentException</code> para datos inválidos y capturarla en <code>Main</code> al demostrar esos casos. Una operación rechazada debe conservar el estado anterior.</li>
-          <li>En las colecciones, los identificadores son textos obligatorios, únicos e inmutables. Una operación de agregar, eliminar, prestar, devolver o matricular devuelve <code>boolean</code>: <code>true</code> si se realizó y <code>false</code> si incumple una regla de negocio. Las búsquedas devuelven el objeto o <code>null</code> si no existe. No agregues objetos nulos.</li>
-          <li>Las consultas que devuelvan listas deben entregar una copia o una vista no modificable. Solo la clase responsable debe modificar su colección.</li>
-          <li>Para estos ejercicios puedes representar montos con <code>double</code> y mostrarlos con dos decimales. Usa valores finitos y no redondees resultados intermedios. No se requiere usar bases de datos, frameworks ni archivos.</li>
-          <li>Incluye un <code>Main</code> con casos válidos e inválidos y evidencia de sus resultados. Solo el ejercicio 7 requiere un menú interactivo; en los demás puedes crear los datos directamente en el código.</li>
-        </ul>
-        <p><strong>Recorrido sugerido:</strong> 1 → 2 → 3 → 4 → 5 → 10 → 6 → 7 → 11 → 8 → 9. El registro de vehículos permite practicar polimorfismo antes de gestionar préstamos.</p>
-      </section>
-
-      <nav class="exercise-block" aria-labelledby="indice">
-        <h2 id="indice">Elige un ejercicio</h2>
-        <ol>
-          <li><a href="#ejercicio-1">Dog: clases y constructores</a></li>
-          <li><a href="#ejercicio-2">Computer: métodos y encapsulación</a></li>
-          <li><a href="#ejercicio-3">ComputerStore: colecciones y composición</a></li>
-          <li><a href="#ejercicio-4">Pensión universitaria: reglas de cálculo</a></li>
-          <li><a href="#ejercicio-5">Planilla: empleados, pagos y conteos</a></li>
-          <li><a href="#ejercicio-6">Biblioteca: herencia y préstamos</a></li>
-          <li><a href="#ejercicio-7">Alquiler: polimorfismo y menú de consola</a></li>
-          <li><a href="#ejercicio-8">Inventario: interfaces y responsabilidades</a></li>
-          <li><a href="#ejercicio-9">Matrículas: personas con varios roles</a></li>
-          <li><a href="#ejercicio-10">Vehículos: registro polimórfico</a></li>
-          <li><a href="#ejercicio-11">Personal: salarios por especialidad</a></li>
-        </ol>
-      </nav>
-
-      <section class="exercise-block" id="ejercicio-1" aria-labelledby="titulo-1">
-        <span class="tag">Clases y constructores</span>
-        <h2 id="titulo-1">1. Crea un perro</h2>
-        <p>Crea una clase <code>Dog</code> con los atributos privados <code>breed: String</code>, <code>age: int</code> y <code>color: String</code>.</p>
-        <ul>
-          <li>Implementa un constructor que reciba los tres valores y los asigne a los atributos usando <code>this</code>.</li>
-          <li>Agrega getters para consultar los atributos desde otra clase.</li>
-          <li>En <code>Main</code>, crea dos perros con datos diferentes e imprime sus atributos usando los getters.</li>
-        </ul>
-        <p class="check"><strong>Comprueba:</strong> un perro con raza <code>Beagle</code>, edad <code>3</code> y color <code>Tricolor</code> debe mostrar esos datos. El segundo perro debe conservar sus propios valores. En este primer ejercicio puedes asumir entradas válidas.</p>
-      </section>
-
-      <section class="exercise-block" id="ejercicio-2" aria-labelledby="titulo-2">
-        <span class="tag">Encapsulación y cambios de estado</span>
-        <h2 id="titulo-2">2. Actualiza una computadora</h2>
-        <p>Crea <code>Computer</code> con <code>brand: String</code>, <code>model: String</code>, <code>ram: int</code> y <code>storage: int</code>. Expresa RAM y almacenamiento en GB.</p>
-        <ul>
-          <li>El constructor recibe los cuatro atributos. RAM y almacenamiento deben ser mayores que cero.</li>
-          <li>Implementa getters y <code>void showDetails()</code> para imprimir marca, modelo, RAM y almacenamiento con sus unidades.</li>
-          <li>Implementa <code>void increaseRam(int additionalGb)</code> y <code>void increaseStorage(int additionalGb)</code>. Cada argumento representa una cantidad que se suma al valor actual y debe ser mayor que cero.</li>
-          <li>En <code>Main</code>, muestra la computadora antes y después de las ampliaciones.</li>
-        </ul>
-        <p class="check"><strong>Comprueba:</strong> una computadora con 8 GB de RAM y 256 GB de almacenamiento, al recibir incrementos de 8 y 256, debe quedar con 16 GB y 512 GB. Un incremento de 0 o −4 debe rechazarse sin modificarla.</p>
-      </section>
-
-      <section class="exercise-block" id="ejercicio-3" aria-labelledby="titulo-3">
-        <span class="tag">Colecciones y composición</span>
-        <h2 id="titulo-3">3. Administra una tienda de computadoras</h2>
-        <p>Reutiliza <code>Computer</code> y añade <code>serialNumber: String</code> como identificador inmutable de cada equipo físico. El constructor de esta versión recibe el número de serie y los cuatro datos del ejercicio 2.</p>
-        <p>Crea <code>ComputerStore</code> con <code>name: String</code>, <code>address: String</code> y <code>computers: List&lt;Computer&gt;</code>. Su constructor recibe nombre y dirección e inicializa una lista vacía.</p>
-        <ul>
-          <li><code>boolean addComputer(Computer computer)</code>: agrega un equipo si no hay otro con el mismo número de serie.</li>
-          <li><code>boolean sellComputer(String serialNumber)</code>: elimina del inventario el equipo vendido; devuelve <code>false</code> si no existe.</li>
-          <li><code>int getQuantity()</code>: devuelve <code>computers.size()</code>. No almacenes un atributo <code>quantity</code> que pueda desincronizarse.</li>
-          <li><code>List&lt;Computer&gt; filterByRam(int minimumGb)</code>: devuelve los equipos con RAM <strong>estrictamente mayor</strong> al límite, sin modificar el inventario. El límite debe ser mayor o igual que cero.</li>
-          <li><code>void showDetails()</code>: muestra nombre, dirección, cantidad y detalles de los equipos disponibles.</li>
-        </ul>
-        <p class="check"><strong>Comprueba:</strong> agrega equipos con series <code>C1</code>, <code>C2</code> y <code>C3</code> y RAM de 8, 16 y 32 GB. La cantidad es 3 y filtrar por 16 devuelve solo <code>C3</code>. Vender <code>C2</code> deja 2 equipos; volver a venderlo devuelve <code>false</code>. Una serie duplicada no aumenta la cantidad.</p>
-      </section>
-
-      <section class="exercise-block" id="ejercicio-4" aria-labelledby="titulo-4">
-        <span class="tag">Encapsulación y reglas de cálculo</span>
-        <h2 id="titulo-4">4. Calcula una pensión universitaria</h2>
-        <p>Crea <code>Pension</code> con los atributos privados <code>categoria: String</code> y <code>promedio: double</code>. El constructor recibe una categoría válida (<code>A</code>, <code>B</code>, <code>C</code> o <code>D</code>) y un promedio entre 0 y 20, ambos límites incluidos.</p>
-        <div class="table-wrap"><table>
-          <caption>Monto mensual por categoría</caption>
-          <thead><tr><th scope="col">Categoría</th><th scope="col">Pensión base ($)</th></tr></thead>
-          <tbody><tr><td>A</td><td>550.00</td></tr><tr><td>B</td><td>500.00</td></tr><tr><td>C</td><td>460.00</td></tr><tr><td>D</td><td>400.00</td></tr></tbody>
-        </table></div>
-        <div class="table-wrap"><table>
-          <caption>Descuento según el promedio, sin redondearlo</caption>
-          <thead><tr><th scope="col">Promedio</th><th scope="col">Descuento</th></tr></thead>
-          <tbody><tr><td>0 ≤ promedio &lt; 14</td><td>0 %</td></tr><tr><td>14 ≤ promedio &lt; 16</td><td>10 %</td></tr><tr><td>16 ≤ promedio &lt; 18</td><td>12 %</td></tr><tr><td>18 ≤ promedio ≤ 20</td><td>15 %</td></tr></tbody>
-        </table></div>
-        <ul>
-          <li><code>double calcularMontoBase()</code>: devuelve el monto correspondiente a la categoría.</li>
-          <li><code>double calcularTasaDescuento()</code>: devuelve <code>0.0</code>, <code>0.10</code>, <code>0.12</code> o <code>0.15</code>.</li>
-          <li><code>double calcularDescuento()</code>: monto base × tasa.</li>
-          <li><code>double calcularPensionFinal()</code>: monto base − descuento.</li>
-        </ul>
-        <p>En <code>Main</code>, muestra categoría, promedio, monto base, descuento en dinero y monto final. El ejercicio calcula una mensualidad; no requiere registrar un historial de pagos.</p>
-        <p class="check"><strong>Comprueba:</strong> categoría A y promedio 18 producen una base de $550.00, descuento de $82.50 y pago de $467.50. Para B: 13.99 → $500.00; 14 → $450.00; 16 → $440.00; 18 y 20 → $425.00. Un promedio de 13.995 sigue sin descuento. Rechaza la categoría E y promedios fuera de 0 a 20.</p>
-      </section>
-
-      <section class="exercise-block" id="ejercicio-5" aria-labelledby="titulo-5">
-        <span class="tag">Cálculos y conteos en una colección</span>
-        <h2 id="titulo-5">5. Calcula la planilla de empleados</h2>
-        <p>Crea <code>Empleado</code> con <code>id: String</code>, <code>nombres: String</code>, <code>apellidos: String</code>, <code>cargo: String</code>, <code>modalidad: String</code> y <code>horasTrabajadas: double</code>. Las horas corresponden a un mismo mes y pueden ser cero, pero no negativas.</p>
-        <div class="table-wrap"><table>
-          <caption>Tarifas del ejercicio</caption>
-          <thead><tr><th scope="col">Cargo</th><th scope="col">Pago por hora ($)</th></tr></thead>
-          <tbody><tr><td>Gerente</td><td>20.00</td></tr><tr><td>Administrativo</td><td>10.00</td></tr><tr><td>Jefe</td><td>8.50</td></tr><tr><td>Operario</td><td>3.50</td></tr></tbody>
-        </table></div>
-        <p>Las modalidades válidas son <code>Tiempo Completo</code>, con bonificación del 20 %, y <code>Tiempo Parcial</code>, con bonificación del 5 %. Acepta únicamente los cargos y modalidades indicados; puedes representarlos con <code>String</code> o con enums si ya los conoces.</p>
-        <ul>
-          <li>En <code>Empleado</code>, implementa <code>calcularPagoBase()</code>, <code>calcularBonificacion()</code> y <code>calcularPagoTotal()</code>, todos con retorno <code>double</code>.</li>
-          <li>Pago base = horas × tarifa del cargo. Bonificación = pago base × tasa de la modalidad. Pago total = base + bonificación. No incluyas horas extra ni descuentos adicionales.</li>
-          <li>Crea <code>Planilla</code> con una lista inicialmente vacía y <code>boolean registrarEmpleado(Empleado empleado)</code>, rechazando IDs repetidos.</li>
-          <li>Implementa <code>int contarEmpleados()</code>, <code>int contarPorCargo(String cargo)</code> y <code>double calcularTotalPlanilla()</code>. Si usas enums, adapta el tipo del parámetro de cargo.</li>
-          <li>En <code>Main</code>, muestra el pago individual, el total registrado, el conteo de cada uno de los cuatro cargos y la suma de pagos.</li>
-        </ul>
-        <p class="check"><strong>Comprueba:</strong> un gerente a tiempo completo con 10 horas cobra $240.00; un operario a tiempo parcial con 10 horas cobra $36.75. Al registrar solo esos dos empleados, el total es 2, los conteos son 1 gerente, 0 administrativos, 0 jefes y 1 operario, y la planilla suma $276.75. Una planilla vacía tiene conteos y total en cero.</p>
-      </section>
-
-      <section class="exercise-block" id="ejercicio-6" aria-labelledby="titulo-6">
-        <span class="tag">Herencia, polimorfismo y estado compartido</span>
-        <h2 id="titulo-6">6. Gestiona préstamos de una biblioteca</h2>
-        <p>Modela libros y DVDs que pueden prestarse a usuarios registrados.</p>
-        <h3>Clases</h3>
-        <ul>
-          <li><code>LibraryItem</code>: clase abstracta con <code>title: String</code>, <code>itemID: String</code> y <code>loanedTo: LibraryUser</code>, inicialmente <code>null</code>. Incluye constructor, getters, <code>boolean isLoaned()</code> (verdadero cuando <code>loanedTo != null</code>) y <code>abstract void showDetails()</code>.</li>
-          <li><code>Book extends LibraryItem</code>: agrega <code>author: String</code> y sobrescribe <code>showDetails()</code>.</li>
-          <li><code>DVD extends LibraryItem</code>: agrega <code>director: String</code> y <code>duration: int</code> en minutos, mayor que cero. Sobrescribe <code>showDetails()</code>.</li>
-          <li><code>LibraryUser</code>: contiene <code>userName: String</code> y <code>userID: String</code>, con constructor, getters y <code>void showUserDetails()</code>.</li>
-          <li><code>Library</code>: contiene <code>libraryItems: List&lt;LibraryItem&gt;</code> y <code>users: List&lt;LibraryUser&gt;</code>, inicialmente vacías.</li>
-        </ul>
-        <p>El préstamo se guarda en <code>loanedTo</code>. No mantengas otra lista mutable de préstamos dentro del usuario: obtén sus préstamos consultando la biblioteca. El cambio de prestatario se realiza mediante métodos internos del paquete llamados por <code>Library</code>; no expongas un setter público.</p>
-        <h3>Operaciones de Library</h3>
-        <ul>
-          <li><code>boolean addItem(LibraryItem item)</code> y <code>boolean registerUser(LibraryUser user)</code>: rechazan IDs repetidos en su respectiva colección.</li>
-          <li><code>boolean loanItem(String itemID, String userID)</code>: requiere un ítem existente y disponible y un usuario registrado; asigna ese usuario como prestatario.</li>
-          <li><code>boolean returnItem(String itemID, String userID)</code>: requiere que el ítem esté prestado precisamente a ese usuario; establece <code>loanedTo</code> en <code>null</code>.</li>
-          <li><code>List&lt;LibraryItem&gt; getLoanedItems(String userID)</code>: devuelve los ítems prestados a ese usuario; devuelve una lista vacía si no existe o no tiene préstamos.</li>
-          <li><code>void showAllItems()</code>: recorre la colección y llama a <code>showDetails()</code>; cada subtipo muestra sus datos específicos y si está prestado.</li>
-        </ul>
-        <p>En <code>Main</code>, registra libros, DVDs y dos usuarios; muestra sus detalles, realiza préstamos y devoluciones y consulta los préstamos de cada usuario. Las mismas operaciones deben aceptar ambos tipos de ítem sin distinguirlos mediante condicionales de tipo.</p>
-        <p class="check"><strong>Comprueba:</strong> prestar el libro <code>B1</code> al usuario <code>U1</code> devuelve <code>true</code>. Prestarlo después a <code>U2</code> o devolverlo como <code>U2</code> devuelve <code>false</code>. Devolverlo como <code>U1</code> lo deja disponible y elimina ese resultado de la consulta de préstamos de <code>U1</code>. Repetir la devolución devuelve <code>false</code>. Demuestra también un préstamo de DVD.</p>
-      </section>
-
-      <section class="exercise-block" id="ejercicio-7" aria-labelledby="titulo-7">
-        <span class="tag">Polimorfismo y consola interactiva</span>
-        <h2 id="titulo-7">7. Gestiona el alquiler de películas y videojuegos</h2>
-        <p>Construye un videoclub con dos tipos de artículos para demostrar polimorfismo. El videojuego amplía el enunciado original, que solo definía películas.</p>
-        <h3>Clases</h3>
-        <ul>
-          <li><code>RentalItem</code>: clase abstracta con <code>itemName: String</code>, <code>itemID: String</code> y <code>rentedTo: Customer</code>, inicialmente <code>null</code>. Define <code>boolean isAvailable()</code> a partir de si <code>rentedTo</code> es <code>null</code> y <code>abstract void showDetails()</code>.</li>
-          <li><code>Movie extends RentalItem</code>: agrega <code>director: String</code>, <code>duration: int</code> (minutos positivos), <code>ageRating: String</code> y <code>genre: String</code>.</li>
-          <li><code>VideoGame extends RentalItem</code>: agrega <code>platform: String</code> y <code>ageRating: String</code>.</li>
-          <li><code>Customer</code>: contiene <code>customerName: String</code>, <code>customerID: String</code> y <code>void showCustomerDetails()</code>.</li>
-          <li><code>MovieRentalSystem</code>: contiene <code>rentalItems: List&lt;RentalItem&gt;</code> y <code>customers: List&lt;Customer&gt;</code>, inicialmente vacías.</li>
-        </ul>
-        <p>Los constructores reciben los datos obligatorios de cada clase. Ambos subtipos sobrescriben <code>showDetails()</code>. La clasificación por edades es informativa; no se requiere comprobar la edad del cliente ni cobrar alquileres.</p>
-        <h3>Operaciones y reglas</h3>
-        <ul>
-          <li><code>boolean addItem(RentalItem item)</code> y <code>boolean registerCustomer(Customer customer)</code>: rechazan IDs duplicados en su colección.</li>
-          <li><code>boolean rentItemToCustomer(String itemID, String customerID)</code>: alquila un artículo existente y disponible a un cliente registrado.</li>
-          <li><code>boolean returnItem(String itemID, String customerID)</code>: permite devolverlo únicamente al cliente que lo tiene alquilado.</li>
-          <li><code>List&lt;RentalItem&gt; getRentedItems(String customerID)</code>: calcula los alquileres consultando <code>rentedTo</code>; devuelve una lista vacía para un cliente inexistente o sin alquileres.</li>
-          <li><code>void showAllItems()</code>: muestra todos los artículos y su disponibilidad; <code>void showAvailableItems()</code>: muestra solo los disponibles; <code>void showAllCustomers()</code>: muestra los clientes y sus alquileres.</li>
-        </ul>
-        <p>Como en la biblioteca, guarda el estado del alquiler solo en <code>rentedTo</code> y permite que el sistema lo cambie mediante métodos internos del paquete. No agregues setters públicos de disponibilidad ni una segunda lista mutable en el cliente.</p>
-        <p>En <code>Main</code>, carga al menos dos películas, un videojuego y dos clientes. Implementa un menú con <code>Scanner</code> para listar artículos, listar disponibles, alquilar, devolver, mostrar clientes y salir. Lee las opciones como texto para que una opción desconocida muestre un mensaje y vuelva al menú. Toda operación debe informar si se realizó.</p>
-        <p class="check"><strong>Comprueba:</strong> alquila una película y un videojuego al mismo cliente usando el mismo método. Ambos desaparecen de la lista de disponibles. Rechaza otro alquiler del mismo artículo, IDs inexistentes y una devolución por un cliente diferente. Una devolución válida vuelve a mostrar el artículo como disponible. La opción de salir debe terminar el programa.</p>
-      </section>
-
-      <section class="exercise-block" id="ejercicio-8" aria-labelledby="titulo-8">
-        <span class="tag">Interfaces y separación de responsabilidades</span>
-        <h2 id="titulo-8">8. Controla un inventario de productos</h2>
-        <p>Usa una interfaz para el precio de cada producto y otra para las operaciones de la colección. Un producto tiene precio; el inventario agrega, busca y elimina productos.</p>
-        <h3>Interfaces</h3>
-        <ul>
-          <li><code>Priceable</code>: declara <code>double getPrice()</code> y <code>void setPrice(double price)</code>.</li>
-          <li><code>InventoryManageable</code>: declara <code>boolean addItem(Product product)</code>, <code>boolean deleteItem(String productId)</code>, <code>List&lt;Product&gt; listItems()</code> y <code>Product findItemById(String productId)</code>.</li>
-        </ul>
-        <h3>Clases</h3>
-        <ul>
-          <li><code>Product implements Priceable</code>: clase abstracta con <code>productId: String</code> y <code>price: double</code>, ambos privados. Implementa la interfaz, valida un precio mayor o igual que cero y declara <code>abstract void showDetails()</code>.</li>
-          <li><code>Electronics extends Product</code>: agrega <code>brand: String</code> y <code>model: String</code>.</li>
-          <li><code>Clothing extends Product</code>: agrega <code>size: String</code> y <code>material: String</code>.</li>
-          <li><code>Inventory implements InventoryManageable</code>: contiene una lista privada <code>products: List&lt;Product&gt;</code>, inicialmente vacía, e implementa las cuatro operaciones. Rechaza IDs repetidos.</li>
-        </ul>
-        <p>Agrega constructores y getters en las clases de productos y sobrescribe <code>showDetails()</code> en ambos subtipos. <code>Electronics</code> y <code>Clothing</code> heredan el comportamiento de precio de <code>Product</code>; no implementan <code>InventoryManageable</code>.</p>
-        <p>En <code>Main</code>, usa una referencia <code>InventoryManageable</code> para trabajar con un <code>Inventory</code>. Agrega productos de ambos tipos, lista sus detalles, busca uno por ID, comprueba que exista y cambia su precio mediante una referencia <code>Priceable</code>. Finalmente elimina un producto. Cada registro representa un producto identificado; no se requiere controlar cantidades ni elaborar reportes adicionales.</p>
-        <p class="check"><strong>Comprueba:</strong> registra <code>E1</code> a $1200.00 y <code>C1</code> a $50.00. Cambia <code>C1</code> a $45.00 y verifica el nuevo precio al buscarlo. Un precio negativo se rechaza y conserva $45.00. Agregar otro <code>E1</code> devuelve <code>false</code>. Eliminar <code>E1</code> deja un producto; buscar el eliminado devuelve <code>null</code>. Modificar la lista devuelta por <code>listItems()</code> no debe modificar la colección interna.</p>
-      </section>
-
-      <section class="exercise-block" id="ejercicio-9" aria-labelledby="titulo-9">
-        <span class="tag">Clase abstracta y múltiples interfaces</span>
-        <h2 id="titulo-9">9. Gestiona matrículas y roles educativos</h2>
-        <p>Modela personas que pueden ser estudiantes, profesores o ambos. Java permite implementar varias interfaces y extender una sola clase. En este ejercicio las interfaces representan roles.</p>
-        <h3>Interfaces</h3>
-        <ul>
-          <li><code>Usuario</code>: <code>void iniciarSesion()</code> y <code>void cerrarSesion()</code>.</li>
-          <li><code>Estudiante</code>: <code>String getId()</code>, <code>String getNombre()</code>, <code>boolean matricularCurso(Curso curso)</code> y <code>boolean entregarTarea(Curso curso, String tarea)</code>.</li>
-          <li><code>Profesor</code>: <code>String getId()</code>, <code>String getNombre()</code>, <code>boolean asignarTarea(Curso curso, String tarea)</code> y <code>boolean calificarExamen(Curso curso, Estudiante estudiante, double nota)</code>.</li>
-        </ul>
-        <h3>Personas</h3>
-        <ul>
-          <li><code>Persona implements Usuario</code>: clase <strong>abstracta</strong> con <code>id: String</code> y <code>nombre: String</code>, constructor y getters. Declara <code>iniciarSesion()</code> abstracto e implementa <code>cerrarSesion()</code> mostrando un mensaje común.</li>
-          <li><code>SoloEstudiante extends Persona implements Estudiante</code>: implementa las operaciones de estudiante.</li>
-          <li><code>SoloProfesor extends Persona implements Profesor</code>: implementa las operaciones de profesor.</li>
-          <li><code>EstudianteProfesor extends Persona implements Estudiante, Profesor</code>: implementa ambos roles.</li>
-        </ul>
-        <p>Cada clase concreta implementa <code>iniciarSesion()</code> mostrando el nombre y su rol: estudiante, profesor o estudiante y profesor. Es una simulación por consola, sin contraseñas ni autenticación real. No se exige iniciar sesión para ejecutar las otras operaciones. Los getters heredados de <code>Persona</code> satisfacen los métodos comunes de ambas interfaces.</p>
-        <h3>Curso como responsable de la matrícula</h3>
-        <p>Crea <code>Curso</code> con <code>nombre: String</code>, <code>codigo: String</code>, <code>docente: Profesor</code> y <code>estudiantes: List&lt;Estudiante&gt;</code>. Su constructor recibe nombre, código y un docente no nulo; la lista empieza vacía. Cada curso tiene un solo docente.</p>
-        <ul>
-          <li><code>boolean matricular(Estudiante estudiante)</code>: agrega un estudiante si su ID no está registrado y no coincide con el del docente. Una persona puede enseñar en un curso y estudiar en otro.</li>
-          <li><code>boolean estaMatriculado(String estudianteId)</code>, <code>boolean esDocente(String profesorId)</code>, <code>List&lt;Estudiante&gt; getEstudiantes()</code> y getters para nombre, código y docente.</li>
-          <li><code>matricularCurso(curso)</code> delega en <code>curso.matricular(this)</code>. No mantengas listas de cursos en cada persona: para este ejercicio, la matrícula se almacena únicamente en <code>Curso</code>.</li>
-        </ul>
-        <h3>Tareas y calificaciones</h3>
-        <p>Para mantener el alcance centrado en interfaces, estas acciones solo validan las reglas y muestran un mensaje; no almacenan tareas, entregas ni notas.</p>
-        <ul>
-          <li><code>entregarTarea</code>: exige un curso no nulo, un texto de tarea no vacío y que quien entrega esté matriculado. Muestra estudiante, tarea y curso.</li>
-          <li><code>asignarTarea</code>: exige un curso no nulo, un texto de tarea no vacío y que quien asigna sea el docente del curso. Muestra docente, tarea y curso.</li>
-          <li><code>calificarExamen</code>: exige un curso y estudiante no nulos, que quien califica sea el docente, que el estudiante esté matriculado y una nota entre 0 y 20, inclusive. Muestra docente, estudiante, curso y nota.</li>
-          <li>Las acciones devuelven <code>false</code> cuando el rol no tiene permiso para el curso; para argumentos inválidos aplica la validación general. No se requiere comprobar una asignación previa para simular una entrega.</li>
-        </ul>
-        <p>En <code>Main</code>, crea un <code>SoloEstudiante</code>, un <code>SoloProfesor</code>, un <code>EstudianteProfesor</code> y dos cursos. Usa IDs distintos para las personas y códigos distintos para los cursos. No instancies <code>Persona</code>; puedes usarla como tipo de referencia para recorrer las personas y demostrar sus diferentes mensajes de inicio de sesión.</p>
-        <p class="check"><strong>Comprueba:</strong> Ana (<code>SoloProfesor</code>) enseña Java; Luis (<code>EstudianteProfesor</code>) enseña Bases de Datos y se matricula en Java; Eva (<code>SoloEstudiante</code>) se matricula en Bases de Datos. Luis puede entregar una tarea en Java y calificar a Eva con 18 en Bases de Datos. No puede calificarla en Java ni matricularse en el curso que él enseña. Rechaza una matrícula duplicada y una nota de 21.</p>
-      </section>
-
-      <section class="exercise-block" id="ejercicio-10" aria-labelledby="titulo-10">
-        <span class="tag">Herencia y recorrido polimórfico</span>
-        <h2 id="titulo-10">10. Registra diferentes vehículos</h2>
-        <p>Crea una jerarquía de vehículos y una clase que gestione su registro.</p>
-        <ul>
-          <li><code>Vehicle</code>: clase abstracta con <code>make: String</code>, <code>model: String</code>, <code>year: int</code> (positivo) y <code>registrationNumber: String</code> (matrícula inmutable). Incluye constructor, getters y <code>abstract void showDetails()</code>.</li>
-          <li><code>Car extends Vehicle</code>: agrega <code>seatingCapacity: int</code> (positivo, incluye al conductor) y <code>fuelType: String</code>.</li>
-          <li><code>Motorcycle extends Vehicle</code>: agrega <code>engineSize: int</code> (cilindrada positiva en cm³) y <code>hasSidecar: boolean</code>.</li>
-          <li><code>Truck extends Vehicle</code>: agrega <code>loadCapacity: double</code> (capacidad positiva en kg) y <code>numberOfAxles: int</code> (al menos 2).</li>
-        </ul>
-        <p>Cada subtipo tiene un constructor que llama a <code>super</code>, getters y una sobrescritura de <code>showDetails()</code> que muestra datos comunes, datos específicos y unidades.</p>
-        <p>Crea <code>VehicleRegistry</code> con <code>registeredVehicles: List&lt;Vehicle&gt;</code>, inicialmente vacía, y estos métodos:</p>
-        <ul>
-          <li><code>boolean registerVehicle(Vehicle vehicle)</code>: agrega un vehículo si su matrícula no está registrada.</li>
-          <li><code>Vehicle findVehicle(String registrationNumber)</code>: busca por matrícula; devuelve <code>null</code> si no existe.</li>
-          <li><code>void showAllVehicles()</code>: recorre la lista y llama a <code>showDetails()</code> sin usar <code>instanceof</code> ni conversiones a subtipos.</li>
-        </ul>
-        <p class="check"><strong>Comprueba:</strong> registra un automóvil <code>A1</code>, una motocicleta <code>M1</code> y un camión <code>T1</code>. El listado debe mostrar los atributos específicos de los tres. Buscar <code>M1</code> devuelve la motocicleta; buscar <code>X1</code> devuelve <code>null</code>. Intentar registrar otro vehículo con matrícula <code>A1</code>, incluso de otro subtipo, devuelve <code>false</code>.</p>
-      </section>
-
-      <section class="exercise-block" id="ejercicio-11" aria-labelledby="titulo-11">
-        <span class="tag">Métodos abstractos y reglas por subtipo</span>
-        <h2 id="titulo-11">11. Gestiona personal y salarios</h2>
-        <p>Desarrolla una empresa que administre distintos tipos de empleados. Las fórmulas siguientes son reglas didácticas añadidas para que el cálculo tenga un resultado verificable.</p>
-        <h3>Jerarquía de empleados</h3>
-        <ul>
-          <li><code>Empleado</code>: clase abstracta con <code>nombre: String</code>, <code>id: String</code>, <code>departamento: String</code> y <code>salarioBase: double</code> (mayor o igual que cero). Incluye constructor, getters, <code>String mostrarInfo()</code> y <code>abstract double calcularSalario()</code>. <code>mostrarInfo()</code> debe incluir el salario calculado.</li>
-          <li><code>Desarrollador extends Empleado</code>: añade <code>lenguajes: List&lt;String&gt;</code>. Recibe una lista no nula de nombres no vacíos y sin repetidos, y guarda una copia. Su salario mensual es <strong>salario base + $100.00 por lenguaje distinto</strong>. Compara los nombres sin distinguir mayúsculas y minúsculas.</li>
-          <li><code>Gerente extends Empleado</code>: añade <code>empleadosACargo: List&lt;Empleado&gt;</code>, inicialmente vacía. Su salario mensual es <strong>salario base + $150.00 por empleado a cargo</strong>. La empresa gestiona esta lista mediante métodos internos del paquete.</li>
-          <li><code>Disenador extends Empleado</code>: añade <code>tipoDiseno: String</code>, con valores válidos <code>Grafico</code>, <code>UX</code> o <code>UI</code>. Su salario mensual es <strong>salario base + $200.00</strong> para Grafico, <strong>+ $300.00</strong> para UX o <strong>+ $250.00</strong> para UI.</li>
-        </ul>
-        <p>Las tres clases concretas sobrescriben <code>calcularSalario()</code>. Para la lista de lenguajes, puedes rechazar duplicados mediante <code>IllegalArgumentException</code>; una lista vacía es válida y no genera bonificación.</p>
-        <h3>Empresa</h3>
-        <p>Crea <code>Empresa</code> con una lista privada inicialmente vacía <code>empleados: List&lt;Empleado&gt;</code> y estos métodos:</p>
-        <ul>
-          <li><code>boolean agregarEmpleado(Empleado empleado)</code>: rechaza IDs duplicados.</li>
-          <li><code>boolean asignarEmpleadoAGerente(String empleadoId, String gerenteId)</code>: requiere que ambos estén registrados, que el responsable sea un gerente y que el empleado no sea gerente ni esté ya asignado a otro gerente. Cada empleado puede pertenecer como máximo a un equipo; los gerentes no forman parte de equipos en este ejercicio.</li>
-          <li><code>boolean eliminarEmpleado(String id)</code>: elimina al empleado y lo retira de cualquier equipo al que pertenezca. Si se elimina un gerente, vacía su equipo y sus integrantes permanecen en la empresa sin gerente asignado.</li>
-          <li><code>void mostrarEmpleados()</code>: imprime la información de cada empleado.</li>
-          <li><code>double calcularTotalSalarios()</code>: suma <code>calcularSalario()</code> recorriendo la colección. No repitas las fórmulas salariales dentro de <code>Empresa</code>.</li>
-        </ul>
-        <p>En <code>Main</code>, registra los tres tipos, asigna empleados a un gerente, muestra los salarios y elimina un empleado para comprobar que el equipo y su bonificación se actualizan.</p>
-        <p class="check"><strong>Comprueba:</strong> un desarrollador con base de $2000.00 y dos lenguajes cobra $2200.00; un diseñador UX con base de $1800.00 cobra $2100.00; un gerente con base de $3000.00 y esos dos empleados a cargo cobra $3300.00. El total es $7600.00. Tras eliminar al diseñador, el gerente cobra $3150.00 y el total pasa a $5350.00. Rechaza una segunda asignación del mismo empleado, una autoasignación del gerente y un ID duplicado.</p>
-      </section>
-      <a class="button secondary" href="../lessons/java-poo.html">Consultar la lección de POO →</a>
+<blockquote>Adaptación corregida de los <a href="https://github.com/Brianmax/javaG7/blob/main/ejercicios/poo.md">ejercicios originales de Brianmax/javaG7</a>. Se conservan los once temas y su numeración.</blockquote>
+<h2>Indicaciones generales</h2>
+<ul><li>Resuelve cada ejercicio en un paquete independiente, por ejemplo, <code>ejercicio01</code>. Así puedes reutilizar nombres como <code>Main</code> o <code>Empleado</code> sin conflictos.</li><li>Salvo indicación contraria, los atributos deben ser privados. Usa constructores para crear objetos válidos y getters para consultarlos. Agrega setters solo cuando el cambio esté permitido.</li><li>Rechaza valores obligatorios nulos o vacíos y valores fuera de los límites indicados. Puedes lanzar <code>IllegalArgumentException</code> en los constructores y setters.</li><li>Los identificadores son únicos e inmutables. Las operaciones de agregar, eliminar, prestar, devolver o matricular devuelven <code>true</code> si se realizan y <code>false</code> si una regla de negocio las impide.</li><li>Devuelve copias o vistas no modificables de las colecciones. La clase responsable es la única que debe cambiar su colección.</li><li>En los ejercicios con dinero, usa <code>double</code> y muestra los montos con dos decimales. No redondees resultados intermedios.</li><li>Incluye un <code>Main</code> que demuestre los casos indicados. Solo el ejercicio 7 requiere un menú interactivo.</li><li>Recorrido sugerido: 1 → 2 → 3 → 4 → 5 → 10 → 6 → 7 → 11 → 8 → 9.</li></ul>
+<section class="exercise-block" id="ejercicio-1">
+<h2>Ejercicio 1: clases y constructores</h2>
+<h3>Clase <code>Dog</code></h3>
+<ul><li><strong>Descripción:</strong> Representa un perro.</li><li><strong>Atributos privados:</strong> <code>breed: String</code>, <code>age: int</code>, <code>color: String</code>.</li><li><strong>Métodos:</strong> Constructor que recibe los tres atributos y getters para consultarlos.</li></ul>
+<h3>Clase <code>Main</code></h3>
+<ul><li><strong>Descripción:</strong> Crea perros y muestra sus datos.</li><li><strong>Métodos:</strong> En <code>main</code>, crea dos objetos <code>Dog</code> con datos diferentes e imprime sus atributos mediante los getters.</li></ul>
+<p class="check"><strong>Comprueba:</strong> un perro con raza <code>Beagle</code>, edad <code>3</code> y color <code>Tricolor</code> debe mostrar esos datos. El segundo perro debe conservar sus propios valores.</p>
+</section>
+<section class="exercise-block" id="ejercicio-2">
+<h2>Ejercicio 2: encapsulación y métodos</h2>
+<h3>Clase <code>Computer</code></h3>
+<ul><li><strong>Descripción:</strong> Representa una computadora. RAM y almacenamiento se expresan en GB.</li><li><strong>Atributos privados:</strong> <code>brand: String</code>, <code>model: String</code>, <code>ram: int</code>, <code>storage: int</code>.</li><li><strong>Métodos:</strong> Constructor con los cuatro atributos; getters; <code>showDetails()</code> para imprimir marca, modelo, RAM y almacenamiento; <code>increaseRam(int additionalGb)</code> y <code>increaseStorage(int additionalGb)</code> para ampliar las capacidades existentes.</li><li><strong>Reglas:</strong> RAM y almacenamiento iniciales deben ser mayores que cero. Cada ampliación debe ser mayor que cero y se suma al valor actual.</li></ul>
+<h3>Clase <code>Main</code></h3>
+<ul><li><strong>Descripción:</strong> Crea una computadora y muestra sus cambios.</li><li><strong>Métodos:</strong> En <code>main</code>, muestra los datos antes y después de ampliar RAM y almacenamiento.</li></ul>
+<p class="check"><strong>Comprueba:</strong> una computadora con 8 GB de RAM y 256 GB de almacenamiento, al recibir incrementos de 8 y 256, queda con 16 GB y 512 GB. Un incremento de 0 o −4 se rechaza sin modificarla.</p>
+</section>
+<section class="exercise-block" id="ejercicio-3">
+<h2>Ejercicio 3: colecciones y composición</h2>
+<h3>Clase <code>Computer</code></h3>
+<ul><li><strong>Descripción:</strong> Representa un equipo físico que puede vender una tienda.</li><li><strong>Atributos privados:</strong> <code>serialNumber: String</code> (identificador único e inmutable), <code>brand: String</code>, <code>model: String</code>, <code>ram: int</code> (GB), <code>storage: int</code> (GB).</li><li><strong>Métodos:</strong> Constructor con número de serie y los cuatro atributos del ejercicio 2; getters; <code>showDetails()</code>; <code>increaseRam(int additionalGb)</code> e <code>increaseStorage(int additionalGb)</code>. Las ampliaciones deben ser mayores que cero.</li></ul>
+<h3>Clase <code>ComputerStore</code></h3>
+<ul><li><strong>Descripción:</strong> Administra el inventario de computadoras de una tienda.</li><li><strong>Atributos privados:</strong> <code>name: String</code>, <code>address: String</code>, <code>computers: List&lt;Computer&gt;</code>.</li><li><strong>Métodos:</strong> Constructor con nombre y dirección que inicializa una lista vacía; <code>boolean addComputer(Computer computer)</code>; <code>boolean sellComputer(String serialNumber)</code>; <code>int getQuantity()</code>; <code>List&lt;Computer&gt; filterByRam(int minimumGb)</code>; <code>showDetails()</code>.</li><li><strong>Reglas:</strong> Rechaza números de serie duplicados. La cantidad se obtiene de <code>computers.size()</code> y no se almacena por separado. El filtro devuelve equipos con RAM <strong>estrictamente mayor</strong> al límite, sin modificar el inventario. El límite debe ser mayor o igual que cero.</li></ul>
+<h3>Clase <code>Main</code></h3>
+<ul><li><strong>Descripción:</strong> Demuestra el registro, la búsqueda por RAM y la venta de equipos.</li><li><strong>Métodos:</strong> Agrega computadoras, consulta cantidad e información, filtra por RAM y vende una computadora.</li></ul>
+<p class="check"><strong>Comprueba:</strong> agrega equipos con series <code>C1</code>, <code>C2</code> y <code>C3</code> y RAM de 8, 16 y 32 GB. La cantidad es 3 y filtrar por 16 devuelve solo <code>C3</code>. Vender <code>C2</code> deja 2 equipos; volver a venderlo devuelve <code>false</code>. Una serie duplicada no aumenta la cantidad.</p>
+</section>
+<section class="exercise-block" id="ejercicio-4">
+<h2>Ejercicio 4: cálculo de pensión</h2>
+<h3>Clase <code>Pension</code></h3>
+<ul><li><strong>Descripción:</strong> Calcula el pago mensual de un estudiante según su categoría y promedio.</li><li><strong>Atributos privados:</strong> <code>categoria: String</code>, <code>promedio: double</code>.</li><li><strong>Métodos:</strong> Constructor; <code>calcularMontoBase()</code>; <code>calcularTasaDescuento()</code>; <code>calcularDescuento()</code>; <code>calcularPensionFinal()</code>; getters.</li><li><strong>Reglas:</strong> La categoría debe ser <code>A</code>, <code>B</code>, <code>C</code> o <code>D</code>; el promedio debe estar entre 0 y 20, inclusive. Aplica el descuento usando el promedio sin redondear.</li></ul>
+<div class="table-wrap"><table><thead><tr><th scope="col">Categoría</th><th scope="col">Pensión base ($)</th></tr></thead><tbody><tr><td>A</td><td>550.00</td></tr><tr><td>B</td><td>500.00</td></tr><tr><td>C</td><td>460.00</td></tr><tr><td>D</td><td>400.00</td></tr></tbody></table></div>
+<div class="table-wrap"><table><thead><tr><th scope="col">Promedio</th><th scope="col">Descuento</th></tr></thead><tbody><tr><td>0 ≤ promedio &lt; 14</td><td>0 %</td></tr><tr><td>14 ≤ promedio &lt; 16</td><td>10 %</td></tr><tr><td>16 ≤ promedio &lt; 18</td><td>12 %</td></tr><tr><td>18 ≤ promedio ≤ 20</td><td>15 %</td></tr></tbody></table></div>
+<h3>Clase <code>Main</code></h3>
+<ul><li><strong>Descripción:</strong> Muestra el cálculo de pensión de un estudiante.</li><li><strong>Métodos:</strong> En <code>main</code>, imprime categoría, promedio, monto base, descuento en dinero y monto final.</li></ul>
+<p class="check"><strong>Comprueba:</strong> categoría A y promedio 18 producen una base de $550.00, descuento de $82.50 y pago de $467.50. Para B: 13.99 → $500.00; 14 → $450.00; 16 → $440.00; 18 y 20 → $425.00. Un promedio de 13.995 no recibe descuento. Rechaza categoría E y promedios fuera de 0 a 20.</p>
+</section>
+<section class="exercise-block" id="ejercicio-5">
+<h2>Ejercicio 5: planilla de empleados</h2>
+<h3>Clase <code>Empleado</code></h3>
+<ul><li><strong>Descripción:</strong> Representa a un empleado que cobra por hora.</li><li><strong>Atributos privados:</strong> <code>id: String</code>, <code>nombres: String</code>, <code>apellidos: String</code>, <code>cargo: String</code>, <code>modalidad: String</code>, <code>horasTrabajadas: double</code>.</li><li><strong>Métodos:</strong> Constructor; <code>calcularPagoBase()</code>; <code>calcularBonificacion()</code>; <code>calcularPagoTotal()</code>; getters.</li><li><strong>Reglas:</strong> Las horas del mismo mes pueden ser cero, pero no negativas. Los cargos y modalidades solo pueden tomar los valores indicados en las tablas.</li></ul>
+<div class="table-wrap"><table><thead><tr><th scope="col">Cargo</th><th scope="col">Pago por hora ($)</th></tr></thead><tbody><tr><td>Gerente</td><td>20.00</td></tr><tr><td>Administrativo</td><td>10.00</td></tr><tr><td>Jefe</td><td>8.50</td></tr><tr><td>Operario</td><td>3.50</td></tr></tbody></table></div>
+<div class="table-wrap"><table><thead><tr><th scope="col">Modalidad</th><th scope="col">Bonificación</th></tr></thead><tbody><tr><td>Tiempo Completo</td><td>20 %</td></tr><tr><td>Tiempo Parcial</td><td>5 %</td></tr></tbody></table></div>
+<p>El pago base es horas × tarifa. La bonificación es pago base × tasa de modalidad. El pago total es pago base + bonificación. No se consideran horas extra ni descuentos.</p>
+<h3>Clase <code>Planilla</code></h3>
+<ul><li><strong>Descripción:</strong> Registra empleados y resume sus pagos.</li><li><strong>Atributos privados:</strong> <code>empleados: List&lt;Empleado&gt;</code>, inicialmente vacía.</li><li><strong>Métodos:</strong> <code>boolean registrarEmpleado(Empleado empleado)</code>; <code>int contarEmpleados()</code>; <code>int contarPorCargo(String cargo)</code>; <code>double calcularTotalPlanilla()</code>.</li><li><strong>Reglas:</strong> Rechaza IDs repetidos. El total es la suma del pago total de cada empleado.</li></ul>
+<h3>Clase <code>Main</code></h3>
+<ul><li><strong>Descripción:</strong> Muestra pagos individuales y un resumen de la planilla.</li><li><strong>Métodos:</strong> Registra empleados y muestra el pago de cada uno, el total de empleados, el conteo por cada cargo y la suma de pagos.</li></ul>
+<p class="check"><strong>Comprueba:</strong> un gerente a tiempo completo con 10 horas cobra $240.00; un operario a tiempo parcial con 10 horas cobra $36.75. Juntos suman $276.75. Los conteos son 1 gerente, 0 administrativos, 0 jefes y 1 operario. Una planilla vacía tiene conteos y total en cero.</p>
+</section>
+<section class="exercise-block" id="ejercicio-6">
+<h2>Ejercicio 6: biblioteca con préstamos</h2>
+<h3>Clase abstracta <code>LibraryItem</code></h3>
+<ul><li><strong>Descripción:</strong> Clase base para los elementos prestables de la biblioteca.</li><li><strong>Atributos privados:</strong> <code>title: String</code>, <code>itemID: String</code>, <code>loanedTo: LibraryUser</code> (inicialmente <code>null</code>).</li><li><strong>Métodos:</strong> Constructor; getters; <code>isLoaned()</code>; <code>showDetails()</code> abstracto. <code>isLoaned()</code> devuelve <code>true</code> cuando existe un prestatario.</li></ul>
+<h3>Clase <code>Book</code> (hereda de <code>LibraryItem</code>)</h3>
+<ul><li><strong>Descripción:</strong> Representa un libro.</li><li><strong>Atributos privados:</strong> <code>author: String</code>.</li><li><strong>Métodos:</strong> Constructor; getter; sobrescribe <code>showDetails()</code> para incluir el autor.</li></ul>
+<h3>Clase <code>DVD</code> (hereda de <code>LibraryItem</code>)</h3>
+<ul><li><strong>Descripción:</strong> Representa un DVD.</li><li><strong>Atributos privados:</strong> <code>director: String</code>, <code>duration: int</code> (minutos).</li><li><strong>Métodos:</strong> Constructor; getters; sobrescribe <code>showDetails()</code> para incluir director y duración.</li><li><strong>Reglas:</strong> La duración debe ser mayor que cero.</li></ul>
+<h3>Clase <code>LibraryUser</code></h3>
+<ul><li><strong>Descripción:</strong> Representa a un usuario de la biblioteca.</li><li><strong>Atributos privados:</strong> <code>userName: String</code>, <code>userID: String</code>.</li><li><strong>Métodos:</strong> Constructor; getters; <code>showUserDetails()</code>.</li></ul>
+<h3>Clase <code>Library</code></h3>
+<ul><li><strong>Descripción:</strong> Administra los elementos, usuarios y préstamos.</li><li><strong>Atributos privados:</strong> <code>libraryItems: List&lt;LibraryItem&gt;</code>, <code>users: List&lt;LibraryUser&gt;</code>; ambas listas empiezan vacías.</li><li><strong>Métodos:</strong> <code>boolean addItem(LibraryItem item)</code>; <code>boolean registerUser(LibraryUser user)</code>; <code>boolean loanItem(String itemID, String userID)</code>; <code>boolean returnItem(String itemID, String userID)</code>; <code>List&lt;LibraryItem&gt; getLoanedItems(String userID)</code>; <code>showAllItems()</code>.</li><li><strong>Reglas:</strong> Rechaza IDs duplicados en cada colección. Solo presta un elemento disponible a un usuario registrado. Solo acepta la devolución del usuario que tiene el préstamo. Un usuario inexistente o sin préstamos obtiene una lista vacía. El estado del préstamo se guarda en <code>loanedTo</code>; no mantengas otra lista mutable de préstamos en <code>LibraryUser</code>. Cambia el prestatario mediante métodos internos del paquete, sin exponer un setter público.</li></ul>
+<h3>Clase <code>Main</code></h3>
+<ul><li><strong>Descripción:</strong> Demuestra préstamos y devoluciones de libros y DVDs.</li><li><strong>Métodos:</strong> Crea varios libros, DVDs y usuarios; agrega los elementos a la biblioteca; presta y devuelve elementos; muestra sus detalles y consulta los préstamos de cada usuario. Usa polimorfismo para operar con ambos tipos sin condicionales por subtipo.</li></ul>
+<p class="check"><strong>Comprueba:</strong> prestar el libro <code>B1</code> a <code>U1</code> devuelve <code>true</code>. Prestarlo después a <code>U2</code> o devolverlo como <code>U2</code> devuelve <code>false</code>. Devolverlo como <code>U1</code> lo deja disponible y lo quita de la consulta de préstamos de <code>U1</code>. Repetir la devolución devuelve <code>false</code>. Demuestra también un préstamo de DVD.</p>
+</section>
+<section class="exercise-block" id="ejercicio-7">
+<h2>Ejercicio 7: alquiler de películas y videojuegos</h2>
+<h3>Clase abstracta <code>RentalItem</code></h3>
+<ul><li><strong>Descripción:</strong> Clase base para los artículos del videoclub.</li><li><strong>Atributos privados:</strong> <code>itemName: String</code>, <code>itemID: String</code>, <code>rentedTo: Customer</code> (inicialmente <code>null</code>).</li><li><strong>Métodos:</strong> Constructor; getters; <code>isAvailable()</code>; <code>showDetails()</code> abstracto. El artículo está disponible cuando <code>rentedTo</code> es <code>null</code>.</li></ul>
+<h3>Clase <code>Movie</code> (hereda de <code>RentalItem</code>)</h3>
+<ul><li><strong>Descripción:</strong> Representa una película.</li><li><strong>Atributos privados:</strong> <code>director: String</code>, <code>duration: int</code> (minutos), <code>ageRating: String</code>, <code>genre: String</code>.</li><li><strong>Métodos:</strong> Constructor; getters; sobrescribe <code>showDetails()</code> para incluir los datos de la película. La duración debe ser positiva.</li></ul>
+<h3>Clase <code>VideoGame</code> (hereda de <code>RentalItem</code>)</h3>
+<ul><li><strong>Descripción:</strong> Representa un videojuego; este segundo tipo permite demostrar polimorfismo.</li><li><strong>Atributos privados:</strong> <code>platform: String</code>, <code>ageRating: String</code>.</li><li><strong>Métodos:</strong> Constructor; getters; sobrescribe <code>showDetails()</code> para incluir plataforma y clasificación por edades.</li></ul>
+<h3>Clase <code>Customer</code></h3>
+<ul><li><strong>Descripción:</strong> Representa a un cliente.</li><li><strong>Atributos privados:</strong> <code>customerName: String</code>, <code>customerID: String</code>.</li><li><strong>Métodos:</strong> Constructor; getters; <code>showCustomerDetails()</code>.</li></ul>
+<h3>Clase <code>MovieRentalSystem</code></h3>
+<ul><li><strong>Descripción:</strong> Administra los artículos, clientes y alquileres.</li><li><strong>Atributos privados:</strong> <code>rentalItems: List&lt;RentalItem&gt;</code>, <code>customers: List&lt;Customer&gt;</code>; ambas listas empiezan vacías.</li><li><strong>Métodos:</strong> <code>boolean addItem(RentalItem item)</code>; <code>boolean registerCustomer(Customer customer)</code>; <code>boolean rentItemToCustomer(String itemID, String customerID)</code>; <code>boolean returnItem(String itemID, String customerID)</code>; <code>List&lt;RentalItem&gt; getRentedItems(String customerID)</code>; <code>showAllItems()</code>; <code>showAvailableItems()</code>; <code>showAllCustomers()</code>.</li><li><strong>Reglas:</strong> Rechaza IDs duplicados. Solo alquila artículos disponibles a clientes registrados. Solo acepta la devolución del cliente que tiene el artículo alquilado. El estado se guarda en <code>rentedTo</code>; no agregues setters públicos de disponibilidad ni otra lista mutable de alquileres en <code>Customer</code>. La clasificación por edades es informativa; no se requiere validar la edad del cliente ni cobrar alquileres.</li></ul>
+<h3>Clase <code>Main</code></h3>
+<ul><li><strong>Descripción:</strong> Carga datos de ejemplo y permite gestionar el videoclub desde consola.</li><li><strong>Métodos:</strong> Crea al menos dos películas, un videojuego y dos clientes. Implementa un menú con <code>Scanner</code> para listar artículos, listar disponibles, alquilar, devolver, mostrar clientes y salir. Lee las opciones como texto; si la opción no existe, muestra un mensaje y vuelve al menú.</li></ul>
+<p class="check"><strong>Comprueba:</strong> alquila una película y un videojuego al mismo cliente con el mismo método. Ambos desaparecen de la lista de disponibles. Rechaza otro alquiler del mismo artículo, IDs inexistentes y una devolución de otro cliente. La devolución correcta vuelve a mostrar el artículo como disponible; la opción de salir termina el programa.</p>
+</section>
+<section class="exercise-block" id="ejercicio-8">
+<h2>Ejercicio 8: inventario con interfaces</h2>
+<h3>Interfaz <code>Priceable</code></h3>
+<ul><li><strong>Descripción:</strong> Define el comportamiento de precio de un producto.</li><li><strong>Métodos:</strong> <code>double getPrice()</code>; <code>void setPrice(double price)</code>.</li></ul>
+<h3>Interfaz <code>InventoryManageable</code></h3>
+<ul><li><strong>Descripción:</strong> Define las operaciones de la colección de productos.</li><li><strong>Métodos:</strong> <code>boolean addItem(Product product)</code>; <code>boolean deleteItem(String productId)</code>; <code>List&lt;Product&gt; listItems()</code>; <code>Product findItemById(String productId)</code>.</li></ul>
+<h3>Clase abstracta <code>Product</code> (implementa <code>Priceable</code>)</h3>
+<ul><li><strong>Descripción:</strong> Representa un producto genérico de la tienda.</li><li><strong>Atributos privados:</strong> <code>productId: String</code>, <code>price: double</code>.</li><li><strong>Métodos:</strong> Constructor; getters; implementa <code>getPrice()</code> y <code>setPrice(double price)</code>; declara <code>showDetails()</code> abstracto.</li><li><strong>Reglas:</strong> El precio debe ser mayor o igual que cero.</li></ul>
+<h3>Clase <code>Electronics</code> (hereda de <code>Product</code>)</h3>
+<ul><li><strong>Descripción:</strong> Representa un producto electrónico.</li><li><strong>Atributos privados:</strong> <code>brand: String</code>, <code>model: String</code>.</li><li><strong>Métodos:</strong> Constructor; getters; sobrescribe <code>showDetails()</code>. Hereda el comportamiento de precio de <code>Product</code>.</li></ul>
+<h3>Clase <code>Clothing</code> (hereda de <code>Product</code>)</h3>
+<ul><li><strong>Descripción:</strong> Representa una prenda de vestir.</li><li><strong>Atributos privados:</strong> <code>size: String</code>, <code>material: String</code>.</li><li><strong>Métodos:</strong> Constructor; getters; sobrescribe <code>showDetails()</code>. Hereda el comportamiento de precio de <code>Product</code>.</li></ul>
+<h3>Clase <code>Inventory</code> (implementa <code>InventoryManageable</code>)</h3>
+<ul><li><strong>Descripción:</strong> Administra los productos de la tienda.</li><li><strong>Atributos privados:</strong> <code>products: List&lt;Product&gt;</code>, inicialmente vacía.</li><li><strong>Métodos:</strong> Implementa las cuatro operaciones de <code>InventoryManageable</code>.</li><li><strong>Reglas:</strong> Rechaza IDs duplicados. <code>listItems()</code> devuelve una copia o vista no modificable. <code>findItemById()</code> devuelve <code>null</code> si no encuentra el producto.</li></ul>
+<h3>Clase <code>Main</code></h3>
+<ul><li><strong>Descripción:</strong> Demuestra el alta, listado, búsqueda, cambio de precio y eliminación de productos.</li><li><strong>Métodos:</strong> Usa una referencia <code>InventoryManageable</code> para trabajar con <code>Inventory</code>. Agrega productos electrónicos y prendas; busca un producto y cambia su precio mediante <code>Priceable</code>; elimina un producto. Cada registro representa un producto identificado; no se requiere controlar cantidades.</li></ul>
+<p class="check"><strong>Comprueba:</strong> registra <code>E1</code> a $1200.00 y <code>C1</code> a $50.00. Cambia <code>C1</code> a $45.00. Un precio negativo se rechaza y conserva $45.00. Agregar otro <code>E1</code> devuelve <code>false</code>. Eliminar <code>E1</code> deja un producto; buscar el eliminado devuelve <code>null</code>. Modificar la lista de <code>listItems()</code> no debe cambiar la colección interna.</p>
+</section>
+<section class="exercise-block" id="ejercicio-9">
+<h2>Ejercicio 9: matrícula y roles educativos</h2>
+<h3>Interfaz <code>Usuario</code></h3>
+<ul><li><strong>Descripción:</strong> Define las operaciones de sesión de un usuario.</li><li><strong>Métodos:</strong> <code>void iniciarSesion()</code>; <code>void cerrarSesion()</code>.</li></ul>
+<h3>Interfaz <code>Estudiante</code></h3>
+<ul><li><strong>Descripción:</strong> Define las acciones de un estudiante.</li><li><strong>Métodos:</strong> <code>String getId()</code>; <code>String getNombre()</code>; <code>boolean matricularCurso(Curso curso)</code>; <code>boolean entregarTarea(Curso curso, String tarea)</code>.</li></ul>
+<h3>Interfaz <code>Profesor</code></h3>
+<ul><li><strong>Descripción:</strong> Define las acciones de un profesor.</li><li><strong>Métodos:</strong> <code>String getId()</code>; <code>String getNombre()</code>; <code>boolean asignarTarea(Curso curso, String tarea)</code>; <code>boolean calificarExamen(Curso curso, Estudiante estudiante, double nota)</code>.</li></ul>
+<h3>Clase abstracta <code>Persona</code> (implementa <code>Usuario</code>)</h3>
+<ul><li><strong>Descripción:</strong> Clase base para los usuarios del sistema.</li><li><strong>Atributos privados:</strong> <code>id: String</code>, <code>nombre: String</code>.</li><li><strong>Métodos:</strong> Constructor; getters; declara <code>iniciarSesion()</code> abstracto e implementa <code>cerrarSesion()</code> con un mensaje común.</li><li><strong>Reglas:</strong> La clase es abstracta porque cada rol concreto presenta un inicio de sesión distinto.</li></ul>
+<h3>Clase <code>SoloEstudiante</code> (hereda de <code>Persona</code> e implementa <code>Estudiante</code>)</h3>
+<ul><li><strong>Descripción:</strong> Representa a una persona que solo estudia.</li><li><strong>Métodos:</strong> Constructor; implementa <code>iniciarSesion()</code>, <code>matricularCurso(Curso curso)</code> y <code>entregarTarea(Curso curso, String tarea)</code>.</li></ul>
+<h3>Clase <code>SoloProfesor</code> (hereda de <code>Persona</code> e implementa <code>Profesor</code>)</h3>
+<ul><li><strong>Descripción:</strong> Representa a una persona que solo enseña.</li><li><strong>Métodos:</strong> Constructor; implementa <code>iniciarSesion()</code>, <code>asignarTarea(Curso curso, String tarea)</code> y <code>calificarExamen(Curso curso, Estudiante estudiante, double nota)</code>.</li></ul>
+<h3>Clase <code>EstudianteProfesor</code> (hereda de <code>Persona</code> e implementa <code>Estudiante</code> y <code>Profesor</code>)</h3>
+<ul><li><strong>Descripción:</strong> Representa a una persona que estudia y enseña.</li><li><strong>Métodos:</strong> Constructor; implementa el inicio de sesión y las operaciones de ambos roles.</li></ul>
+<p>Cada implementación de <code>iniciarSesion()</code> muestra el nombre y el rol correspondiente. La sesión es una demostración por consola, sin contraseña ni autenticación real. No se requiere iniciar sesión antes de ejecutar las demás operaciones.</p>
+<h3>Clase <code>Curso</code></h3>
+<ul><li><strong>Descripción:</strong> Representa un curso, su docente y sus estudiantes matriculados.</li><li><strong>Atributos privados:</strong> <code>nombre: String</code>, <code>codigo: String</code>, <code>docente: Profesor</code>, <code>estudiantes: List&lt;Estudiante&gt;</code> (inicialmente vacía).</li><li><strong>Métodos:</strong> Constructor con nombre, código y docente; <code>boolean matricular(Estudiante estudiante)</code>; <code>boolean estaMatriculado(String estudianteId)</code>; <code>boolean esDocente(String profesorId)</code>; <code>List&lt;Estudiante&gt; getEstudiantes()</code>; getters.</li><li><strong>Reglas:</strong> Cada curso tiene un solo docente. Rechaza matrícula duplicada y no matricula al docente en su propio curso. Una persona puede enseñar en un curso y estudiar en otro. La matrícula solo se guarda en <code>Curso</code>, no en una segunda lista de cursos de cada persona.</li></ul>
+<h3>Reglas de tareas y calificaciones</h3>
+<ul><li><code>matricularCurso(curso)</code> delega en <code>curso.matricular(this)</code>.</li><li><code>entregarTarea</code> requiere curso no nulo, texto no vacío y que el estudiante esté matriculado. Muestra estudiante, tarea y curso.</li><li><code>asignarTarea</code> requiere curso no nulo, texto no vacío y que el profesor sea el docente del curso. Muestra profesor, tarea y curso.</li><li><code>calificarExamen</code> requiere curso y estudiante no nulos, que el profesor sea docente del curso, que el estudiante esté matriculado y nota entre 0 y 20 inclusive. Muestra profesor, estudiante, curso y nota.</li><li>Estas tres últimas operaciones validan las reglas e imprimen un mensaje; no almacenan tareas, entregas ni notas. Devuelven <code>false</code> si el rol no tiene permiso. No se requiere comprobar una asignación previa para simular una entrega.</li></ul>
+<h3>Clase <code>Main</code></h3>
+<ul><li><strong>Descripción:</strong> Demuestra sesiones, matrículas y acciones de los distintos roles.</li><li><strong>Métodos:</strong> Crea un <code>SoloEstudiante</code>, un <code>SoloProfesor</code>, un <code>EstudianteProfesor</code> y dos cursos. Recorre las personas usando <code>Persona</code> como tipo de referencia; no instancies la clase abstracta. Asigna tareas, registra matrículas y demuestra una calificación.</li></ul>
+<p class="check"><strong>Comprueba:</strong> Ana (<code>SoloProfesor</code>) enseña Java; Luis (<code>EstudianteProfesor</code>) enseña Bases de Datos y se matricula en Java; Eva (<code>SoloEstudiante</code>) se matricula en Bases de Datos. Luis puede entregar una tarea en Java y calificar a Eva con 18 en Bases de Datos. No puede calificarla en Java ni matricularse en el curso que enseña. Rechaza una matrícula duplicada y una nota de 21.</p>
+</section>
+<section class="exercise-block" id="ejercicio-10">
+<h2>Ejercicio 10: registro de vehículos</h2>
+<h3>Clase abstracta <code>Vehicle</code></h3>
+<ul><li><strong>Descripción:</strong> Clase base para los vehículos registrados.</li><li><strong>Atributos privados:</strong> <code>make: String</code>, <code>model: String</code>, <code>year: int</code>, <code>registrationNumber: String</code> (matrícula única e inmutable).</li><li><strong>Métodos:</strong> Constructor; getters; <code>showDetails()</code> abstracto.</li><li><strong>Reglas:</strong> El año debe ser positivo.</li></ul>
+<h3>Clase <code>Car</code> (hereda de <code>Vehicle</code>)</h3>
+<ul><li><strong>Descripción:</strong> Representa un automóvil.</li><li><strong>Atributos privados:</strong> <code>seatingCapacity: int</code> (incluye al conductor), <code>fuelType: String</code>.</li><li><strong>Métodos:</strong> Constructor que llama a <code>super</code>; getters; sobrescribe <code>showDetails()</code> para incluir asientos y combustible.</li><li><strong>Reglas:</strong> La capacidad de asientos debe ser positiva.</li></ul>
+<h3>Clase <code>Motorcycle</code> (hereda de <code>Vehicle</code>)</h3>
+<ul><li><strong>Descripción:</strong> Representa una motocicleta.</li><li><strong>Atributos privados:</strong> <code>engineSize: int</code> (cilindrada en cm³), <code>hasSidecar: boolean</code>.</li><li><strong>Métodos:</strong> Constructor que llama a <code>super</code>; getters; sobrescribe <code>showDetails()</code> para incluir cilindrada y sidecar.</li><li><strong>Reglas:</strong> La cilindrada debe ser positiva.</li></ul>
+<h3>Clase <code>Truck</code> (hereda de <code>Vehicle</code>)</h3>
+<ul><li><strong>Descripción:</strong> Representa un camión.</li><li><strong>Atributos privados:</strong> <code>loadCapacity: double</code> (kg), <code>numberOfAxles: int</code>.</li><li><strong>Métodos:</strong> Constructor que llama a <code>super</code>; getters; sobrescribe <code>showDetails()</code> para incluir capacidad de carga y número de ejes.</li><li><strong>Reglas:</strong> La capacidad de carga debe ser positiva y el camión debe tener al menos 2 ejes.</li></ul>
+<h3>Clase <code>VehicleRegistry</code></h3>
+<ul><li><strong>Descripción:</strong> Gestiona el registro de vehículos.</li><li><strong>Atributos privados:</strong> <code>registeredVehicles: List&lt;Vehicle&gt;</code> (inicialmente vacía).</li><li><strong>Métodos:</strong> <code>boolean registerVehicle(Vehicle vehicle)</code>; <code>void showAllVehicles()</code>; <code>Vehicle findVehicle(String registrationNumber)</code>.</li><li><strong>Reglas:</strong> Rechaza matrículas duplicadas. La búsqueda devuelve <code>null</code> si no encuentra el vehículo. <code>showAllVehicles()</code> recorre la colección y llama a <code>showDetails()</code> sin usar <code>instanceof</code> ni conversiones a subtipos.</li></ul>
+<h3>Clase <code>Main</code></h3>
+<ul><li><strong>Descripción:</strong> Crea vehículos y demuestra el registro polimórfico.</li><li><strong>Métodos:</strong> Crea varios automóviles, motocicletas y camiones; los registra; muestra sus detalles y busca una matrícula.</li></ul>
+<p class="check"><strong>Comprueba:</strong> registra un automóvil <code>A1</code>, una motocicleta <code>M1</code> y un camión <code>T1</code>. El listado muestra los atributos específicos de cada tipo. Buscar <code>M1</code> devuelve la motocicleta; buscar <code>X1</code> devuelve <code>null</code>. Otro vehículo con matrícula <code>A1</code> es rechazado, aunque sea de otro tipo.</p>
+</section>
+<section class="exercise-block" id="ejercicio-11">
+<h2>Ejercicio 11: gestión de personal y salarios</h2>
+<p>Las reglas salariales de este ejercicio se definen aquí para que cada solución tenga resultados verificables.</p>
+<h3>Clase abstracta <code>Empleado</code></h3>
+<ul><li><strong>Descripción:</strong> Clase base para el personal de la empresa.</li><li><strong>Atributos privados:</strong> <code>nombre: String</code>, <code>id: String</code>, <code>departamento: String</code>, <code>salarioBase: double</code>.</li><li><strong>Métodos:</strong> Constructor; getters; <code>String mostrarInfo()</code>; <code>double calcularSalario()</code> abstracto. <code>mostrarInfo()</code> incluye el salario calculado.</li><li><strong>Reglas:</strong> El salario base debe ser mayor o igual que cero.</li></ul>
+<h3>Clase <code>Desarrollador</code> (hereda de <code>Empleado</code>)</h3>
+<ul><li><strong>Descripción:</strong> Representa a un desarrollador.</li><li><strong>Atributos privados:</strong> <code>lenguajes: List&lt;String&gt;</code>.</li><li><strong>Métodos:</strong> Constructor; getter; sobrescribe <code>calcularSalario()</code>.</li><li><strong>Reglas:</strong> Copia la lista de lenguajes, que no puede ser nula; cada nombre debe ser no vacío y único, comparado sin distinguir mayúsculas. El salario mensual es base + $100.00 por lenguaje distinto. Una lista vacía es válida y no agrega bonificación.</li></ul>
+<h3>Clase <code>Gerente</code> (hereda de <code>Empleado</code>)</h3>
+<ul><li><strong>Descripción:</strong> Representa a un gerente y el equipo que supervisa.</li><li><strong>Atributos privados:</strong> <code>empleadosACargo: List&lt;Empleado&gt;</code> (inicialmente vacía).</li><li><strong>Métodos:</strong> Constructor; consulta del equipo; sobrescribe <code>calcularSalario()</code>.</li><li><strong>Reglas:</strong> El salario mensual es base + $150.00 por empleado a cargo. <code>Empresa</code> administra el equipo mediante métodos internos del paquete.</li></ul>
+<h3>Clase <code>Disenador</code> (hereda de <code>Empleado</code>)</h3>
+<ul><li><strong>Descripción:</strong> Representa a un diseñador.</li><li><strong>Atributos privados:</strong> <code>tipoDiseno: String</code>.</li><li><strong>Métodos:</strong> Constructor; getter; sobrescribe <code>calcularSalario()</code>.</li><li><strong>Reglas:</strong> El tipo debe ser <code>Grafico</code>, <code>UX</code> o <code>UI</code>. El salario mensual es base + $200.00 para Grafico, + $300.00 para UX o + $250.00 para UI.</li></ul>
+<h3>Clase <code>Empresa</code></h3>
+<ul><li><strong>Descripción:</strong> Administra empleados y equipos.</li><li><strong>Atributos privados:</strong> <code>empleados: List&lt;Empleado&gt;</code> (inicialmente vacía).</li><li><strong>Métodos:</strong> <code>boolean agregarEmpleado(Empleado empleado)</code>; <code>boolean asignarEmpleadoAGerente(String empleadoId, String gerenteId)</code>; <code>boolean eliminarEmpleado(String id)</code>; <code>void mostrarEmpleados()</code>; <code>double calcularTotalSalarios()</code>.</li><li><strong>Reglas:</strong> Rechaza IDs duplicados. Solo asigna empleados registrados a gerentes registrados. Un gerente no puede pertenecer a un equipo; cada empleado puede pertenecer como máximo a un equipo. Al eliminar a un empleado, quítalo también del equipo. Al eliminar a un gerente, deja a sus empleados en la empresa sin gerente asignado. El total se calcula sumando <code>calcularSalario()</code> de cada empleado.</li></ul>
+<h3>Clase <code>Main</code></h3>
+<ul><li><strong>Descripción:</strong> Registra empleados, asigna equipos y muestra salarios.</li><li><strong>Métodos:</strong> Crea y registra desarrolladores, gerentes y diseñadores; asigna integrantes a un gerente; muestra información y total de salarios; elimina un empleado y muestra el total actualizado.</li></ul>
+<p class="check"><strong>Comprueba:</strong> un desarrollador con base de $2000.00 y dos lenguajes cobra $2200.00; un diseñador UX con base de $1800.00 cobra $2100.00; un gerente con base de $3000.00 y esos dos empleados a cargo cobra $3300.00. El total es $7600.00. Tras eliminar al diseñador, el gerente cobra $3150.00 y el total pasa a $5350.00. Rechaza una segunda asignación, la autoasignación del gerente y un ID duplicado.</p>
+</section>
+            <a class="button secondary" href="../lessons/java-poo.html">Consultar la lección de POO →</a>
     </div>
   </main>
   <footer class="footer"><div class="shell"><a href="index.html#poo">← Volver a los ejercicios de POO</a></div></footer>

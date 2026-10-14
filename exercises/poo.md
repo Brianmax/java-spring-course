@@ -2,357 +2,412 @@
 
 > Adaptación corregida de los [ejercicios originales de Brianmax/javaG7](https://github.com/Brianmax/javaG7/blob/main/ejercicios/poo.md). Se conservan los once temas y su numeración.
 
-## Antes de empezar
+## Indicaciones generales
 
-Usa las siguientes reglas para validar tus soluciones y comprobar sus resultados.
+- Resuelve cada ejercicio en un paquete independiente, por ejemplo, `ejercicio01`. Así puedes reutilizar nombres como `Main` o `Empleado` sin conflictos.
+- Salvo indicación contraria, los atributos deben ser privados. Usa constructores para crear objetos válidos y getters para consultarlos. Agrega setters solo cuando el cambio esté permitido.
+- Rechaza valores obligatorios nulos o vacíos y valores fuera de los límites indicados. Puedes lanzar `IllegalArgumentException` en los constructores y setters.
+- Los identificadores son únicos e inmutables. Las operaciones de agregar, eliminar, prestar, devolver o matricular devuelven `true` si se realizan y `false` si una regla de negocio las impide.
+- Devuelve copias o vistas no modificables de las colecciones. La clase responsable es la única que debe cambiar su colección.
+- En los ejercicios con dinero, usa `double` y muestra los montos con dos decimales. No redondees resultados intermedios.
+- Incluye un `Main` que demuestre los casos indicados. Solo el ejercicio 7 requiere un menú interactivo.
+- Recorrido sugerido: 1 → 2 → 3 → 4 → 5 → 10 → 6 → 7 → 11 → 8 → 9.
 
-- Resuelve cada ejercicio en un proyecto o paquete independiente, por ejemplo, `ejercicio01`. Así podrás reutilizar nombres como `Main` o `Empleado` sin conflictos. El ejercicio 3 reutiliza la clase del ejercicio 2.
+## Ejercicio 1: clases y constructores
 
-- Usa atributos privados, constructores para crear objetos válidos y getters cuando necesites consultar datos. Agrega setters solo para cambios permitidos; no expongas setters para identificadores, colecciones completas ni estados calculados.
+### Clase `Dog`
 
-- Usa nombres de métodos en `lowerCamelCase` y una clase pública por archivo. Puedes trabajar con `List<T>` y `ArrayList<T>` desde el ejercicio 3.
+- **Descripción:** Representa un perro.
+- **Atributos privados:** `breed: String`, `age: int`, `color: String`.
+- **Métodos:** Constructor que recibe los tres atributos y getters para consultarlos.
 
-- Desde el ejercicio 2, rechaza textos obligatorios vacíos o nulos y valores fuera de los rangos indicados. Puedes lanzar `IllegalArgumentException` para datos inválidos y capturarla en `Main` al demostrar esos casos. Una operación rechazada debe conservar el estado anterior.
+### Clase `Main`
 
-- En las colecciones, los identificadores son textos obligatorios, únicos e inmutables. Una operación de agregar, eliminar, prestar, devolver o matricular devuelve `boolean`: `true` si se realizó y `false` si incumple una regla de negocio. Las búsquedas devuelven el objeto o `null` si no existe. No agregues objetos nulos.
+- **Descripción:** Crea perros y muestra sus datos.
+- **Métodos:** En `main`, crea dos objetos `Dog` con datos diferentes e imprime sus atributos mediante los getters.
 
-- Las consultas que devuelvan listas deben entregar una copia o una vista no modificable. Solo la clase responsable debe modificar su colección.
+**Comprueba:** un perro con raza `Beagle`, edad `3` y color `Tricolor` debe mostrar esos datos. El segundo perro debe conservar sus propios valores.
 
-- Para estos ejercicios puedes representar montos con `double` y mostrarlos con dos decimales. Usa valores finitos y no redondees resultados intermedios. No se requiere usar bases de datos, frameworks ni archivos.
+## Ejercicio 2: encapsulación y métodos
 
-- Incluye un `Main` con casos válidos e inválidos y evidencia de sus resultados. Solo el ejercicio 7 requiere un menú interactivo; en los demás puedes crear los datos directamente en el código.
+### Clase `Computer`
 
-**Recorrido sugerido:** 1 → 2 → 3 → 4 → 5 → 10 → 6 → 7 → 11 → 8 → 9. El registro de vehículos permite practicar polimorfismo antes de gestionar préstamos.
+- **Descripción:** Representa una computadora. RAM y almacenamiento se expresan en GB.
+- **Atributos privados:** `brand: String`, `model: String`, `ram: int`, `storage: int`.
+- **Métodos:** Constructor con los cuatro atributos; getters; `showDetails()` para imprimir marca, modelo, RAM y almacenamiento; `increaseRam(int additionalGb)` y `increaseStorage(int additionalGb)` para ampliar las capacidades existentes.
+- **Reglas:** RAM y almacenamiento iniciales deben ser mayores que cero. Cada ampliación debe ser mayor que cero y se suma al valor actual.
 
-## Elige un ejercicio
+### Clase `Main`
 
-1. [Dog: clases y constructores](#1-crea-un-perro)
+- **Descripción:** Crea una computadora y muestra sus cambios.
+- **Métodos:** En `main`, muestra los datos antes y después de ampliar RAM y almacenamiento.
 
-2. [Computer: métodos y encapsulación](#2-actualiza-una-computadora)
+**Comprueba:** una computadora con 8 GB de RAM y 256 GB de almacenamiento, al recibir incrementos de 8 y 256, queda con 16 GB y 512 GB. Un incremento de 0 o −4 se rechaza sin modificarla.
 
-3. [ComputerStore: colecciones y composición](#3-administra-una-tienda-de-computadoras)
+## Ejercicio 3: colecciones y composición
 
-4. [Pensión universitaria: reglas de cálculo](#4-calcula-una-pension-universitaria)
+### Clase `Computer`
 
-5. [Planilla: empleados, pagos y conteos](#5-calcula-la-planilla-de-empleados)
+- **Descripción:** Representa un equipo físico que puede vender una tienda.
+- **Atributos privados:** `serialNumber: String` (identificador único e inmutable), `brand: String`, `model: String`, `ram: int` (GB), `storage: int` (GB).
+- **Métodos:** Constructor con número de serie y los cuatro atributos del ejercicio 2; getters; `showDetails()`; `increaseRam(int additionalGb)` e `increaseStorage(int additionalGb)`. Las ampliaciones deben ser mayores que cero.
 
-6. [Biblioteca: herencia y préstamos](#6-gestiona-prestamos-de-una-biblioteca)
+### Clase `ComputerStore`
 
-7. [Alquiler: polimorfismo y menú de consola](#7-gestiona-el-alquiler-de-peliculas-y-videojuegos)
+- **Descripción:** Administra el inventario de computadoras de una tienda.
+- **Atributos privados:** `name: String`, `address: String`, `computers: List<Computer>`.
+- **Métodos:** Constructor con nombre y dirección que inicializa una lista vacía; `boolean addComputer(Computer computer)`; `boolean sellComputer(String serialNumber)`; `int getQuantity()`; `List<Computer> filterByRam(int minimumGb)`; `showDetails()`.
+- **Reglas:** Rechaza números de serie duplicados. La cantidad se obtiene de `computers.size()` y no se almacena por separado. El filtro devuelve equipos con RAM **estrictamente mayor** al límite, sin modificar el inventario. El límite debe ser mayor o igual que cero.
 
-8. [Inventario: interfaces y responsabilidades](#8-controla-un-inventario-de-productos)
+### Clase `Main`
 
-9. [Matrículas: personas con varios roles](#9-gestiona-matriculas-y-roles-educativos)
-
-10. [Vehículos: registro polimórfico](#10-registra-diferentes-vehiculos)
-
-11. [Personal: salarios por especialidad](#11-gestiona-personal-y-salarios)
-
-## 1. Crea un perro
-
-Crea una clase `Dog` con los atributos privados `breed: String`, `age: int` y `color: String`.
-
-- Implementa un constructor que reciba los tres valores y los asigne a los atributos usando `this`.
-
-- Agrega getters para consultar los atributos desde otra clase.
-
-- En `Main`, crea dos perros con datos diferentes e imprime sus atributos usando los getters.
-
-**Comprueba:** un perro con raza `Beagle`, edad `3` y color `Tricolor` debe mostrar esos datos. El segundo perro debe conservar sus propios valores. En este primer ejercicio puedes asumir entradas válidas.
-
-## 2. Actualiza una computadora
-
-Crea `Computer` con `brand: String`, `model: String`, `ram: int` y `storage: int`. Expresa RAM y almacenamiento en GB.
-
-- El constructor recibe los cuatro atributos. RAM y almacenamiento deben ser mayores que cero.
-
-- Implementa getters y `void showDetails()` para imprimir marca, modelo, RAM y almacenamiento con sus unidades.
-
-- Implementa `void increaseRam(int additionalGb)` y `void increaseStorage(int additionalGb)`. Cada argumento representa una cantidad que se suma al valor actual y debe ser mayor que cero.
-
-- En `Main`, muestra la computadora antes y después de las ampliaciones.
-
-**Comprueba:** una computadora con 8 GB de RAM y 256 GB de almacenamiento, al recibir incrementos de 8 y 256, debe quedar con 16 GB y 512 GB. Un incremento de 0 o −4 debe rechazarse sin modificarla.
-
-## 3. Administra una tienda de computadoras
-
-Reutiliza `Computer` y añade `serialNumber: String` como identificador inmutable de cada equipo físico. El constructor de esta versión recibe el número de serie y los cuatro datos del ejercicio 2.
-
-Crea `ComputerStore` con `name: String`, `address: String` y `computers: List<Computer>`. Su constructor recibe nombre y dirección e inicializa una lista vacía.
-
-- `boolean addComputer(Computer computer)`: agrega un equipo si no hay otro con el mismo número de serie.
-
-- `boolean sellComputer(String serialNumber)`: elimina del inventario el equipo vendido; devuelve `false` si no existe.
-
-- `int getQuantity()`: devuelve `computers.size()`. No almacenes un atributo `quantity` que pueda desincronizarse.
-
-- `List<Computer> filterByRam(int minimumGb)`: devuelve los equipos con RAM **estrictamente mayor** al límite, sin modificar el inventario. El límite debe ser mayor o igual que cero.
-
-- `void showDetails()`: muestra nombre, dirección, cantidad y detalles de los equipos disponibles.
+- **Descripción:** Demuestra el registro, la búsqueda por RAM y la venta de equipos.
+- **Métodos:** Agrega computadoras, consulta cantidad e información, filtra por RAM y vende una computadora.
 
 **Comprueba:** agrega equipos con series `C1`, `C2` y `C3` y RAM de 8, 16 y 32 GB. La cantidad es 3 y filtrar por 16 devuelve solo `C3`. Vender `C2` deja 2 equipos; volver a venderlo devuelve `false`. Una serie duplicada no aumenta la cantidad.
 
-## 4. Calcula una pensión universitaria
+## Ejercicio 4: cálculo de pensión
 
-Crea `Pension` con los atributos privados `categoria: String` y `promedio: double`. El constructor recibe una categoría válida (`A`, `B`, `C` o `D`) y un promedio entre 0 y 20, ambos límites incluidos.
+### Clase `Pension`
 
-**Monto mensual por categoría**
+- **Descripción:** Calcula el pago mensual de un estudiante según su categoría y promedio.
+- **Atributos privados:** `categoria: String`, `promedio: double`.
+- **Métodos:** Constructor; `calcularMontoBase()`; `calcularTasaDescuento()`; `calcularDescuento()`; `calcularPensionFinal()`; getters.
+- **Reglas:** La categoría debe ser `A`, `B`, `C` o `D`; el promedio debe estar entre 0 y 20, inclusive. Aplica el descuento usando el promedio sin redondear.
 
 | Categoría | Pensión base ($) |
-| --- | --- |
+| --- | ---: |
 | A | 550.00 |
 | B | 500.00 |
 | C | 460.00 |
 | D | 400.00 |
 
-**Descuento según el promedio, sin redondearlo**
-
 | Promedio | Descuento |
-| --- | --- |
+| --- | ---: |
 | 0 ≤ promedio < 14 | 0 % |
 | 14 ≤ promedio < 16 | 10 % |
 | 16 ≤ promedio < 18 | 12 % |
 | 18 ≤ promedio ≤ 20 | 15 % |
 
-- `double calcularMontoBase()`: devuelve el monto correspondiente a la categoría.
+### Clase `Main`
 
-- `double calcularTasaDescuento()`: devuelve `0.0`, `0.10`, `0.12` o `0.15`.
+- **Descripción:** Muestra el cálculo de pensión de un estudiante.
+- **Métodos:** En `main`, imprime categoría, promedio, monto base, descuento en dinero y monto final.
 
-- `double calcularDescuento()`: monto base × tasa.
+**Comprueba:** categoría A y promedio 18 producen una base de $550.00, descuento de $82.50 y pago de $467.50. Para B: 13.99 → $500.00; 14 → $450.00; 16 → $440.00; 18 y 20 → $425.00. Un promedio de 13.995 no recibe descuento. Rechaza categoría E y promedios fuera de 0 a 20.
 
-- `double calcularPensionFinal()`: monto base − descuento.
+## Ejercicio 5: planilla de empleados
 
-En `Main`, muestra categoría, promedio, monto base, descuento en dinero y monto final. El ejercicio calcula una mensualidad; no requiere registrar un historial de pagos.
+### Clase `Empleado`
 
-**Comprueba:** categoría A y promedio 18 producen una base de $550.00, descuento de $82.50 y pago de $467.50. Para B: 13.99 → $500.00; 14 → $450.00; 16 → $440.00; 18 y 20 → $425.00. Un promedio de 13.995 sigue sin descuento. Rechaza la categoría E y promedios fuera de 0 a 20.
-
-## 5. Calcula la planilla de empleados
-
-Crea `Empleado` con `id: String`, `nombres: String`, `apellidos: String`, `cargo: String`, `modalidad: String` y `horasTrabajadas: double`. Las horas corresponden a un mismo mes y pueden ser cero, pero no negativas.
-
-**Tarifas del ejercicio**
+- **Descripción:** Representa a un empleado que cobra por hora.
+- **Atributos privados:** `id: String`, `nombres: String`, `apellidos: String`, `cargo: String`, `modalidad: String`, `horasTrabajadas: double`.
+- **Métodos:** Constructor; `calcularPagoBase()`; `calcularBonificacion()`; `calcularPagoTotal()`; getters.
+- **Reglas:** Las horas del mismo mes pueden ser cero, pero no negativas. Los cargos y modalidades solo pueden tomar los valores indicados en las tablas.
 
 | Cargo | Pago por hora ($) |
-| --- | --- |
+| --- | ---: |
 | Gerente | 20.00 |
 | Administrativo | 10.00 |
 | Jefe | 8.50 |
 | Operario | 3.50 |
 
-Las modalidades válidas son `Tiempo Completo`, con bonificación del 20 %, y `Tiempo Parcial`, con bonificación del 5 %. Acepta únicamente los cargos y modalidades indicados; puedes representarlos con `String` o con enums si ya los conoces.
+| Modalidad | Bonificación |
+| --- | ---: |
+| Tiempo Completo | 20 % |
+| Tiempo Parcial | 5 % |
 
-- En `Empleado`, implementa `calcularPagoBase()`, `calcularBonificacion()` y `calcularPagoTotal()`, todos con retorno `double`.
+El pago base es horas × tarifa. La bonificación es pago base × tasa de modalidad. El pago total es pago base + bonificación. No se consideran horas extra ni descuentos.
 
-- Pago base = horas × tarifa del cargo. Bonificación = pago base × tasa de la modalidad. Pago total = base + bonificación. No incluyas horas extra ni descuentos adicionales.
+### Clase `Planilla`
 
-- Crea `Planilla` con una lista inicialmente vacía y `boolean registrarEmpleado(Empleado empleado)`, rechazando IDs repetidos.
+- **Descripción:** Registra empleados y resume sus pagos.
+- **Atributos privados:** `empleados: List<Empleado>`, inicialmente vacía.
+- **Métodos:** `boolean registrarEmpleado(Empleado empleado)`; `int contarEmpleados()`; `int contarPorCargo(String cargo)`; `double calcularTotalPlanilla()`.
+- **Reglas:** Rechaza IDs repetidos. El total es la suma del pago total de cada empleado.
 
-- Implementa `int contarEmpleados()`, `int contarPorCargo(String cargo)` y `double calcularTotalPlanilla()`. Si usas enums, adapta el tipo del parámetro de cargo.
+### Clase `Main`
 
-- En `Main`, muestra el pago individual, el total registrado, el conteo de cada uno de los cuatro cargos y la suma de pagos.
+- **Descripción:** Muestra pagos individuales y un resumen de la planilla.
+- **Métodos:** Registra empleados y muestra el pago de cada uno, el total de empleados, el conteo por cada cargo y la suma de pagos.
 
-**Comprueba:** un gerente a tiempo completo con 10 horas cobra $240.00; un operario a tiempo parcial con 10 horas cobra $36.75. Al registrar solo esos dos empleados, el total es 2, los conteos son 1 gerente, 0 administrativos, 0 jefes y 1 operario, y la planilla suma $276.75. Una planilla vacía tiene conteos y total en cero.
+**Comprueba:** un gerente a tiempo completo con 10 horas cobra $240.00; un operario a tiempo parcial con 10 horas cobra $36.75. Juntos suman $276.75. Los conteos son 1 gerente, 0 administrativos, 0 jefes y 1 operario. Una planilla vacía tiene conteos y total en cero.
 
-## 6. Gestiona préstamos de una biblioteca
+## Ejercicio 6: biblioteca con préstamos
 
-Modela libros y DVDs que pueden prestarse a usuarios registrados.
+### Clase abstracta `LibraryItem`
 
-### Clases
+- **Descripción:** Clase base para los elementos prestables de la biblioteca.
+- **Atributos privados:** `title: String`, `itemID: String`, `loanedTo: LibraryUser` (inicialmente `null`).
+- **Métodos:** Constructor; getters; `isLoaned()`; `showDetails()` abstracto. `isLoaned()` devuelve `true` cuando existe un prestatario.
 
-- `LibraryItem`: clase abstracta con `title: String`, `itemID: String` y `loanedTo: LibraryUser`, inicialmente `null`. Incluye constructor, getters, `boolean isLoaned()` (verdadero cuando `loanedTo != null`) y `abstract void showDetails()`.
+### Clase `Book` (hereda de `LibraryItem`)
 
-- `Book extends LibraryItem`: agrega `author: String` y sobrescribe `showDetails()`.
+- **Descripción:** Representa un libro.
+- **Atributos privados:** `author: String`.
+- **Métodos:** Constructor; getter; sobrescribe `showDetails()` para incluir el autor.
 
-- `DVD extends LibraryItem`: agrega `director: String` y `duration: int` en minutos, mayor que cero. Sobrescribe `showDetails()`.
+### Clase `DVD` (hereda de `LibraryItem`)
 
-- `LibraryUser`: contiene `userName: String` y `userID: String`, con constructor, getters y `void showUserDetails()`.
+- **Descripción:** Representa un DVD.
+- **Atributos privados:** `director: String`, `duration: int` (minutos).
+- **Métodos:** Constructor; getters; sobrescribe `showDetails()` para incluir director y duración.
+- **Reglas:** La duración debe ser mayor que cero.
 
-- `Library`: contiene `libraryItems: List<LibraryItem>` y `users: List<LibraryUser>`, inicialmente vacías.
+### Clase `LibraryUser`
 
-El préstamo se guarda en `loanedTo`. No mantengas otra lista mutable de préstamos dentro del usuario: obtén sus préstamos consultando la biblioteca. El cambio de prestatario se realiza mediante métodos internos del paquete llamados por `Library`; no expongas un setter público.
+- **Descripción:** Representa a un usuario de la biblioteca.
+- **Atributos privados:** `userName: String`, `userID: String`.
+- **Métodos:** Constructor; getters; `showUserDetails()`.
 
-### Operaciones de Library
+### Clase `Library`
 
-- `boolean addItem(LibraryItem item)` y `boolean registerUser(LibraryUser user)`: rechazan IDs repetidos en su respectiva colección.
+- **Descripción:** Administra los elementos, usuarios y préstamos.
+- **Atributos privados:** `libraryItems: List<LibraryItem>`, `users: List<LibraryUser>`; ambas listas empiezan vacías.
+- **Métodos:** `boolean addItem(LibraryItem item)`; `boolean registerUser(LibraryUser user)`; `boolean loanItem(String itemID, String userID)`; `boolean returnItem(String itemID, String userID)`; `List<LibraryItem> getLoanedItems(String userID)`; `showAllItems()`.
+- **Reglas:** Rechaza IDs duplicados en cada colección. Solo presta un elemento disponible a un usuario registrado. Solo acepta la devolución del usuario que tiene el préstamo. Un usuario inexistente o sin préstamos obtiene una lista vacía. El estado del préstamo se guarda en `loanedTo`; no mantengas otra lista mutable de préstamos en `LibraryUser`. Cambia el prestatario mediante métodos internos del paquete, sin exponer un setter público.
 
-- `boolean loanItem(String itemID, String userID)`: requiere un ítem existente y disponible y un usuario registrado; asigna ese usuario como prestatario.
+### Clase `Main`
 
-- `boolean returnItem(String itemID, String userID)`: requiere que el ítem esté prestado precisamente a ese usuario; establece `loanedTo` en `null`.
+- **Descripción:** Demuestra préstamos y devoluciones de libros y DVDs.
+- **Métodos:** Crea varios libros, DVDs y usuarios; agrega los elementos a la biblioteca; presta y devuelve elementos; muestra sus detalles y consulta los préstamos de cada usuario. Usa polimorfismo para operar con ambos tipos sin condicionales por subtipo.
 
-- `List<LibraryItem> getLoanedItems(String userID)`: devuelve los ítems prestados a ese usuario; devuelve una lista vacía si no existe o no tiene préstamos.
+**Comprueba:** prestar el libro `B1` a `U1` devuelve `true`. Prestarlo después a `U2` o devolverlo como `U2` devuelve `false`. Devolverlo como `U1` lo deja disponible y lo quita de la consulta de préstamos de `U1`. Repetir la devolución devuelve `false`. Demuestra también un préstamo de DVD.
 
-- `void showAllItems()`: recorre la colección y llama a `showDetails()`; cada subtipo muestra sus datos específicos y si está prestado.
+## Ejercicio 7: alquiler de películas y videojuegos
 
-En `Main`, registra libros, DVDs y dos usuarios; muestra sus detalles, realiza préstamos y devoluciones y consulta los préstamos de cada usuario. Las mismas operaciones deben aceptar ambos tipos de ítem sin distinguirlos mediante condicionales de tipo.
+### Clase abstracta `RentalItem`
 
-**Comprueba:** prestar el libro `B1` al usuario `U1` devuelve `true`. Prestarlo después a `U2` o devolverlo como `U2` devuelve `false`. Devolverlo como `U1` lo deja disponible y elimina ese resultado de la consulta de préstamos de `U1`. Repetir la devolución devuelve `false`. Demuestra también un préstamo de DVD.
+- **Descripción:** Clase base para los artículos del videoclub.
+- **Atributos privados:** `itemName: String`, `itemID: String`, `rentedTo: Customer` (inicialmente `null`).
+- **Métodos:** Constructor; getters; `isAvailable()`; `showDetails()` abstracto. El artículo está disponible cuando `rentedTo` es `null`.
 
-## 7. Gestiona el alquiler de películas y videojuegos
+### Clase `Movie` (hereda de `RentalItem`)
 
-Construye un videoclub con dos tipos de artículos para demostrar polimorfismo. El videojuego amplía el enunciado original, que solo definía películas.
+- **Descripción:** Representa una película.
+- **Atributos privados:** `director: String`, `duration: int` (minutos), `ageRating: String`, `genre: String`.
+- **Métodos:** Constructor; getters; sobrescribe `showDetails()` para incluir los datos de la película. La duración debe ser positiva.
 
-### Clases
+### Clase `VideoGame` (hereda de `RentalItem`)
 
-- `RentalItem`: clase abstracta con `itemName: String`, `itemID: String` y `rentedTo: Customer`, inicialmente `null`. Define `boolean isAvailable()` a partir de si `rentedTo` es `null` y `abstract void showDetails()`.
+- **Descripción:** Representa un videojuego; este segundo tipo permite demostrar polimorfismo.
+- **Atributos privados:** `platform: String`, `ageRating: String`.
+- **Métodos:** Constructor; getters; sobrescribe `showDetails()` para incluir plataforma y clasificación por edades.
 
-- `Movie extends RentalItem`: agrega `director: String`, `duration: int` (minutos positivos), `ageRating: String` y `genre: String`.
+### Clase `Customer`
 
-- `VideoGame extends RentalItem`: agrega `platform: String` y `ageRating: String`.
+- **Descripción:** Representa a un cliente.
+- **Atributos privados:** `customerName: String`, `customerID: String`.
+- **Métodos:** Constructor; getters; `showCustomerDetails()`.
 
-- `Customer`: contiene `customerName: String`, `customerID: String` y `void showCustomerDetails()`.
+### Clase `MovieRentalSystem`
 
-- `MovieRentalSystem`: contiene `rentalItems: List<RentalItem>` y `customers: List<Customer>`, inicialmente vacías.
+- **Descripción:** Administra los artículos, clientes y alquileres.
+- **Atributos privados:** `rentalItems: List<RentalItem>`, `customers: List<Customer>`; ambas listas empiezan vacías.
+- **Métodos:** `boolean addItem(RentalItem item)`; `boolean registerCustomer(Customer customer)`; `boolean rentItemToCustomer(String itemID, String customerID)`; `boolean returnItem(String itemID, String customerID)`; `List<RentalItem> getRentedItems(String customerID)`; `showAllItems()`; `showAvailableItems()`; `showAllCustomers()`.
+- **Reglas:** Rechaza IDs duplicados. Solo alquila artículos disponibles a clientes registrados. Solo acepta la devolución del cliente que tiene el artículo alquilado. El estado se guarda en `rentedTo`; no agregues setters públicos de disponibilidad ni otra lista mutable de alquileres en `Customer`. La clasificación por edades es informativa; no se requiere validar la edad del cliente ni cobrar alquileres.
 
-Los constructores reciben los datos obligatorios de cada clase. Ambos subtipos sobrescriben `showDetails()`. La clasificación por edades es informativa; no se requiere comprobar la edad del cliente ni cobrar alquileres.
+### Clase `Main`
 
-### Operaciones y reglas
+- **Descripción:** Carga datos de ejemplo y permite gestionar el videoclub desde consola.
+- **Métodos:** Crea al menos dos películas, un videojuego y dos clientes. Implementa un menú con `Scanner` para listar artículos, listar disponibles, alquilar, devolver, mostrar clientes y salir. Lee las opciones como texto; si la opción no existe, muestra un mensaje y vuelve al menú.
 
-- `boolean addItem(RentalItem item)` y `boolean registerCustomer(Customer customer)`: rechazan IDs duplicados en su colección.
+**Comprueba:** alquila una película y un videojuego al mismo cliente con el mismo método. Ambos desaparecen de la lista de disponibles. Rechaza otro alquiler del mismo artículo, IDs inexistentes y una devolución de otro cliente. La devolución correcta vuelve a mostrar el artículo como disponible; la opción de salir termina el programa.
 
-- `boolean rentItemToCustomer(String itemID, String customerID)`: alquila un artículo existente y disponible a un cliente registrado.
+## Ejercicio 8: inventario con interfaces
 
-- `boolean returnItem(String itemID, String customerID)`: permite devolverlo únicamente al cliente que lo tiene alquilado.
+### Interfaz `Priceable`
 
-- `List<RentalItem> getRentedItems(String customerID)`: calcula los alquileres consultando `rentedTo`; devuelve una lista vacía para un cliente inexistente o sin alquileres.
+- **Descripción:** Define el comportamiento de precio de un producto.
+- **Métodos:** `double getPrice()`; `void setPrice(double price)`.
 
-- `void showAllItems()`: muestra todos los artículos y su disponibilidad; `void showAvailableItems()`: muestra solo los disponibles; `void showAllCustomers()`: muestra los clientes y sus alquileres.
+### Interfaz `InventoryManageable`
 
-Como en la biblioteca, guarda el estado del alquiler solo en `rentedTo` y permite que el sistema lo cambie mediante métodos internos del paquete. No agregues setters públicos de disponibilidad ni una segunda lista mutable en el cliente.
+- **Descripción:** Define las operaciones de la colección de productos.
+- **Métodos:** `boolean addItem(Product product)`; `boolean deleteItem(String productId)`; `List<Product> listItems()`; `Product findItemById(String productId)`.
 
-En `Main`, carga al menos dos películas, un videojuego y dos clientes. Implementa un menú con `Scanner` para listar artículos, listar disponibles, alquilar, devolver, mostrar clientes y salir. Lee las opciones como texto para que una opción desconocida muestre un mensaje y vuelva al menú. Toda operación debe informar si se realizó.
+### Clase abstracta `Product` (implementa `Priceable`)
 
-**Comprueba:** alquila una película y un videojuego al mismo cliente usando el mismo método. Ambos desaparecen de la lista de disponibles. Rechaza otro alquiler del mismo artículo, IDs inexistentes y una devolución por un cliente diferente. Una devolución válida vuelve a mostrar el artículo como disponible. La opción de salir debe terminar el programa.
+- **Descripción:** Representa un producto genérico de la tienda.
+- **Atributos privados:** `productId: String`, `price: double`.
+- **Métodos:** Constructor; getters; implementa `getPrice()` y `setPrice(double price)`; declara `showDetails()` abstracto.
+- **Reglas:** El precio debe ser mayor o igual que cero.
 
-## 8. Controla un inventario de productos
+### Clase `Electronics` (hereda de `Product`)
 
-Usa una interfaz para el precio de cada producto y otra para las operaciones de la colección. Un producto tiene precio; el inventario agrega, busca y elimina productos.
+- **Descripción:** Representa un producto electrónico.
+- **Atributos privados:** `brand: String`, `model: String`.
+- **Métodos:** Constructor; getters; sobrescribe `showDetails()`. Hereda el comportamiento de precio de `Product`.
 
-### Interfaces
+### Clase `Clothing` (hereda de `Product`)
 
-- `Priceable`: declara `double getPrice()` y `void setPrice(double price)`.
+- **Descripción:** Representa una prenda de vestir.
+- **Atributos privados:** `size: String`, `material: String`.
+- **Métodos:** Constructor; getters; sobrescribe `showDetails()`. Hereda el comportamiento de precio de `Product`.
 
-- `InventoryManageable`: declara `boolean addItem(Product product)`, `boolean deleteItem(String productId)`, `List<Product> listItems()` y `Product findItemById(String productId)`.
+### Clase `Inventory` (implementa `InventoryManageable`)
 
-### Clases
+- **Descripción:** Administra los productos de la tienda.
+- **Atributos privados:** `products: List<Product>`, inicialmente vacía.
+- **Métodos:** Implementa las cuatro operaciones de `InventoryManageable`.
+- **Reglas:** Rechaza IDs duplicados. `listItems()` devuelve una copia o vista no modificable. `findItemById()` devuelve `null` si no encuentra el producto.
 
-- `Product implements Priceable`: clase abstracta con `productId: String` y `price: double`, ambos privados. Implementa la interfaz, valida un precio mayor o igual que cero y declara `abstract void showDetails()`.
+### Clase `Main`
 
-- `Electronics extends Product`: agrega `brand: String` y `model: String`.
+- **Descripción:** Demuestra el alta, listado, búsqueda, cambio de precio y eliminación de productos.
+- **Métodos:** Usa una referencia `InventoryManageable` para trabajar con `Inventory`. Agrega productos electrónicos y prendas; busca un producto y cambia su precio mediante `Priceable`; elimina un producto. Cada registro representa un producto identificado; no se requiere controlar cantidades.
 
-- `Clothing extends Product`: agrega `size: String` y `material: String`.
+**Comprueba:** registra `E1` a $1200.00 y `C1` a $50.00. Cambia `C1` a $45.00. Un precio negativo se rechaza y conserva $45.00. Agregar otro `E1` devuelve `false`. Eliminar `E1` deja un producto; buscar el eliminado devuelve `null`. Modificar la lista de `listItems()` no debe cambiar la colección interna.
 
-- `Inventory implements InventoryManageable`: contiene una lista privada `products: List<Product>`, inicialmente vacía, e implementa las cuatro operaciones. Rechaza IDs repetidos.
+## Ejercicio 9: matrícula y roles educativos
 
-Agrega constructores y getters en las clases de productos y sobrescribe `showDetails()` en ambos subtipos. `Electronics` y `Clothing` heredan el comportamiento de precio de `Product`; no implementan `InventoryManageable`.
+### Interfaz `Usuario`
 
-En `Main`, usa una referencia `InventoryManageable` para trabajar con un `Inventory`. Agrega productos de ambos tipos, lista sus detalles, busca uno por ID, comprueba que exista y cambia su precio mediante una referencia `Priceable`. Finalmente elimina un producto. Cada registro representa un producto identificado; no se requiere controlar cantidades ni elaborar reportes adicionales.
+- **Descripción:** Define las operaciones de sesión de un usuario.
+- **Métodos:** `void iniciarSesion()`; `void cerrarSesion()`.
 
-**Comprueba:** registra `E1` a $1200.00 y `C1` a $50.00. Cambia `C1` a $45.00 y verifica el nuevo precio al buscarlo. Un precio negativo se rechaza y conserva $45.00. Agregar otro `E1` devuelve `false`. Eliminar `E1` deja un producto; buscar el eliminado devuelve `null`. Modificar la lista devuelta por `listItems()` no debe modificar la colección interna.
+### Interfaz `Estudiante`
 
-## 9. Gestiona matrículas y roles educativos
+- **Descripción:** Define las acciones de un estudiante.
+- **Métodos:** `String getId()`; `String getNombre()`; `boolean matricularCurso(Curso curso)`; `boolean entregarTarea(Curso curso, String tarea)`.
 
-Modela personas que pueden ser estudiantes, profesores o ambos. Java permite implementar varias interfaces y extender una sola clase. En este ejercicio las interfaces representan roles.
+### Interfaz `Profesor`
 
-### Interfaces
+- **Descripción:** Define las acciones de un profesor.
+- **Métodos:** `String getId()`; `String getNombre()`; `boolean asignarTarea(Curso curso, String tarea)`; `boolean calificarExamen(Curso curso, Estudiante estudiante, double nota)`.
 
-- `Usuario`: `void iniciarSesion()` y `void cerrarSesion()`.
+### Clase abstracta `Persona` (implementa `Usuario`)
 
-- `Estudiante`: `String getId()`, `String getNombre()`, `boolean matricularCurso(Curso curso)` y `boolean entregarTarea(Curso curso, String tarea)`.
+- **Descripción:** Clase base para los usuarios del sistema.
+- **Atributos privados:** `id: String`, `nombre: String`.
+- **Métodos:** Constructor; getters; declara `iniciarSesion()` abstracto e implementa `cerrarSesion()` con un mensaje común.
+- **Reglas:** La clase es abstracta porque cada rol concreto presenta un inicio de sesión distinto.
 
-- `Profesor`: `String getId()`, `String getNombre()`, `boolean asignarTarea(Curso curso, String tarea)` y `boolean calificarExamen(Curso curso, Estudiante estudiante, double nota)`.
+### Clase `SoloEstudiante` (hereda de `Persona` e implementa `Estudiante`)
 
-### Personas
+- **Descripción:** Representa a una persona que solo estudia.
+- **Métodos:** Constructor; implementa `iniciarSesion()`, `matricularCurso(Curso curso)` y `entregarTarea(Curso curso, String tarea)`.
 
-- `Persona implements Usuario`: clase **abstracta** con `id: String` y `nombre: String`, constructor y getters. Declara `iniciarSesion()` abstracto e implementa `cerrarSesion()` mostrando un mensaje común.
+### Clase `SoloProfesor` (hereda de `Persona` e implementa `Profesor`)
 
-- `SoloEstudiante extends Persona implements Estudiante`: implementa las operaciones de estudiante.
+- **Descripción:** Representa a una persona que solo enseña.
+- **Métodos:** Constructor; implementa `iniciarSesion()`, `asignarTarea(Curso curso, String tarea)` y `calificarExamen(Curso curso, Estudiante estudiante, double nota)`.
 
-- `SoloProfesor extends Persona implements Profesor`: implementa las operaciones de profesor.
+### Clase `EstudianteProfesor` (hereda de `Persona` e implementa `Estudiante` y `Profesor`)
 
-- `EstudianteProfesor extends Persona implements Estudiante, Profesor`: implementa ambos roles.
+- **Descripción:** Representa a una persona que estudia y enseña.
+- **Métodos:** Constructor; implementa el inicio de sesión y las operaciones de ambos roles.
 
-Cada clase concreta implementa `iniciarSesion()` mostrando el nombre y su rol: estudiante, profesor o estudiante y profesor. Es una simulación por consola, sin contraseñas ni autenticación real. No se exige iniciar sesión para ejecutar las otras operaciones. Los getters heredados de `Persona` satisfacen los métodos comunes de ambas interfaces.
+Cada implementación de `iniciarSesion()` muestra el nombre y el rol correspondiente. La sesión es una demostración por consola, sin contraseña ni autenticación real. No se requiere iniciar sesión antes de ejecutar las demás operaciones.
 
-### Curso como responsable de la matrícula
+### Clase `Curso`
 
-Crea `Curso` con `nombre: String`, `codigo: String`, `docente: Profesor` y `estudiantes: List<Estudiante>`. Su constructor recibe nombre, código y un docente no nulo; la lista empieza vacía. Cada curso tiene un solo docente.
+- **Descripción:** Representa un curso, su docente y sus estudiantes matriculados.
+- **Atributos privados:** `nombre: String`, `codigo: String`, `docente: Profesor`, `estudiantes: List<Estudiante>` (inicialmente vacía).
+- **Métodos:** Constructor con nombre, código y docente; `boolean matricular(Estudiante estudiante)`; `boolean estaMatriculado(String estudianteId)`; `boolean esDocente(String profesorId)`; `List<Estudiante> getEstudiantes()`; getters.
+- **Reglas:** Cada curso tiene un solo docente. Rechaza matrícula duplicada y no matricula al docente en su propio curso. Una persona puede enseñar en un curso y estudiar en otro. La matrícula solo se guarda en `Curso`, no en una segunda lista de cursos de cada persona.
 
-- `boolean matricular(Estudiante estudiante)`: agrega un estudiante si su ID no está registrado y no coincide con el del docente. Una persona puede enseñar en un curso y estudiar en otro.
+### Reglas de tareas y calificaciones
 
-- `boolean estaMatriculado(String estudianteId)`, `boolean esDocente(String profesorId)`, `List<Estudiante> getEstudiantes()` y getters para nombre, código y docente.
+- `matricularCurso(curso)` delega en `curso.matricular(this)`.
+- `entregarTarea` requiere curso no nulo, texto no vacío y que el estudiante esté matriculado. Muestra estudiante, tarea y curso.
+- `asignarTarea` requiere curso no nulo, texto no vacío y que el profesor sea el docente del curso. Muestra profesor, tarea y curso.
+- `calificarExamen` requiere curso y estudiante no nulos, que el profesor sea docente del curso, que el estudiante esté matriculado y nota entre 0 y 20 inclusive. Muestra profesor, estudiante, curso y nota.
+- Estas tres últimas operaciones validan las reglas e imprimen un mensaje; no almacenan tareas, entregas ni notas. Devuelven `false` si el rol no tiene permiso. No se requiere comprobar una asignación previa para simular una entrega.
 
-- `matricularCurso(curso)` delega en `curso.matricular(this)`. No mantengas listas de cursos en cada persona: para este ejercicio, la matrícula se almacena únicamente en `Curso`.
+### Clase `Main`
 
-### Tareas y calificaciones
+- **Descripción:** Demuestra sesiones, matrículas y acciones de los distintos roles.
+- **Métodos:** Crea un `SoloEstudiante`, un `SoloProfesor`, un `EstudianteProfesor` y dos cursos. Recorre las personas usando `Persona` como tipo de referencia; no instancies la clase abstracta. Asigna tareas, registra matrículas y demuestra una calificación.
 
-Para mantener el alcance centrado en interfaces, estas acciones solo validan las reglas y muestran un mensaje; no almacenan tareas, entregas ni notas.
+**Comprueba:** Ana (`SoloProfesor`) enseña Java; Luis (`EstudianteProfesor`) enseña Bases de Datos y se matricula en Java; Eva (`SoloEstudiante`) se matricula en Bases de Datos. Luis puede entregar una tarea en Java y calificar a Eva con 18 en Bases de Datos. No puede calificarla en Java ni matricularse en el curso que enseña. Rechaza una matrícula duplicada y una nota de 21.
 
-- `entregarTarea`: exige un curso no nulo, un texto de tarea no vacío y que quien entrega esté matriculado. Muestra estudiante, tarea y curso.
+## Ejercicio 10: registro de vehículos
 
-- `asignarTarea`: exige un curso no nulo, un texto de tarea no vacío y que quien asigna sea el docente del curso. Muestra docente, tarea y curso.
+### Clase abstracta `Vehicle`
 
-- `calificarExamen`: exige un curso y estudiante no nulos, que quien califica sea el docente, que el estudiante esté matriculado y una nota entre 0 y 20, inclusive. Muestra docente, estudiante, curso y nota.
+- **Descripción:** Clase base para los vehículos registrados.
+- **Atributos privados:** `make: String`, `model: String`, `year: int`, `registrationNumber: String` (matrícula única e inmutable).
+- **Métodos:** Constructor; getters; `showDetails()` abstracto.
+- **Reglas:** El año debe ser positivo.
 
-- Las acciones devuelven `false` cuando el rol no tiene permiso para el curso; para argumentos inválidos aplica la validación general. No se requiere comprobar una asignación previa para simular una entrega.
+### Clase `Car` (hereda de `Vehicle`)
 
-En `Main`, crea un `SoloEstudiante`, un `SoloProfesor`, un `EstudianteProfesor` y dos cursos. Usa IDs distintos para las personas y códigos distintos para los cursos. No instancies `Persona`; puedes usarla como tipo de referencia para recorrer las personas y demostrar sus diferentes mensajes de inicio de sesión.
+- **Descripción:** Representa un automóvil.
+- **Atributos privados:** `seatingCapacity: int` (incluye al conductor), `fuelType: String`.
+- **Métodos:** Constructor que llama a `super`; getters; sobrescribe `showDetails()` para incluir asientos y combustible.
+- **Reglas:** La capacidad de asientos debe ser positiva.
 
-**Comprueba:** Ana (`SoloProfesor`) enseña Java; Luis (`EstudianteProfesor`) enseña Bases de Datos y se matricula en Java; Eva (`SoloEstudiante`) se matricula en Bases de Datos. Luis puede entregar una tarea en Java y calificar a Eva con 18 en Bases de Datos. No puede calificarla en Java ni matricularse en el curso que él enseña. Rechaza una matrícula duplicada y una nota de 21.
+### Clase `Motorcycle` (hereda de `Vehicle`)
 
-## 10. Registra diferentes vehículos
+- **Descripción:** Representa una motocicleta.
+- **Atributos privados:** `engineSize: int` (cilindrada en cm³), `hasSidecar: boolean`.
+- **Métodos:** Constructor que llama a `super`; getters; sobrescribe `showDetails()` para incluir cilindrada y sidecar.
+- **Reglas:** La cilindrada debe ser positiva.
 
-Crea una jerarquía de vehículos y una clase que gestione su registro.
+### Clase `Truck` (hereda de `Vehicle`)
 
-- `Vehicle`: clase abstracta con `make: String`, `model: String`, `year: int` (positivo) y `registrationNumber: String` (matrícula inmutable). Incluye constructor, getters y `abstract void showDetails()`.
+- **Descripción:** Representa un camión.
+- **Atributos privados:** `loadCapacity: double` (kg), `numberOfAxles: int`.
+- **Métodos:** Constructor que llama a `super`; getters; sobrescribe `showDetails()` para incluir capacidad de carga y número de ejes.
+- **Reglas:** La capacidad de carga debe ser positiva y el camión debe tener al menos 2 ejes.
 
-- `Car extends Vehicle`: agrega `seatingCapacity: int` (positivo, incluye al conductor) y `fuelType: String`.
+### Clase `VehicleRegistry`
 
-- `Motorcycle extends Vehicle`: agrega `engineSize: int` (cilindrada positiva en cm³) y `hasSidecar: boolean`.
+- **Descripción:** Gestiona el registro de vehículos.
+- **Atributos privados:** `registeredVehicles: List<Vehicle>` (inicialmente vacía).
+- **Métodos:** `boolean registerVehicle(Vehicle vehicle)`; `void showAllVehicles()`; `Vehicle findVehicle(String registrationNumber)`.
+- **Reglas:** Rechaza matrículas duplicadas. La búsqueda devuelve `null` si no encuentra el vehículo. `showAllVehicles()` recorre la colección y llama a `showDetails()` sin usar `instanceof` ni conversiones a subtipos.
 
-- `Truck extends Vehicle`: agrega `loadCapacity: double` (capacidad positiva en kg) y `numberOfAxles: int` (al menos 2).
+### Clase `Main`
 
-Cada subtipo tiene un constructor que llama a `super`, getters y una sobrescritura de `showDetails()` que muestra datos comunes, datos específicos y unidades.
+- **Descripción:** Crea vehículos y demuestra el registro polimórfico.
+- **Métodos:** Crea varios automóviles, motocicletas y camiones; los registra; muestra sus detalles y busca una matrícula.
 
-Crea `VehicleRegistry` con `registeredVehicles: List<Vehicle>`, inicialmente vacía, y estos métodos:
+**Comprueba:** registra un automóvil `A1`, una motocicleta `M1` y un camión `T1`. El listado muestra los atributos específicos de cada tipo. Buscar `M1` devuelve la motocicleta; buscar `X1` devuelve `null`. Otro vehículo con matrícula `A1` es rechazado, aunque sea de otro tipo.
 
-- `boolean registerVehicle(Vehicle vehicle)`: agrega un vehículo si su matrícula no está registrada.
+## Ejercicio 11: gestión de personal y salarios
 
-- `Vehicle findVehicle(String registrationNumber)`: busca por matrícula; devuelve `null` si no existe.
+Las reglas salariales de este ejercicio se definen aquí para que cada solución tenga resultados verificables.
 
-- `void showAllVehicles()`: recorre la lista y llama a `showDetails()` sin usar `instanceof` ni conversiones a subtipos.
+### Clase abstracta `Empleado`
 
-**Comprueba:** registra un automóvil `A1`, una motocicleta `M1` y un camión `T1`. El listado debe mostrar los atributos específicos de los tres. Buscar `M1` devuelve la motocicleta; buscar `X1` devuelve `null`. Intentar registrar otro vehículo con matrícula `A1`, incluso de otro subtipo, devuelve `false`.
+- **Descripción:** Clase base para el personal de la empresa.
+- **Atributos privados:** `nombre: String`, `id: String`, `departamento: String`, `salarioBase: double`.
+- **Métodos:** Constructor; getters; `String mostrarInfo()`; `double calcularSalario()` abstracto. `mostrarInfo()` incluye el salario calculado.
+- **Reglas:** El salario base debe ser mayor o igual que cero.
 
-## 11. Gestiona personal y salarios
+### Clase `Desarrollador` (hereda de `Empleado`)
 
-Desarrolla una empresa que administre distintos tipos de empleados. Las fórmulas siguientes son reglas didácticas añadidas para que el cálculo tenga un resultado verificable.
+- **Descripción:** Representa a un desarrollador.
+- **Atributos privados:** `lenguajes: List<String>`.
+- **Métodos:** Constructor; getter; sobrescribe `calcularSalario()`.
+- **Reglas:** Copia la lista de lenguajes, que no puede ser nula; cada nombre debe ser no vacío y único, comparado sin distinguir mayúsculas. El salario mensual es base + $100.00 por lenguaje distinto. Una lista vacía es válida y no agrega bonificación.
 
-### Jerarquía de empleados
+### Clase `Gerente` (hereda de `Empleado`)
 
-- `Empleado`: clase abstracta con `nombre: String`, `id: String`, `departamento: String` y `salarioBase: double` (mayor o igual que cero). Incluye constructor, getters, `String mostrarInfo()` y `abstract double calcularSalario()`. `mostrarInfo()` debe incluir el salario calculado.
+- **Descripción:** Representa a un gerente y el equipo que supervisa.
+- **Atributos privados:** `empleadosACargo: List<Empleado>` (inicialmente vacía).
+- **Métodos:** Constructor; consulta del equipo; sobrescribe `calcularSalario()`.
+- **Reglas:** El salario mensual es base + $150.00 por empleado a cargo. `Empresa` administra el equipo mediante métodos internos del paquete.
 
-- `Desarrollador extends Empleado`: añade `lenguajes: List<String>`. Recibe una lista no nula de nombres no vacíos y sin repetidos, y guarda una copia. Su salario mensual es **salario base + $100.00 por lenguaje distinto**. Compara los nombres sin distinguir mayúsculas y minúsculas.
+### Clase `Disenador` (hereda de `Empleado`)
 
-- `Gerente extends Empleado`: añade `empleadosACargo: List<Empleado>`, inicialmente vacía. Su salario mensual es **salario base + $150.00 por empleado a cargo**. La empresa gestiona esta lista mediante métodos internos del paquete.
+- **Descripción:** Representa a un diseñador.
+- **Atributos privados:** `tipoDiseno: String`.
+- **Métodos:** Constructor; getter; sobrescribe `calcularSalario()`.
+- **Reglas:** El tipo debe ser `Grafico`, `UX` o `UI`. El salario mensual es base + $200.00 para Grafico, + $300.00 para UX o + $250.00 para UI.
 
-- `Disenador extends Empleado`: añade `tipoDiseno: String`, con valores válidos `Grafico`, `UX` o `UI`. Su salario mensual es **salario base + $200.00** para Grafico, **+ $300.00** para UX o **+ $250.00** para UI.
+### Clase `Empresa`
 
-Las tres clases concretas sobrescriben `calcularSalario()`. Para la lista de lenguajes, puedes rechazar duplicados mediante `IllegalArgumentException`; una lista vacía es válida y no genera bonificación.
+- **Descripción:** Administra empleados y equipos.
+- **Atributos privados:** `empleados: List<Empleado>` (inicialmente vacía).
+- **Métodos:** `boolean agregarEmpleado(Empleado empleado)`; `boolean asignarEmpleadoAGerente(String empleadoId, String gerenteId)`; `boolean eliminarEmpleado(String id)`; `void mostrarEmpleados()`; `double calcularTotalSalarios()`.
+- **Reglas:** Rechaza IDs duplicados. Solo asigna empleados registrados a gerentes registrados. Un gerente no puede pertenecer a un equipo; cada empleado puede pertenecer como máximo a un equipo. Al eliminar a un empleado, quítalo también del equipo. Al eliminar a un gerente, deja a sus empleados en la empresa sin gerente asignado. El total se calcula sumando `calcularSalario()` de cada empleado.
 
-### Empresa
+### Clase `Main`
 
-Crea `Empresa` con una lista privada inicialmente vacía `empleados: List<Empleado>` y estos métodos:
+- **Descripción:** Registra empleados, asigna equipos y muestra salarios.
+- **Métodos:** Crea y registra desarrolladores, gerentes y diseñadores; asigna integrantes a un gerente; muestra información y total de salarios; elimina un empleado y muestra el total actualizado.
 
-- `boolean agregarEmpleado(Empleado empleado)`: rechaza IDs duplicados.
-
-- `boolean asignarEmpleadoAGerente(String empleadoId, String gerenteId)`: requiere que ambos estén registrados, que el responsable sea un gerente y que el empleado no sea gerente ni esté ya asignado a otro gerente. Cada empleado puede pertenecer como máximo a un equipo; los gerentes no forman parte de equipos en este ejercicio.
-
-- `boolean eliminarEmpleado(String id)`: elimina al empleado y lo retira de cualquier equipo al que pertenezca. Si se elimina un gerente, vacía su equipo y sus integrantes permanecen en la empresa sin gerente asignado.
-
-- `void mostrarEmpleados()`: imprime la información de cada empleado.
-
-- `double calcularTotalSalarios()`: suma `calcularSalario()` recorriendo la colección. No repitas las fórmulas salariales dentro de `Empresa`.
-
-En `Main`, registra los tres tipos, asigna empleados a un gerente, muestra los salarios y elimina un empleado para comprobar que el equipo y su bonificación se actualizan.
-
-**Comprueba:** un desarrollador con base de $2000.00 y dos lenguajes cobra $2200.00; un diseñador UX con base de $1800.00 cobra $2100.00; un gerente con base de $3000.00 y esos dos empleados a cargo cobra $3300.00. El total es $7600.00. Tras eliminar al diseñador, el gerente cobra $3150.00 y el total pasa a $5350.00. Rechaza una segunda asignación del mismo empleado, una autoasignación del gerente y un ID duplicado.
+**Comprueba:** un desarrollador con base de $2000.00 y dos lenguajes cobra $2200.00; un diseñador UX con base de $1800.00 cobra $2100.00; un gerente con base de $3000.00 y esos dos empleados a cargo cobra $3300.00. El total es $7600.00. Tras eliminar al diseñador, el gerente cobra $3150.00 y el total pasa a $5350.00. Rechaza una segunda asignación, la autoasignación del gerente y un ID duplicado.
