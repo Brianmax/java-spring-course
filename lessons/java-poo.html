@@ -204,6 +204,19 @@ li + li { margin-top:8px; }
 .question-panel > .result { display:block; }
 .inventory-outcomes { display:grid; gap:10px; }
 .inventory-outcomes p { margin:0; }
+/* Bounded repairs: inline prose wraps; code retains its own narrow-screen scroll. */
+#slide-65 .panel code { overflow-wrap:anywhere; white-space:normal; }
+#slide-65 .panel p { min-width:0; }
+.repair-columns { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:24px; align-items:start; }
+.repair-columns > * { min-width:0; }
+.exception-flow > svg { max-height:320px; min-width:720px; }
+#slide-11 .diagram > svg { min-width:0; }
+#slide-31 .callout { grid-column:1 / -1; }
+@media(max-width:760px) {
+ .repair-columns { grid-template-columns:1fr; }
+ .exception-flow > svg { width:720px; height:320px; max-width:none; }
+ #slide-11 .diagram > svg { min-width:600px; }
+}
 @media(max-width:760px) {
  .purchase-flow,.calculation-flow { grid-template-columns:1fr; }
  .opening-arrow svg { height:62px; }
@@ -286,7 +299,7 @@ li + li { margin-top:8px; }
     precioDolares, cantidad);</code></pre><p>El método recibe ambos valores y devuelve su producto.</p><strong class="result">$10</strong></article><article class="panel accent stack"><h3>Orientada a objetos</h3><span class="code-label">Dentro de un método; pedido representa A-17</span><pre class="code"><code><span class="tok-keyword">int</span> total = pedido.calcularTotal();</code></pre><p><code>pedido</code> ya guarda cantidad 2 y precio $5.</p><strong class="result">$10</strong></article></div><p class="callout">Ambas formas pueden ser correctas. POO ayuda a reunir los datos y las operaciones cuando el modelo crece.</p><p class="question">¿Quién reúne los datos para calcular en cada caso?</p></div></section>
 <section class="slide" id="slide-6" data-title="Fundamentos de la POO" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">TECSUP · JAVA COURSE · MAPA</p><h2>Fundamentos de la POO</h2></header><div class="slide-body"><p class="mini-note">La POO organiza el programa alrededor de objetos: reúnen estado, comportamiento y relaciones.</p><div class="poo-map"><article class="poo-map-group"><h3>Piezas de una clase</h3><div class="poo-map-items"><p class="poo-map-item"><b>Clase:</b> descripción para crear objetos.</p><p class="poo-map-item"><b>Objeto:</b> ejemplar concreto con identidad.</p><p class="poo-map-item"><b>Atributos / estado:</b> datos que conserva el objeto.</p><p class="poo-map-item"><b>Métodos / comportamiento:</b> acciones o consultas.</p><p class="poo-map-item"><b>Constructor:</b> prepara el objeto al crearlo.</p></div></article><article class="poo-map-group"><h3>Principios</h3><div class="poo-map-items"><p class="poo-map-item"><b>Abstracción:</b> mostrar lo necesario para usar algo.</p><p class="poo-map-item"><b>Encapsulamiento:</b> proteger estado y aplicar reglas al cambiarlo.</p><p class="poo-map-item"><b>Herencia:</b> especializar una clase reutilizando otra.</p><p class="poo-map-item"><b>Polimorfismo:</b> misma operación, respuesta propia del objeto.</p></div></article><article class="poo-map-group"><h3>Relaciones y contratos</h3><div class="poo-map-items"><p class="poo-map-item"><b>Asociación:</b> objetos que se conocen o colaboran.</p><p class="poo-map-item"><b>Agregación:</b> una parte que puede vivir por separado.</p><p class="poo-map-item"><b>Composición:</b> una parte pertenece a un todo y depende de él.</p><p class="poo-map-item"><b>Interfaz / contrato:</b> capacidades que una clase se compromete a ofrecer.</p></div></article></div><p class="mini-note poo-map-note">Este mapa orienta las 16 unidades; cada idea se explicará con ejemplos y práctica en Java 21.</p></div></section>
 <section class="slide" id="slide-7" data-title="Dos pedidos no deben compartir su cantidad" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Situación</p><h2>Dos pedidos no deben compartir su cantidad</h2></header><div class="slide-body"><div class="flow"><div class="node">Antes<br>A-17: 2<br>B-18: 1</div><div class="arrow"><svg viewBox="0 0 60 52" role="img" aria-label="sumar uno solo a A-17"><title>Sumar una unidad a A-17</title><path d="M2 26H48 M38 16L50 26L38 36"/></svg></div><div class="node accent">Después de +1 en A-17<br>A-17: 3<br>B-18: 1</div></div><p class="callout">Cada pedido guarda su cantidad por separado; cambiar uno deja intacto el otro.</p></div></section>
-<section class="slide" id="slide-8" data-title="Una clase describe; cada objeto guarda su estado" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 2 · Clases e instancias</p><h2>Una clase describe; cada objeto guarda su estado</h2></header><div class="slide-body"><div class="diagram"><svg viewBox="0 0 720 280" role="img" aria-labelledby="s7title s7desc"><title id="s7title">Una clase describe dos objetos</title><desc id="s7desc">ContadorPedido describe el atributo unidades y dos métodos. De esa clase se crean primero y segundo con dos unidades cada uno.</desc><defs><marker id="s7arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z"/></marker></defs><rect x="170" y="10" width="380" height="85" rx="12"/><text x="360" y="42">Clase ContadorPedido</text><text x="360" y="70">unidades · agregar · consultar</text><path d="M280 95L180 175" marker-end="url(#s7arrow)"/><text x="198" y="132">instancia</text><path d="M440 95L540 175" marker-end="url(#s7arrow)"/><text x="475" y="132">instancia</text><rect x="35" y="185" width="290" height="80" rx="12"/><text x="180" y="218">primero</text><text x="180" y="246">unidades = 2</text><rect x="395" y="185" width="290" height="80" rx="12"/><text x="540" y="218">segundo</text><text x="540" y="246">unidades = 2</text></svg></div><p class="lead">La clase es la descripción; cada instancia es un contador con su propio valor.</p><p class="mini-note">Un atributo guarda estado. Un método define una acción o consulta. Sus parámetros reciben datos y su valor de retorno entrega un resultado.</p></div></section>
+<section class="slide" id="slide-8" data-title="Una clase describe; cada objeto guarda su estado" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 2 · Clases e instancias</p><h2>Una clase describe; cada objeto guarda su estado</h2></header><div class="slide-body"><div class="diagram"><svg viewBox="0 0 720 280" role="img" aria-labelledby="s7title s7desc"><title id="s7title">Una clase describe dos objetos</title><desc id="s7desc">ContadorPedido describe el atributo unidades y dos métodos. Antes de agregar, primero representa A-17 con 2 unidades y segundo representa B-18 con 1.</desc><defs><marker id="s7arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z"/></marker></defs><rect x="170" y="10" width="380" height="85" rx="12"/><text x="360" y="42">Clase ContadorPedido</text><text x="360" y="70">unidades · agregar · consultar</text><path d="M280 95L180 175" marker-end="url(#s7arrow)"/><text x="198" y="132">instancia</text><path d="M440 95L540 175" marker-end="url(#s7arrow)"/><text x="475" y="132">instancia</text><rect x="35" y="185" width="290" height="80" rx="12"/><text x="180" y="218">primero · A-17</text><text x="180" y="246">unidades = 2</text><rect x="395" y="185" width="290" height="80" rx="12"/><text x="540" y="218">segundo · B-18</text><text x="540" y="246">unidades = 1</text></svg></div><p class="lead">La clase es la descripción; cada instancia es un contador con su propio valor.</p><p class="mini-note">Un atributo guarda estado. Un método define una acción o consulta. Sus parámetros reciben datos y su valor de retorno entrega un resultado.</p></div></section>
 
 <section class="slide" id="slide-9" data-title="Un método nombra una tarea y puede devolver un resultado" data-level="Básico" hidden>
 <header class="slide-header"><p class="eyebrow">Básico · Unidad 2 · Métodos</p><h2>Un método nombra una tarea y puede devolver un resultado</h2></header>
@@ -297,28 +310,34 @@ li + li { margin-top:8px; }
 }</code></pre><div class="panel accent stack"><span class="label">Pedido A-17 · llamada y resultado</span><p><code>calcularTotal(5, 2)</code> pasa 5 y 2 a sus parámetros.</p><strong class="result">$5 × 2 → $10</strong></div></div>
 <div class="rows"><div class="row"><b>int</b><span>Tipo del resultado que devuelve.</span></div><div class="row"><b>calcularTotal</b><span>Nombre de la tarea.</span></div><div class="row"><b>parámetros</b><span>Datos que recibe: precioDolares y cantidad son nombres; la llamada pasa valores.</span></div><div class="row"><b>cuerpo { }</b><span>Instrucciones que realizan la tarea.</span></div><div class="row"><b>return</b><span>Entrega el resultado calculado.</span></div></div></div>
 </div></section>
-<section class="slide" id="slide-10" data-title="Una clase reúne campos y métodos" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 2 · Declarar una clase</p><h2>Una clase reúne campos y métodos</h2></header><div class="slide-body code-split"><div><span class="code-label">Declaración de la clase ContadorPedido</span><pre class="code"><code><span class="tok-keyword">class</span> <span class="tok-type">ContadorPedido</span> {
+<section class="slide" id="slide-10" data-title="Una clase reúne campos y métodos" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 2 · Declarar una clase</p><h2>Una clase reúne campos y métodos</h2></header><div class="slide-body"><div class="repair-columns"><div class="stack"><span class="code-label">Declaración de la clase ContadorPedido</span><pre class="code"><code><span class="tok-keyword">class</span> <span class="tok-type">ContadorPedido</span> {
     <span class="tok-keyword">int</span> unidades = <span class="tok-number">2</span>;
     <span class="tok-keyword">int</span> calcularTotal(<span class="tok-keyword">int</span> precioDolares) {
         <span class="tok-keyword">return</span> unidades * precioDolares;
     }
     <span class="tok-keyword">void</span> agregarUnidad() { unidades++; }
-}</code></pre><p class="callout">Escribe <code>class</code>, el nombre y llaves. Dentro van el campo y los métodos.</p></div><div class="stack"><div class="rows"><div class="row"><b>Nombre</b><span><code>ContadorPedido</code> identifica la clase.</span></div><div class="row"><b>Campo</b><span><code>unidades</code> guarda el estado propio de cada objeto; comienza en 2.</span></div><div class="row"><b>Método con <code>int</code></b><span><code>calcularTotal</code> recibe un precio y devuelve unidades × precio: A-17, 2 × $5 = $10.</span></div><div class="row"><b>Método con <code>void</code></b><span><code>agregarUnidad</code> cambia el estado y no devuelve resultado: 2 → 3.</span></div></div></div></div></section>
-<section class="slide" id="slide-11" data-title="Copiar la referencia no copia el objeto" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 2 · Referencias</p><h2>Copiar la referencia no copia el objeto</h2></header><div class="slide-body"><div class="diagram"><svg viewBox="0 0 720 280" role="img" aria-labelledby="s9title s9desc"><title id="s9title">Tres referencias, dos objetos</title><desc id="s9desc">primero y alias son referencias diferentes que apuntan al mismo contador con unidades 4. segundo apunta a otro contador con unidades 2.</desc><defs><marker id="s9arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z"/></marker></defs><text x="45" y="52">primero</text><text x="45" y="112">alias</text><text x="45" y="202">segundo</text><path d="M150 45C280 45 300 95 430 95" marker-end="url(#s9arrow)"/><path d="M150 105C280 105 300 100 430 100" marker-end="url(#s9arrow)"/><path d="M150 195H430" marker-end="url(#s9arrow)"/><rect x="445" y="55" width="235" height="90" rx="14"/><text x="562" y="90">Contador compartido</text><text x="562" y="120">unidades: 3 → 4</text><rect x="445" y="165" width="235" height="80" rx="14"/><text x="562" y="195">Otro contador</text><text x="562" y="225">unidades = 2</text></svg></div><p class="callout">A-17 tenía 3 unidades. <code>alias.agregarUnidad()</code> suma 1 y deja 4; <code>primero</code> ve el mismo cambio porque ambos alcanzan ese objeto. B-18 conserva 2. Java copia el valor de la referencia al pasarla a un método.</p><p class="mini-note"><code>null</code> no apunta a ningún objeto; llamar allí un método lanza NullPointerException. Predice los valores de primero, alias y segundo tras cambiar alias.</p></div></section>
+}</code></pre><p class="mini-note"><code>class ContadorPedido</code>: nombre de clase. Llaves: cuerpo. <code>unidades</code>: campo propio de cada objeto.</p></div><div class="stack"><span class="code-label">Fragmento dentro de main · crear dos objetos</span><pre class="code"><code><span class="tok-type">ContadorPedido</span> primero =
+    <span class="tok-keyword">new</span> <span class="tok-type">ContadorPedido</span>();
+<span class="tok-type">ContadorPedido</span> segundo =
+    <span class="tok-keyword">new</span> <span class="tok-type">ContadorPedido</span>();
+segundo.unidades = <span class="tok-number">1</span>;
+primero.agregarUnidad();</code></pre><p class="mini-note"><code>int calcularTotal</code> devuelve unidades × precio; antes de agregar: 2 × $5 = $10. <code>void agregarUnidad</code> cambia 2 → 3 sin devolver resultado.</p></div></div><p class="callout"><code>new</code> crea objetos separados; cada variable guarda una referencia. A-17 (<code>primero</code>) queda en <b>3</b>; B-18 (<code>segundo</code>) conserva <b>1</b>.</p></div></section>
+<section class="slide" id="slide-11" data-title="Copiar la referencia no copia el objeto" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 2 · Referencias</p><h2>Copiar la referencia no copia el objeto</h2></header><div class="slide-body"><div class="repair-columns"><div class="stack"><span class="code-label">Fragmento dentro de main · continúa el anterior</span><pre class="code"><code><span class="tok-type">ContadorPedido</span> alias = primero;
+alias.agregarUnidad();</code></pre><p><code>primero</code> y <code>alias</code> alcanzan el mismo A-17: <b>3 → 4</b>. B-18 conserva <b>1</b>.</p></div><div class="diagram"><svg viewBox="0 0 720 280" role="img" aria-labelledby="s9title s9desc"><title id="s9title">Tres referencias, dos objetos</title><desc id="s9desc">primero y alias apuntan al mismo contador A-17, que pasa de 3 a 4 unidades al llamar alias.agregarUnidad. segundo apunta a B-18, que conserva 1.</desc><defs><marker id="s9arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z"/></marker></defs><text x="75" y="52">primero</text><text x="75" y="112">alias</text><text x="75" y="202">segundo</text><path d="M150 45H280L385 85" marker-end="url(#s9arrow)"/><path d="M150 105H385" marker-end="url(#s9arrow)"/><path d="M150 195H385" marker-end="url(#s9arrow)"/><rect x="400" y="45" width="300" height="100" rx="14"/><text x="550" y="84">A-17 compartido</text><text x="550" y="120">unidades: 3 → 4</text><rect x="400" y="165" width="300" height="80" rx="14"/><text x="550" y="195">B-18 separado</text><text x="550" y="225">unidades = 1</text></svg></div></div><p class="callout">Java pasa argumentos por valor: al pasar una referencia a un método, copia su valor, no el objeto.</p><p class="mini-note"><code>null</code> no apunta a ningún objeto; llamar allí un método lanza <code>NullPointerException</code>.</p></div></section>
 <section class="slide" id="slide-12" data-title="Un pedido sin cliente empieza incompleto" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Situación</p><h2>Un pedido sin cliente empieza incompleto</h2></header><div class="slide-body"><div class="before-after"><article class="panel warning"><span class="label">Ficha vacía</span><p>Pedido A-17</p><p>Cliente: ______</p></article><article class="panel accent"><span class="label">Ficha lista</span><p>Pedido A-17</p><p>Cliente: Ana</p></article></div><p class="callout">El pedido debe tener cliente al comenzar. Usar “Cliente ocasional” también es válido si esa es una regla deliberada.</p></div></section>
 <section class="slide" id="slide-13" data-title="El constructor prepara el objeto" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 3 · Inicialización</p><h2>El constructor prepara el objeto</h2></header><div class="slide-body code-split"><pre class="code"><code><span class="tok-keyword">class</span> <span class="tok-type">Pedido</span> {
     <span class="tok-keyword">private</span> <span class="tok-type">String</span> cliente;
     <span class="tok-keyword">public</span> <span class="tok-type">Pedido</span>(<span class="tok-type">String</span> cliente) {
         <span class="tok-keyword">this</span>.cliente = cliente;
     }
-}</code></pre><article class="panel accent stack"><h3>Al construir</h3><p><code>new Pedido("Ana")</code></p><p><code>this.cliente</code> nombra el campo del objeto actual.</p><p><code>cliente</code> a la derecha nombra el parámetro recibido.</p><strong class="result">Pedido listo · Ana</strong></article><p class="callout warning">El constructor usa el nombre de la clase y no tiene tipo de retorno. Escribir <code>void Pedido</code> crea un método.</p></div></section>
+}</code></pre><article class="panel accent stack"><h3>Al construir</h3><p><code>new Pedido("Ana")</code></p><p><code>this.cliente</code> nombra el campo del objeto actual.</p><p><code>cliente</code> a la derecha nombra el parámetro recibido.</p><strong class="result">Campo inicializado: Ana</strong><p class="mini-note">Inicialización simplificada; todavía no valida null ni texto vacío.</p></article><p class="callout warning">Inicializar asigna el valor; hacer cumplir la regla de cliente requiere validarlo. El constructor no tiene tipo de retorno: <code>void Pedido</code> sería un método.</p></div></section>
 <section class="slide" id="slide-14" data-title="Varias formas de crear, una inicialización" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 3 · Sobrecarga</p><h2>Varias formas de crear, una inicialización</h2></header><div class="slide-body split"><pre class="code"><code><span class="tok-keyword">class</span> <span class="tok-type">Pedido</span> {
     <span class="tok-keyword">private</span> <span class="tok-type">String</span> cliente;
     <span class="tok-keyword">public</span> <span class="tok-type">Pedido</span>() { <span class="tok-keyword">this</span>(<span class="tok-string">"Cliente ocasional"</span>); }
     <span class="tok-keyword">public</span> <span class="tok-type">Pedido</span>(<span class="tok-type">String</span> cliente) {
         <span class="tok-keyword">this</span>.cliente = cliente;
     }
-}</code></pre><div class="stack"><div class="rows"><div class="row"><b>Constructor generado</b><span>Solo aparece si no declaras constructor alguno.</span></div><div class="row"><b>Sin parámetros</b><span>Puede ser escrito manualmente; entonces no es el generado por defecto.</span></div><div class="row"><b>Sobrecarga</b><span>Constructores con listas de parámetros diferentes.</span></div></div><p class="callout warning"><code>this(...)</code> debe ser la primera instrucción.</p><p class="question">Práctica: añade a <code>Producto</code> una variante sin descripción; luego controlarás sus existencias en <code>Inventario</code>.</p></div></div></section>
+}</code></pre><div class="stack"><div class="rows"><div class="row"><b>Constructor generado</b><span>Solo aparece si no declaras constructor alguno.</span></div><div class="row"><b>Sin parámetros</b><span>Puede ser escrito manualmente; entonces no es el generado por defecto.</span></div><div class="row"><b>Sobrecarga</b><span>Constructores con listas de parámetros diferentes.</span></div></div><p class="mini-note">Inicialización simplificada; todavía no valida null ni texto vacío.</p><p class="callout warning"><code>this(...)</code> debe ser la primera instrucción en Java 21.</p><p class="question">Práctica: añade a <code>Producto</code> una variante sin descripción; luego controlarás sus existencias en <code>Inventario</code>.</p></div></div></section>
 <section class="slide" id="slide-15" data-title="Si quedan cinco, no puedes vender ocho" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Situación</p><h2>Si quedan cinco, no puedes vender ocho</h2></header><div class="slide-body inventory-cases"><p class="mini-note">Conectamos ambos objetos: <code>Producto</code> describe qué se vende; <code>Inventario</code> controla cuántas unidades quedan.</p><p class="inventory-rule"><strong>Regla:</strong> el stock empieza en <b>5 unidades</b>. La cantidad solicitada debe ser positiva y no superar el stock disponible.</p><div class="inventory-tracks" aria-label="Dos intentos independientes parten del mismo stock inicial"><article class="inventory-track accepted"><h3>Solicitud válida</h3><div class="inventory-route"><div class="inventory-state"><span>Antes</span><strong>Stock</strong><b>5 unidades</b></div><svg viewBox="0 0 64 44" role="img" aria-labelledby="s14valid-title s14valid-desc"><title id="s14valid-title">La solicitud válida produce un cambio</title><desc id="s14valid-desc">La flecha conecta el stock inicial con el retiro aceptado.</desc><defs><marker id="s14valid-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z"/></marker></defs><path d="M4 22H54" fill="none" stroke="#00b3e0" stroke-width="3" marker-end="url(#s14valid-arrow)"/></svg><div class="inventory-state request"><span>Solicitud</span><strong>retirar(2)</strong><b>Aceptada</b></div><svg viewBox="0 0 64 44" role="img" aria-labelledby="s14valid2-title s14valid2-desc"><title id="s14valid2-title">El stock disminuye en dos unidades</title><desc id="s14valid2-desc">La flecha conecta el retiro aceptado con el stock final de tres unidades.</desc><defs><marker id="s14valid2-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z"/></marker></defs><path d="M4 22H54" fill="none" stroke="#00b3e0" stroke-width="3" marker-end="url(#s14valid2-arrow)"/></svg><div class="inventory-state after"><span>Después</span><strong>Stock</strong><b>3 unidades</b></div></div></article><article class="inventory-track rejected"><h3>Solicitud rechazada</h3><div class="inventory-route"><div class="inventory-state"><span>Antes</span><strong>Stock</strong><b>5 unidades</b></div><svg viewBox="0 0 64 44" role="img" aria-labelledby="s14reject-title s14reject-desc"><title id="s14reject-title">La solicitud excede el stock</title><desc id="s14reject-desc">La flecha conecta el stock inicial con el retiro rechazado.</desc><defs><marker id="s14reject-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z"/></marker></defs><path d="M4 22H54" fill="none" stroke="#00b3e0" stroke-width="3" marker-end="url(#s14reject-arrow)"/></svg><div class="inventory-state request"><span>Solicitud</span><strong>retirar(8)</strong><b>Rechazada</b></div><svg viewBox="0 0 64 44" role="img" aria-labelledby="s14reject2-title s14reject2-desc"><title id="s14reject2-title">El stock se conserva</title><desc id="s14reject2-desc">La flecha conecta el retiro rechazado con el stock final conservado de cinco unidades.</desc><defs><marker id="s14reject2-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M4 0L10 5L4 10Z"/></marker></defs><path d="M4 22H54" fill="none" stroke="#00b3e0" stroke-width="3" marker-end="url(#s14reject2-arrow)"/></svg><div class="inventory-state after"><span>Después</span><strong>Stock</strong><b>5 unidades</b><small>se conserva</small></div></div></article></div><p class="inventory-note">Son dos intentos separados: cada uno empieza con stock 5.</p></div></section>
 <section class="slide" id="slide-16" data-title="Encapsular: cambiar el stock mediante operaciones" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 4 · Estado protegido</p><h2>Encapsular: cambiar el stock mediante operaciones</h2></header><div class="slide-body code-split"><pre class="code"><code><span class="tok-keyword">class</span> <span class="tok-type">Inventario</span> {
     <span class="tok-keyword">private</span> <span class="tok-keyword">int</span> stock = <span class="tok-number">5</span>;
@@ -340,16 +359,15 @@ li + li { margin-top:8px; }
 }</code></pre><div class="stack"><article class="panel accent"><b>Producto A:</b> CU-10<br><b>Producto B:</b> CU-20<br><b>Compartido:</b> MAX_CODIGO = 12</article><p class="callout warning">Declarar el límite no valida la entrada. Una referencia final no hace inmutable al objeto referido.</p><p class="mini-note">Atributo normal: una copia lógica por instancia. static: miembro de la clase. final impide reasignar campo; una clase final no se extiende.</p></div></div></section>
 <section class="slide" id="slide-21" data-title="Elegir instancia, constante o utilidad" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 5 · Inmutabilidad</p><h2>Elegir instancia, constante o utilidad</h2></header><div class="slide-body"><div class="rows"><div class="row"><b>Instancia</b><span>El código CU-10 pertenece a un producto concreto.</span></div><div class="row"><b>Constante</b><span>static final MAX_CODIGO describe un límite compartido.</span></div><div class="row"><b>Utilidad static</b><span>Se invoca mediante la clase y no puede usar this: no tiene una instancia actual.</span></div></div><div class="panel accent"><b>Inmutable</b><p>El valor observable no cambia luego de construir el objeto. Usa estado privado y final; copia entradas o salidas mutables cuando haga falta.</p></div><p class="callout warning">No uses estado global mutable para los datos de cada producto.</p><p class="question">Diseña una dirección inmutable: ¿qué guardarías? Para cambiarla, construye otro valor.</p></div></section>
 <section class="slide" id="slide-22" data-title="Dos entregas comparten una promesa" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Situación</p><h2>Dos entregas comparten una promesa</h2></header><div class="slide-body"><div class="before-after"><article class="panel"><b>Entrega común</b> <strong class="result">5 días</strong><p>El cliente pregunta cuándo llega.</p></article><article class="panel accent"><b>Entrega rápida</b> <strong class="result">1 día</strong><p>El cliente hace la misma pregunta.</p></article></div><p class="callout">Las modalidades anuncian un plazo estimado; cada una puede obtenerlo de modo distinto.</p></div></section>
-<section class="slide" id="slide-23" data-title="Herencia: reutilizar y especializar una clase" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 6 · Herencia</p><h2>Herencia: reutilizar y especializar una clase</h2></header><div class="slide-body code-split"><pre class="code"><code><span class="tok-keyword">class</span> <span class="tok-type">Entrega</span> {
+<section class="slide" id="slide-23" data-title="Herencia: reutilizar y especializar una clase" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 6 · Herencia</p><h2>Herencia: reutilizar y especializar una clase</h2></header><div class="slide-body code-split"><div><span class="code-label">Declaraciones de clases</span><pre class="code"><code><span class="tok-keyword">class</span> <span class="tok-type">Entrega</span> {
     <span class="tok-keyword">public</span> <span class="tok-keyword">int</span> diasEstimados() { <span class="tok-keyword">return</span> <span class="tok-number">5</span>; }
 }
 
 <span class="tok-keyword">class</span> <span class="tok-type">EntregaExpress</span> <span class="tok-keyword">extends</span> <span class="tok-type">Entrega</span> {
     <span class="tok-comment">// Hereda diasEstimados()</span>
-}
-
-<span class="tok-type">EntregaExpress</span> express = <span class="tok-keyword">new</span> <span class="tok-type">EntregaExpress</span>();
-express.diasEstimados(); <span class="tok-comment">// 5</span></code></pre><article class="panel accent stack"><h3>¿Qué significa?</h3><p>La subclase <code>EntregaExpress</code> hereda los métodos accesibles de la superclase <code>Entrega</code>. Así puede reutilizarlos y añadir o cambiar su comportamiento.</p><p><b>Aquí:</b> express puede llamar <code>diasEstimados()</code> aunque ese método esté escrito en <code>Entrega</code>.</p><p class="mini-note"><code>extends</code> declara la relación “es una”. Los constructores no se heredan; el siguiente ejemplo especializa el plazo con <code>@Override</code>.</p></article><p class="callout warning">Hereda solo si la subclase también cumple las promesas de la clase base; no uses herencia únicamente para copiar código.</p></div></section>
+}</code></pre></div><article class="stack"><span class="code-label">Fragmento dentro de main</span><pre class="code"><code><span class="tok-type">EntregaExpress</span> express =
+    <span class="tok-keyword">new</span> <span class="tok-type">EntregaExpress</span>();
+express.diasEstimados(); <span class="tok-comment">// 5</span></code></pre><div class="panel accent"><p><code>EntregaExpress</code> hereda <code>diasEstimados()</code> de <code>Entrega</code>: puede llamarlo sin escribirlo otra vez.</p></div><p class="mini-note"><code>extends</code> declara “es una”. Los constructores no se heredan; después especializamos el plazo con <code>@Override</code>.</p></article><p class="callout warning">Hereda solo si la subclase también cumple las promesas de la clase base; no uses herencia únicamente para copiar código.</p></div></section>
 <section class="slide" id="slide-24" data-title="Sobrescribir una operación con @Override" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 6 · Sobrescritura</p><h2>Sobrescribir una operación con @Override</h2></header><div class="slide-body code-split"><pre class="code"><code><span class="tok-keyword">class</span> <span class="tok-type">Entrega</span> {
     <span class="tok-keyword">public</span> <span class="tok-keyword">int</span> diasEstimados() { <span class="tok-keyword">return</span> <span class="tok-number">5</span>; }
 }
@@ -379,13 +397,17 @@ express.diasEstimados(); <span class="tok-comment">// 5</span></code></pre><arti
 }</code></pre><div class="stack"><article class="panel accent"><p><code>new EntregaExpress().resumen()</code></p><strong class="result">Plazo (días): 1</strong></article><p class="mini-note">La clase abstracta puede tener estado y constructores. Su método abstracto no tiene cuerpo.</p><p class="callout warning">No puedes crear <code>new Entrega()</code>; falta una implementación concreta.</p><p class="question">Agrega otra variante y conserva el método resumen.</p></div></div></section>
 <section class="slide" id="slide-29" data-title="Cambiar la entrega no debería cambiar el pedido" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Situación</p><h2>Cambiar la entrega no debería cambiar el pedido</h2></header><div class="slide-body"><div class="before-after"><article class="panel warning"><b>Dos rutinas</b><p>Una rama consulta la entrega común; otra copia el trabajo para la rápida.</p></article><article class="panel accent"><b>La misma pregunta</b><p>El pedido consulta los días de la modalidad elegida.</p><strong class="result">5 o 1 día</strong></article></div><p class="callout">Evitar la duplicación hace que ambas alternativas respondan de forma uniforme.</p></div></section>
 <section class="slide" id="slide-30" data-title="Polimorfismo: mismo pedido, distinta respuesta" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 8 · Ejecución</p><h2>Polimorfismo: mismo pedido, distinta respuesta</h2></header><div class="slide-body"><div class="diagram"><svg viewBox="0 0 720 270" role="img" aria-labelledby="s28title s28desc"><title id="s28title">La clase real elige el método ejecutado</title><desc id="s28desc">Una referencia de tipo declarado Entrega apunta a un objeto real de clase EntregaExpress. La llamada diasEstimados selecciona la implementación de EntregaExpress y devuelve un día.</desc><defs><marker id="s28arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z"/></marker></defs><rect x="20" y="80" width="210" height="95" rx="12"/><text x="125" y="115">tipo declarado:</text><text x="125" y="145">Entrega</text><path d="M230 128H460" marker-end="url(#s28arrow)"/><text x="345" y="110">referencia a</text><rect x="475" y="65" width="225" height="125" rx="12"/><text x="587" y="98">clase real:</text><text x="587" y="126">EntregaExpress</text><text x="587" y="154">diasEstimados() = 1</text><path d="M570 195V240" marker-end="url(#s28arrow)"/><text x="475" y="265">se ejecuta esta implementación</text></svg></div><p class="mini-note"><b>Polimorfismo:</b> tipos relacionados responden a la misma llamada con su propia implementación. <code>Entrega</code> determina las operaciones disponibles; la clase real <code>EntregaExpress</code> determina cuál se ejecuta: <code>diasEstimados()</code> devuelve 1 día.</p><p class="callout warning">Usa la operación común sin preguntar la clase concreta.</p></div></section>
-<section class="slide" id="slide-31" data-title="Sobrecarga y sobrescritura se deciden distinto" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 8 · Comparación</p><h2>Sobrecarga y sobrescritura se deciden distinto</h2></header><div class="slide-body split"><article class="panel stack"><h3>Sobrecarga · fragmento dentro de una clase</h3><pre class="code"><code><span class="tok-keyword">public</span> <span class="tok-keyword">int</span> totalConEnvio(<span class="tok-keyword">int</span> totalPedidoDolares) {
-    <span class="tok-keyword">return</span> totalPedidoDolares + <span class="tok-number">5</span>;
+<section class="slide" id="slide-31" data-title="Sobrecarga y sobrescritura se deciden distinto" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 8 · Comparación</p><h2>Sobrecarga y sobrescritura se deciden distinto</h2></header><div class="slide-body code-split"><article class="stack"><h3>Sobrecarga · fragmento de clase</h3><pre class="code"><code><span class="tok-keyword">public</span> <span class="tok-keyword">int</span> totalConEnvio(<span class="tok-keyword">int</span> totalDolares) {
+    <span class="tok-keyword">return</span> totalDolares + <span class="tok-number">5</span>;
 }
-<span class="tok-keyword">public</span> <span class="tok-keyword">int</span> totalConEnvio(<span class="tok-keyword">int</span> totalPedidoDolares, <span class="tok-keyword">boolean</span> express) {
-    <span class="tok-keyword">return</span> express ? totalPedidoDolares + <span class="tok-number">9</span> : totalConEnvio(totalPedidoDolares);
-}</code></pre><p>Para A-17 ($10): <code>totalConEnvio(10)</code> devuelve $15 con tarifa estándar; <code>totalConEnvio(10, true)</code> devuelve $19 con express. La lista de parámetros permite distinguir las sobrecargas.</p></article><article class="panel accent stack"><h3>Sobrescritura · cuerpo de EntregaExpress</h3><pre class="code"><code><span class="tok-annotation">@Override</span>
-<span class="tok-keyword">public</span> <span class="tok-keyword">int</span> diasEstimados() { <span class="tok-keyword">return</span> <span class="tok-number">1</span>; }</code></pre><p>Firma heredada; la clase real elige el cuerpo al ejecutar.</p></article><p class="callout warning">No se sobrecarga cambiando solo el retorno. Campos y métodos static tampoco tienen despacho dinámico.</p></div></section>
+<span class="tok-keyword">public</span> <span class="tok-keyword">int</span> totalConEnvio(
+        <span class="tok-keyword">int</span> totalDolares, <span class="tok-keyword">boolean</span> express) {
+    <span class="tok-keyword">return</span> express ? totalDolares + <span class="tok-number">9</span>
+                   : totalConEnvio(totalDolares);
+}</code></pre><p>Para A-17 ($10): <code>totalConEnvio(10)</code> → <b>$15</b>; <code>totalConEnvio(10, true)</code> → <b>$19</b>. Se distinguen por sus parámetros.</p></article><article class="panel accent stack"><h3>Sobrescritura · EntregaExpress</h3><pre class="code"><code><span class="tok-annotation">@Override</span>
+<span class="tok-keyword">public</span> <span class="tok-keyword">int</span> diasEstimados() {
+    <span class="tok-keyword">return</span> <span class="tok-number">1</span>;
+}</code></pre><p>Firma heredada; la clase real elige el cuerpo al ejecutar.</p></article><p class="callout warning">No se sobrecarga cambiando solo el retorno. Campos y métodos static tampoco tienen despacho dinámico.</p></div></section>
 <section class="slide" id="slide-32" data-title="Práctica: consultar sin preguntar la clase" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 8 · Práctica</p><h2>Práctica: consultar sin preguntar la clase</h2></header><div class="slide-body exercise"><article class="panel stack"><h3>Objetivo</h3><p>Escribe una rutina que reciba una Entrega y muestre su plazo.</p><p><b>Inicio:</b> común (5 días) y express (1 día).</p></article><article class="panel accent stack"><h3>Resultado y límites</h3><p>La rutina muestra 5 o 1 según el objeto que recibe.</p><p>No preguntes su clase con una cadena de instanceof ni conviertas a subtipo.</p><p><b>Reto:</b> añade una tercera modalidad sin cambiar la rutina.</p></article><p class="callout warning">Convertir una referencia general a un tipo hijo incorrecto puede causar ClassCastException.</p></div></section>
 <section class="slide" id="slide-33" data-title="Básico: crear, proteger y sustituir" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">TECSUP · JAVA COURSE · CIERRE BÁSICO</p><h2>Básico: crear, proteger y sustituir</h2></header><div class="slide-body"><div class="rows"><div class="row"><b>Clase y objeto</b><span>La clase describe; cada objeto guarda sus propios datos.</span></div><div class="row"><b>Encapsulamiento</b><span>Operaciones protegen el estado y aplican sus reglas.</span></div><div class="row"><b>Herencia y polimorfismo</b><span>Una entrega especializada hereda; la llamada común ejecuta su respuesta.</span></div></div><div class="split"><article class="panel"><h3>Recupera</h3><p>¿Qué comparte una referencia con otra al mismo objeto? ¿Qué hacen final y static? ¿Qué diferencia hay entre tipo declarado y clase real?</p></article><article class="panel accent"><h3>Mini proyecto</h3><p>Modela un producto válido, A-17 e inventario. Incluye dos entregas; prueba que el stock no queda negativo.</p><p><b>Reto:</b> explica por qué cada dato vive en su clase.</p></article></div></div></section>
 <section class="slide" id="slide-34" data-title="Hoy avisamos por consola; mañana por otro canal" data-level="Intermedio" hidden>
@@ -459,12 +481,12 @@ express.diasEstimados(); <span class="tok-comment">// 5</span></code></pre><arti
 <section class="slide" id="slide-38" data-title="Un pedido usa un cliente y contiene sus líneas" data-level="Intermedio" hidden>
   <header class="slide-header"><p class="eyebrow">Intermedio · Situación</p><h2>Un pedido usa un cliente y contiene sus líneas</h2></header>
   <div class="slide-body">
-    <p class="lead">A-17 identifica a un cliente y contiene dos líneas. El cliente puede existir antes y después del pedido; esas líneas describen este pedido.</p>
+    <p class="lead">Extendemos el ejemplo: A-18 tiene 2 cuadernos y 1 lápiz; el A-17 original conserva sus 2 cuadernos.</p>
     <div class="split">
       <div class="panel"><span class="label">Puede vivir aparte</span><p><strong>Cliente Ana</strong><br>Puede realizar otros pedidos.</p></div>
-      <div class="panel accent"><span class="label">Pertenece a A-17</span><p><strong>Línea: 2 cuadernos</strong><br><strong>Línea: 1 lápiz</strong></p></div>
+      <div class="panel accent"><span class="label">Pertenece a A-18</span><p><strong>Línea: 2 cuadernos</strong><br><strong>Línea: 1 lápiz</strong></p></div>
     </div>
-    <p class="callout">A-17 conserva sus líneas y registra a la persona a quien pertenece el pedido.</p>
+    <p class="callout">A-18 conserva sus líneas; Ana puede existir antes y después del pedido y realizar otros.</p>
   </div>
 </section>
 <section class="slide" id="slide-39" data-title="Asociación, agregación y composición" data-level="Intermedio" hidden>
@@ -473,14 +495,14 @@ express.diasEstimados(); <span class="tok-comment">// 5</span></code></pre><arti
     <div class="diagram"><svg viewBox="0 0 720 300" role="img" aria-labelledby="s37-title s37-desc">
       <title id="s37-title">Relaciones de pedidos, clientes, líneas, catálogo y productos</title>
       <desc id="s37-desc">Pedido se asocia con Cliente y se compone de sus Líneas. Catálogo agrega Productos que pueden existir de forma independiente.</desc>
-      <rect x="265" y="106" width="190" height="62" rx="12" fill="#dcf3ff" stroke="#0097d0" stroke-width="3"/><text x="360" y="144" text-anchor="middle" font-size="26">Pedido A-17</text>
-      <rect x="15" y="106" width="180" height="58" rx="10" fill="#f5f5f5" stroke="#555" stroke-width="2"/><text x="105" y="142" text-anchor="middle" font-size="24">Cliente Ana</text>
-      <path d="M195 135H265" fill="none" stroke="#0097d0" stroke-width="3"/><text x="198" y="124" font-size="24">asocia</text>
+      <rect x="265" y="76" width="190" height="62" rx="12" fill="#dcf3ff" stroke="#0097d0" stroke-width="3"/><text x="360" y="114" text-anchor="middle" font-size="26">Pedido A-18</text>
+      <rect x="15" y="76" width="160" height="62" rx="10" fill="#f5f5f5" stroke="#555" stroke-width="2"/><text x="95" y="114" text-anchor="middle" font-size="24">Cliente Ana</text>
+      <path d="M175 107H265" fill="none" stroke="#0097d0" stroke-width="3"/><text x="220" y="65" text-anchor="middle" font-size="24">asocia</text>
       <rect x="490" y="20" width="190" height="58" rx="10" fill="#f5f5f5" stroke="#555" stroke-width="2"/><text x="585" y="56" text-anchor="middle" font-size="24">Catálogo</text>
       <rect x="490" y="216" width="190" height="58" rx="10" fill="#f5f5f5" stroke="#555" stroke-width="2"/><text x="585" y="252" text-anchor="middle" font-size="24">Productos</text>
-      <path d="M585 78V216" fill="none" stroke="#0097d0" stroke-width="3"/><path d="m585 78 9 10-9 10-9-10z" fill="#fff" stroke="#0097d0" stroke-width="2"/><text x="598" y="158" font-size="24">agrega</text>
-      <rect x="265" y="216" width="190" height="58" rx="10" fill="#dcf3ff" stroke="#0097d0" stroke-width="2"/><text x="360" y="252" text-anchor="middle" font-size="24">Líneas A-17</text>
-      <path d="M360 168V216" fill="none" stroke="#0097d0" stroke-width="3"/><path d="m360 168 9 9-9 9-9-9z" fill="#0097d0" stroke="#0097d0" stroke-width="2"/><text x="374" y="200" font-size="24">compone</text>
+      <path d="M585 78V216" fill="none" stroke="#0097d0" stroke-width="3"/><path d="m585 78 9 10-9 10-9-10z" fill="#fff" stroke="#0097d0" stroke-width="2"/><text x="608" y="158" text-anchor="start" font-size="24">agrega</text>
+      <rect x="265" y="216" width="190" height="58" rx="10" fill="#dcf3ff" stroke="#0097d0" stroke-width="2"/><text x="360" y="252" text-anchor="middle" font-size="24">Líneas A-18</text>
+      <path d="M360 138V216" fill="none" stroke="#0097d0" stroke-width="3"/><path d="m360 138 9 9-9 9-9-9z" fill="#0097d0" stroke="#0097d0" stroke-width="2"/><text x="380" y="188" text-anchor="start" font-size="24">compone</text>
     </svg></div>
     <p class="mini-note">Cliente: asociación. Productos independientes: agregación. Líneas propias del pedido: composición.</p>
   </div>
@@ -496,7 +518,7 @@ express.diasEstimados(); <span class="tok-comment">// 5</span></code></pre><arti
     <span class="tok-keyword">void</span> agregar(<span class="tok-type">Producto</span> p, <span class="tok-keyword">int</span> cantidad) {
         lineas.add(<span class="tok-keyword">new</span> <span class="tok-type">Linea</span>(p, cantidad));
     }
-    <span class="tok-keyword">void</span> confirmar(<span class="tok-type">Notificador</span> n) { n.enviar(&quot;<span class="tok-type">A</span>-<span class="tok-number">17</span>&quot;); }
+    <span class="tok-keyword">void</span> confirmar(<span class="tok-type">Notificador</span> n) { n.enviar(<span class="tok-string">"A-18"</span>); }
 }</code></pre></div>
       <div class="stack">
         <div class="panel accent"><p><strong>Asociación:</strong> <code>cliente</code> existe aparte.</p><p><strong>Composición:</strong> cada línea pertenece a este pedido.</p></div>
@@ -509,7 +531,7 @@ express.diasEstimados(); <span class="tok-comment">// 5</span></code></pre><arti
 <section class="slide" id="slide-41" data-title="Práctica: decidir qué puede compartirse" data-level="Intermedio" hidden>
   <header class="slide-header"><p class="eyebrow">Intermedio · Unidad 10 · práctica</p><h2>Práctica: decidir qué puede compartirse</h2></header>
   <div class="slide-body exercise">
-    <article class="panel stack"><span class="label">Situación y objetivo</span><p>Modela dos pedidos de Ana. Cada uno mantiene sus propias líneas; ambos pueden consultar el mismo catálogo.</p><p><strong>Inicio:</strong> dos pedidos, una cliente y un catálogo.</p></article>
+    <article class="panel stack"><span class="label">Situación y objetivo</span><p>Modela A-17 y A-18 de Ana. A-17 conserva 2 cuadernos; A-18 tiene 2 cuadernos y 1 lápiz. Cada uno mantiene sus líneas; comparten el catálogo.</p><p><strong>Inicio:</strong> dos pedidos, una cliente y un catálogo.</p></article>
     <article class="panel stack"><span class="label">Resultado y límites</span><p>Un diagrama muestra referencias y señala qué partes pertenecen a cada pedido.</p><p><strong>Restricciones:</strong> usa nombres de clases y flechas etiquetadas; explica qué objetos pueden sobrevivir al pedido.</p><p><strong>Reto:</strong> dibuja cómo cambia el modelo si una línea se traslada a otro pedido.</p></article>
   </div>
 </section>
@@ -529,12 +551,12 @@ express.diasEstimados(); <span class="tok-comment">// 5</span></code></pre><arti
       <div class="row"><strong><code>equals</code></strong><span>Permite definir si dos objetos cuentan como iguales por su significado.</span></div>
       <div class="row"><strong><code>toString</code></strong><span>Da una descripción textual útil para revisar o registrar el objeto.</span></div>
     </div>
-    <pre class="code"><code><span class="tok-type">Object</span> a = <span class="tok-keyword">new</span> <span class="tok-type">String</span>(<span class="tok-string">"10"</span>);
+    <div><span class="code-label">Fragmento dentro de main</span><pre class="code"><code><span class="tok-type">Object</span> a = <span class="tok-keyword">new</span> <span class="tok-type">String</span>(<span class="tok-string">"10"</span>);
 <span class="tok-type">Object</span> b = <span class="tok-keyword">new</span> <span class="tok-type">String</span>(<span class="tok-string">"10"</span>);
 <span class="tok-type">System</span>.out.println(a == b);              <span class="tok-comment">// false</span>
 <span class="tok-type">System</span>.out.println(a.equals(b));         <span class="tok-comment">// true</span>
 <span class="tok-type">System</span>.out.println(a <span class="tok-keyword">instanceof</span> <span class="tok-type">String</span>); <span class="tok-comment">// true</span>
-<span class="tok-type">System</span>.out.println(a.toString());        <span class="tok-comment">// 10</span></code></pre>
+<span class="tok-type">System</span>.out.println(a.toString());        <span class="tok-comment">// 10</span></code></pre></div>
     <p class="mini-note">Toda clase Java hereda de <code>Object</code>; aquí <code>String</code> ya redefine <code>equals</code> y <code>toString</code>.</p>
   </div>
 </section>
@@ -582,45 +604,51 @@ express.diasEstimados(); <span class="tok-comment">// 5</span></code></pre><arti
 <section class="slide" id="slide-47" data-title="Una excepción interrumpe la ruta normal" data-level="Intermedio" hidden>
   <header class="slide-header"><p class="eyebrow">Intermedio · Unidad 12 · flujo de una excepción</p><h2>Una excepción interrumpe la ruta normal</h2></header>
   <div class="slide-body">
-    <svg class="diagram" viewBox="0 0 720 300" role="img" aria-labelledby="s45-title s45-desc">
-      <title id="s45-title">Retirar puede continuar o saltar a catch</title>
-      <desc id="s45-desc">Se intenta retirar una cantidad del stock. Si funciona, se continúa; si falta stock, la excepción salta a catch. Las rutas terminan en finally.</desc>
-      <defs><marker id="s45-arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0 0L10 5L0 10z" fill="#00b3e0"/></marker></defs>
-      <rect x="215" y="8" width="290" height="48" rx="10" fill="#dcf3ff" stroke="#0097d0" stroke-width="2"/><text x="360" y="39" text-anchor="middle" font-size="22">try: retirar(cantidad)</text>
-      <path d="M360 56V77" stroke="#00b3e0" stroke-width="3" marker-end="url(#s45-arrow)"/>
-      <path d="M360 78L475 132L360 184L245 132Z" fill="#f5f5f5" stroke="#555" stroke-width="2"/><text x="360" y="140" text-anchor="middle" font-size="24">¿stock alcanza?</text>
-      <path d="M245 132H150V201" fill="none" stroke="#0097d0" stroke-width="3" marker-end="url(#s45-arrow)"/><text x="169" y="123" font-size="24">sí</text>
-      <path d="M475 132H570V201" fill="none" stroke="#00b3e0" stroke-width="3" marker-end="url(#s45-arrow)"/><text x="520" y="123" font-size="24">no: lanza</text>
-      <rect x="25" y="205" width="270" height="45" rx="10" fill="#f5f5f5" stroke="#555" stroke-width="2"/><text x="160" y="235" text-anchor="middle" font-size="24">sigue: stock 3</text>
-      <rect x="425" y="205" width="270" height="45" rx="10" fill="#fff4dc" stroke="#9a6700" stroke-width="2"/><text x="560" y="235" text-anchor="middle" font-size="24">catch: conserva 5</text>
-      <path d="M150 250V269H360" fill="none" stroke="#0097d0" stroke-width="3" marker-end="url(#s45-arrow)"/><path d="M570 250V269H360" fill="none" stroke="#00b3e0" stroke-width="3" marker-end="url(#s45-arrow)"/>
-      <rect x="275" y="266" width="170" height="32" rx="8" fill="#dcf3ff" stroke="#0097d0" stroke-width="2"/><text x="360" y="291" text-anchor="middle" font-size="24">finally</text>
-    </svg>
-    <p class="mini-note">Con stock 5, retirar(2) deja 3; retirar(8) conserva 5 y salta el resto del <code>try</code> hasta <code>catch</code>. Ambas rutas pasan por <code>finally</code>.</p>
+    <div class="diagram exception-flow"><svg viewBox="0 0 960 400" role="img" aria-labelledby="s45-title s45-desc">
+      <title id="s45-title">Dos retiros independientes convergen en finally</title>
+      <desc id="s45-desc">Cada intento parte de stock 5 y cantidad positiva. Si alcanza, retirar 2 deja stock 3 y continúa el try. Si no alcanza, retirar 8 lanza una excepción y catch conserva stock 5. Flechas separadas llegan después a finally.</desc>
+      <defs><marker id="s45-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8z" fill="#00b3e0"/></marker></defs>
+      <rect x="320" y="8" width="320" height="48" rx="10"/><text x="480" y="39">try: retirar(cantidad)</text>
+      <path d="M480 56V85" marker-end="url(#s45-arrow)"/>
+      <path d="M480 88L625 148L480 208L335 148Z" fill="#f5f5f5" stroke="#555" stroke-width="2"/><text x="480" y="155">¿stock alcanza?</text>
+      <path d="M335 148H170V232" marker-end="url(#s45-arrow)"/><text x="230" y="130">sí · retirar(2)</text>
+      <path d="M625 148H790V232" marker-end="url(#s45-arrow)"/><text x="740" y="130">no · retirar(8)</text>
+      <rect x="20" y="236" width="300" height="55" rx="10"/><text x="170" y="271">sigue el try · stock 3</text>
+      <rect x="640" y="236" width="300" height="55" rx="10" fill="#fff8eb" stroke="#9a6700" stroke-width="2"/><text x="790" y="271">catch · conserva stock 5</text>
+      <text x="835" y="203">lanza</text>
+      <path d="M170 291V360H365" marker-end="url(#s45-arrow)"/>
+      <path d="M790 291V360H595" marker-end="url(#s45-arrow)"/>
+      <rect x="370" y="333" width="220" height="55" rx="10"/><text x="480" y="369">finally</text>
+    </svg></div>
+    <p class="mini-note">Cada intento parte de stock 5; suponemos cantidad positiva. El rechazo salta el resto del <code>try</code> hasta <code>catch</code>. Al salir, ambas rutas pasan por <code>finally</code>.</p>
   </div>
 </section>
 <section class="slide" id="slide-48" data-title="throw lanza; throws declara" data-level="Intermedio" hidden>
   <header class="slide-header"><p class="eyebrow">Intermedio · Unidad 12 · declarar y lanzar</p><h2><code>throw</code> lanza; <code>throws</code> declara</h2></header>
   <div class="slide-body">
     <div class="code-split">
-      <div><span class="code-label">Versión con excepciones: reemplaza el resultado booleano</span><pre class="code"><code><span class="tok-keyword">class</span> <span class="tok-type">StockInsuficienteException</span> <span class="tok-keyword">extends</span> <span class="tok-type">RuntimeException</span> {
-    <span class="tok-type">StockInsuficienteException</span>() { <span class="tok-keyword">super</span>(&quot;<span class="tok-type">Stock</span> insuficiente&quot;); }
-}
-<span class="tok-keyword">class</span> <span class="tok-type">Inventario</span> {
+      <div><span class="code-label">Inventario · valida antes de cambiar el stock</span><pre class="code"><code><span class="tok-keyword">class</span> <span class="tok-type">Inventario</span> {
     <span class="tok-keyword">private</span> <span class="tok-keyword">int</span> stock = <span class="tok-number">5</span>;
     <span class="tok-keyword">void</span> retirar(<span class="tok-keyword">int</span> n) {
-        <span class="tok-keyword">if</span> (n &lt;= <span class="tok-number">0</span>) <span class="tok-keyword">throw</span> <span class="tok-keyword">new</span> <span class="tok-type">IllegalArgumentException</span>();
-        <span class="tok-keyword">if</span> (n &gt; stock) <span class="tok-keyword">throw</span> <span class="tok-keyword">new</span> <span class="tok-type">StockInsuficienteException</span>();
+        <span class="tok-keyword">if</span> (n &lt;= <span class="tok-number">0</span>)
+            <span class="tok-keyword">throw</span> <span class="tok-keyword">new</span> <span class="tok-type">IllegalArgumentException</span>();
+        <span class="tok-keyword">if</span> (n &gt; stock)
+            <span class="tok-keyword">throw</span> <span class="tok-keyword">new</span> <span class="tok-type">StockInsuficienteException</span>();
         stock -= n;
     }
     <span class="tok-keyword">int</span> consultarStock() { <span class="tok-keyword">return</span> stock; }
 }</code></pre></div>
       <div class="stack">
-        <div class="panel accent"><h3><code>throw</code></h3><p>Interrumpe ahora el método con una excepción.</p></div>
-        <div class="panel"><h3><code>throws</code></h3><p>En una excepción verificada, la firma puede declarar, por ejemplo: <code>void leer() throws java.io.IOException</code>.</p></div>
+        <div><span class="code-label">Definición de la excepción propia</span><pre class="code"><code><span class="tok-keyword">class</span> <span class="tok-type">StockInsuficienteException</span>
+        <span class="tok-keyword">extends</span> <span class="tok-type">RuntimeException</span> {
+    <span class="tok-type">StockInsuficienteException</span>() {
+        <span class="tok-keyword">super</span>(<span class="tok-string">"Stock insuficiente"</span>);
+    }
+}</code></pre></div>
+        <p class="mini-note"><code>throw</code> lanza ahora; <code>throws</code> declara en la firma, por ejemplo <code>void leer() throws java.io.IOException</code>.</p>
       </div>
     </div>
-    <p class="callout">La excepción de stock extiende <code>RuntimeException</code>, así que no exige declararla en la firma.</p>
+    <p class="callout">Cada intento parte de 5: <code>retirar(2)</code> deja <code>consultarStock() = 3</code>; <code>retirar(8)</code> lanza y conserva 5. La excepción de stock es <code>RuntimeException</code>: no exige <code>throws</code>.</p>
   </div>
 </section>
 <section class="slide" id="slide-49" data-title="Elegir el contrato de error" data-level="Intermedio" hidden>
@@ -643,7 +671,7 @@ express.diasEstimados(); <span class="tok-comment">// 5</span></code></pre><arti
 <section class="slide" id="slide-51" data-title="Un pedido ya tiene varios productos" data-level="Intermedio" hidden>
   <header class="slide-header"><p class="eyebrow">Intermedio · Situación</p><h2>Un pedido ya tiene varios productos</h2></header>
   <div class="slide-body">
-    <p class="lead">A-17 tiene 2 cuadernos y 1 lápiz. Si Ana añade un borrador, una persona tendría que crear otro espacio y recordar dónde ponerlo.</p>
+    <p class="lead">Retomamos A-18: tiene 2 cuadernos y 1 lápiz. Si Ana añade un borrador, con variables sueltas habría que crear otro espacio y recordar dónde ponerlo.</p>
     <div class="split"><div class="panel"><span class="label">Ahora</span><p><strong>2 cuadernos · 1 lápiz</strong></p></div><div class="panel accent"><span class="label">Al añadir</span><p><strong>2 cuadernos · 1 lápiz · 1 borrador</strong></p></div></div>
     <p class="callout">Necesitamos reunir todos los productos del pedido de una forma que crezca sin agregar otra variable.</p>
   </div>
@@ -656,18 +684,18 @@ express.diasEstimados(); <span class="tok-comment">// 5</span></code></pre><arti
       <div class="row"><strong><code>Set&lt;CodigoProducto&gt;</code></strong><span>¿Qué códigos únicos hay? Usa igualdad para evitar duplicados.</span></div>
       <div class="row"><strong><code>Map&lt;Integer, Producto&gt;</code></strong><span>¿Qué producto corresponde a la clave 10?</span></div>
     </div>
-    <pre class="code"><code><span class="tok-keyword">import</span> java.util.*;
-<span class="tok-type">List</span>&lt;<span class="tok-type">Producto</span>&gt; productos = <span class="tok-keyword">new</span> <span class="tok-type">ArrayList</span>&lt;&gt;();
+    <p class="code-label">Cabecera del archivo, antes de las clases: <code>import java.util.*;</code></p>
+    <div><span class="code-label">Declaraciones locales · fragmento dentro de main</span><pre class="code"><code><span class="tok-type">List</span>&lt;<span class="tok-type">Producto</span>&gt; productos = <span class="tok-keyword">new</span> <span class="tok-type">ArrayList</span>&lt;&gt;();
 <span class="tok-type">Set</span>&lt;<span class="tok-type">CodigoProducto</span>&gt; codigos = <span class="tok-keyword">new</span> <span class="tok-type">HashSet</span>&lt;&gt;();
-<span class="tok-type">Map</span>&lt;<span class="tok-type">Integer</span>, <span class="tok-type">Producto</span>&gt; porCodigo = <span class="tok-keyword">new</span> <span class="tok-type">HashMap</span>&lt;&gt;();</code></pre>
-    <p class="mini-note">Se declara el contrato de colección; la implementación concreta puede cambiar.</p>
+<span class="tok-type">Map</span>&lt;<span class="tok-type">Integer</span>, <span class="tok-type">Producto</span>&gt; porCodigo = <span class="tok-keyword">new</span> <span class="tok-type">HashMap</span>&lt;&gt;();</code></pre></div>
+    <p class="mini-note"><code>&lt;Producto&gt;</code> indica el tipo que se guarda. <code>Integer</code> es un tipo de referencia para enteros, no el primitivo <code>int</code>. Declaramos el contrato; la implementación puede cambiar.</p>
   </div>
 </section>
 <section class="slide" id="slide-53" data-title="La igualdad decide qué se repite" data-level="Intermedio" hidden>
   <header class="slide-header"><p class="eyebrow">Intermedio · Unidad 13 · igualdad en colecciones</p><h2>La igualdad decide qué se repite</h2></header>
   <div class="slide-body">
     <div class="code-split">
-      <div><span class="code-label">Set compara CodigoProducto por valor</span><pre class="code"><code><span class="tok-type">Set</span>&lt;<span class="tok-type">CodigoProducto</span>&gt; codigos = <span class="tok-keyword">new</span> <span class="tok-type">HashSet</span>&lt;&gt;();
+      <div><span class="code-label">Fragmento dentro de main · import java.util.* en la cabecera; CodigoProducto de la unidad anterior</span><pre class="code"><code><span class="tok-type">Set</span>&lt;<span class="tok-type">CodigoProducto</span>&gt; codigos = <span class="tok-keyword">new</span> <span class="tok-type">HashSet</span>&lt;&gt;();
 codigos.add(<span class="tok-keyword">new</span> <span class="tok-type">CodigoProducto</span>(<span class="tok-number">10</span>));
 codigos.add(<span class="tok-keyword">new</span> <span class="tok-type">CodigoProducto</span>(<span class="tok-number">10</span>));
 
@@ -692,21 +720,22 @@ codigos.add(<span class="tok-keyword">new</span> <span class="tok-type">CodigoPr
   <header class="slide-header"><p class="eyebrow">Intermedio · Unidad 13 · genéricos</p><h2>Genéricos: declarar el tipo de contenido</h2></header>
   <div class="slide-body">
     <div class="code-split">
-      <div><span class="code-label">T se determina al usar Caja; método reutiliza un tipo</span><pre class="code"><code><span class="tok-keyword">class</span> <span class="tok-type">Caja</span>&lt;<span class="tok-type">T</span>&gt; {
+      <div><span class="code-label">Declaraciones de clases · Caja y Util</span><pre class="code"><code><span class="tok-keyword">class</span> <span class="tok-type">Caja</span>&lt;<span class="tok-type">T</span>&gt; {
     <span class="tok-keyword">private</span> <span class="tok-keyword">final</span> <span class="tok-type">T</span> contenido;
     <span class="tok-type">Caja</span>(<span class="tok-type">T</span> contenido) { <span class="tok-keyword">this</span>.contenido = contenido; }
     <span class="tok-type">T</span> obtener() { <span class="tok-keyword">return</span> contenido; }
 }
 <span class="tok-keyword">class</span> <span class="tok-type">Util</span> {
     <span class="tok-keyword">static</span> &lt;<span class="tok-type">T</span>&gt; <span class="tok-type">T</span> identidad(<span class="tok-type">T</span> valor) { <span class="tok-keyword">return</span> valor; }
-}
-
-<span class="tok-type">CodigoProducto</span> valor = <span class="tok-keyword">new</span> <span class="tok-type">CodigoProducto</span>(<span class="tok-number">10</span>);
-<span class="tok-type">Caja</span>&lt;<span class="tok-type">CodigoProducto</span>&gt; caja = <span class="tok-keyword">new</span> <span class="tok-type">Caja</span>&lt;&gt;(valor);
-<span class="tok-type">CodigoProducto</span> codigo = caja.obtener();</code></pre></div>
+}</code></pre></div>
       <div class="stack">
-        <div class="panel accent"><p><code>T</code> representa un tipo de referencia elegido al llamar o crear.</p></div>
-        <div class="panel"><p>El compilador detecta incompatibilidades sin conversión desde <code>Object</code>.</p></div>
+        <div><span class="code-label">Fragmento dentro de main</span><pre class="code"><code><span class="tok-type">CodigoProducto</span> valor =
+    <span class="tok-keyword">new</span> <span class="tok-type">CodigoProducto</span>(<span class="tok-number">10</span>);
+<span class="tok-type">Caja</span>&lt;<span class="tok-type">CodigoProducto</span>&gt; caja =
+    <span class="tok-keyword">new</span> <span class="tok-type">Caja</span>&lt;&gt;(valor);
+<span class="tok-type">CodigoProducto</span> codigo =
+    Util.identidad(caja.obtener());</code></pre></div>
+        <p class="mini-note"><code>T</code> representa un tipo de referencia: aquí, <code>CodigoProducto</code>. La caja guarda el código 10 y <code>identidad</code> devuelve ese mismo valor tipado, sin convertir desde <code>Object</code>.</p>
       </div>
     </div>
     <p class="callout warning">Los genéricos usan tipos de referencia: para números se emplea <code>Integer</code>, no <code>int</code>.</p>
@@ -716,7 +745,7 @@ codigos.add(<span class="tok-keyword">new</span> <span class="tok-type">CodigoPr
   <header class="slide-header"><p class="eyebrow">Intermedio · Unidad 13 · práctica integradora</p><h2>Colecciones seguras y orden explícito</h2></header>
   <div class="slide-body">
     <div class="split">
-      <div class="panel accent stack"><h3>Arma el pedido</h3><p><strong>Inicio:</strong> líneas, códigos y productos del pedido A-17.</p><p>Usa <code>List&lt;Linea&gt;</code>, <code>Set&lt;CodigoProducto&gt;</code> y <code>Map&lt;Integer, Producto&gt;</code>; añade un método genérico que devuelva el tipo que recibe.</p></div>
+      <div class="panel accent stack"><h3>Arma el pedido</h3><p><strong>Inicio:</strong> líneas, códigos y productos del pedido A-18 (2 cuadernos y 1 lápiz).</p><p>Usa <code>List&lt;Linea&gt;</code>, <code>Set&lt;CodigoProducto&gt;</code> y <code>Map&lt;Integer, Producto&gt;</code>; añade un método genérico que devuelva el tipo que recibe.</p></div>
       <div class="panel stack"><h3>Comprueba el contrato</h3><p>Sin códigos duplicados; búsqueda por la clave 10; la lista conserva su inserción.</p><p><code>Comparable</code> define el orden natural; <code>Comparator</code> permite otro.</p></div>
     </div>
     <p class="mini-note">Ampliación: <code>List&lt;EntregaExpress&gt;</code> no es <code>List&lt;Entrega&gt;</code>. <code>? extends Entrega</code> facilita leer; <code>? super EntregaExpress</code>, agregar entregas Express. Una copia no modificable de la lista sigue compartiendo sus elementos.</p>
@@ -727,7 +756,7 @@ codigos.add(<span class="tok-keyword">new</span> <span class="tok-type">CodigoPr
   <header class="slide-header"><p class="eyebrow">Intermedio · Recapitulación</p><h2>Intermedio: objetos que colaboran sin perder sus reglas</h2></header>
   <div class="slide-body">
     <div class="flow" aria-label="Pedido colabora con cliente, líneas, notificador y colecciones">
-      <div class="node"><strong>Pedido A-17</strong><br>stock y líneas protegidos</div>
+      <div class="node"><strong>Pedido A-18</strong><br>líneas protegidas<br><strong>Inventario</strong><br>stock protegido</div>
       <div class="arrow" aria-hidden="true"><svg viewBox="0 0 60 52"><path d="M4 26H50" stroke="currentColor" stroke-width="3"/><path d="m42 17 10 9-10 9" fill="none" stroke="currentColor" stroke-width="3"/></svg></div>
       <div class="node">Contratos<br><strong>Notificador</strong><br>colecciones tipadas</div>
     </div>
@@ -736,9 +765,9 @@ codigos.add(<span class="tok-keyword">new</span> <span class="tok-type">CodigoPr
     <p class="callout success">Siguiente: usar estas decisiones para diseñar clases cohesionadas y probar sus contratos.</p>
   </div>
 </section>
-<section class="slide" id="slide-58" data-title="Cambiar el correo obliga a tocar el cálculo del pedido" data-level="Avanzado" hidden>
-<header class="slide-header"><p class="eyebrow">Avanzado · Situación</p><h2>Cambiar el correo obliga a tocar el cálculo del pedido</h2></header>
-<div class="slide-body"><p class="lead">A-17 calcula su total, guarda el stock y envía el aviso desde una sola clase. Cambiar el canal de aviso también pone en riesgo el cálculo.</p><div class="split"><article class="panel warning stack"><span class="label">Una clase con tareas distintas</span><h3>ServicioPedido</h3><p>calcula · guarda · notifica</p></article><article class="panel accent stack"><span class="label">Cambio localizado</span><h3>Separar las tareas</h3><p>Pedido · Inventario · Notificador</p></article></div><p class="callout">La dificultad de partida: cambios que deberían ser independientes están mezclados.</p></div>
+<section class="slide" id="slide-58" data-title="Mezclar tareas puede ampliar el alcance de un cambio" data-level="Avanzado" hidden>
+<header class="slide-header"><p class="eyebrow">Avanzado · Situación alternativa problemática</p><h2>Mezclar tareas puede ampliar el alcance de un cambio</h2></header>
+<div class="slide-body"><p class="lead">Comparemos con otro diseño: ServicioPedido concentra el cálculo, las reglas de stock y el envío del aviso. No es la separación anterior.</p><div class="split"><article class="panel warning stack"><span class="label">Alternativa con tareas mezcladas</span><h3>ServicioPedido</h3><p>total · stock · notificaciones</p></article><article class="panel accent stack"><span class="label">Retomar la separación</span><h3>Coordinar por contratos</h3><p>Pedido · Inventario · Notificador</p></article></div><p class="callout">Ese acoplamiento puede ampliar qué código se modifica o revisa al cambiar el correo; no implica que el cálculo vaya a fallar.</p></div>
 </section>
 <section class="slide" id="slide-59" data-title="Cohesión y acoplamiento: juntar lo relacionado" data-level="Avanzado" hidden>
 <header class="slide-header"><p class="eyebrow">Avanzado · Unidad 14 · organiza la colaboración</p><h2>Cohesión y acoplamiento: juntar lo relacionado</h2></header>
@@ -797,7 +826,9 @@ codigos.add(<span class="tok-keyword">new</span> <span class="tok-type">CodigoPr
         <span class="tok-keyword">return</span> m -&gt;
             <span class="tok-type">System</span>.out.println(<span class="tok-string">"Correo simulado: "</span> + m);
     }
-}</code></pre></div><article class="panel stack"><h3>Tres nombres, distinto alcance</h3><p>Fábrica simple: un método elige y crea.</p><p>Factory Method: subclases redefinen el método creador.</p><p>Abstract Factory: crea familias compatibles de objetos.</p><p>crear(true) imprime el mensaje; crear(false) muestra “Correo simulado”.</p></article></div><p class="callout">La lambda implementa el único método de Notificador; aquí no se envía un correo real.</p></div>
+}</code></pre></div><article class="stack"><div class="panel"><h3>Tres nombres, distinto alcance</h3><p>Fábrica simple: elige y crea. Factory Method: subclases redefinen el creador. Abstract Factory: crea familias compatibles.</p></div><p class="mini-note"><code>crear(true)</code> devuelve un notificador de consola; <code>crear(false)</code>, uno de correo simulado. Crear no envía.</p><div><span class="code-label">Fragmento dentro de main · crear y después enviar</span><pre class="code"><code>FabricaAvisos.crear(<span class="tok-keyword">false</span>)
+    .enviar(<span class="tok-string">"A-17"</span>);
+<span class="tok-comment">// Correo simulado: A-17</span></code></pre></div></article></div><p class="callout">La lambda implementa el único método de Notificador. Solo al llamar <code>enviar</code> imprime; no envía correo real.</p></div>
 </section>
 <section class="slide" id="slide-68" data-title="La tarifa cambia; la forma de cotizar se repite" data-level="Avanzado" hidden>
 <header class="slide-header"><p class="eyebrow">Avanzado · Unidad 15 · situación</p><h2>La tarifa cambia; la forma de cotizar se repite</h2></header>
@@ -822,7 +853,7 @@ codigos.add(<span class="tok-keyword">new</span> <span class="tok-type">CodigoPr
 </section>
 <section class="slide" id="slide-70" data-title="Un cambio de pedido interesa a varias personas" data-level="Avanzado" hidden>
 <header class="slide-header"><p class="eyebrow">Avanzado · Unidad 15 · situación</p><h2>Un cambio de pedido interesa a varias personas</h2></header>
-<div class="slide-body"><p class="lead">Después de reservar el stock, se confirma A-17. El registro de actividad y el cliente necesitan conocer ese estado; luego puede sumarse otro interesado.</p><div class="split"><article class="panel accent stack"><span class="label">Evento</span><h3>Pedido confirmado</h3><p>A-17 · 2 cuadernos</p></article><article class="panel stack"><span class="label">Interesados</span><h3>Inventario · Cliente</h3><p>Se puede sumar otro sin cambiar la regla del pedido.</p></article></div><p class="callout">El pedido necesita avisar a receptores registrados sin conocer sus clases concretas.</p></div>
+<div class="slide-body"><p class="lead">Después de reservar el stock, se confirma A-17. El registro de actividad y el cliente necesitan conocer ese estado; luego puede sumarse otro interesado.</p><div class="split"><article class="panel accent stack"><span class="label">Evento</span><h3>Pedido confirmado</h3><p>A-17 · 2 cuadernos</p></article><article class="panel stack"><span class="label">Interesados</span><h3>Registro de actividad · Cliente</h3><p>Se puede sumar otro sin cambiar la regla del pedido.</p></article></div><p class="callout">El pedido necesita avisar a receptores registrados sin conocer sus clases concretas.</p></div>
 </section>
 <section class="slide" id="slide-71" data-title="Observer: registrar y avisar a los interesados" data-level="Avanzado" hidden>
 <header class="slide-header"><p class="eyebrow">Avanzado · Unidad 15 · Observer · aviso síncrono</p><h2>Observer: registrar y avisar a los interesados</h2></header>
@@ -957,7 +988,11 @@ codigos.add(<span class="tok-keyword">new</span> <span class="tok-type">CodigoPr
     const options = [...menu.options];
     const topic = options.filter(option => Number(option.value) <= current + 1).at(-1);
     if (topic) menu.value = topic.value;
-    history.replaceState(null, '', `#slide-${current + 1}`);
+    try {
+      history.replaceState(null, '', `#slide-${current + 1}`);
+    } catch {
+      // Some file viewers restrict history; slide navigation still works.
+    }
   }
 
   function readHash() {
@@ -970,7 +1005,7 @@ codigos.add(<span class="tok-keyword">new</span> <span class="tok-type">CodigoPr
     try {
       if (document.fullscreenElement) {
         if (document.exitFullscreen) await document.exitFullscreen();
-      } else if (document.documentElement.requestFullscreen) {
+      } else if (document.fullscreenEnabled !== false && document.documentElement.requestFullscreen) {
         await document.documentElement.requestFullscreen();
       }
     } catch {
@@ -994,9 +1029,10 @@ codigos.add(<span class="tok-keyword">new</span> <span class="tok-type">CodigoPr
     fullscreen.setAttribute('aria-pressed', String(active));
     fullscreen.setAttribute('aria-label', active ? 'Salir de pantalla completa' : 'Entrar a pantalla completa');
   });
-  if (!document.documentElement.requestFullscreen) fullscreen.disabled = true;
+  if (document.fullscreenEnabled === false || !document.documentElement.requestFullscreen) fullscreen.disabled = true;
 
   document.addEventListener('keydown', event => {
+    if (event.defaultPrevented || event.ctrlKey || event.altKey || event.metaKey) return;
     if (dialog.open) {
       if (event.key === 'Escape') {
         event.preventDefault();
