@@ -1,11 +1,17 @@
 public class Main {
     public static void main(String[] args) {
-        Pedido pedidoAna = new Pedido("A-17", "Ana", "Cuaderno", 2, 5);
-        Pedido pedidoLuis = new Pedido("B-18", "Luis", "Carpeta", 1, 12);
+        Pedido pedido1 = new Pedido("Ana", "Cuaderno", 10, 1200);
+        Pedido pedido2 = new Pedido("Luis", "Carpeta", 2, 499);
 
-        pedidoAna.imprimirDetalles();
-        System.out.printf("Descuento simulado (20%%): $%d%n%n", pedidoAna.calcularDescuento(20));
+        float precioTotal = pedido1.calcularPrecioTotal();
+        System.out.println("Total calculado: " + precioTotal);
 
-        pedidoLuis.imprimirDetalles();
+        float descuento = pedido1.simularDescuento(0.2f);
+        System.out.println(descuento);
+
+        pedido1.imprimirDetalles();
+
+        Pedido pedido3 = new Pedido();
+        Pedido pedido4 = new Pedido("Cliente ocasional");
     }
 }

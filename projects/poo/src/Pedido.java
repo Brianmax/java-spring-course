@@ -1,35 +1,45 @@
-public class Pedido {
-    private final String numero;
-    private final String cliente;
-    private final String producto;
-    private final int cantidad;
-    private final int precioUnitarioDolares;
+import java.util.ArrayList;
 
-    public Pedido(String numero, String cliente, String producto, int cantidad, int precioUnitarioDolares) {
-        if (cantidad <= 0 || precioUnitarioDolares < 0) {
-            throw new IllegalArgumentException("La cantidad debe ser positiva y el precio no puede ser negativo.");
-        }
-        this.numero = numero;
+public class Pedido {
+    // atributos
+    String cliente;
+    String producto;
+    int cantidad;
+    float precioUnitario;
+    float precioTotal;
+
+    Pedido(String cliente, String producto, int cantidad, float precioUnitario) {
         this.cliente = cliente;
         this.producto = producto;
         this.cantidad = cantidad;
-        this.precioUnitarioDolares = precioUnitarioDolares;
+        this.precioUnitario = precioUnitario;
     }
 
-    public int calcularTotal() {
-        return cantidad * precioUnitarioDolares;
+    Pedido() {}
+
+    Pedido(String cliente) {
+        this.cliente = cliente;
     }
 
-    public int calcularDescuento(int porcentaje) {
-        if (porcentaje < 0 || porcentaje > 100) {
-            throw new IllegalArgumentException("El descuento debe estar entre 0 y 100.");
-        }
-        return calcularTotal() * porcentaje / 100;
+    // metodos (acciones que realizan los objetos)
+    // calcularPrecioTotal();
+
+    float calcularPrecioTotal() {
+        precioTotal = cantidad * precioUnitario;
+        return precioTotal;
     }
 
-    public void imprimirDetalles() {
-        System.out.printf("Pedido %s | Cliente: %s%n", numero, cliente);
-        System.out.printf("Producto: %s | Cantidad: %d | Precio unitario: $%d%n", producto, cantidad, precioUnitarioDolares);
-        System.out.printf("Total: $%d%n", calcularTotal());
+    // simular un descuento
+    float simularDescuento(float descuento) {
+        return precioTotal * descuento;
+    }
+
+    // imprimir los detalles del pedido
+    void imprimirDetalles() {
+        System.out.println("Cliente: " + cliente);
+        System.out.println("Producto: " + producto);
+        System.out.println("Cantidad: " + cantidad);
+        System.out.println("Precio Unitario: " + precioUnitario);
+        System.out.println("Precio Total: " + precioTotal);
     }
 }
