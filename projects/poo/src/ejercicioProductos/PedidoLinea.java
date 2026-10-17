@@ -1,3 +1,5 @@
+package ejercicioProductos;
+
 public class PedidoLinea {
     Producto producto;
     int cantidad;

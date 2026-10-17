@@ -7,8 +7,8 @@ Un ejemplo introductorio en Java 21 para practicar clases, objetos, atributos, c
 Abre esta carpeta en IntelliJ IDEA con un JDK 21 y ejecuta `Main`. También puedes compilar desde una terminal:
 
 ```sh
-javac -d out src/Main.java src/Pedido.java
-java -cp out Main
+javac -d out src/ejercicioProductos.poo_teoria.Main.java src/ejercicioProductos.Pedido.java
+java -cp out ejercicioProductos.poo_teoria.Main
 ```
 
 ## Qué observar

@@ -1,4 +1,5 @@
-import java.awt.image.AreaAveragingScaleFilter;
+package ejercicioProductos;
+
 import java.util.ArrayList;
 
 public class Pedido {

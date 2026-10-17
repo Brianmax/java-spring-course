@@ -1,3 +1,5 @@
+package ejercicioProductos;
+
 public class Cliente {
     int idCliente;
     String nombre;
