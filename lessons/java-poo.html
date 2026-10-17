@@ -82,7 +82,29 @@ code { font-family:var(--font-mono); font-size:.91em; }
 .diagram svg marker path { fill:var(--tecsup-cyan); stroke:none; }
 .diagram svg marker path:not([stroke]) { fill:var(--tecsup-cyan); stroke:none; }
 .diagram svg text { fill:var(--text); font-size:24px; }
-#slide-8 .diagram svg text { font-size:20px; }
+/* Slide 8: class description branches to two independent orders. */
+#slide-8 { gap:14px; padding-block:22px; }
+#slide-8 .slide-body { width:100%; gap:10px; }
+#slide-8 .model-reset { font-size:18px; line-height:1.35; color:var(--muted); }
+#slide-8 .model-class { align-self:center; width:min(690px,74%); padding:14px 24px; border:2px solid var(--tecsup-blue); border-radius:16px; background:var(--tecsup-pale); }
+#slide-8 .model-class h3 { font-size:26px; margin:3px 0 8px; }
+#slide-8 .model-class p { font-size:18px; line-height:1.4; }
+#slide-8 .model-class p + p { margin-top:5px; }
+#slide-8 .model-class p b { color:#075a7a; }
+#slide-8 .model-branch { height:64px; position:relative; margin:0 0 -3px; }
+#slide-8 .model-branch svg { display:block; width:100%; height:100%; }
+#slide-8 .model-branch svg > path { fill:none; stroke:var(--tecsup-cyan); stroke-width:3; }
+#slide-8 .model-branch span { position:absolute; top:3px; left:50%; transform:translateX(-50%); padding:0 10px; white-space:nowrap; background:var(--bg); color:#075a7a; font-size:16px; font-weight:700; }
+#slide-8 .model-objects { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:32px; }
+#slide-8 .model-object-entry { min-width:0; }
+#slide-8 .model-mobile-connection { display:none; }
+#slide-8 .model-object { min-width:0; padding:16px 22px; border:2px solid #71cbe4; border-radius:16px; background:var(--surface); }
+#slide-8 .model-object h3 { font-size:25px; margin:2px 0 8px; }
+#slide-8 .model-object dl { margin:0; }
+#slide-8 .model-object dl div { display:flex; justify-content:space-between; gap:16px; padding:3px 0; border-top:1px solid var(--line); font-size:19px; line-height:1.35; }
+#slide-8 .model-object dt { color:var(--muted); }
+#slide-8 .model-object dd { margin:0; font-weight:700; text-align:right; }
+#slide-8 .model-next { font-size:18px; line-height:1.35; }
 .diagram svg text:not([text-anchor]) { text-anchor:middle; }
 .comparison > div { display:grid; grid-template-columns:minmax(0,.7fr) minmax(0,1.7fr); gap:20px; padding:12px 16px; border-bottom:1px solid var(--line); }
 .comparison > div:first-child { background:var(--surface-2); color:#075a7a; }
@@ -143,6 +165,19 @@ li + li { margin-top:8px; }
   .topic-control { grid-column:1 / -1; grid-row:2; width:100%; }
   .deck-controls button,.deck-controls select { font-size:15px; }
   #slide-indicator { min-width:68px; }
+  #slide-8 { gap:18px; }
+  #slide-8 .slide-body { gap:14px; }
+  #slide-8 .model-class { width:100%; padding:16px; }
+  #slide-8 .model-class p { overflow-wrap:anywhere; }
+  #slide-8 .model-branch { height:auto; margin:0; text-align:center; }
+  #slide-8 .model-branch .model-desktop-branch { display:none; }
+  #slide-8 .model-branch span { position:static; display:inline-block; transform:none; white-space:normal; }
+  #slide-8 .model-objects { grid-template-columns:1fr; gap:16px; }
+  #slide-8 .model-object-entry { display:grid; grid-template-columns:66px minmax(0,1fr); align-items:center; gap:8px; }
+  #slide-8 .model-mobile-connection { display:block; color:#075a7a; font-size:14px; font-weight:700; line-height:1.2; text-align:center; }
+  #slide-8 .model-mobile-connection span { display:block; color:var(--tecsup-blue); font-size:26px; }
+  #slide-8 .model-object { padding:16px; }
+  #slide-8 .model-object dl div { font-size:18px; }
 }
 @media(prefers-reduced-motion:reduce) {
   *,*::before,*::after { animation:none !important; transition:none !important; scroll-behavior:auto !important; }
@@ -392,12 +427,20 @@ li + li { margin-top:8px; }
     precioDolares, cantidad);</code></pre><p>El método recibe ambos valores y devuelve su producto.</p><strong class="result">$10</strong></article><article class="panel accent stack"><h3>Orientada a objetos</h3><span class="code-label">Dentro de un método; pedido representa A-17</span><pre class="code"><code><span class="tok-keyword">int</span> total = pedido.calcularTotal();</code></pre><p><code>pedido</code> ya guarda cantidad 2 y precio $5.</p><strong class="result">$10</strong></article></div><p class="callout">Ambas formas pueden ser correctas. POO ayuda a reunir los datos y las operaciones cuando el modelo crece.</p><p class="question">¿Quién reúne los datos para calcular en cada caso?</p></div></section>
 <section class="slide" id="slide-6" data-title="Fundamentos de la POO" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">TECSUP · JAVA COURSE · MAPA</p><h2>Fundamentos de la POO</h2></header><div class="slide-body"><p class="mini-note">La POO organiza el programa alrededor de objetos: reúnen estado, comportamiento y relaciones.</p><div class="poo-map"><article class="poo-map-group"><h3>Piezas de una clase</h3><div class="poo-map-items"><p class="poo-map-item"><b>Clase:</b> descripción para crear objetos.</p><p class="poo-map-item"><b>Objeto:</b> ejemplar concreto con identidad.</p><p class="poo-map-item"><b>Atributos / estado:</b> datos que conserva el objeto.</p><p class="poo-map-item"><b>Métodos / comportamiento:</b> acciones o consultas.</p><p class="poo-map-item"><b>Constructor:</b> prepara el objeto al crearlo.</p></div></article><article class="poo-map-group"><h3>Principios</h3><div class="poo-map-items"><p class="poo-map-item"><b>Abstracción:</b> mostrar lo necesario para usar algo.</p><p class="poo-map-item"><b>Encapsulamiento:</b> proteger estado y aplicar reglas al cambiarlo.</p><p class="poo-map-item"><b>Herencia:</b> especializar una clase reutilizando otra.</p><p class="poo-map-item"><b>Polimorfismo:</b> misma operación, respuesta propia del objeto.</p></div></article><article class="poo-map-group"><h3>Relaciones y contratos</h3><div class="poo-map-items"><p class="poo-map-item"><b>Asociación:</b> objetos que se conocen o colaboran.</p><p class="poo-map-item"><b>Agregación:</b> una parte que puede vivir por separado.</p><p class="poo-map-item"><b>Composición:</b> una parte pertenece a un todo y depende de él.</p><p class="poo-map-item"><b>Interfaz / contrato:</b> capacidades que una clase se compromete a ofrecer.</p></div></article></div><p class="mini-note poo-map-note">Este mapa orienta las 16 unidades; cada idea se explicará con ejemplos y práctica en Java 21.</p></div></section>
 <section class="slide" id="slide-7" data-title="Dos pedidos no deben compartir su cantidad" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Situación</p><h2>Dos pedidos no deben compartir su cantidad</h2></header><div class="slide-body"><div class="flow"><div class="node">Antes<br>A-17: 2<br>B-18: 1</div><div class="arrow"><svg viewBox="0 0 60 52" role="img" aria-label="sumar uno solo a A-17"><title>Sumar una unidad a A-17</title><path d="M2 26H48 M38 16L50 26L38 36"/></svg></div><div class="node accent">Después de +1 en A-17<br>A-17: 3<br>B-18: 1</div></div><p class="callout">Cada pedido guarda su cantidad por separado; cambiar uno deja intacto el otro.</p></div></section>
-<section class="slide" id="slide-8" data-title="Una clase describe; cada objeto guarda su estado" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 2 · Clases e instancias</p><h2>Una clase describe; cada objeto guarda su estado</h2></header><div class="slide-body"><p class="mini-note">Volvemos al estado inicial, antes del +1 en A-17: 2 cuadernos y 1 carpeta en pedidos distintos.</p><div class="diagram"><svg viewBox="0 0 720 280" role="img" aria-labelledby="s7title s7desc"><title id="s7title">La clase Pedido describe dos pedidos con tres campos propios cada uno</title><desc id="s7desc">Antes de sumar una unidad a A-17, la clase Pedido tiene producto, unidades y precioDolares. El objeto primero representa A-17: producto cuaderno, 2 unidades, precio unitario 5 dólares. El objeto segundo representa B-18: producto carpeta, 1 unidad, precio unitario 12 dólares.</desc><defs><marker id="s7arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z"/></marker></defs><rect x="150" y="8" width="420" height="88" rx="12"/><text x="360" y="35">Clase Pedido</text><text x="360" y="62">producto · unidades · precioDolares</text><text x="360" y="86">calcularTotal() · agregarUnidad()</text><path d="M280 96L180 150" marker-end="url(#s7arrow)"/><text x="118" y="129">instancia</text><path d="M440 96L540 150" marker-end="url(#s7arrow)"/><text x="602" y="129">instancia</text><rect x="35" y="155" width="290" height="122" rx="12"/><text x="180" y="183">primero · A-17</text><text x="180" y="210">producto: cuaderno</text><text x="180" y="236">unidades: 2</text><text x="180" y="262">precioDolares: 5 ($5)</text><rect x="395" y="155" width="290" height="122" rx="12"/><text x="540" y="183">segundo · B-18</text><text x="540" y="210">producto: carpeta</text><text x="540" y="236">unidades: 1</text><text x="540" y="262">precioDolares: 12 ($12)</text></svg></div><p class="lead">La clase describe un pedido; cada instancia conserva sus propios producto, unidades y precio.</p><p class="mini-note">Un campo guarda estado. Un método define una acción o consulta. Sus parámetros, si los tiene, reciben datos; un valor de retorno entrega un resultado.</p></div></section>
+<section class="slide" id="slide-8" data-title="Una clase describe; cada objeto guarda su estado" data-level="Básico" hidden>
+<header class="slide-header"><p class="eyebrow">Básico · Unidad 2 · Clases e instancias</p><h2>Una clase describe; cada objeto guarda su estado</h2></header>
+<div class="slide-body">
+<p class="model-reset">Volvemos al inicio, antes del +1: A-17 = 2 cuadernos a $5; B-18 = 1 carpeta a $12.</p>
+<article class="model-class"><span class="label">Descripción para crear objetos</span><h3>Clase Pedido</h3><p><b>Campos · datos:</b> producto · unidades · precioDolares</p><p><b>Métodos · acciones o consultas:</b> calcularTotal() · agregarUnidad()</p></article>
+<div class="model-branch"><svg class="model-desktop-branch" viewBox="0 0 1000 64" preserveAspectRatio="none" aria-hidden="true"><defs><marker id="model-arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0 0L9 4.5L0 9Z" fill="var(--tecsup-cyan)" stroke="none"/></marker></defs><path d="M500 0V29H250V61" marker-end="url(#model-arrow)"/><path d="M500 29H750V61" marker-end="url(#model-arrow)"/></svg><span>Dos objetos de la clase Pedido</span></div>
+<div class="model-objects" role="group" aria-label="Dos objetos distintos de la clase Pedido"><div class="model-object-entry"><span class="model-mobile-connection" aria-hidden="true">de Pedido<span>→</span></span><article class="model-object"><span class="label">Objeto de Pedido · datos propios</span><h3>Pedido A-17</h3><dl><div><dt>producto</dt><dd>cuaderno</dd></div><div><dt>unidades</dt><dd>2</dd></div><div><dt>precioDolares</dt><dd>5</dd></div></dl></article></div><div class="model-object-entry"><span class="model-mobile-connection" aria-hidden="true">de Pedido<span>→</span></span><article class="model-object"><span class="label">Objeto de Pedido · datos propios</span><h3>Pedido B-18</h3><dl><div><dt>producto</dt><dd>carpeta</dd></div><div><dt>unidades</dt><dd>1</dd></div><div><dt>precioDolares</dt><dd>12</dd></div></dl></article></div></div>
+<p class="model-next">La clase nombra los campos y métodos; los valores viven en cada objeto. Siguiente: ¿qué hace un método?</p>
+</div></section>
 
 <section class="slide" id="slide-9" data-title="Un método nombra una tarea y puede devolver un resultado" data-level="Básico" hidden>
 <header class="slide-header"><p class="eyebrow">Básico · Unidad 2 · Métodos</p><h2>Un método nombra una tarea y puede devolver un resultado</h2></header>
 <div class="slide-body">
-<p class="lead">Un método es un grupo de instrucciones con nombre que realiza una tarea; puede recibir datos y devolver un resultado. Aquí recibe precio y cantidad; después <code>Pedido</code> usará sus propios campos, sin argumentos.</p>
+<p class="lead">Un método es un grupo de instrucciones con nombre que realiza una tarea. Retomamos la versión que recibe precio y cantidad; en la siguiente diapositiva, <code>calcularTotal()</code> usará los campos de <code>Pedido</code> sin argumentos.</p>
 <div class="code-split"><div><span class="code-label">Fragmento de método dentro de la clase Pedido</span><pre class="code"><code><span class="tok-keyword">int</span> calcularTotal(<span class="tok-keyword">int</span> precioDolares, <span class="tok-keyword">int</span> cantidad) {
     <span class="tok-keyword">return</span> precioDolares * cantidad;
 }</code></pre><div class="panel accent stack"><span class="label">Pedido A-17 · llamada y resultado</span><p><code>calcularTotal(5, 2)</code> pasa 5 y 2 a sus parámetros.</p><strong class="result">$5 × 2 → $10</strong></div></div>
