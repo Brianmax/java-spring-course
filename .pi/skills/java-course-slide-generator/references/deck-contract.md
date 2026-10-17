@@ -1,5 +1,13 @@
 # Self-Contained Deck Contract
 
+## Contents
+
+- Required document structure and navigation
+- Slide/transition model and educational interactions
+- Speaker notes and code highlighting
+- External-resource prohibition
+- Practical browser quality and content density
+
 Each generated lesson is one standalone `.html` file that opens directly in a modern browser. It contains its own HTML, `<style>`, and `<script>`.
 
 ## Required document structure

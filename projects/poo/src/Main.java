@@ -1,32 +1,87 @@
+import java.util.ArrayList;
+
 public class Main {
     public static void main(String[] args) {
-        Pedido pedido1 = new Pedido("Ana", "Cuaderno", 10, 1200);
-        Pedido pedido2 = new Pedido("Luis", "Carpeta", 2, 499);
+        Cliente cliente1 = new Cliente(
+                1,
+                "Jose",
+                "Lopez",
+                "jlopez@email.com"
+        );
 
-//        pedido1.cliente = "Ana";
-//        pedido2.cliente = "Luis";
-//        pedido1.cantidad = 12;
-//        pedido2.cantidad = 4;
-//        pedido1.precioUnitario = 1200;
-//        pedido2.precioUnitario = 499;
-//        pedido1.producto = "Cuaderno";
-//        pedido2.producto = "Carpeta";
-        // para pedido 1
-        float precioTotal = pedido1.precioUnitario * pedido1.cantidad;
-        pedido1.precioTotal = precioTotal;
-        // para pedido 2
-        pedido2.precioTotal = pedido2.precioUnitario * pedido2.cantidad;
-        pedido1.calcularPrecioTotal();
-        float cantidadDescontar = pedido1.simularDescuento(0.2f);
-        System.out.println(cantidadDescontar);
-        pedido1.imprimirDetalles();
+        Cliente cliente2 = new Cliente(
+                2,
+                "Maria",
+                "Garcia",
+                "mgarcia@email.com"
+        );
 
-        Pedido pedido3 = new Pedido();
-        Pedido pedido4 = new Pedido("Jose");
+        Cliente cliente3 = new Cliente(
+                3,
+                "Carlos",
+                "Ramirez",
+                "cramirez@email.com"
+        );
+
+        Cliente cliente4 = new Cliente(
+                4,
+                "Ana",
+                "Torres",
+                "atorres@email.com"
+        );
+
+
+        Producto producto1 = new Producto(
+                1,
+                "Computadora",
+                1999.99,
+                "Computadora de escritorio",
+                10
+        );
+
+        Producto producto2 = new Producto(
+                2,
+                "Laptop",
+                1499.99,
+                "Laptop para desarrollo de software",
+                15
+        );
+
+        Producto producto3 = new Producto(
+                3,
+                "Teclado",
+                59.99,
+                "Teclado mecánico RGB",
+                25
+        );
+
+        Producto producto4 = new Producto(
+                4,
+                "Mouse",
+                29.99,
+                "Mouse inalámbrico",
+                30
+        );
+
+        Producto producto5 = new Producto(
+                5,
+                "Monitor",
+                349.99,
+                "Monitor LED de 27 pulgadas",
+                8
+        );
+
+        Producto producto6 = new Producto(
+                6,
+                "Audifonos",
+                89.99,
+                "Audífonos con cancelación de ruido",
+                12
+        );
+
+
+        Pedido pedido1 = new Pedido(101, cliente2);
+        pedido1.ingresarProducto(producto2, 10);
+
     }
-    // crear una clase Computadora
-    // int ram, int almacenamiento, string marca, string procesador
-    // metodo para mostrar los detalles de la computadora
-    // construtor
-    // crear objetos
 }

@@ -1,11 +1,35 @@
 ---
 name: java-course-slide-generator
-description: Creates complete, self-contained HTML/CSS/vanilla-JavaScript educational slide decks for Java, Spring, databases, and related software-development topics in this course. Use when the user asks to create, generate, revise, or extend course slides, lessons, or a technical presentation.
+description: Creates, revises, and reviews this course's standalone HTML slide decks for Java, Spring, databases, and software development. Use for course presentations, slide explanations, diagrams, readability, or deck accessibility, including Spanish requests for diapositivas. Not for application-code changes, site catalog edits, or chat-only explanations.
 ---
 
 # Java Course Slide Generator
 
-Create the finished lesson, not merely an outline. The primary artifact is one browser-ready HTML file with inline CSS and JavaScript and no external runtime dependencies.
+For creation requests, deliver the finished lesson, not merely an outline. The artifact is one offline HTML file with inline CSS and JavaScript. For review-only requests, report findings without editing. Preserve existing course conventions and unrelated working-tree changes.
+
+## Choose the smallest complete workflow
+
+| Request | Plan and execution | Verification scope |
+| --- | --- | --- |
+| New deck | Map prerequisites, objectives, motivating example, slide sequence, visuals, summary, exercise; implement one file | Complete deck, navigation, all target viewports |
+| Extend a section | Read adjacent slides; plan the addition in place, retaining names, values, and curriculum order | Changed section, transitions, full-deck static/navigation regression |
+| Redesign a slide | Specify its position, one objective, exact message, composition, reading order, labels, and acceptance checks | Changed slide and affected layouts; full-deck static check |
+| Minor wording fix | Read context and edit directly; no delegation or full lesson map | Changed wording, local rendering if wrapping changes, static check |
+| Review only | Read the relevant content; report severity, slide, evidence, correction | Separate source findings from rendered observations; no edits |
+
+Default to beginners, clear Spanish, `lessons/<topic-slug>.html`, and the project's configured Java version. If none is configured, avoid version-sensitive features. Do not pad to a slide count. Ask one concise clarification only when ambiguity materially changes the lesson. Read an existing target before changing it.
+
+## Load references at the step that needs them
+
+Paths below are relative to this skill directory. Load each applicable reference completely; do not follow a chain of partially read references.
+
+- Creating or changing content/layout: [design system](references/design-system.md). Preserve its palette, typography, stage, density, and diagram rules.
+- Creating a deck or changing controls/runtime: [deck contract](references/deck-contract.md). Existing runtime need not be rebuilt for a wording edit.
+- Planning or delegating substantial work: [worked examples](references/examples.md) and [host adapters](references/host-adapters.md).
+- New deck: optionally copy [starter HTML](assets/deck-starter.html), then replace sample content. It is a runtime foundation, not a lesson or required layout template. Never replace an existing deck's runtime just to adopt it.
+- Before visual verification: [browser checks](references/browser-checks.md).
+- Before accepting work: [quality checklist](references/quality-checklist.md); apply relevant items and mark others not applicable with a reason.
+- Improving this skill itself: [evaluation procedure](evals/README.md), [behavioral cases](evals/evals.json), and [trigger cases](evals/trigger-queries.json). These are not normal slide-production steps.
 
 ## Non-negotiable teaching sequence
 
@@ -30,24 +54,7 @@ Make transitions between adjacent lessons explicit when the example or subtopic 
 
 When the topic involves repetition or a process that returns to an earlier step, draw the return path explicitly and show where the process stops. A linear sequence, a “sí/no” label, or prose that says “volver” does not make the cycle visible by itself. Put branch labels beside their connector and make the Yes/continue and No/exit routes spatially distinct. Match the connector order to the construct being taught: a `while` checks its condition before the body; a counted `for` initializes, checks, runs the body, updates, then checks again. Do not make one generic diagram imply that every loop has the same order. Keep the ordinary-language example first; define terms such as *bucle*, *vuelta*, and *condición* on the following technical step, then progress to code examples.
 
-For a beginner-facing abstract concept, use this progression when it fits:
-
-1. **Plain-language idea** — explain it without unexplained technical terms.
-2. **Familiar use** — show a recognizable real-world example.
-3. **Technical model** — name the concept and describe its relevant parts.
-4. **Mechanics and implementation** — trace what changes and show a small code example.
-5. **Application** — reuse the same example or clearly explain why the context changes.
-
-For every major concept, teach in this order:
-
-1. **Problem** — the concrete difficulty developers face.
-2. **Purpose** — why the concept exists and what it improves.
-3. **Mental model** — a simple visual explanation.
-4. **Mechanics** — how the parts interact.
-5. **Implementation** — focused, incremental Java or relevant technical syntax.
-6. **Application** — a realistic scenario and student practice.
-
-Never lead with syntax. Move from conceptual understanding to motivation, mechanics, implementation, and practical application. Explicitly distinguish Java language features from framework features.
+After the concrete opening, develop the mental model and mechanics before implementation, then give realistic practice. Never lead with syntax. Explicitly distinguish Java language features from framework features.
 
 ### Language and continuity
 
@@ -65,62 +72,15 @@ Never lead with syntax. Move from conceptual understanding to motivation, mechan
 - When comparing C, describe the native executable as built for a selected operating-system/architecture target. Do not imply that one generated executable automatically works on Windows, macOS, and Linux.
 - Keep simplifications explicit and proportional to the learner's current knowledge. Do not introduce implementation details before the concept that makes them understandable.
 
-## Workflow
+## Plan, implement, review
 
-### 1. Interpret the request
+1. Read repository context and the target's neighboring slides. Select the route above and load the applicable references.
+2. Produce its concrete plan before coding. Choose visuals by meaning (relationships, runtime state, flow, timeline), not by a repeated card template. Include misconceptions and acceptance checks. One slide normally makes one teaching point.
+3. For nontrivial implementation, use a `slide-implementer` when supported and permitted by the host. Supply the plan, target file, scope, references, and checks. Keep one writer per HTML file. If agents are unavailable, perform the same stages sequentially and report that fallback; do not invent tool names or change model settings.
+4. Review the diff against the plan. For substantial work or uncertain clarity, request a read-only `slide-reviewer` if available. Findings must include slide, evidence, severity, and correction. The primary agent owns integration and final acceptance.
+5. Validate, fix, and repeat the affected checks. Do not enlarge scope or redesign unrelated slides in response to incidental findings; report unrelated issues separately.
 
-Identify the topic, likely learner level, scope, and requested output path from the user's prompt and repository context. Inspect the repository for:
-
-- README/course structure and Java version indicators
-- existing lesson HTML files
-- an established design system or conventions
-- prerequisites already taught
-
-Do not ask routine questions. Ask one concise clarification only when the answer materially changes the lesson: learner depth is genuinely ambiguous, two substantially different teaching approaches are equally suitable, or no reliable visualization can be selected. Otherwise, make a pedagogically sound choice.
-
-Default assumptions when unspecified:
-
-- audience: beginners with only the prerequisites required by the topic
-- duration: enough slides to teach the concept well; never pad to a fixed count
-- filename: `lessons/<topic-slug>.html`
-- language level: use the Java version configured by the project; if absent, use conservative modern Java syntax and avoid version-sensitive features
-
-Never overwrite an existing lesson without first reading it and preserving intentional project conventions. If a filename collision appears accidental, choose a clear alternative or ask.
-
-### 2. Load the course standards
-
-Read these files before planning or generating a deck:
-
-- [Design system](references/design-system.md)
-- [Deck contract](references/deck-contract.md)
-- [Quality checklist](references/quality-checklist.md)
-
-These references are requirements, not suggestions. Existing project lessons take precedence only when they clearly establish a newer shared convention. If changing the shared visual language is explicitly requested, update the design-system reference so future lessons remain consistent.
-
-### 3. Plan before coding
-
-Create an internal lesson map tailored to the topic. Include:
-
-- prerequisite boundary and learning objectives
-- motivating real-world problem and the cost of doing without the concept
-- a concise mental model
-- logically ordered subtopics
-- a progressive realistic example
-- the best visual form for each process, relationship, lifecycle, or state change
-- common mistakes or misconceptions
-- summary and practical exercise
-
-Choose representations by meaning, not by template. Examples include object/reference diagrams, class hierarchies, runtime-dispatch paths, collection state changes, exception control flow, concurrency timelines, HTTP exchanges, table/result transformations, dependency graphs, and security flows.
-
-A simple topic may need roughly 8–12 slides; a broad topic may need 25–40. Use exactly the number needed for coherent pacing. One slide should normally make one teaching point.
-
-Before implementation, the primary agent must produce a concrete slide plan. For a single-slide change, specify its place in the lesson, one learning objective, the exact learner-facing message, the visual metaphor and layout, the sections and content, reading order, labels/arrows/state changes, and acceptance checks. For a new or extended lesson, first create a slide-by-slide map with the same visual and pedagogical decisions at deck scale. This primary agent owns the plan and keeps the strongest available model with high reasoning effort.
-
-After the plan is complete, delegate implementation to the project `slide-implementer` subagent using the `subagent` tool in Pi or the `slide-implementer` role in Codex. Give it the exact plan, target file, allowed scope, and checks. The implementer must follow the plan and course standards; it should report a concrete issue to the primary agent instead of silently changing the learning objective or sequence. Keep a single writer on any one HTML file: use one implementer for a deck or single-file slide edit, and parallelize only when tasks own separate files. The primary agent integrates the work and remains responsible for correctness and final acceptance.
-
-When the implementation is substantial or visual clarity is uncertain, ask the read-only `slide-reviewer` subagent to check the rendered result against the plan and quality checklist. It must report findings with slide numbers and evidence, without editing. The primary agent resolves findings, runs the validator, and inspects the final slides. Do not delegate trivial wording edits that are quicker to make directly.
-
-### 4. Build the complete artifact
+## Build the complete artifact
 
 Write a single `.html` file containing all markup, styles, scripts, diagrams, notes, and controls. Use only:
 
@@ -131,22 +91,9 @@ Write a single `.html` file containing all markup, styles, scripts, diagrams, no
 
 Do not use libraries, frameworks, CDNs, packages, external fonts, external images, external CSS/JS, build tools, or network requests. The file must work through `file://` in a modern browser.
 
-Required presentation behavior:
+Implement controls, accessibility, responsive behavior, and offline restrictions exactly as specified in the deck contract. The contract is strict about behavior; slide compositions remain adaptable to the teaching point.
 
-- previous/next controls
-- `←`/`↑` previous; `→`/`↓`/`Space` next
-- `Home` first; `End` last; `F` fullscreen
-- current/total indicator and progress bar
-- smooth but restrained transitions
-- responsive 16:9-style stage that remains usable on smaller screens
-- visible focus states and accessible control labels
-- reduced-motion support
-- URL hash slide persistence (recommended)
-- presenter notes toggle with `N` when notes are included
-
-Do not hijack keys while focus is in an interactive control. Keep navigation logic small and readable.
-
-### 5. Make explanations visual
+## Make explanations visual
 
 Prefer diagrams and progressive states to paragraphs. Keep on-slide prose concise. Use CSS transitions, keyframes, JavaScript-controlled classes, SVG, or DOM updates only when motion reveals sequence, causality, state, or runtime behavior.
 
@@ -161,13 +108,11 @@ Do not use decorative motion that competes with instruction.
 
 When illustrating a state change, show the values inside the diagram itself (for example, a visible unread-message badge changing from 3 to 4), and label the event that caused the change (`+1 mensaje`). Captions may reinforce the diagram but must not carry essential state that the visual omits. A simple before → event → after diagram is sufficient; animate the change only when animation makes the cause and result clearer.
 
-For process and decision graphics, make the route traceable with visible connectors and arrowheads: connect the decision to each labeled outcome, show any return path ending at the actual decision or repeated step, and give the exit its own terminal node. Do not rely on inline arrow characters, branch cards, or explanatory prose as substitutes for connectors. Keep connectors out of labels and nodes so their direction cannot be mistaken. If desktop and mobile need different geometry, preserve the same route and labels in both, and give inline SVG a descriptive `<title>` and `<desc>` (with unique IDs when variants coexist). Inspect the whole slide at 1366×768 and 1280×720; essential diagram labels and definitions must remain above the navigation controls. On narrow screens, allow vertical scrolling while keeping the connector sequence readable.
+Apply the design system's connector geometry, accessible SVG, stage, and roomy/balanced/dense sizing rules. Simplify or split crowded content before shrinking text; narrow layouts preserve the same flow and may scroll. Verify labels above controls at both required laptop sizes.
 
-Use the available stage efficiently. Keep titles at the top and adapt the body beneath them to its available height. Classify the body group's natural height against the remaining safe area: roomy below 70%, balanced from 70% through 85%, dense above 85% or when it reaches the controls. Enlarge body text, diagram labels, panels, and row spacing together on roomy slides toward 75–80% of available height; keep baseline sizing on balanced slides. On dense slides, simplify or rearrange first and split the teaching point if it still crowds the safe area; reduce font size only as a last resort while keeping it comfortably readable. Keep boxes sized to their content, avoid stretched empty code panels and unused blank bands, and use the full stage rather than a second frame or wide page gutters. On narrow screens, stack the same flow in reading order and allow scrolling where needed instead of shrinking text to force the desktop layout to fit.
+Gotcha: adjacent inline tags do not insert spaces. Separate labels, values, and units with a literal space or intentional layout gap, then inspect the result.
 
-When inline elements form a phrase, verify the rendered spacing between them. HTML does not add a visible space between adjacent tags: `<b>Entrega común</b><strong>5 días</strong>` renders as “Entrega común5 días.” Put a literal space between the elements or use an intentional layout gap, and inspect the rendered slide to confirm labels, values, and units read separately at presentation size.
-
-### 6. Write focused, accurate examples
+## Write focused, accurate examples
 
 Use valid syntax compatible with the project's Java version. Prefer realistic domains such as checkout, payments, orders, inventory, accounts, notifications, or booking over `Animal`/`Dog` examples when a realistic model clarifies the problem.
 
@@ -177,7 +122,7 @@ Introduce code incrementally. Each code block should support one teaching point 
 
 When educational simplification could become misleading, label it. Avoid deprecated APIs unless teaching them explicitly. Do not introduce advanced concepts before their prerequisites.
 
-### 7. End with retrieval and practice
+## End with retrieval and practice
 
 Conclude with:
 
@@ -187,23 +132,18 @@ Conclude with:
 
 Speaker notes may add teaching prompts, caveats, and discussion questions, but must not contain essential information absent from the visible slide.
 
-### 8. Validate before reporting completion
+## Validate before reporting completion
 
-Run the bundled structural validator:
+Run the bundled static validator from the repository root (or resolve its path relative to this skill):
 
 ```bash
 python3 .pi/skills/java-course-slide-generator/scripts/validate_deck.py lessons/<topic-slug>.html
 ```
 
-If invoking the skill from an ancestor project configuration, resolve the validator relative to this `SKILL.md` rather than assuming the example path.
+Separate three evidence levels:
 
-Then manually apply every item in [the quality checklist](references/quality-checklist.md). Inspect rendered slides when a browser is available; if visual inspection is unavailable, state that limit rather than claiming it passed. Also verify:
+1. **Static:** inspect validator errors and warnings; fix errors and investigate warnings. A regex match is not proof that a control works.
+2. **Browser:** execute the browser checklist for the route's scope. Capture viewport and slide evidence; check console errors and offline operation. If unavailable, state NOT VERIFIED.
+3. **Teaching/visual:** apply the quality checklist to the actual content and rendered views. Source-only judgments must be labeled as such.
 
-- the browser console has no obvious errors
-- navigation cannot move outside slide bounds
-- every visual is legible and pedagogically relevant
-- no content is visibly overcrowded at a typical laptop viewport
-- examples are technically accurate
-- the generated artifact is exactly one self-contained HTML file
-
-Fix failures before finalizing. In the final response, state the created file path, slide count, key controls, and validation result. Do not paste the entire HTML into chat when it has been written to the repository.
+Never claim a complete pass when required checks are unavailable. Report unresolved limitations rather than looping indefinitely on unavailable tools. Finish with file path, slide count for deck changes, relevant controls, checks actually run, and remaining gaps. Do not paste the entire HTML into chat.

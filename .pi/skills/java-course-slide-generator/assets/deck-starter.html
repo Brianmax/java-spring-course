@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Plantilla de lección — Curso de Java Tecsup</title>
+  <style>
+    :root {
+      --bg: #ffffff; --surface: #f5f5f5; --surface-2: #dcf3ff;
+      --text: #111111; --muted: #555555; --tecsup-blue: #0097d0;
+      --tecsup-cyan: #00b3e0; --tecsup-pale: #dcf3ff; --success: #16835b;
+      --warning: #9a6700; --danger: #c62828; --line: #dddddd;
+      --ink-panel: #111111; --shadow: 0 14px 36px rgb(17 17 17 / 0.12);
+      --font-sans: "Arial Nova", Arial, Helvetica, ui-sans-serif, system-ui, sans-serif;
+      --font-heading: "Arial Nova", Arial, Helvetica, ui-sans-serif, system-ui, sans-serif;
+      --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    }
+    * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+    body { margin: 0; height: 100vh; height: 100dvh; display: grid; grid-template-rows: auto minmax(0, 1fr) auto auto auto; background: var(--bg); color: var(--text); font-family: var(--font-sans); }
+    .chrome, .deck-controls { padding: 8px clamp(16px, 3vw, 40px); display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+    .chrome { border-bottom: 1px solid var(--line); font-size: 0.9rem; }
+    a { color: #00678e; }
+    .deck { min-height: 0; overflow: auto; }
+    .slide { min-height: 100%; padding: clamp(24px, 4vw, 56px); display: flex; flex-direction: column; gap: 24px; animation: enter 300ms ease-out; }
+    .eyebrow { font-size: 0.8rem; letter-spacing: 0.12em; font-weight: bold; }
+    h1, h2 { font-family: var(--font-heading); font-size: clamp(2rem, 4vw, 3rem); line-height: 1.1; margin: 8px 0 0; }
+    .slide-body { margin-block: auto; font-size: clamp(1.2rem, 2vw, 1.6rem); line-height: 1.5; }
+    .split { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; }
+    .panel { border: 1px solid var(--line); border-radius: 16px; background: var(--surface-2); padding: 24px; }
+    .panel > :first-child { margin-top: 0; }
+    .panel > :last-child { margin-bottom: 0; }
+    pre { margin: 0; padding: 24px; overflow: auto; background: var(--ink-panel); color: white; border-radius: 16px; font: 1.1rem/1.5 var(--font-mono); }
+    button { min-height: 44px; padding: 8px 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); color: var(--text); font: inherit; cursor: pointer; }
+    button:disabled { opacity: 0.5; cursor: default; }
+    :focus-visible { outline: 3px solid #00678e; outline-offset: 3px; }
+    .deck-controls { border-top: 1px solid var(--line); }
+    #slide-count { font-variant-numeric: tabular-nums; }
+    progress { width: 100%; height: 6px; border: 0; accent-color: var(--tecsup-cyan); }
+    progress::-webkit-progress-bar { background: var(--surface); }
+    progress::-webkit-progress-value { background: var(--tecsup-cyan); }
+    progress::-moz-progress-bar { background: var(--tecsup-cyan); }
+    #notes-panel { margin: 0 24px; padding: 16px; max-height: 25vh; overflow: auto; background: var(--surface-2); }
+    #notes-text { white-space: pre-wrap; }
+    dialog { max-width: min(90vw, 640px); max-height: 85vh; overflow: auto; padding: 24px; border: 1px solid var(--line); border-radius: 16px; box-shadow: var(--shadow); }
+    dialog::backdrop { background: rgb(17 17 17 / 0.3); }
+    #runtime-status { margin-inline-start: auto; font-size: 0.9rem; }
+    @keyframes enter { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+    @media (max-width: 700px) { .split { grid-template-columns: 1fr; } .slide-body { margin-block: 0; } .slide { gap: 16px; } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
+  </style>
+</head>
+<body>
+  <!-- Replace sample content; preserve IDs referenced by the runtime. No external assets. -->
+  <header class="chrome"><a href="../">Curso de Java</a><span>Plantilla · reemplazar por el tema</span></header>
+  <main class="deck" id="deck" tabindex="-1" aria-label="Presentación">
+    <section class="slide" data-title="Situación concreta">
+      <header><div class="eyebrow">TECSUP · JAVA COURSE</div><h1>Una compra de Ana</h1></header>
+      <div class="slide-body split">
+        <div><p>Un pedido registra lo que una persona quiere comprar.</p><p>Ana quiere 3 cuadernos. Cada uno cuesta S/ 12.</p></div>
+        <div class="panel"><p>3 cuadernos × S/ 12</p><p><strong>Total: S/ 36</strong></p></div>
+      </div>
+      <aside class="speaker-notes" hidden>Pregunta qué representa cada número antes de introducir el código.</aside>
+    </section>
+    <section class="slide" data-title="Desarrollar la lección" hidden>
+      <header><div class="eyebrow">TECSUP · JAVA COURSE</div><h2>Completa la secuencia de enseñanza</h2></header>
+      <div class="slide-body"><p>Este archivo es una base de navegación, no una lección terminada.</p><p>Reemplaza esta diapositiva con la explicación, modelo visual, implementación, resumen y práctica del tema.</p></div>
+    </section>
+  </main>
+  <aside id="notes-panel" aria-label="Notas del presentador" hidden><strong>Notas</strong><div id="notes-text"></div></aside>
+  <nav class="deck-controls" aria-label="Controles de la presentación">
+    <button type="button" id="previous" aria-label="Diapositiva anterior">← Anterior</button>
+    <span id="slide-count" role="status" aria-live="polite" aria-atomic="true"></span>
+    <button type="button" id="next" aria-label="Diapositiva siguiente">Siguiente →</button>
+    <button type="button" id="fullscreen" aria-pressed="false">Pantalla completa</button>
+    <button type="button" id="notes" aria-controls="notes-panel" aria-pressed="false">Notas (N)</button>
+    <button type="button" id="help" aria-controls="help-dialog">Ayuda</button>
+    <span id="runtime-status" role="status"></span>
+  </nav>
+  <progress id="progress" value="1" max="2" aria-label="Progreso de la lección"></progress>
+  <dialog id="help-dialog" aria-labelledby="help-title">
+    <h2 id="help-title">Controles</h2>
+    <p>← / ↑: anterior. → / ↓ / Espacio: siguiente.</p>
+    <p>Home: primera. End: última. F: pantalla completa. N: notas.</p>
+    <p>Escape cierra primero la ayuda o las notas. Los controles conservan su comportamiento de teclado.</p>
+    <button type="button" id="close-help" autofocus>Cerrar ayuda</button>
+  </dialog>
+  <script>
+    (() => {
+      'use strict';
+      const slides = [...document.querySelectorAll('.slide')];
+      const byId = id => document.getElementById(id);
+      const previous = byId('previous');
+      const next = byId('next');
+      const full = byId('fullscreen');
+      const notes = byId('notes');
+      const help = byId('help-dialog');
+      const status = byId('runtime-status');
+      let index = 0;
+      let notesVisible = false;
+
+      function hashIndex() {
+        const match = /^#slide-([1-9]\d*)$/.exec(location.hash);
+        const value = match ? Number(match[1]) - 1 : 0;
+        return Number.isSafeInteger(value) && value < slides.length ? value : 0;
+      }
+
+      function render(requested) {
+        const prior = slides[index];
+        index = Math.max(0, Math.min(slides.length - 1, requested));
+        if (prior !== slides[index]) {
+          prior.dispatchEvent(new CustomEvent('deck:deactivate'));
+          if (prior.contains(document.activeElement)) byId('deck').focus();
+        }
+        slides.forEach((slide, i) => {
+          slide.hidden = i !== index;
+          slide.classList.toggle('is-active', i === index);
+        });
+        // Add educational sequences via these events; cancel timers on deactivate.
+        if (prior !== slides[index]) slides[index].dispatchEvent(new CustomEvent('deck:activate'));
+        previous.disabled = index === 0;
+        next.disabled = index === slides.length - 1;
+        byId('slide-count').textContent = `${index + 1} / ${slides.length} · ${slides[index].dataset.title}`;
+        byId('progress').max = slides.length;
+        byId('progress').value = index + 1;
+        const note = slides[index].querySelector('.speaker-notes');
+        byId('notes-text').textContent = note ? note.textContent : 'Sin notas para esta diapositiva.';
+        byId('notes-panel').hidden = !notesVisible;
+        notes.setAttribute('aria-pressed', String(notesVisible));
+        const hash = `#slide-${index + 1}`;
+        if (location.hash !== hash) {
+          try { history.replaceState(null, '', hash); }
+          catch { /* Some file viewers prohibit History API updates. Navigation still works. */ }
+        }
+      }
+
+      function toggleNotes() { notesVisible = !notesVisible; render(index); }
+      async function toggleFullscreen() {
+        try {
+          if (document.fullscreenElement) await document.exitFullscreen();
+          else if (document.documentElement.requestFullscreen) await document.documentElement.requestFullscreen();
+        } catch {
+          status.textContent = 'El navegador no permitió la pantalla completa.';
+        }
+      }
+      function syncFullscreen() {
+        full.setAttribute('aria-pressed', String(Boolean(document.fullscreenElement)));
+      }
+
+      previous.addEventListener('click', () => render(index - 1));
+      next.addEventListener('click', () => render(index + 1));
+      full.addEventListener('click', toggleFullscreen);
+      notes.addEventListener('click', toggleNotes);
+      byId('help').addEventListener('click', () => help.showModal());
+      byId('close-help').addEventListener('click', () => help.close());
+      document.addEventListener('fullscreenchange', syncFullscreen);
+      window.addEventListener('hashchange', () => render(hashIndex()));
+      document.addEventListener('keydown', event => {
+        if (event.defaultPrevented) return;
+        if (help.open) {
+          if (event.key === 'Escape') { event.preventDefault(); help.close(); }
+          return;
+        }
+        if (event.key === 'Escape' && notesVisible) {
+          event.preventDefault(); notesVisible = false; render(index); return;
+        }
+        if (event.ctrlKey || event.altKey || event.metaKey || event.shiftKey) return;
+        if (event.target.closest('a, button, input, textarea, select, [contenteditable]:not([contenteditable="false"]), [role="button"], [role="slider"], [data-deck-shortcuts="off"]')) return;
+        const actions = {
+          ArrowLeft: () => render(index - 1), ArrowUp: () => render(index - 1),
+          ArrowRight: () => render(index + 1), ArrowDown: () => render(index + 1),
+          ' ': () => render(index + 1), Home: () => render(0), End: () => render(slides.length - 1),
+          f: toggleFullscreen, n: toggleNotes
+        };
+        const action = actions[event.key.length === 1 ? event.key.toLowerCase() : event.key];
+        if (action) { event.preventDefault(); action(); }
+      });
+      if (!document.documentElement.requestFullscreen || document.fullscreenEnabled === false) {
+        full.disabled = true;
+        full.title = 'Pantalla completa no disponible en este navegador.';
+      }
+      render(hashIndex());
+      syncFullscreen();
+    })();
+  </script>
+</body>
+</html>

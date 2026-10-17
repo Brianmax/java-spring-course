@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fixture: total del pedido</title>
+  <style>
+    /* Deliberately broken layout for the repair evaluation, not a course template. */
+    body { margin: 0; font: 24px Arial, sans-serif; color: #111; }
+    [hidden] { display: none !important; }
+    .slide { height: calc(100vh - 64px); padding: 50px; box-sizing: border-box; overflow: hidden; }
+    .comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
+    .panel { min-height: 600px; padding: 40px; background: #dcf3ff; }
+    pre { background: #111; color: white; padding: 40px; font-size: 28px; }
+    nav { height: 64px; }
+    button:focus-visible { outline: 3px solid #111; }
+    @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto; } }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="slide" data-title="La compra">
+      <h1>Una compra de Ana</h1>
+      <p>Un pedido registra lo que una persona quiere comprar. Ana quiere 3 cuadernos de S/ 12 cada uno.</p>
+    </section>
+    <section class="slide" data-title="Total del pedido" hidden>
+      <h2>Calcular el total del pedido</h2>
+      <p>Objetivo: relacionar cantidad × precio unitario con el total de una compra.</p>
+      <div class="comparison">
+        <div class="panel"><h3>Los datos de Ana</h3><p>3 cuadernos</p><p>S/ 12 por cuaderno</p><p>3 × S/ 12 = S/ 36</p><p>La cantidad cuenta unidades; el precio indica cuánto cuesta una unidad.</p></div>
+        <div class="panel"><h3>Fragmento dentro de main</h3><pre><code>int cantidad = 3;
+double precio = 12;
+double total = cantidad * precio;
+System.out.println(total); // 36.0</code></pre><p>El resultado representa S/ 36.</p></div>
+      </div>
+    </section>
+  </main>
+  <nav aria-label="Diapositivas"><button type="button" id="prev">Anterior</button><span id="slide-count"></span><button type="button" id="next">Siguiente</button><button type="button" id="full">Pantalla completa</button><progress id="progress" max="2" value="1" aria-label="Progreso"></progress></nav>
+  <script>
+    const slides = [...document.querySelectorAll('.slide')];
+    let index = 0;
+    function render() {
+      slides.forEach((slide, i) => { slide.hidden = i !== index; });
+      document.getElementById('slide-count').textContent = `${index + 1} / ${slides.length}`;
+      document.getElementById('progress').value = index + 1;
+      document.getElementById('prev').disabled = index === 0;
+      document.getElementById('next').disabled = index === slides.length - 1;
+    }
+    function move(delta) { index = Math.max(0, Math.min(slides.length - 1, index + delta)); render(); }
+    document.getElementById('prev').onclick = () => move(-1);
+    document.getElementById('next').onclick = () => move(1);
+    document.getElementById('full').onclick = () => document.documentElement.requestFullscreen?.();
+    document.addEventListener('keydown', event => {
+      if (event.target.closest('button, input, textarea, select, [contenteditable]')) return;
+      if (event.key === 'ArrowLeft') move(-1);
+      if (event.key === 'ArrowRight') move(1);
+      if (event.key === 'Home') { index = 0; render(); }
+      if (event.key === 'End') { index = slides.length - 1; render(); }
+    });
+    render();
+  </script>
+</body>
+</html>

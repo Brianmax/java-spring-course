@@ -1,5 +1,15 @@
 # Java Course Slide Design System
 
+## Contents
+
+- Visual identity: colors and typography
+- Stage and spacing
+- Components: code, diagrams, callouts, comparisons, exercises
+- Motion language
+- Recurring course identity
+- Responsive and accessible behavior
+- Design anti-patterns
+
 Use this shared visual language for every generated lesson unless the repository contains a deliberately updated version of it. Consistency matters more than novelty.
 
 ## Visual identity

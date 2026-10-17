@@ -28,6 +28,10 @@ Para crear o mejorar una diapositiva con Pi, inicia el flujo con `/crear-diaposi
 
 El coordinador usa GPT-6 Astra con razonamiento alto en Codex; los roles de implementación y revisión usan GPT-6 Luna. Pi usa el mismo modelo menor para esos roles y requiere confiar el proyecto para cargar sus agentes y extensiones locales. Un solo agente escribe cada presentación HTML para evitar conflictos.
 
+La [skill canónica](.pi/skills/java-course-slide-generator/SKILL.md) distingue entre crear, ampliar, rediseñar, corregir texto y revisar sin editar. Carga las referencias según la tarea y permite trabajar secuencialmente si el host no ofrece delegación. La [guía de evaluación](.pi/skills/java-course-slide-generator/evals/README.md) incluye casos de prueba, comandos para comprobar el validador y una prueba opcional de navegador para la plantilla HTML. Una validación estática no sustituye la revisión visual o pedagógica.
+
+En OpenCode V2, `.opencode/` expone la misma skill, los subagentes `slide-implementer` y `slide-reviewer`, y el comando `/crear-diapositiva <tema o cambio>`. Los agentes heredan el modelo de la sesión; el revisor solo puede leer y buscar archivos o cargar la skill. También puedes solicitar la skill con `@java-course-slide-generator`. No se duplica el contenido canónico ni se necesita configurar una ruta adicional de skills.
+
 ## Publicación
 
 Cada push a `main` ejecuta `.github/workflows/pages.yml`. El workflow usa Python 3 (sin dependencias adicionales) para construir `_site/`, regenerar el código del visor y los ZIP de los proyectos, y desplegar el resultado en GitHub Pages. La fuente de Pages debe estar configurada como **GitHub Actions**.
