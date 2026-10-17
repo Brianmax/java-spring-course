@@ -206,13 +206,13 @@ li + li { margin-top:8px; }
 .inventory-outcomes { display:grid; gap:10px; }
 .inventory-outcomes p { margin:0; }
 /* Bounded repairs: inline prose wraps; code retains its own narrow-screen scroll. */
-#slide-69 .panel code { overflow-wrap:anywhere; white-space:normal; }
-#slide-69 .panel p { min-width:0; }
+#slide-70 .panel code { overflow-wrap:anywhere; white-space:normal; }
+#slide-70 .panel p { min-width:0; }
 .repair-columns { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:24px; align-items:start; }
 .repair-columns > * { min-width:0; }
 .exception-flow > svg { max-height:320px; min-width:720px; }
 #slide-11 .diagram > svg { min-width:0; }
-#slide-35 .callout { grid-column:1 / -1; }
+#slide-36 .callout { grid-column:1 / -1; }
 @media(max-width:760px) {
  .repair-columns { grid-template-columns:1fr; }
  .exception-flow > svg { width:720px; height:320px; max-width:none; }
@@ -287,7 +287,7 @@ li + li { margin-top:8px; }
 .refs-link.tight .refs-var { padding:5px 8px; font-size:14px; }
 .refs-link.tight .refs-object { padding:5px 8px; }
 .refs-link.tight .refs-object b { font-size:15px; }
-.refs-var,.refs-slot-chip { display:inline-block; min-width:0; padding:7px 10px; border:1px solid var(--line); border-radius:10px; background:#fff; font-family:var(--font-mono); font-size:15px; white-space:nowrap; }
+.refs-var { display:inline-block; min-width:0; padding:7px 10px; border:1px solid var(--line); border-radius:10px; background:#fff; font-family:var(--font-mono); font-size:15px; white-space:nowrap; }
 .refs-object { display:flex; flex-wrap:wrap; align-items:baseline; gap:2px 10px; min-width:0; padding:7px 11px; border:1px solid #71cbe4; border-radius:10px; background:var(--surface-2); }
 .refs-object b { font-family:var(--font-mono); font-size:16px; }
 .refs-object span { font-family:var(--font-mono); font-size:15px; }
@@ -301,32 +301,61 @@ li + li { margin-top:8px; }
 .refs-shared-vars { display:flex; flex-direction:column; align-items:flex-start; gap:8px; }
 .refs-shared-lines { width:48px; height:88px; }
 .refs-shared-lines path { fill:none; stroke:var(--tecsup-cyan); stroke-width:3; stroke-linecap:round; stroke-linejoin:round; }
-.refs-slot-empty { font-family:var(--font-mono); font-size:15px; color:var(--muted); }
-.refs-slot-empty b { color:var(--text); }
-.refs-arrays { display:grid; grid-template-columns:minmax(0,1.35fr) minmax(0,1fr); gap:18px 20px; align-items:start; }
-.refs-arrays-code { grid-column:1; grid-row:1; }
 .refs-arrays-code .code { font-size:17px; line-height:1.4; }
-.refs-arrays-visual { grid-column:2; grid-row:1 / span 2; gap:12px; }
-.refs-arrays-notes { grid-column:1; grid-row:2; }
-.refs-arrays-state { display:flex; flex-direction:column; gap:8px; min-width:0; }
-.refs-step { display:flex; align-items:center; gap:10px; min-width:0; }
-.refs-step > span { color:#075a7a; font-size:15px; font-weight:700; line-height:1.25; }
-.refs-step .refs-arrow { flex:0 0 40px; width:40px; height:30px; }
-.refs-board { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; }
-.refs-board.two { grid-template-columns:repeat(2,minmax(0,1fr)); }
-.refs-slot { display:flex; flex-direction:column; align-items:center; gap:6px; min-width:0; text-align:center; }
-.refs-slot .refs-arrow { width:40px; height:30px; }
 .refs-one-line-code { align-self:flex-start; width:max-content; max-width:100%; }
 #slide-13 .slide-body { gap:12px; }
 #slide-13 .refs-snapshot { padding:12px 16px; gap:6px; }
 #slide-13 .refs-rows { gap:6px; }
 .refs-origin { font-size:15px; line-height:1.4; color:var(--muted); }
 .refs-origin > code { display:block; color:var(--text); font-size:15px; }
+/* Unidad 2: una vista del arreglo y una vista de la reasignación. */
+.refs-array-lesson { gap:8px; }
+.refs-array-lesson .refs-arrays-code { align-self:flex-start; max-width:100%; gap:0; }
+.refs-array-lesson .code { padding-block:12px; }
+.refs-array-diagram { padding:10px 22px; border:1px solid #abddea; border-radius:14px; background:#f8fcfe; }
+.refs-array-diagram .label { display:block; margin-bottom:6px; }
+.refs-array-change { margin-bottom:8px; color:#075a7a; font-size:18px; font-weight:700; }
+.refs-array-rows { display:grid; gap:5px; }
+.refs-array-row { display:grid; grid-template-columns:185px 65px minmax(0,1fr); align-items:center; gap:12px; min-height:40px; }
+.refs-array-row .refs-var { width:100%; text-align:center; }
+.refs-array-row .refs-object { width:max-content; max-width:100%; }
+.refs-array-row .refs-arrow { width:65px; }
+.refs-array-row.shared { grid-template-columns:185px 65px minmax(0,1fr); }
+.refs-array-row.shared .refs-shared-vars { width:185px; gap:4px; }
+.refs-array-row.shared .refs-shared-vars .refs-var { width:100%; padding-block:5px; }
+.refs-array-row.shared .refs-shared-vars .refs-external { border-style:dashed; background:var(--surface); font-family:var(--font-sans); font-size:15px; font-weight:700; white-space:normal; }
+.refs-external small { display:block; color:var(--muted); font-size:13px; font-weight:400; line-height:1.2; }
+.refs-array-row.shared .refs-shared-lines { width:65px; height:66px; }
+.refs-array-row .refs-null { display:flex; align-items:center; justify-content:center; gap:12px; width:185px; padding:9px 10px; border:1px solid var(--line); border-radius:10px; background:#fff; font:16px var(--font-mono); }
+.refs-array-row .refs-null b { color:var(--text); }
+.refs-array-row .refs-null-note { grid-column:3; font-size:17px; color:var(--muted); }
+.refs-array-row .refs-object b { font-size:19px; }
+.refs-array-row .refs-object span { font-size:18px; }
+.refs-array-replace { gap:15px; }
+.refs-array-replace .refs-snapshot { padding:18px; }
+.refs-array-replace .refs-shared { grid-template-columns:max-content 48px minmax(0,1fr); }
+.refs-array-replace .refs-object { justify-content:flex-start; }
 @media(max-width:760px) {
- .refs-route,.refs-snapshots,.refs-arrays { display:flex; flex-direction:column; align-items:stretch; gap:10px; }
+  .refs-array-diagram { padding:16px; }
+  .refs-array-row,.refs-array-row.shared { grid-template-columns:minmax(0,1fr) 44px minmax(0,1.2fr); gap:5px; }
+  .refs-array-row.shared .refs-shared-vars { width:auto; }
+  .refs-array-row .refs-arrow,.refs-array-row.shared .refs-shared-lines { width:44px; }
+  .refs-array-row .refs-var,.refs-array-row .refs-null { width:100%; padding:7px 4px; font-size:15px; }
+  .refs-array-row.shared .refs-shared-vars .refs-external { font-size:15px; }
+  .refs-external small { font-size:12px; }
+  .refs-array-row .refs-null { flex-direction:column; gap:0; }
+  .refs-array-row .refs-object { padding:7px; }
+  .refs-array-row .refs-object b,.refs-array-row .refs-object span { font-size:15px; }
+  .refs-array-row .refs-null-note { font-size:14px; }
+  .refs-array-replace .refs-snapshot { padding:14px; }
+  .refs-array-replace .refs-shared { grid-template-columns:max-content 38px minmax(0,1fr); gap:5px; }
+  .refs-array-replace .refs-shared-lines { width:38px; }
+  .refs-array-replace .refs-var { font-size:14px; }
+  .refs-array-replace .refs-object b,.refs-array-replace .refs-object span { font-size:15px; }
+}
+@media(max-width:760px) {
+  .refs-route,.refs-snapshots { display:flex; flex-direction:column; align-items:stretch; gap:10px; }
  .refs-route > .refs-event .refs-arrow,.refs-snapshots > .refs-event .refs-arrow { transform:rotate(90deg); }
- .refs-arrays > * { grid-column:auto; grid-row:auto; }
- .refs-board,.refs-board.two { grid-template-columns:1fr; gap:12px; }
  .refs-link { grid-template-columns:max-content 40px minmax(0,1fr); }
  .refs-event > span { font-size:15px; }
 }
@@ -428,47 +457,46 @@ alias.agregarUnidad();</code></pre><p><code>primero</code> y <code>alias</code> 
 }</code></pre><div class="panel stack"><span class="label">Después de aumentar(alias)</span><p>A-17 pasa de <b>4 a 5 cuadernos a $5</b>; el cambio se ve a través de <code>alias</code>. B-18 sigue en 1 carpeta a $12.</p></div></div></div>
 <p class="callout">Java pasa el valor de la referencia: el parámetro es una copia de la flecha. Reasignar el parámetro no cambia la variable del llamador; cambiar el objeto al que apunta sí se ve desde todas las referencias a ese objeto.</p>
 </div></section>
-<section class="slide" id="slide-15" data-title="Un arreglo de objetos guarda referencias" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 2 · Referencias</p><h2>Un arreglo de objetos guarda referencias</h2></header><div class="slide-body"><div class="refs-arrays">
-<div class="stack refs-arrays-code"><span class="code-label">Fragmento dentro de main · un arreglo (array) de 3 posiciones</span><pre class="code"><code><span class="tok-type">Pedido</span>[] pedidos = <span class="tok-keyword">new</span> <span class="tok-type">Pedido</span>[<span class="tok-number">3</span>];
+<section class="slide" id="slide-15" data-title="Un arreglo de objetos guarda referencias" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 2 · Referencias</p><h2>Un arreglo de objetos guarda referencias</h2></header><div class="slide-body refs-array-lesson">
+<div class="stack refs-arrays-code"><span class="code-label">Fragmento dentro de main · A-17 tenía 5 cuadernos tras aumentar(alias)</span><pre class="code"><code><span class="tok-type">Pedido</span>[] pedidos = <span class="tok-keyword">new</span> <span class="tok-type">Pedido</span>[<span class="tok-number">3</span>];
 pedidos[<span class="tok-number">0</span>] = alias;
 pedidos[<span class="tok-number">2</span>] = segundo;
 pedidos[<span class="tok-number">0</span>].agregarUnidad();   <span class="tok-comment">// A-17: 5 → 6 cuadernos</span></code></pre></div>
-<div class="stack refs-arrays-visual">
-<div class="refs-arrays-state"><span class="label">Tras el fragmento</span>
-<div class="refs-board">
-<div class="refs-slot"><span class="refs-slot-chip">pedidos[0]</span><svg class="refs-arrow" viewBox="0 0 64 30" aria-hidden="true"><path d="M32 3V27"/><path d="m24 18 8 9 8-9"/></svg><span class="refs-object"><b>A-17</b><span>6 cuadernos · $5</span><small>lo mismo que alias</small></span></div>
-<div class="refs-slot"><span class="refs-slot-chip">pedidos[1]</span><span class="refs-slot-empty">valor: <b>null</b><br>sin objeto al que apuntar</span></div>
-<div class="refs-slot"><span class="refs-slot-chip">pedidos[2]</span><svg class="refs-arrow" viewBox="0 0 64 30" aria-hidden="true"><path d="M32 3V27"/><path d="m24 18 8 9 8-9"/></svg><span class="refs-object"><b>B-18</b><span>1 carpeta · $12</span></span></div>
+<div class="refs-array-diagram" role="img" aria-label="Tras pedidos[0].agregarUnidad, A-17 pasa de 5 a 6 cuadernos. El arreglo pedidos tiene tres posiciones: pedidos[0] y la variable externa alias apuntan al mismo A-17 con 6 cuadernos a 5 dólares; pedidos[1] vale null y no apunta a ningún objeto; pedidos[2] apunta a B-18 con 1 carpeta a 12 dólares."><span class="label">Arreglo pedidos · tres posiciones y una variable externa</span><p class="refs-array-change"><code>pedidos[0].agregarUnidad()</code>: A-17 pasa de 5 → 6 cuadernos</p>
+<div class="refs-array-rows">
+<div class="refs-array-row shared"><div class="refs-shared-vars"><span class="refs-var">pedidos[0]</span><span class="refs-var refs-external">alias<small>fuera del arreglo</small></span></div><svg class="refs-shared-lines" viewBox="0 0 65 88" aria-hidden="true"><path d="M2 20L61 37m-9-9 9 9-12 2M2 68L61 52m-12-2 12 2-9 9"/></svg><span class="refs-object"><b>A-17</b><span>6 cuadernos · $5</span><small>un solo objeto</small></span></div>
+<div class="refs-array-row"><span class="refs-null">pedidos[1] <b>null</b></span><span class="refs-null-note">Sin flecha: no apunta a un objeto.</span></div>
+<div class="refs-array-row"><span class="refs-var">pedidos[2]</span><svg class="refs-arrow" viewBox="0 0 64 24" aria-hidden="true"><path d="M3 12H57"/><path d="m48 4 9 8-9 8"/></svg><span class="refs-object"><b>B-18</b><span>1 carpeta · $12</span></span></div>
 </div></div>
-<div class="refs-step"><svg class="refs-arrow" viewBox="0 0 64 30" aria-hidden="true"><path d="M32 3V27"/><path d="m24 18 8 9 8-9"/></svg><span><code>pedidos[0] = new Pedido();</code></span></div>
-<div class="refs-arrays-state"><span class="label">Después de esa línea</span>
-<div class="refs-board two">
-<div class="refs-slot"><span class="refs-slot-chip">pedidos[0]</span><svg class="refs-arrow" viewBox="0 0 64 30" aria-hidden="true"><path d="M32 3V27"/><path d="m24 18 8 9 8-9"/></svg><span class="refs-object fresh"><b>D-20</b><span>2 cuadernos · $5</span><small>objeto nuevo</small></span></div>
-<div class="refs-slot"><span class="refs-slot-chip">alias</span><svg class="refs-arrow" viewBox="0 0 64 30" aria-hidden="true"><path d="M32 3V27"/><path d="m24 18 8 9 8-9"/></svg><span class="refs-object"><b>A-17</b><span>6 cuadernos · $5</span><small>sin cambios</small></span></div>
-</div></div>
+<p class="callout">Tres posiciones guardan referencias, no tres objetos: <code>pedidos[0]</code> y <code>alias</code> alcanzan el mismo A-17.</p>
+<p class="mini-note"><code>pedidos[1]</code> vale <code>null</code>: llamar allí a un método lanza <code>NullPointerException</code>.</p>
+</div></section>
+<section class="slide" id="slide-16" data-title="Asignar a una posición reemplaza solo su referencia" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 2 · Referencias</p><h2>Asignar a una posición reemplaza solo su referencia</h2></header><div class="slide-body refs-array-replace">
+<div class="stack"><span class="code-label">Fragmento dentro de main · continúa el arreglo anterior</span><pre class="code refs-one-line-code"><code>pedidos[<span class="tok-number">0</span>] = <span class="tok-keyword">new</span> <span class="tok-type">Pedido</span>();</code></pre></div>
+<div class="refs-snapshots">
+<article class="panel stack refs-snapshot"><span class="label">Antes · comparten A-17</span><div class="refs-shared" role="img" aria-label="Antes: pedidos[0] y alias apuntan al mismo A-17, 6 cuadernos a 5 dólares"><div class="refs-shared-vars"><span class="refs-var">pedidos[0]</span><span class="refs-var">alias</span></div><svg class="refs-shared-lines" viewBox="0 0 48 88" aria-hidden="true"><path d="M2 20L43 37m-8-8 8 8-11 2M2 68L43 52m-11-2 11 2-8 8"/></svg><span class="refs-object"><b>A-17</b><span>6 cuadernos · $5</span></span></div></article>
+<div class="refs-event"><span>Se asigna <code>new Pedido()</code> a <code>pedidos[0]</code></span><svg class="refs-arrow" viewBox="0 0 64 24" aria-hidden="true"><path d="M3 12H57"/><path d="m48 4 9 8-9 8"/></svg></div>
+<article class="panel stack refs-snapshot"><span class="label">Después · dos objetos distintos</span><div class="refs-rows"><div class="refs-link"><span class="refs-var">pedidos[0]</span><svg class="refs-arrow" viewBox="0 0 46 22" aria-hidden="true"><path d="M3 11H40"/><path d="m32 4 8 7-8 7"/></svg><span class="refs-object fresh"><b>D-20</b><span>2 cuadernos · $5</span></span></div><div class="refs-link"><span class="refs-var">alias</span><svg class="refs-arrow" viewBox="0 0 46 22" aria-hidden="true"><path d="M3 11H40"/><path d="m32 4 8 7-8 7"/></svg><span class="refs-object"><b>A-17</b><span>6 cuadernos · $5</span></span></div></div></article>
 </div>
-<div class="stack refs-arrays-notes">
-<p class="callout warning">Una posición con valor <code>null</code> no apunta a un objeto: llamar un método a través de ella lanza <code>NullPointerException</code>.</p>
-<p class="callout warning">Si dentro de un bucle asignas siempre la misma variable (<code>pedidos[i] = alias;</code>), todas las posiciones quedan apuntando al mismo objeto. Crea el objeto con <code>new</code> dentro del bucle cuando quieras uno distinto por posición.</p>
-<p class="mini-note">D-20 es una etiqueta ilustrativa, no un campo de <code>Pedido</code>. Asignar a una posición reemplaza solo su referencia. <code>ArrayList</code> funciona igual: <code>lista.add(alias)</code> guarda la referencia, no una copia; se retoma en la unidad de colecciones.</p>
-</div>
-</div></div></section>
-<section class="slide" id="slide-16" data-title="Un pedido sin cliente empieza incompleto" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Situación</p><h2>Un pedido sin cliente empieza incompleto</h2></header><div class="slide-body"><p class="mini-note">Ya vimos que <code>Pedido</code> guarda producto, unidades y precio. Ahora añadimos el cliente: los siguientes ejemplos muestran solo ese campo para explicar cómo se prepara al crear el objeto.</p><div class="before-after"><article class="panel warning"><span class="label">Ficha vacía</span><p>Pedido A-17</p><p>Cliente: ______</p></article><article class="panel accent"><span class="label">Ficha lista</span><p>Pedido A-17</p><p>Cliente: Ana</p></article></div><p class="callout">El pedido debe tener cliente al comenzar. Usar “Cliente ocasional” también es válido si esa es una regla deliberada.</p></div></section>
-<section class="slide" id="slide-17" data-title="El constructor prepara el objeto" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 3 · Inicialización</p><h2>El constructor prepara el objeto</h2></header><div class="slide-body code-split"><pre class="code"><code><span class="tok-keyword">class</span> <span class="tok-type">Pedido</span> {
+<p class="callout">Solo cambia la referencia de <code>pedidos[0]</code>; <code>alias</code> todavía alcanza A-17.</p>
+<p class="mini-note"><code>pedidos[1]</code> sigue en <code>null</code> y <code>pedidos[2]</code> sigue apuntando a B-18. D-20 es una etiqueta del dibujo, no un campo de <code>Pedido</code>.</p>
+</div></section>
+<section class="slide" id="slide-17" data-title="Un pedido sin cliente empieza incompleto" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Situación</p><h2>Un pedido sin cliente empieza incompleto</h2></header><div class="slide-body"><p class="mini-note">Ya vimos que <code>Pedido</code> guarda producto, unidades y precio. Ahora añadimos el cliente: los siguientes ejemplos muestran solo ese campo para explicar cómo se prepara al crear el objeto.</p><div class="before-after"><article class="panel warning"><span class="label">Ficha vacía</span><p>Pedido A-17</p><p>Cliente: ______</p></article><article class="panel accent"><span class="label">Ficha lista</span><p>Pedido A-17</p><p>Cliente: Ana</p></article></div><p class="callout">El pedido debe tener cliente al comenzar. Usar “Cliente ocasional” también es válido si esa es una regla deliberada.</p></div></section>
+<section class="slide" id="slide-18" data-title="El constructor prepara el objeto" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 3 · Inicialización</p><h2>El constructor prepara el objeto</h2></header><div class="slide-body code-split"><pre class="code"><code><span class="tok-keyword">class</span> <span class="tok-type">Pedido</span> {
     <span class="tok-keyword">private</span> <span class="tok-type">String</span> cliente;
     <span class="tok-keyword">public</span> <span class="tok-type">Pedido</span>(<span class="tok-type">String</span> cliente) {
         <span class="tok-keyword">this</span>.cliente = cliente;
     }
 }</code></pre><article class="panel accent stack"><h3>Al construir</h3><p><code>new Pedido("Ana")</code></p><p><code>this.cliente</code> nombra el campo del objeto actual.</p><p><code>cliente</code> a la derecha nombra el parámetro recibido.</p><strong class="result">Campo inicializado: Ana</strong><p class="mini-note">Versión reducida de <code>Pedido</code>: se omiten los campos de producto, unidades y precio. Todavía no valida null ni texto vacío.</p></article><p class="callout warning">Inicializar asigna el valor; hacer cumplir la regla de cliente requiere validarlo. El constructor no tiene tipo de retorno: <code>void Pedido</code> sería un método.</p></div></section>
-<section class="slide" id="slide-18" data-title="Varias formas de crear, una inicialización" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 3 · Sobrecarga</p><h2>Varias formas de crear, una inicialización</h2></header><div class="slide-body split"><pre class="code"><code><span class="tok-keyword">class</span> <span class="tok-type">Pedido</span> {
+<section class="slide" id="slide-19" data-title="Varias formas de crear, una inicialización" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 3 · Sobrecarga</p><h2>Varias formas de crear, una inicialización</h2></header><div class="slide-body split"><pre class="code"><code><span class="tok-keyword">class</span> <span class="tok-type">Pedido</span> {
     <span class="tok-keyword">private</span> <span class="tok-type">String</span> cliente;
     <span class="tok-keyword">public</span> <span class="tok-type">Pedido</span>() { <span class="tok-keyword">this</span>(<span class="tok-string">"Cliente ocasional"</span>); }
     <span class="tok-keyword">public</span> <span class="tok-type">Pedido</span>(<span class="tok-type">String</span> cliente) {
         <span class="tok-keyword">this</span>.cliente = cliente;
     }
 }</code></pre><div class="stack"><div class="rows"><div class="row"><b>Constructor generado</b><span>Solo aparece si no declaras constructor alguno.</span></div><div class="row"><b>Sin parámetros</b><span>Puede ser escrito manualmente; entonces no es el generado por defecto.</span></div><div class="row"><b>Sobrecarga</b><span>Constructores con listas de parámetros diferentes.</span></div></div><p class="mini-note">Versión reducida de <code>Pedido</code>: se omiten los otros campos. Todavía no valida null ni texto vacío.</p><p class="callout warning"><code>this(...)</code> debe ser la primera instrucción en Java 21.</p><p class="question">Práctica: añade a <code>Producto</code> una variante sin descripción; luego controlarás sus existencias en <code>Inventario</code>.</p></div></div></section>
-<section class="slide" id="slide-19" data-title="Si quedan cinco, no puedes vender ocho" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Situación</p><h2>Si quedan cinco, no puedes vender ocho</h2></header><div class="slide-body inventory-cases"><p class="mini-note">Conectamos ambos objetos: <code>Producto</code> describe qué se vende; <code>Inventario</code> controla cuántas unidades quedan.</p><p class="inventory-rule"><strong>Regla:</strong> el stock empieza en <b>5 unidades</b>. La cantidad solicitada debe ser positiva y no superar el stock disponible.</p><div class="inventory-tracks" aria-label="Dos intentos independientes parten del mismo stock inicial"><article class="inventory-track accepted"><h3>Solicitud válida</h3><div class="inventory-route"><div class="inventory-state"><span>Antes</span><strong>Stock</strong><b>5 unidades</b></div><svg viewBox="0 0 64 44" role="img" aria-labelledby="s14valid-title s14valid-desc"><title id="s14valid-title">La solicitud válida produce un cambio</title><desc id="s14valid-desc">La flecha conecta el stock inicial con el retiro aceptado.</desc><defs><marker id="s14valid-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z"/></marker></defs><path d="M4 22H54" fill="none" stroke="#00b3e0" stroke-width="3" marker-end="url(#s14valid-arrow)"/></svg><div class="inventory-state request"><span>Solicitud</span><strong>retirar(2)</strong><b>Aceptada</b></div><svg viewBox="0 0 64 44" role="img" aria-labelledby="s14valid2-title s14valid2-desc"><title id="s14valid2-title">El stock disminuye en dos unidades</title><desc id="s14valid2-desc">La flecha conecta el retiro aceptado con el stock final de tres unidades.</desc><defs><marker id="s14valid2-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z"/></marker></defs><path d="M4 22H54" fill="none" stroke="#00b3e0" stroke-width="3" marker-end="url(#s14valid2-arrow)"/></svg><div class="inventory-state after"><span>Después</span><strong>Stock</strong><b>3 unidades</b></div></div></article><article class="inventory-track rejected"><h3>Solicitud rechazada</h3><div class="inventory-route"><div class="inventory-state"><span>Antes</span><strong>Stock</strong><b>5 unidades</b></div><svg viewBox="0 0 64 44" role="img" aria-labelledby="s14reject-title s14reject-desc"><title id="s14reject-title">La solicitud excede el stock</title><desc id="s14reject-desc">La flecha conecta el stock inicial con el retiro rechazado.</desc><defs><marker id="s14reject-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z"/></marker></defs><path d="M4 22H54" fill="none" stroke="#00b3e0" stroke-width="3" marker-end="url(#s14reject-arrow)"/></svg><div class="inventory-state request"><span>Solicitud</span><strong>retirar(8)</strong><b>Rechazada</b></div><svg viewBox="0 0 64 44" role="img" aria-labelledby="s14reject2-title s14reject2-desc"><title id="s14reject2-title">El stock se conserva</title><desc id="s14reject2-desc">La flecha conecta el retiro rechazado con el stock final conservado de cinco unidades.</desc><defs><marker id="s14reject2-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M4 0L10 5L4 10Z"/></marker></defs><path d="M4 22H54" fill="none" stroke="#00b3e0" stroke-width="3" marker-end="url(#s14reject2-arrow)"/></svg><div class="inventory-state after"><span>Después</span><strong>Stock</strong><b>5 unidades</b><small>se conserva</small></div></div></article></div><p class="inventory-note">Son dos intentos separados: cada uno empieza con stock 5.</p></div></section>
-<section class="slide" id="slide-20" data-title="Encapsular: cambiar el stock mediante operaciones" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 4 · Estado protegido</p><h2>Encapsular: cambiar el stock mediante operaciones</h2></header><div class="slide-body code-split"><pre class="code"><code><span class="tok-keyword">class</span> <span class="tok-type">Inventario</span> {
+<section class="slide" id="slide-20" data-title="Si quedan cinco, no puedes vender ocho" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Situación</p><h2>Si quedan cinco, no puedes vender ocho</h2></header><div class="slide-body inventory-cases"><p class="mini-note">Conectamos ambos objetos: <code>Producto</code> describe qué se vende; <code>Inventario</code> controla cuántas unidades quedan.</p><p class="inventory-rule"><strong>Regla:</strong> el stock empieza en <b>5 unidades</b>. La cantidad solicitada debe ser positiva y no superar el stock disponible.</p><div class="inventory-tracks" aria-label="Dos intentos independientes parten del mismo stock inicial"><article class="inventory-track accepted"><h3>Solicitud válida</h3><div class="inventory-route"><div class="inventory-state"><span>Antes</span><strong>Stock</strong><b>5 unidades</b></div><svg viewBox="0 0 64 44" role="img" aria-labelledby="s14valid-title s14valid-desc"><title id="s14valid-title">La solicitud válida produce un cambio</title><desc id="s14valid-desc">La flecha conecta el stock inicial con el retiro aceptado.</desc><defs><marker id="s14valid-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z"/></marker></defs><path d="M4 22H54" fill="none" stroke="#00b3e0" stroke-width="3" marker-end="url(#s14valid-arrow)"/></svg><div class="inventory-state request"><span>Solicitud</span><strong>retirar(2)</strong><b>Aceptada</b></div><svg viewBox="0 0 64 44" role="img" aria-labelledby="s14valid2-title s14valid2-desc"><title id="s14valid2-title">El stock disminuye en dos unidades</title><desc id="s14valid2-desc">La flecha conecta el retiro aceptado con el stock final de tres unidades.</desc><defs><marker id="s14valid2-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z"/></marker></defs><path d="M4 22H54" fill="none" stroke="#00b3e0" stroke-width="3" marker-end="url(#s14valid2-arrow)"/></svg><div class="inventory-state after"><span>Después</span><strong>Stock</strong><b>3 unidades</b></div></div></article><article class="inventory-track rejected"><h3>Solicitud rechazada</h3><div class="inventory-route"><div class="inventory-state"><span>Antes</span><strong>Stock</strong><b>5 unidades</b></div><svg viewBox="0 0 64 44" role="img" aria-labelledby="s14reject-title s14reject-desc"><title id="s14reject-title">La solicitud excede el stock</title><desc id="s14reject-desc">La flecha conecta el stock inicial con el retiro rechazado.</desc><defs><marker id="s14reject-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z"/></marker></defs><path d="M4 22H54" fill="none" stroke="#00b3e0" stroke-width="3" marker-end="url(#s14reject-arrow)"/></svg><div class="inventory-state request"><span>Solicitud</span><strong>retirar(8)</strong><b>Rechazada</b></div><svg viewBox="0 0 64 44" role="img" aria-labelledby="s14reject2-title s14reject2-desc"><title id="s14reject2-title">El stock se conserva</title><desc id="s14reject2-desc">La flecha conecta el retiro rechazado con el stock final conservado de cinco unidades.</desc><defs><marker id="s14reject2-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M4 0L10 5L4 10Z"/></marker></defs><path d="M4 22H54" fill="none" stroke="#00b3e0" stroke-width="3" marker-end="url(#s14reject2-arrow)"/></svg><div class="inventory-state after"><span>Después</span><strong>Stock</strong><b>5 unidades</b><small>se conserva</small></div></div></article></div><p class="inventory-note">Son dos intentos separados: cada uno empieza con stock 5.</p></div></section>
+<section class="slide" id="slide-21" data-title="Encapsular: cambiar el stock mediante operaciones" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 4 · Estado protegido</p><h2>Encapsular: cambiar el stock mediante operaciones</h2></header><div class="slide-body code-split"><pre class="code"><code><span class="tok-keyword">class</span> <span class="tok-type">Inventario</span> {
     <span class="tok-keyword">private</span> <span class="tok-keyword">int</span> stock = <span class="tok-number">5</span>;
     <span class="tok-keyword">public</span> <span class="tok-keyword">boolean</span> retirar(<span class="tok-keyword">int</span> unidades) {
         <span class="tok-keyword">if</span> (unidades &lt;= <span class="tok-number">0</span> || unidades &gt; stock) <span class="tok-keyword">return</span> <span class="tok-keyword">false</span>;
@@ -477,18 +505,18 @@ pedidos[<span class="tok-number">0</span>].agregarUnidad();   <span class="tok-c
     }
     <span class="tok-keyword">public</span> <span class="tok-keyword">int</span> consultarStock() { <span class="tok-keyword">return</span> stock; }
 }</code></pre><article class="panel accent stack"><span class="label">Regla y resultados · cada intento parte de 5</span><div class="inventory-outcomes"><p><code>retirar(2)</code> → <b>true</b> · stock queda en <b>3</b>.</p><p><code>retirar(8)</code> → <b>false</b> · stock sigue en <b>5</b>.</p></div></article><p class="callout">Encapsular protege el estado interno y permite cambiarlo mediante operaciones que aplican reglas. <code>stock</code> es privado; <code>retirar</code> y <code>consultarStock</code> son públicos. Un getter o setter puede ser válido si encaja con las reglas del modelo.</p></div></section>
-<section class="slide" id="slide-21" data-title="Quién puede acceder a cada miembro" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 4 · Visibilidad</p><h2>Quién puede acceder a cada miembro</h2></header><div class="slide-body"><div class="comparison"><div><b>Modificador</b><b>Alcance</b></div><div><code>public</code><span>Desde cualquier clase que pueda ver ese tipo.</span></div><div><code>private</code><span>Oculto para otras clases independientes; se usa dentro de la clase declaradora.</span></div><div><i>sin modificador</i><span>Clases del mismo paquete, un grupo de clases relacionadas.</span></div><div><code>protected</code><span>Mismo paquete; también subclases fuera de él, con restricciones sobre el tipo de referencia usado.</span></div></div><p class="callout">Un getter permite consultar cuando conviene; un setter no es obligatorio. protected no significa “todo objeto hijo puede acceder a todo”.</p></div></section>
-<section class="slide" id="slide-22" data-title="Práctica: el inventario conserva sus reglas" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 4 · Práctica</p><h2>Práctica: el inventario conserva sus reglas</h2></header><div class="slide-body exercise"><article class="panel stack"><h3>Situación y objetivo</h3><p>Completa Inventario con operaciones para retirar y reponer existencias.</p><p><b>Inicio:</b> stock = 5.</p></article><article class="panel accent stack"><h3>Resultado esperado</h3><p>Retirar 2 deja 3. En un inventario nuevo, retirar 8 se rechaza y deja 5.</p><p><b>Restricciones:</b> cantidades positivas; stock no negativo; fallar sin cambiarlo; no exponer el campo.</p><p><b>Reto:</b> valida también el stock inicial.</p></article><p class="callout warning">Evita validar solo en la pantalla o devolver una colección interna modificable.</p></div></section>
-<section class="slide" id="slide-23" data-title="El código del producto no debe cambiar después" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Situación</p><h2>El código del producto no debe cambiar después</h2></header><div class="slide-body"><div class="flow"><div class="node accent">Producto creado<br>código CU-10<br>máximo 12 caracteres</div><div class="arrow"><svg viewBox="0 0 60 52" role="img" aria-label="intentar cambiar la etiqueta"><title>Intentar cambiar el código</title><path d="M2 26H48 M38 16L50 26L38 36"/></svg></div><div class="node warning">Intentar cambiar la etiqueta a CU-99<br>los registros ya usan CU-10</div></div><p class="callout">El código identifica el producto. El límite es una regla compartida por el catálogo, no un valor distinto por ejemplar.</p></div></section>
-<section class="slide" id="slide-24" data-title="final fija la referencia; static pertenece a la clase" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 5 · static y final</p><h2>final fija la referencia; static pertenece a la clase</h2></header><div class="slide-body code-split"><pre class="code"><code><span class="tok-keyword">final</span> <span class="tok-keyword">class</span> <span class="tok-type">Producto</span> {
+<section class="slide" id="slide-22" data-title="Quién puede acceder a cada miembro" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 4 · Visibilidad</p><h2>Quién puede acceder a cada miembro</h2></header><div class="slide-body"><div class="comparison"><div><b>Modificador</b><b>Alcance</b></div><div><code>public</code><span>Desde cualquier clase que pueda ver ese tipo.</span></div><div><code>private</code><span>Oculto para otras clases independientes; se usa dentro de la clase declaradora.</span></div><div><i>sin modificador</i><span>Clases del mismo paquete, un grupo de clases relacionadas.</span></div><div><code>protected</code><span>Mismo paquete; también subclases fuera de él, con restricciones sobre el tipo de referencia usado.</span></div></div><p class="callout">Un getter permite consultar cuando conviene; un setter no es obligatorio. protected no significa “todo objeto hijo puede acceder a todo”.</p></div></section>
+<section class="slide" id="slide-23" data-title="Práctica: el inventario conserva sus reglas" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 4 · Práctica</p><h2>Práctica: el inventario conserva sus reglas</h2></header><div class="slide-body exercise"><article class="panel stack"><h3>Situación y objetivo</h3><p>Completa Inventario con operaciones para retirar y reponer existencias.</p><p><b>Inicio:</b> stock = 5.</p></article><article class="panel accent stack"><h3>Resultado esperado</h3><p>Retirar 2 deja 3. En un inventario nuevo, retirar 8 se rechaza y deja 5.</p><p><b>Restricciones:</b> cantidades positivas; stock no negativo; fallar sin cambiarlo; no exponer el campo.</p><p><b>Reto:</b> valida también el stock inicial.</p></article><p class="callout warning">Evita validar solo en la pantalla o devolver una colección interna modificable.</p></div></section>
+<section class="slide" id="slide-24" data-title="El código del producto no debe cambiar después" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Situación</p><h2>El código del producto no debe cambiar después</h2></header><div class="slide-body"><div class="flow"><div class="node accent">Producto creado<br>código CU-10<br>máximo 12 caracteres</div><div class="arrow"><svg viewBox="0 0 60 52" role="img" aria-label="intentar cambiar la etiqueta"><title>Intentar cambiar el código</title><path d="M2 26H48 M38 16L50 26L38 36"/></svg></div><div class="node warning">Intentar cambiar la etiqueta a CU-99<br>los registros ya usan CU-10</div></div><p class="callout">El código identifica el producto. El límite es una regla compartida por el catálogo, no un valor distinto por ejemplar.</p></div></section>
+<section class="slide" id="slide-25" data-title="final fija la referencia; static pertenece a la clase" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 5 · static y final</p><h2>final fija la referencia; static pertenece a la clase</h2></header><div class="slide-body code-split"><pre class="code"><code><span class="tok-keyword">final</span> <span class="tok-keyword">class</span> <span class="tok-type">Producto</span> {
     <span class="tok-keyword">static</span> <span class="tok-keyword">final</span> <span class="tok-keyword">int</span> <span class="tok-type">MAX_CODIGO</span> = <span class="tok-number">12</span>;
     <span class="tok-keyword">private</span> <span class="tok-keyword">final</span> <span class="tok-type">String</span> codigo;
     <span class="tok-type">Producto</span>(<span class="tok-type">String</span> codigo) { <span class="tok-keyword">this</span>.codigo = codigo; }
     <span class="tok-type">String</span> getCodigo() { <span class="tok-keyword">return</span> codigo; }
 }</code></pre><div class="stack"><article class="panel accent"><b>Producto A:</b> CU-10<br><b>Producto B:</b> CU-20<br><b>Compartido:</b> MAX_CODIGO = 12</article><p class="callout warning">Declarar el límite no valida la entrada. Una referencia final no hace inmutable al objeto referido.</p><p class="mini-note">Atributo normal: una copia lógica por instancia. static: miembro de la clase. final impide reasignar campo; una clase final no se extiende.</p></div></div></section>
-<section class="slide" id="slide-25" data-title="Elegir instancia, constante o utilidad" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 5 · Inmutabilidad</p><h2>Elegir instancia, constante o utilidad</h2></header><div class="slide-body"><div class="rows"><div class="row"><b>Instancia</b><span>El código CU-10 pertenece a un producto concreto.</span></div><div class="row"><b>Constante</b><span>static final MAX_CODIGO describe un límite compartido.</span></div><div class="row"><b>Utilidad static</b><span>Se invoca mediante la clase y no puede usar this: no tiene una instancia actual.</span></div></div><div class="panel accent"><b>Inmutable</b><p>El valor observable no cambia luego de construir el objeto. Usa estado privado y final; copia entradas o salidas mutables cuando haga falta.</p></div><p class="callout warning">No uses estado global mutable para los datos de cada producto.</p><p class="question">Diseña una dirección inmutable: ¿qué guardarías? Para cambiarla, construye otro valor.</p></div></section>
-<section class="slide" id="slide-26" data-title="Dos entregas comparten una promesa" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Situación</p><h2>Dos entregas comparten una promesa</h2></header><div class="slide-body"><div class="before-after"><article class="panel"><b>Entrega común</b> <strong class="result">5 días</strong><p>El cliente pregunta cuándo llega.</p></article><article class="panel accent"><b>Entrega rápida</b> <strong class="result">1 día</strong><p>El cliente hace la misma pregunta.</p></article></div><p class="callout">Las modalidades anuncian un plazo estimado; cada una puede obtenerlo de modo distinto.</p></div></section>
-<section class="slide" id="slide-27" data-title="Herencia: reutilizar y especializar una clase" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 6 · Herencia</p><h2>Herencia: reutilizar y especializar una clase</h2></header><div class="slide-body code-split"><div><span class="code-label">Declaraciones de clases</span><pre class="code"><code><span class="tok-keyword">class</span> <span class="tok-type">Entrega</span> {
+<section class="slide" id="slide-26" data-title="Elegir instancia, constante o utilidad" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 5 · Inmutabilidad</p><h2>Elegir instancia, constante o utilidad</h2></header><div class="slide-body"><div class="rows"><div class="row"><b>Instancia</b><span>El código CU-10 pertenece a un producto concreto.</span></div><div class="row"><b>Constante</b><span>static final MAX_CODIGO describe un límite compartido.</span></div><div class="row"><b>Utilidad static</b><span>Se invoca mediante la clase y no puede usar this: no tiene una instancia actual.</span></div></div><div class="panel accent"><b>Inmutable</b><p>El valor observable no cambia luego de construir el objeto. Usa estado privado y final; copia entradas o salidas mutables cuando haga falta.</p></div><p class="callout warning">No uses estado global mutable para los datos de cada producto.</p><p class="question">Diseña una dirección inmutable: ¿qué guardarías? Para cambiarla, construye otro valor.</p></div></section>
+<section class="slide" id="slide-27" data-title="Dos entregas comparten una promesa" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Situación</p><h2>Dos entregas comparten una promesa</h2></header><div class="slide-body"><div class="before-after"><article class="panel"><b>Entrega común</b> <strong class="result">5 días</strong><p>El cliente pregunta cuándo llega.</p></article><article class="panel accent"><b>Entrega rápida</b> <strong class="result">1 día</strong><p>El cliente hace la misma pregunta.</p></article></div><p class="callout">Las modalidades anuncian un plazo estimado; cada una puede obtenerlo de modo distinto.</p></div></section>
+<section class="slide" id="slide-28" data-title="Herencia: reutilizar y especializar una clase" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 6 · Herencia</p><h2>Herencia: reutilizar y especializar una clase</h2></header><div class="slide-body code-split"><div><span class="code-label">Declaraciones de clases</span><pre class="code"><code><span class="tok-keyword">class</span> <span class="tok-type">Entrega</span> {
     <span class="tok-keyword">public</span> <span class="tok-keyword">int</span> diasEstimados() { <span class="tok-keyword">return</span> <span class="tok-number">5</span>; }
 }
 
@@ -497,14 +525,14 @@ pedidos[<span class="tok-number">0</span>].agregarUnidad();   <span class="tok-c
 }</code></pre></div><article class="stack"><span class="code-label">Fragmento dentro de main</span><pre class="code"><code><span class="tok-type">EntregaExpress</span> express =
     <span class="tok-keyword">new</span> <span class="tok-type">EntregaExpress</span>();
 express.diasEstimados(); <span class="tok-comment">// 5</span></code></pre><div class="panel accent"><p><code>EntregaExpress</code> hereda <code>diasEstimados()</code> de <code>Entrega</code>: puede llamarlo sin escribirlo otra vez.</p></div><p class="mini-note"><code>extends</code> declara “es una”. Los constructores no se heredan; después especializamos el plazo con <code>@Override</code>.</p></article><p class="callout warning">Hereda solo si la subclase también cumple las promesas de la clase base; no uses herencia únicamente para copiar código.</p></div></section>
-<section class="slide" id="slide-28" data-title="Sobrescribir una operación con @Override" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 6 · Sobrescritura</p><h2>Sobrescribir una operación con @Override</h2></header><div class="slide-body code-split"><pre class="code"><code><span class="tok-keyword">class</span> <span class="tok-type">Entrega</span> {
+<section class="slide" id="slide-29" data-title="Sobrescribir una operación con @Override" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 6 · Sobrescritura</p><h2>Sobrescribir una operación con @Override</h2></header><div class="slide-body code-split"><pre class="code"><code><span class="tok-keyword">class</span> <span class="tok-type">Entrega</span> {
     <span class="tok-keyword">public</span> <span class="tok-keyword">int</span> diasEstimados() { <span class="tok-keyword">return</span> <span class="tok-number">5</span>; }
 }
 <span class="tok-keyword">class</span> <span class="tok-type">EntregaExpress</span> <span class="tok-keyword">extends</span> <span class="tok-type">Entrega</span> {
     <span class="tok-annotation">@Override</span>
     <span class="tok-keyword">public</span> <span class="tok-keyword">int</span> diasEstimados() { <span class="tok-keyword">return</span> <span class="tok-number">1</span>; }
 }</code></pre><article class="panel accent stack"><h3>Misma petición</h3><p>Objeto Entrega → <b>5 días</b></p><p>Objeto EntregaExpress → <b>1 día</b></p><p>La firma coincide; @Override pide al compilador revisar ese hecho.</p></article><p class="callout warning">Los atributos heredados no se reemplazan dinámicamente como los métodos de instancia.</p></div></section>
-<section class="slide" id="slide-29" data-title="super reutiliza la parte heredada" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 6 · Inicialización de subclase</p><h2>super reutiliza la parte heredada</h2></header><div class="slide-body code-split"><pre class="code"><code><span class="tok-keyword">class</span> <span class="tok-type">Entrega</span> {
+<section class="slide" id="slide-30" data-title="super reutiliza la parte heredada" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 6 · Inicialización de subclase</p><h2>super reutiliza la parte heredada</h2></header><div class="slide-body code-split"><pre class="code"><code><span class="tok-keyword">class</span> <span class="tok-type">Entrega</span> {
     <span class="tok-keyword">private</span> <span class="tok-keyword">final</span> <span class="tok-type">String</span> destino;
     <span class="tok-type">Entrega</span>(<span class="tok-type">String</span> destino) { <span class="tok-keyword">this</span>.destino = destino; }
 }
@@ -513,9 +541,9 @@ express.diasEstimados(); <span class="tok-comment">// 5</span></code></pre><div 
         <span class="tok-keyword">super</span>(destino);
     }
 }</code></pre><div class="stack"><p class="mini-note"><code>super(destino)</code> inicializa primero la parte base. <code>super.metodo()</code> puede llamar su implementación.</p><p class="mini-note">Los constructores no se heredan. <code>final</code> puede impedir extender una clase o sobrescribir un método.</p><p class="callout warning">No extiendas solo para reutilizar código: ¿una entrega programada cumple el contrato general?</p><p class="question">Práctica: agrega esa modalidad y justifica si es una Entrega.</p></div></div></section>
-<section class="slide" id="slide-30" data-title="El cliente quiere el plazo, no todos los cálculos" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Situación</p><h2>El cliente quiere el plazo, no todos los cálculos</h2></header><div class="slide-body"><div class="before-after"><article class="panel question-panel"><span class="label">La pregunta</span><strong class="result">¿Cuántos días?</strong><p>La rápida responde 1.</p></article><article class="panel accent"><span class="label">Detalle que no necesita conocer</span><p>Cada modalidad calcula a su manera.</p><strong>Se muestra el plazo.</strong></article></div><p class="callout">Quien usa el servicio necesita saber qué ofrece, no cómo se calcula cada alternativa.</p></div></section>
-<section class="slide" id="slide-31" data-title="Abstracción: definir qué se ofrece" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 7 · Abstracción</p><h2>Abstracción: definir qué se ofrece</h2></header><div class="slide-body"><div class="flow"><div class="node">Operación común<br>diasEstimados()</div><div class="arrow"><svg viewBox="0 0 60 52" role="img" aria-label="se implementa con"><path d="M2 26H48 M38 16L50 26L38 36"/></svg></div><div class="node">Cálculo concreto<br>5 días o 1 día</div></div><p class="lead">La abstracción decide qué pregunta necesita hacer el cliente y deja variable el cálculo.</p><div class="rows"><div class="row"><b>Clase abstracta</b><span>Puede declarar operaciones incompletas y compartir métodos completos; no se instancia.</span></div><div class="row"><b>Encapsulamiento</b><span>Controla el acceso y los cambios al estado. Es otra idea.</span></div></div></div></section>
-<section class="slide" id="slide-32" data-title="Una clase abstracta combina contrato y código" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 7 · Implementación</p><h2>Una clase abstracta combina contrato y código</h2></header><div class="slide-body code-split"><pre class="code"><code><span class="tok-keyword">abstract</span> <span class="tok-keyword">class</span> <span class="tok-type">Entrega</span> {
+<section class="slide" id="slide-31" data-title="El cliente quiere el plazo, no todos los cálculos" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Situación</p><h2>El cliente quiere el plazo, no todos los cálculos</h2></header><div class="slide-body"><div class="before-after"><article class="panel question-panel"><span class="label">La pregunta</span><strong class="result">¿Cuántos días?</strong><p>La rápida responde 1.</p></article><article class="panel accent"><span class="label">Detalle que no necesita conocer</span><p>Cada modalidad calcula a su manera.</p><strong>Se muestra el plazo.</strong></article></div><p class="callout">Quien usa el servicio necesita saber qué ofrece, no cómo se calcula cada alternativa.</p></div></section>
+<section class="slide" id="slide-32" data-title="Abstracción: definir qué se ofrece" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 7 · Abstracción</p><h2>Abstracción: definir qué se ofrece</h2></header><div class="slide-body"><div class="flow"><div class="node">Operación común<br>diasEstimados()</div><div class="arrow"><svg viewBox="0 0 60 52" role="img" aria-label="se implementa con"><path d="M2 26H48 M38 16L50 26L38 36"/></svg></div><div class="node">Cálculo concreto<br>5 días o 1 día</div></div><p class="lead">La abstracción decide qué pregunta necesita hacer el cliente y deja variable el cálculo.</p><div class="rows"><div class="row"><b>Clase abstracta</b><span>Puede declarar operaciones incompletas y compartir métodos completos; no se instancia.</span></div><div class="row"><b>Encapsulamiento</b><span>Controla el acceso y los cambios al estado. Es otra idea.</span></div></div></div></section>
+<section class="slide" id="slide-33" data-title="Una clase abstracta combina contrato y código" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 7 · Implementación</p><h2>Una clase abstracta combina contrato y código</h2></header><div class="slide-body code-split"><pre class="code"><code><span class="tok-keyword">abstract</span> <span class="tok-keyword">class</span> <span class="tok-type">Entrega</span> {
     <span class="tok-keyword">public</span> <span class="tok-keyword">abstract</span> <span class="tok-keyword">int</span> diasEstimados();
     <span class="tok-keyword">public</span> <span class="tok-type">String</span> resumen() {
         <span class="tok-keyword">return</span> <span class="tok-string">"Plazo (días): "</span> + diasEstimados();
@@ -524,9 +552,9 @@ express.diasEstimados(); <span class="tok-comment">// 5</span></code></pre><div 
 <span class="tok-keyword">class</span> <span class="tok-type">EntregaExpress</span> <span class="tok-keyword">extends</span> <span class="tok-type">Entrega</span> {
     <span class="tok-keyword">public</span> <span class="tok-keyword">int</span> diasEstimados() { <span class="tok-keyword">return</span> <span class="tok-number">1</span>; }
 }</code></pre><div class="stack"><article class="panel accent"><p><code>new EntregaExpress().resumen()</code></p><strong class="result">Plazo (días): 1</strong></article><p class="mini-note">La clase abstracta puede tener estado y constructores. Su método abstracto no tiene cuerpo.</p><p class="callout warning">No puedes crear <code>new Entrega()</code>; falta una implementación concreta.</p><p class="question">Agrega otra variante y conserva el método resumen.</p></div></div></section>
-<section class="slide" id="slide-33" data-title="Cambiar la entrega no debería cambiar el pedido" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Situación</p><h2>Cambiar la entrega no debería cambiar el pedido</h2></header><div class="slide-body"><div class="before-after"><article class="panel warning"><b>Dos rutinas</b><p>Una rama consulta la entrega común; otra copia el trabajo para la rápida.</p></article><article class="panel accent"><b>La misma pregunta</b><p>El pedido consulta los días de la modalidad elegida.</p><strong class="result">5 o 1 día</strong></article></div><p class="callout">Evitar la duplicación hace que ambas alternativas respondan de forma uniforme.</p></div></section>
-<section class="slide" id="slide-34" data-title="Polimorfismo: mismo pedido, distinta respuesta" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 8 · Ejecución</p><h2>Polimorfismo: mismo pedido, distinta respuesta</h2></header><div class="slide-body"><div class="diagram"><svg viewBox="0 0 720 270" role="img" aria-labelledby="s28title s28desc"><title id="s28title">La clase real elige el método ejecutado</title><desc id="s28desc">Una referencia de tipo declarado Entrega apunta a un objeto real de clase EntregaExpress. La llamada diasEstimados selecciona la implementación de EntregaExpress y devuelve un día.</desc><defs><marker id="s28arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z"/></marker></defs><rect x="20" y="80" width="210" height="95" rx="12"/><text x="125" y="115">tipo declarado:</text><text x="125" y="145">Entrega</text><path d="M230 128H460" marker-end="url(#s28arrow)"/><text x="345" y="110">referencia a</text><rect x="475" y="65" width="225" height="125" rx="12"/><text x="587" y="98">clase real:</text><text x="587" y="126">EntregaExpress</text><text x="587" y="154">diasEstimados() = 1</text><path d="M570 195V240" marker-end="url(#s28arrow)"/><text x="475" y="265">se ejecuta esta implementación</text></svg></div><p class="mini-note"><b>Polimorfismo:</b> tipos relacionados responden a la misma llamada con su propia implementación. <code>Entrega</code> determina las operaciones disponibles; la clase real <code>EntregaExpress</code> determina cuál se ejecuta: <code>diasEstimados()</code> devuelve 1 día.</p><p class="callout warning">Usa la operación común sin preguntar la clase concreta.</p></div></section>
-<section class="slide" id="slide-35" data-title="Sobrecarga y sobrescritura se deciden distinto" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 8 · Comparación</p><h2>Sobrecarga y sobrescritura se deciden distinto</h2></header><div class="slide-body code-split"><article class="stack"><h3>Sobrecarga · fragmento de clase</h3><pre class="code"><code><span class="tok-keyword">public</span> <span class="tok-keyword">int</span> totalConEnvio(<span class="tok-keyword">int</span> totalDolares) {
+<section class="slide" id="slide-34" data-title="Cambiar la entrega no debería cambiar el pedido" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Situación</p><h2>Cambiar la entrega no debería cambiar el pedido</h2></header><div class="slide-body"><div class="before-after"><article class="panel warning"><b>Dos rutinas</b><p>Una rama consulta la entrega común; otra copia el trabajo para la rápida.</p></article><article class="panel accent"><b>La misma pregunta</b><p>El pedido consulta los días de la modalidad elegida.</p><strong class="result">5 o 1 día</strong></article></div><p class="callout">Evitar la duplicación hace que ambas alternativas respondan de forma uniforme.</p></div></section>
+<section class="slide" id="slide-35" data-title="Polimorfismo: mismo pedido, distinta respuesta" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 8 · Ejecución</p><h2>Polimorfismo: mismo pedido, distinta respuesta</h2></header><div class="slide-body"><div class="diagram"><svg viewBox="0 0 720 270" role="img" aria-labelledby="s28title s28desc"><title id="s28title">La clase real elige el método ejecutado</title><desc id="s28desc">Una referencia de tipo declarado Entrega apunta a un objeto real de clase EntregaExpress. La llamada diasEstimados selecciona la implementación de EntregaExpress y devuelve un día.</desc><defs><marker id="s28arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z"/></marker></defs><rect x="20" y="80" width="210" height="95" rx="12"/><text x="125" y="115">tipo declarado:</text><text x="125" y="145">Entrega</text><path d="M230 128H460" marker-end="url(#s28arrow)"/><text x="345" y="110">referencia a</text><rect x="475" y="65" width="225" height="125" rx="12"/><text x="587" y="98">clase real:</text><text x="587" y="126">EntregaExpress</text><text x="587" y="154">diasEstimados() = 1</text><path d="M570 195V240" marker-end="url(#s28arrow)"/><text x="475" y="265">se ejecuta esta implementación</text></svg></div><p class="mini-note"><b>Polimorfismo:</b> tipos relacionados responden a la misma llamada con su propia implementación. <code>Entrega</code> determina las operaciones disponibles; la clase real <code>EntregaExpress</code> determina cuál se ejecuta: <code>diasEstimados()</code> devuelve 1 día.</p><p class="callout warning">Usa la operación común sin preguntar la clase concreta.</p></div></section>
+<section class="slide" id="slide-36" data-title="Sobrecarga y sobrescritura se deciden distinto" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 8 · Comparación</p><h2>Sobrecarga y sobrescritura se deciden distinto</h2></header><div class="slide-body code-split"><article class="stack"><h3>Sobrecarga · fragmento de clase</h3><pre class="code"><code><span class="tok-keyword">public</span> <span class="tok-keyword">int</span> totalConEnvio(<span class="tok-keyword">int</span> totalDolares) {
     <span class="tok-keyword">return</span> totalDolares + <span class="tok-number">5</span>;
 }
 <span class="tok-keyword">public</span> <span class="tok-keyword">int</span> totalConEnvio(
@@ -537,9 +565,9 @@ express.diasEstimados(); <span class="tok-comment">// 5</span></code></pre><div 
 <span class="tok-keyword">public</span> <span class="tok-keyword">int</span> diasEstimados() {
     <span class="tok-keyword">return</span> <span class="tok-number">1</span>;
 }</code></pre><p>Firma heredada; la clase real elige el cuerpo al ejecutar.</p></article><p class="callout warning">No se sobrecarga cambiando solo el retorno. Campos y métodos static tampoco tienen despacho dinámico.</p></div></section>
-<section class="slide" id="slide-36" data-title="Práctica: consultar sin preguntar la clase" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 8 · Práctica</p><h2>Práctica: consultar sin preguntar la clase</h2></header><div class="slide-body exercise"><article class="panel stack"><h3>Objetivo</h3><p>Escribe una rutina que reciba una Entrega y muestre su plazo.</p><p><b>Inicio:</b> común (5 días) y express (1 día).</p></article><article class="panel accent stack"><h3>Resultado y límites</h3><p>La rutina muestra 5 o 1 según el objeto que recibe.</p><p>No preguntes su clase con una cadena de instanceof ni conviertas a subtipo.</p><p><b>Reto:</b> añade una tercera modalidad sin cambiar la rutina.</p></article><p class="callout warning">Convertir una referencia general a un tipo hijo incorrecto puede causar ClassCastException.</p></div></section>
-<section class="slide" id="slide-37" data-title="Básico: crear, proteger y sustituir" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">TECSUP · JAVA COURSE · CIERRE BÁSICO</p><h2>Básico: crear, proteger y sustituir</h2></header><div class="slide-body"><div class="rows"><div class="row"><b>Clase y objeto</b><span>La clase describe; cada objeto guarda sus propios datos.</span></div><div class="row"><b>Encapsulamiento</b><span>Operaciones protegen el estado y aplican sus reglas.</span></div><div class="row"><b>Herencia y polimorfismo</b><span>Una entrega especializada hereda; la llamada común ejecuta su respuesta.</span></div></div><div class="split"><article class="panel"><h3>Recupera</h3><p>¿Qué comparte una referencia con otra al mismo objeto? ¿Qué hacen final y static? ¿Qué diferencia hay entre tipo declarado y clase real?</p></article><article class="panel accent"><h3>Mini proyecto</h3><p>Modela un producto válido, A-17 e inventario. Incluye dos entregas; prueba que el stock no queda negativo.</p><p><b>Reto:</b> explica por qué cada dato vive en su clase.</p></article></div></div></section>
-<section class="slide" id="slide-38" data-title="Hoy avisamos por consola; mañana por otro canal" data-level="Intermedio" hidden>
+<section class="slide" id="slide-37" data-title="Práctica: consultar sin preguntar la clase" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 8 · Práctica</p><h2>Práctica: consultar sin preguntar la clase</h2></header><div class="slide-body exercise"><article class="panel stack"><h3>Objetivo</h3><p>Escribe una rutina que reciba una Entrega y muestre su plazo.</p><p><b>Inicio:</b> común (5 días) y express (1 día).</p></article><article class="panel accent stack"><h3>Resultado y límites</h3><p>La rutina muestra 5 o 1 según el objeto que recibe.</p><p>No preguntes su clase con una cadena de instanceof ni conviertas a subtipo.</p><p><b>Reto:</b> añade una tercera modalidad sin cambiar la rutina.</p></article><p class="callout warning">Convertir una referencia general a un tipo hijo incorrecto puede causar ClassCastException.</p></div></section>
+<section class="slide" id="slide-38" data-title="Básico: crear, proteger y sustituir" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">TECSUP · JAVA COURSE · CIERRE BÁSICO</p><h2>Básico: crear, proteger y sustituir</h2></header><div class="slide-body"><div class="rows"><div class="row"><b>Clase y objeto</b><span>La clase describe; cada objeto guarda sus propios datos.</span></div><div class="row"><b>Encapsulamiento</b><span>Operaciones protegen el estado y aplican sus reglas.</span></div><div class="row"><b>Herencia y polimorfismo</b><span>Una entrega especializada hereda; la llamada común ejecuta su respuesta.</span></div></div><div class="split"><article class="panel"><h3>Recupera</h3><p>¿Qué comparte una referencia con otra al mismo objeto? ¿Qué hacen final y static? ¿Qué diferencia hay entre tipo declarado y clase real?</p></article><article class="panel accent"><h3>Mini proyecto</h3><p>Modela un producto válido, A-17 e inventario. Incluye dos entregas; prueba que el stock no queda negativo.</p><p><b>Reto:</b> explica por qué cada dato vive en su clase.</p></article></div></div></section>
+<section class="slide" id="slide-39" data-title="Hoy avisamos por consola; mañana por otro canal" data-level="Intermedio" hidden>
   <header class="slide-header"><p class="eyebrow">Intermedio · Situación</p><h2>Hoy avisamos por consola; mañana por otro canal</h2></header>
   <div class="slide-body">
     <p class="lead">Al confirmar A-17, el pedido debe avisar al cliente. Si conoce directamente la consola, cambiar de canal obliga a modificar el pedido.</p>
@@ -551,7 +579,7 @@ express.diasEstimados(); <span class="tok-comment">// 5</span></code></pre><div 
     <p class="callout">El pedido necesita poder avisar sin quedar atado a un canal concreto.</p>
   </div>
 </section>
-<section class="slide" id="slide-39" data-title="Una interfaz define una capacidad" data-level="Intermedio" hidden>
+<section class="slide" id="slide-40" data-title="Una interfaz define una capacidad" data-level="Intermedio" hidden>
   <header class="slide-header"><p class="eyebrow">Intermedio · Unidad 9 · continuidad con polimorfismo</p><h2>Una interfaz define una capacidad</h2></header>
   <div class="slide-body">
     <div class="split">
@@ -570,7 +598,7 @@ express.diasEstimados(); <span class="tok-comment">// 5</span></code></pre><div 
     <p class="mini-note">La consola muestra el aviso; este ejemplo no envía un correo real.</p>
   </div>
 </section>
-<section class="slide" id="slide-40" data-title="Interfaz o clase abstracta" data-level="Intermedio" hidden>
+<section class="slide" id="slide-41" data-title="Interfaz o clase abstracta" data-level="Intermedio" hidden>
   <header class="slide-header"><p class="eyebrow">Intermedio · Unidad 9 · contratos y jerarquías</p><h2>Interfaz o clase abstracta</h2></header>
   <div class="slide-body">
     <div class="split">
@@ -581,7 +609,7 @@ express.diasEstimados(); <span class="tok-comment">// 5</span></code></pre><div 
     <p class="callout warning">No elijas una clase abstracta solo para reutilizar un método: considera si existe una relación «es un».</p>
   </div>
 </section>
-<section class="slide" id="slide-41" data-title="Métodos default y static en interfaces" data-level="Intermedio" hidden>
+<section class="slide" id="slide-42" data-title="Métodos default y static en interfaces" data-level="Intermedio" hidden>
   <header class="slide-header"><p class="eyebrow">Intermedio · Unidad 9 · ampliar el contrato</p><h2>Métodos <code>default</code> y <code>static</code></h2></header>
   <div class="slide-body">
     <div class="code-split">
@@ -607,7 +635,7 @@ express.diasEstimados(); <span class="tok-comment">// 5</span></code></pre><div 
     <p class="callout warning">Si dos interfaces aportan el mismo <code>default</code>, la clase resuelve el conflicto. Práctica: implementa <code>Notificador</code> para consola y para guardar el mensaje en una lista.</p>
   </div>
 </section>
-<section class="slide" id="slide-42" data-title="Un pedido usa un cliente y contiene sus líneas" data-level="Intermedio" hidden>
+<section class="slide" id="slide-43" data-title="Un pedido usa un cliente y contiene sus líneas" data-level="Intermedio" hidden>
   <header class="slide-header"><p class="eyebrow">Intermedio · Situación</p><h2>Un pedido usa un cliente y contiene sus líneas</h2></header>
   <div class="slide-body">
     <p class="lead">Extendemos el ejemplo: A-18 tiene 2 cuadernos y 1 lápiz; el A-17 original conserva sus 2 cuadernos.</p>
@@ -618,7 +646,7 @@ express.diasEstimados(); <span class="tok-comment">// 5</span></code></pre><div 
     <p class="callout">A-18 conserva sus líneas; Ana puede existir antes y después del pedido y realizar otros.</p>
   </div>
 </section>
-<section class="slide" id="slide-43" data-title="Asociación, agregación y composición" data-level="Intermedio" hidden>
+<section class="slide" id="slide-44" data-title="Asociación, agregación y composición" data-level="Intermedio" hidden>
   <header class="slide-header"><p class="eyebrow">Intermedio · Unidad 10 · relaciones entre objetos</p><h2>Asociación, agregación y composición</h2></header>
   <div class="slide-body">
     <div class="diagram"><svg viewBox="0 0 720 300" role="img" aria-labelledby="s37-title s37-desc">
@@ -636,7 +664,7 @@ express.diasEstimados(); <span class="tok-comment">// 5</span></code></pre><div 
     <p class="mini-note">Cliente: asociación. Productos independientes: agregación. Líneas propias del pedido: composición.</p>
   </div>
 </section>
-<section class="slide" id="slide-44" data-title="Una referencia expresa una relación" data-level="Intermedio" hidden>
+<section class="slide" id="slide-45" data-title="Una referencia expresa una relación" data-level="Intermedio" hidden>
   <header class="slide-header"><p class="eyebrow">Intermedio · Unidad 10 · del modelo al código</p><h2>Una referencia expresa una relación</h2></header>
   <div class="slide-body">
     <div class="code-split">
@@ -657,14 +685,14 @@ express.diasEstimados(); <span class="tok-comment">// 5</span></code></pre><div 
     <p class="callout warning">Agregación y composición son decisiones del modelo; Java no tiene palabras clave que las impongan. Cada pedido crea sus líneas; los productos y el cliente se pueden compartir.</p>
   </div>
 </section>
-<section class="slide" id="slide-45" data-title="Práctica: decidir qué puede compartirse" data-level="Intermedio" hidden>
+<section class="slide" id="slide-46" data-title="Práctica: decidir qué puede compartirse" data-level="Intermedio" hidden>
   <header class="slide-header"><p class="eyebrow">Intermedio · Unidad 10 · práctica</p><h2>Práctica: decidir qué puede compartirse</h2></header>
   <div class="slide-body exercise">
     <article class="panel stack"><span class="label">Situación y objetivo</span><p>Modela A-17 y A-18 de Ana. A-17 conserva 2 cuadernos; A-18 tiene 2 cuadernos y 1 lápiz. Cada uno mantiene sus líneas; comparten el catálogo.</p><p><strong>Inicio:</strong> dos pedidos, una cliente y un catálogo.</p></article>
     <article class="panel stack"><span class="label">Resultado y límites</span><p>Un diagrama muestra referencias y señala qué partes pertenecen a cada pedido.</p><p><strong>Restricciones:</strong> usa nombres de clases y flechas etiquetadas; explica qué objetos pueden sobrevivir al pedido.</p><p><strong>Reto:</strong> dibuja cómo cambia el modelo si una línea se traslada a otro pedido.</p></article>
   </div>
 </section>
-<section class="slide" id="slide-46" data-title="Dos tarjetas pueden identificar el mismo producto" data-level="Intermedio" hidden>
+<section class="slide" id="slide-47" data-title="Dos tarjetas pueden identificar el mismo producto" data-level="Intermedio" hidden>
   <header class="slide-header"><p class="eyebrow">Intermedio · Situación</p><h2>Dos tarjetas pueden identificar el mismo producto</h2></header>
   <div class="slide-body">
     <p class="lead">Dos tarjetas físicas muestran el código 10. Son dos tarjetas distintas, pero el inventario debe reconocer que nombran el mismo producto.</p>
@@ -672,7 +700,7 @@ express.diasEstimados(); <span class="tok-comment">// 5</span></code></pre><div 
     <p class="callout">Dos tarjetas distintas pueden señalar el mismo artículo.</p>
   </div>
 </section>
-<section class="slide" id="slide-47" data-title="Object: identidad, igualdad y descripción" data-level="Intermedio" hidden>
+<section class="slide" id="slide-48" data-title="Object: identidad, igualdad y descripción" data-level="Intermedio" hidden>
   <header class="slide-header"><p class="eyebrow">Intermedio · Unidad 11 · igualdad de objetos</p><h2><code>Object</code>: identidad, igualdad y descripción</h2></header>
   <div class="slide-body">
     <div class="rows">
@@ -689,7 +717,7 @@ express.diasEstimados(); <span class="tok-comment">// 5</span></code></pre><div 
     <p class="mini-note">Toda clase Java hereda de <code>Object</code>; aquí <code>String</code> ya redefine <code>equals</code> y <code>toString</code>.</p>
   </div>
 </section>
-<section class="slide" id="slide-48" data-title="equals y hashCode deben contar la misma historia" data-level="Intermedio" hidden>
+<section class="slide" id="slide-49" data-title="equals y hashCode deben contar la misma historia" data-level="Intermedio" hidden>
   <header class="slide-header"><p class="eyebrow">Intermedio · Unidad 11 · contratos de igualdad</p><h2><code>equals</code> y <code>hashCode</code> deben contar la misma historia</h2></header>
   <div class="slide-body">
     <div class="code-split">
@@ -712,14 +740,14 @@ express.diasEstimados(); <span class="tok-comment">// 5</span></code></pre><div 
     <p class="callout warning">Si redefiniste <code>equals</code>, redefine también <code>hashCode</code>: <code>HashSet</code> y <code>HashMap</code> dependen de ambos.</p>
   </div>
 </section>
-<section class="slide" id="slide-49" data-title="Práctica: diseñar un código como valor" data-level="Intermedio" hidden>
+<section class="slide" id="slide-50" data-title="Práctica: diseñar un código como valor" data-level="Intermedio" hidden>
   <header class="slide-header"><p class="eyebrow">Intermedio · Unidad 11 · práctica</p><h2>Práctica: diseñar un código como valor</h2></header>
   <div class="slide-body exercise">
     <article class="panel stack"><span class="label">Situación y objetivo</span><p>Dos objetos <code>CodigoProducto(10)</code> deben representar el mismo código, aunque se creen por separado.</p><p><strong>Inicio:</strong> una clase con campo entero inmutable.</p></article>
     <article class="panel stack"><span class="label">Resultado y límites</span><p>Comprueba igualdad, identidad y el mismo hash para códigos iguales.</p><p><strong>Restricciones:</strong> compara el valor; implementa juntos <code>equals</code> y <code>hashCode</code>.</p><p><strong>Reto:</strong> explica qué resultado esperas al añadir ambos a un <code>HashSet</code>.</p></article>
   </div>
 </section>
-<section class="slide" id="slide-50" data-title="Una venta fallida debe dejar las existencias intactas" data-level="Intermedio" hidden>
+<section class="slide" id="slide-51" data-title="Una venta fallida debe dejar las existencias intactas" data-level="Intermedio" hidden>
   <header class="slide-header"><p class="eyebrow">Intermedio · Situación</p><h2>Una venta fallida debe dejar las existencias intactas</h2></header>
   <div class="slide-body">
     <p class="lead">Hay 5 unidades. Si se intentan retirar 8, la operación debe explicar por qué no se completó y conservar las 5 unidades.</p>
@@ -730,7 +758,7 @@ express.diasEstimados(); <span class="tok-comment">// 5</span></code></pre><div 
     <p class="callout">Un error comunicado con claridad ayuda a quien llama; validar antes de cambiar evita un estado parcial.</p>
   </div>
 </section>
-<section class="slide" id="slide-51" data-title="Una excepción interrumpe la ruta normal" data-level="Intermedio" hidden>
+<section class="slide" id="slide-52" data-title="Una excepción interrumpe la ruta normal" data-level="Intermedio" hidden>
   <header class="slide-header"><p class="eyebrow">Intermedio · Unidad 12 · flujo de una excepción</p><h2>Una excepción interrumpe la ruta normal</h2></header>
   <div class="slide-body">
     <div class="diagram exception-flow"><svg viewBox="0 0 960 400" role="img" aria-labelledby="s45-title s45-desc">
@@ -752,7 +780,7 @@ express.diasEstimados(); <span class="tok-comment">// 5</span></code></pre><div 
     <p class="mini-note">Cada intento parte de stock 5; suponemos cantidad positiva. El rechazo salta el resto del <code>try</code> hasta <code>catch</code>. Al salir, ambas rutas pasan por <code>finally</code>.</p>
   </div>
 </section>
-<section class="slide" id="slide-52" data-title="throw lanza; throws declara" data-level="Intermedio" hidden>
+<section class="slide" id="slide-53" data-title="throw lanza; throws declara" data-level="Intermedio" hidden>
   <header class="slide-header"><p class="eyebrow">Intermedio · Unidad 12 · declarar y lanzar</p><h2><code>throw</code> lanza; <code>throws</code> declara</h2></header>
   <div class="slide-body">
     <div class="code-split">
@@ -780,7 +808,7 @@ express.diasEstimados(); <span class="tok-comment">// 5</span></code></pre><div 
     <p class="callout">Cada intento parte de 5: <code>retirar(2)</code> deja <code>consultarStock() = 3</code>; <code>retirar(8)</code> lanza y conserva 5. La excepción de stock es <code>RuntimeException</code>: no exige <code>throws</code>.</p>
   </div>
 </section>
-<section class="slide" id="slide-53" data-title="Elegir el contrato de error" data-level="Intermedio" hidden>
+<section class="slide" id="slide-54" data-title="Elegir el contrato de error" data-level="Intermedio" hidden>
   <header class="slide-header"><p class="eyebrow">Intermedio · Unidad 12 · tipos de excepción</p><h2>Elegir el contrato de error</h2></header>
   <div class="slide-body"><div class="code-split"><div><span class="code-label">Dentro de main · Inventario de la diapositiva anterior</span><pre class="code"><code><span class="tok-type">Inventario</span> inventario = <span class="tok-keyword">new</span> <span class="tok-type">Inventario</span>();
 <span class="tok-keyword">try</span> {
@@ -790,14 +818,14 @@ express.diasEstimados(); <span class="tok-comment">// 5</span></code></pre><div 
 } <span class="tok-keyword">finally</span> {
     <span class="tok-type">System</span>.out.println(&quot;<span class="tok-type">Intento</span> terminado&quot;);
 }</code></pre></div><div class="stack"><div class="panel accent stack"><h3>Verificada</h3><p>Una subclase de <code>Exception</code> que no sea <code>RuntimeException</code>: se captura o se declara con <code>throws</code>.</p></div><div class="panel stack"><h3>No verificada</h3><p><code>RuntimeException</code> y sus subclases no obligan a capturar ni declarar.</p></div></div></div><p class="callout">El <code>catch</code> informa el rechazo; quedan 5 unidades. <code>finally</code> se ejecuta al salir del bloque, salvo terminaciones abruptas de la JVM.</p><p class="mini-note">Para recursos que implementan <code>AutoCloseable</code>, <code>try (Recurso r = abrir()) { /* usar r */ }</code> cierra el recurso automáticamente. Es una forma esquemática: cada recurso define cómo abrirse y cerrarse.</p></div></section>
-<section class="slide" id="slide-54" data-title="Práctica: fallar sin alterar el objeto" data-level="Intermedio" hidden>
+<section class="slide" id="slide-55" data-title="Práctica: fallar sin alterar el objeto" data-level="Intermedio" hidden>
   <header class="slide-header"><p class="eyebrow">Intermedio · Unidad 12 · práctica</p><h2>Práctica: fallar sin alterar el objeto</h2></header>
   <div class="slide-body exercise">
     <article class="panel stack"><span class="label">Situación y objetivo</span><p>Partiendo de un inventario con 5 unidades, una solicitud de 8 debe comunicar el rechazo.</p><p><strong>Inicio:</strong> la versión anterior aceptaba o rechazaba con un booleano.</p></article>
     <article class="panel stack"><span class="label">Resultado y límites</span><p>La excepción identifica el problema y el inventario conserva stock 5.</p><p><strong>Restricciones:</strong> valida antes de restar y captura el tipo concreto en el ejemplo que llama.</p><p><strong>Reto:</strong> define qué ocurre con una cantidad negativa.</p></article>
   </div>
 </section>
-<section class="slide" id="slide-55" data-title="Un pedido ya tiene varios productos" data-level="Intermedio" hidden>
+<section class="slide" id="slide-56" data-title="Un pedido ya tiene varios productos" data-level="Intermedio" hidden>
   <header class="slide-header"><p class="eyebrow">Intermedio · Situación</p><h2>Un pedido ya tiene varios productos</h2></header>
   <div class="slide-body">
     <p class="lead">Retomamos A-18: tiene 2 cuadernos y 1 lápiz. Si Ana añade un borrador, con variables sueltas habría que crear otro espacio y recordar dónde ponerlo.</p>
@@ -805,7 +833,7 @@ express.diasEstimados(); <span class="tok-comment">// 5</span></code></pre><div 
     <p class="callout">Necesitamos reunir todos los productos del pedido de una forma que crezca sin agregar otra variable.</p>
   </div>
 </section>
-<section class="slide" id="slide-56" data-title="List, Set y Map responden preguntas distintas" data-level="Intermedio" hidden>
+<section class="slide" id="slide-57" data-title="List, Set y Map responden preguntas distintas" data-level="Intermedio" hidden>
   <header class="slide-header"><p class="eyebrow">Intermedio · Unidad 13 · colecciones</p><h2><code>List</code>, <code>Set</code> y <code>Map</code> responden preguntas distintas</h2></header>
   <div class="slide-body">
     <div class="rows">
@@ -820,7 +848,7 @@ express.diasEstimados(); <span class="tok-comment">// 5</span></code></pre><div 
     <p class="mini-note"><code>&lt;Producto&gt;</code> indica el tipo que se guarda. <code>Integer</code> es un tipo de referencia para enteros, no el primitivo <code>int</code>. Declaramos el contrato; la implementación puede cambiar.</p>
   </div>
 </section>
-<section class="slide" id="slide-57" data-title="La igualdad decide qué se repite" data-level="Intermedio" hidden>
+<section class="slide" id="slide-58" data-title="La igualdad decide qué se repite" data-level="Intermedio" hidden>
   <header class="slide-header"><p class="eyebrow">Intermedio · Unidad 13 · igualdad en colecciones</p><h2>La igualdad decide qué se repite</h2></header>
   <div class="slide-body">
     <div class="code-split">
@@ -837,7 +865,7 @@ codigos.add(<span class="tok-keyword">new</span> <span class="tok-type">CodigoPr
     <p class="callout warning">No cambies una clave del <code>Map</code> en campos usados por su hash mientras está guardada.</p>
   </div>
 </section>
-<section class="slide" id="slide-58" data-title="Una caja que acepta cualquier cosa obliga a adivinar" data-level="Intermedio" hidden>
+<section class="slide" id="slide-59" data-title="Una caja que acepta cualquier cosa obliga a adivinar" data-level="Intermedio" hidden>
   <header class="slide-header"><p class="eyebrow">Intermedio · Situación</p><h2>Una caja que acepta cualquier cosa obliga a adivinar</h2></header>
   <div class="slide-body">
     <p class="lead">En el almacén, una caja marcada «contenido» puede guardar una ficha de producto o una ficha de cliente. Quien la abre debe adivinar qué encontrará.</p>
@@ -845,7 +873,7 @@ codigos.add(<span class="tok-keyword">new</span> <span class="tok-type">CodigoPr
     <p class="callout">Una etiqueta que dice qué ficha acepta cada caja evita adivinar al usar lo que hay dentro.</p>
   </div>
 </section>
-<section class="slide" id="slide-59" data-title="Genéricos: declarar el tipo de contenido" data-level="Intermedio" hidden>
+<section class="slide" id="slide-60" data-title="Genéricos: declarar el tipo de contenido" data-level="Intermedio" hidden>
   <header class="slide-header"><p class="eyebrow">Intermedio · Unidad 13 · genéricos</p><h2>Genéricos: declarar el tipo de contenido</h2></header>
   <div class="slide-body">
     <div class="code-split">
@@ -870,7 +898,7 @@ codigos.add(<span class="tok-keyword">new</span> <span class="tok-type">CodigoPr
     <p class="callout warning">Los genéricos usan tipos de referencia: para números se emplea <code>Integer</code>, no <code>int</code>.</p>
   </div>
 </section>
-<section class="slide" id="slide-60" data-title="Colecciones seguras y orden explícito" data-level="Intermedio" hidden>
+<section class="slide" id="slide-61" data-title="Colecciones seguras y orden explícito" data-level="Intermedio" hidden>
   <header class="slide-header"><p class="eyebrow">Intermedio · Unidad 13 · práctica integradora</p><h2>Colecciones seguras y orden explícito</h2></header>
   <div class="slide-body">
     <div class="split">
@@ -881,7 +909,7 @@ codigos.add(<span class="tok-keyword">new</span> <span class="tok-type">CodigoPr
     <p class="callout warning">No devuelvas una colección interna modificable; una copia superficial tampoco vuelve inmutables sus elementos.</p>
   </div>
 </section>
-<section class="slide" id="slide-61" data-title="Intermedio: objetos que colaboran sin perder sus reglas" data-level="Intermedio" hidden>
+<section class="slide" id="slide-62" data-title="Intermedio: objetos que colaboran sin perder sus reglas" data-level="Intermedio" hidden>
   <header class="slide-header"><p class="eyebrow">Intermedio · Recapitulación</p><h2>Intermedio: objetos que colaboran sin perder sus reglas</h2></header>
   <div class="slide-body">
     <div class="flow" aria-label="Pedido colabora con cliente, líneas, notificador y colecciones">
@@ -894,19 +922,19 @@ codigos.add(<span class="tok-keyword">new</span> <span class="tok-type">CodigoPr
     <p class="callout success">Siguiente: usar estas decisiones para diseñar clases cohesionadas y probar sus contratos.</p>
   </div>
 </section>
-<section class="slide" id="slide-62" data-title="Mezclar tareas puede ampliar el alcance de un cambio" data-level="Avanzado" hidden>
+<section class="slide" id="slide-63" data-title="Mezclar tareas puede ampliar el alcance de un cambio" data-level="Avanzado" hidden>
 <header class="slide-header"><p class="eyebrow">Avanzado · Situación alternativa problemática</p><h2>Mezclar tareas puede ampliar el alcance de un cambio</h2></header>
 <div class="slide-body"><p class="lead">Comparemos con otro diseño: ServicioPedido concentra el cálculo, las reglas de stock y el envío del aviso. No es la separación anterior.</p><div class="split"><article class="panel warning stack"><span class="label">Alternativa con tareas mezcladas</span><h3>ServicioPedido</h3><p>total · stock · notificaciones</p></article><article class="panel accent stack"><span class="label">Retomar la separación</span><h3>Coordinar por contratos</h3><p>Pedido · Inventario · Notificador</p></article></div><p class="callout">Ese acoplamiento puede ampliar qué código se modifica o revisa al cambiar el correo; no implica que el cálculo vaya a fallar.</p></div>
 </section>
-<section class="slide" id="slide-63" data-title="Cohesión y acoplamiento: juntar lo relacionado" data-level="Avanzado" hidden>
+<section class="slide" id="slide-64" data-title="Cohesión y acoplamiento: juntar lo relacionado" data-level="Avanzado" hidden>
 <header class="slide-header"><p class="eyebrow">Avanzado · Unidad 14 · organiza la colaboración</p><h2>Cohesión y acoplamiento: juntar lo relacionado</h2></header>
 <div class="slide-body"><div class="rows"><div class="row"><b>Cohesión</b><span>Operaciones relacionadas juntas: Pedido conserva líneas y calcula el total.</span></div><div class="row"><b>Acoplamiento</b><span>Cuánto depende una clase de otras: ServicioPedido coordina mediante contratos.</span></div><div class="row"><b>Implementación</b><span>AvisoConsola implementa Notificador; otra implementación puede usar correo.</span></div></div><p class="callout">Las reglas del negocio no dependen del mecanismo concreto que envía un aviso.</p></div>
 </section>
-<section class="slide" id="slide-64" data-title="SOLID: responsabilidades y extensiones" data-level="Avanzado" hidden>
+<section class="slide" id="slide-65" data-title="SOLID: responsabilidades y extensiones" data-level="Avanzado" hidden>
 <header class="slide-header"><p class="eyebrow">Avanzado · Unidad 14 · principios de diseño</p><h2>SOLID: responsabilidades y extensiones</h2></header>
 <div class="slide-body"><div class="rows"><div class="row"><b>S · responsabilidad única</b><span>Una clase agrupa cambios por un motivo: Pedido cambia si varía el cálculo; Inventario, si cambian las reglas de stock.</span></div><div class="row"><b>O · abierto/cerrado</b><span>Cotizador calcula el costo de entrega. Añade Express sin editar ese cálculo.</span></div><div class="row"><b>L · sustitución</b><span>Tarifa promete un costo no negativo; Cotizador debe aceptar Estándar y Express sin fallar.</span></div></div><p class="callout">Son criterios para evaluar un diseño; no palabras clave ni reglas mecánicas del compilador.</p></div>
 </section>
-<section class="slide" id="slide-65" data-title="SOLID: contratos pequeños y dependencias explícitas" data-level="Avanzado" hidden>
+<section class="slide" id="slide-66" data-title="SOLID: contratos pequeños y dependencias explícitas" data-level="Avanzado" hidden>
 <header class="slide-header"><p class="eyebrow">Avanzado · Unidad 14 · completa SOLID</p><h2>SOLID: contratos pequeños y dependencias explícitas</h2></header>
 <div class="slide-body"><div class="code-split"><div><span class="code-label">El servicio recibe el contrato</span><pre class="code"><code><span class="tok-keyword">interface</span> <span class="tok-type">Notificador</span> {
     <span class="tok-keyword">void</span> enviar(<span class="tok-type">String</span> mensaje);
@@ -918,19 +946,19 @@ codigos.add(<span class="tok-keyword">new</span> <span class="tok-type">CodigoPr
     }
 }</code></pre></div><div class="stack"><article class="panel accent"><h3>I · interfaces pequeñas</h3><p>El cliente depende solo de enviar.</p></article><article class="panel"><h3>D · inversión de dependencias</h3><p>La regla recibe el contrato, no crea el correo concreto.</p></article></div></div><p class="callout">Ejercicio: separa una clase que calcula el pedido y además envía el aviso; inyecta Notificador por constructor.</p></div>
 </section>
-<section class="slide" id="slide-66" data-title="Ampliaciones para expresar mejor el modelo" data-level="Avanzado" hidden>
+<section class="slide" id="slide-67" data-title="Ampliaciones para expresar mejor el modelo" data-level="Avanzado" hidden>
 <header class="slide-header"><p class="eyebrow">Avanzado · Unidad 14 · herramientas de Java 21</p><h2>Java 21 permite precisar el modelo</h2></header>
 <div class="slide-body"><p class="lead">Después de separar responsabilidades y definir contratos, estas herramientas expresan con más precisión los datos y variantes del dominio.</p><div class="rows"><div class="row"><b>enum</b><span>Estados finitos: <code>enum EstadoPedido { PENDIENTE, CONFIRMADO }</code>.</span></div><div class="row"><b>record</b><span>Datos de valor: <code>record Codigo(String valor) {}</code>.</span></div><div class="row"><b>sealed</b><span>Restringe subtipos: <code>sealed interface Estado permits Pendiente {}<br>final class Pendiente implements Estado {}</code>.</span></div><div class="row"><b>Clase anidada</b><span>Agrupa una auxiliar: <code>class Pedido { class Linea {} }</code>.</span></div></div><p class="callout">Un record no vuelve inmutable un objeto mutable guardado en uno de sus campos.</p></div>
 </section>
-<section class="slide" id="slide-67" data-title="¿Por qué repetir el mismo diseño en cada proyecto?" data-level="Avanzado" hidden>
+<section class="slide" id="slide-68" data-title="¿Por qué repetir el mismo diseño en cada proyecto?" data-level="Avanzado" hidden>
 <header class="slide-header"><p class="eyebrow">Avanzado · Unidad 15 · situaciones conocidas</p><h2>¿Por qué repetir el mismo diseño en cada proyecto?</h2></header>
 <div class="slide-body"><p class="lead">En una tienda, aparece una dificultad concreta cada vez que el sistema crece:</p><div class="rows"><div class="row"><b>Crear</b><span>Varios lugares repiten cómo elegir el canal del aviso.</span></div><div class="row"><b>Calcular</b><span>El pedido puede usar tarifas de entrega distintas.</span></div><div class="row"><b>Avisar</b><span>Al confirmar, más de un equipo necesita enterarse.</span></div></div><p class="callout">Una solución recurrente tiene un nombre y unas consecuencias; primero identifica el problema.</p></div>
 </section>
-<section class="slide" id="slide-68" data-title="Dos configuraciones globales se contradicen" data-level="Avanzado" hidden>
+<section class="slide" id="slide-69" data-title="Dos configuraciones globales se contradicen" data-level="Avanzado" hidden>
 <header class="slide-header"><p class="eyebrow">Avanzado · Unidad 15 · situación</p><h2>Dos configuraciones globales se contradicen</h2></header>
 <div class="slide-body"><p class="lead">Dos servicios cargan por separado el modo de cupones: uno permite descuentos y otro los rechaza. El equipo necesita una decisión compartida y única durante la ejecución.</p><div class="split"><article class="panel warning stack"><span class="label">Servicio A</span><h3>cupón = permitido</h3><p>Configuración propia</p></article><article class="panel warning stack"><span class="label">Servicio B</span><h3>cupón = rechazado</h3><p>Otra configuración propia</p></article></div><p class="callout">Una instancia única resuelve el requisito solo si esa unicidad es real; el acceso global también crea dependencia.</p></div>
 </section>
-<section class="slide" id="slide-69" data-title="Singleton: una instancia con un coste compartido" data-level="Avanzado" hidden>
+<section class="slide" id="slide-70" data-title="Singleton: una instancia con un coste compartido" data-level="Avanzado" hidden>
 <header class="slide-header"><p class="eyebrow">Avanzado · Unidad 15 · Singleton · implementación</p><h2>Singleton: una instancia con un coste compartido</h2></header>
 <div class="slide-body"><div class="code-split"><div><span class="code-label">El enum contiene una única constante</span><pre class="code"><code><span class="tok-keyword">enum</span> <span class="tok-type">ConfigCupones</span> {
     <span class="tok-type">INSTANCIA</span>;
@@ -940,11 +968,11 @@ codigos.add(<span class="tok-keyword">new</span> <span class="tok-type">CodigoPr
     }
 }</code></pre></div><article class="panel accent stack"><h3>Alcance real</h3><p>Una constante por carga de la clase en una JVM; no coordina instancias entre procesos o servidores.</p><p>El estado del ejemplo no cambia. Acceso: <code>ConfigCupones.INSTANCIA.modoActual()</code>.</p></article></div><p class="callout warning">Singleton puede crear acceso global difícil de sustituir en pruebas. Úsalo solo si el requisito de instancia única es real.</p></div>
 </section>
-<section class="slide" id="slide-70" data-title="Cada pedido vuelve a decidir cómo crear el aviso" data-level="Avanzado" hidden>
+<section class="slide" id="slide-71" data-title="Cada pedido vuelve a decidir cómo crear el aviso" data-level="Avanzado" hidden>
 <header class="slide-header"><p class="eyebrow">Avanzado · Unidad 15 · situación</p><h2>Cada pedido vuelve a decidir cómo crear el aviso</h2></header>
 <div class="slide-body"><p class="lead">En dos partes del sistema, quien prepara el aviso decide el canal por separado. Añadir una opción obliga a cambiar ambos lugares.</p><div class="split"><article class="panel warning stack"><span class="label">Regla duplicada</span><h3>ServicioPedido</h3><p>elige cómo preparar el aviso</p></article><article class="panel warning stack"><span class="label">Otra copia</span><h3>ServicioReembolso</h3><p>repite la decisión del canal</p></article></div><p class="callout">Si cada lugar cambia por su cuenta, los avisos pueden terminar con reglas distintas.</p></div>
 </section>
-<section class="slide" id="slide-71" data-title="Factory: concentrar la creación" data-level="Avanzado" hidden>
+<section class="slide" id="slide-72" data-title="Factory: concentrar la creación" data-level="Avanzado" hidden>
 <header class="slide-header"><p class="eyebrow">Avanzado · Unidad 15 · fábrica simple · implementación</p><h2>Factory: concentrar la creación</h2></header>
 <div class="slide-body"><div class="code-split"><div><span class="code-label">Una decisión; los dos canales solo simulan</span><pre class="code"><code><span class="tok-keyword">interface</span> <span class="tok-type">Notificador</span> {
     <span class="tok-keyword">void</span> enviar(<span class="tok-type">String</span> mensaje);
@@ -959,11 +987,11 @@ codigos.add(<span class="tok-keyword">new</span> <span class="tok-type">CodigoPr
     .enviar(<span class="tok-string">"A-17"</span>);
 <span class="tok-comment">// Correo simulado: A-17</span></code></pre></div></article></div><p class="callout">La lambda implementa el único método de Notificador. Solo al llamar <code>enviar</code> imprime; no envía correo real.</p></div>
 </section>
-<section class="slide" id="slide-72" data-title="La tarifa cambia; la forma de cotizar se repite" data-level="Avanzado" hidden>
+<section class="slide" id="slide-73" data-title="La tarifa cambia; la forma de cotizar se repite" data-level="Avanzado" hidden>
 <header class="slide-header"><p class="eyebrow">Avanzado · Unidad 15 · situación</p><h2>La tarifa cambia; la forma de cotizar se repite</h2></header>
 <div class="slide-body"><p class="lead">Para A-17, la entrega estándar cuesta $5 y la express cuesta $9. El cotizador no debería copiar sus pasos para cada tarifa.</p><div class="split"><div class="panel accent stack"><span class="label">Estándar</span><h3>$5</h3></div><div class="panel stack"><span class="label">Express</span><h3>$9</h3></div></div><p class="callout">Hace falta cambiar la regla elegida sin reescribir la operación de cotizar.</p></div>
 </section>
-<section class="slide" id="slide-73" data-title="Strategy: intercambiar la regla de tarifa" data-level="Avanzado" hidden>
+<section class="slide" id="slide-74" data-title="Strategy: intercambiar la regla de tarifa" data-level="Avanzado" hidden>
 <header class="slide-header"><p class="eyebrow">Avanzado · Unidad 15 · Strategy · implementación</p><h2>Strategy: intercambiar la regla de tarifa</h2></header>
 <div class="slide-body"><div class="code-split"><div><span class="code-label">Cotizador delega en una tarifa inyectada</span><pre class="code"><code><span class="tok-keyword">interface</span> <span class="tok-type">TarifaEntrega</span> {
     <span class="tok-keyword">int</span> costoDolares();
@@ -980,11 +1008,11 @@ codigos.add(<span class="tok-keyword">new</span> <span class="tok-type">CodigoPr
     <span class="tok-keyword">int</span> cotizar() { <span class="tok-keyword">return</span> tarifa.costoDolares(); }
 }</code></pre></div><article class="panel accent stack"><h3>El resultado cambia</h3><p>Construido con Estandar: $5.</p><p>Construido con Express: $9.</p></article></div><p class="callout">Reto: añade una tarifa con otra regla sin cambiar Cotizador.</p></div>
 </section>
-<section class="slide" id="slide-74" data-title="Un cambio de pedido interesa a varias personas" data-level="Avanzado" hidden>
+<section class="slide" id="slide-75" data-title="Un cambio de pedido interesa a varias personas" data-level="Avanzado" hidden>
 <header class="slide-header"><p class="eyebrow">Avanzado · Unidad 15 · situación</p><h2>Un cambio de pedido interesa a varias personas</h2></header>
 <div class="slide-body"><p class="lead">Después de reservar el stock, se confirma A-17. El registro de actividad y el cliente necesitan conocer ese estado; luego puede sumarse otro interesado.</p><div class="split"><article class="panel accent stack"><span class="label">Evento</span><h3>Pedido confirmado</h3><p>A-17 · 2 cuadernos</p></article><article class="panel stack"><span class="label">Interesados</span><h3>Registro de actividad · Cliente</h3><p>Se puede sumar otro sin cambiar la regla del pedido.</p></article></div><p class="callout">El pedido necesita avisar a receptores registrados sin conocer sus clases concretas.</p></div>
 </section>
-<section class="slide" id="slide-75" data-title="Observer: registrar y avisar a los interesados" data-level="Avanzado" hidden>
+<section class="slide" id="slide-76" data-title="Observer: registrar y avisar a los interesados" data-level="Avanzado" hidden>
 <header class="slide-header"><p class="eyebrow">Avanzado · Unidad 15 · Observer · aviso síncrono</p><h2>Observer: registrar y avisar a los interesados</h2></header>
 <div class="slide-body"><div class="code-split"><div><span class="code-label">Fragmento con import java.util.List y java.util.ArrayList</span><pre class="code"><code><span class="tok-keyword">interface</span> <span class="tok-type">ObservadorPedido</span> {
     <span class="tok-keyword">void</span> actualizado(<span class="tok-type">String</span> estado);
@@ -1001,13 +1029,13 @@ codigos.add(<span class="tok-keyword">new</span> <span class="tok-type">CodigoPr
     }
 }</code></pre></div><article class="panel accent stack"><h3>Qué ocurre</h3><p>La llamada es síncrona: cada observador corre antes de salir de avisarConfirmacion.</p><p>Retíralo al terminar su interés. Si uno lanza excepción, la iteración se interrumpe.</p></article></div><p class="callout">Este ejemplo emite el aviso de confirmación. Cambiar el estado y reservar stock son pasos previos; si un observador falla, este recorrido se detiene.</p></div>
 </section>
-<section class="slide" id="slide-76" data-title="Una mejora de ayer rompe una venta de hoy" data-level="Avanzado" hidden>
+<section class="slide" id="slide-77" data-title="Una mejora de ayer rompe una venta de hoy" data-level="Avanzado" hidden>
 <header class="slide-header"><p class="eyebrow">Avanzado · Unidad 16 · situación</p><h2>Una mejora de ayer rompe una venta de hoy</h2></header>
 <div class="slide-body"><p class="lead">Una edición accidental del inventario acepta vender más unidades de las disponibles.</p><div class="before-after"><article class="panel accent stack"><span class="label">Pedido A-17 · solicitud</span><h3>Stock 5</h3><p>retirar 8 → rechazo · conserva 5</p></article><article class="panel warning stack"><span class="label">Tras la regresión</span><h3>Stock 5</h3><p>retirar 8 → −3 · venta imposible</p></article></div><p class="callout">Una comprobación repetible conserva la promesa cuando evoluciona la clase.</p></div>
 </section>
-<section class="slide" id="slide-77" data-title="Una prueba verifica una promesa observable" data-level="Avanzado" hidden>
+<section class="slide" id="slide-78" data-title="Una prueba verifica una promesa observable" data-level="Avanzado" hidden>
 <header class="slide-header"><p class="eyebrow">Avanzado · Unidad 16 · prueba unitaria</p><h2>Una prueba verifica una promesa observable</h2></header><div class="slide-body"><div class="flow"><div class="node stack"><span class="label">Preparar</span><strong class="big">Stock 5</strong><p>Inventario nuevo</p></div><span class="arrow"><svg viewBox="0 0 60 52" role="img" aria-labelledby="s71-first-t s71-first-d"><title id="s71-first-t">Siguiente paso</title><desc id="s71-first-d">La prueba avanza de preparar a actuar y comprobar.</desc><defs><marker id="s71-first-a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#00b3e0"/></marker></defs><path d="M2 26H52" stroke="#00b3e0" stroke-width="3" fill="none" marker-end="url(#s71-first-a)"/></svg></span><div class="node stack"><span class="label">Actuar</span><strong>retirar(2)</strong><p>Una sola operación</p></div><span class="arrow"><svg viewBox="0 0 60 52" role="img" aria-labelledby="s71-second-t s71-second-d"><title id="s71-second-t">Siguiente paso</title><desc id="s71-second-d">La prueba avanza de preparar a actuar y comprobar.</desc><defs><marker id="s71-second-a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#00b3e0"/></marker></defs><path d="M2 26H52" stroke="#00b3e0" stroke-width="3" fill="none" marker-end="url(#s71-second-a)"/></svg></span><div class="node stack"><span class="label">Comprobar</span><strong class="big">Stock 3</strong><p>Resultado esperado</p></div></div><p class="callout">Una prueba unitaria comprueba un comportamiento aislado; una prueba de integración comprueba la colaboración real entre componentes.</p></div></section>
-<section class="slide" id="slide-78" data-title="JUnit: ejecutar y comprobar el comportamiento" data-level="Avanzado" hidden>
+<section class="slide" id="slide-79" data-title="JUnit: ejecutar y comprobar el comportamiento" data-level="Avanzado" hidden>
 <header class="slide-header"><p class="eyebrow">Avanzado · Unidad 16 · dependencia externa</p><h2>JUnit: ejecutar y comprobar el comportamiento</h2></header>
 <div class="slide-body"><div class="code-split"><div><span class="code-label">Imports: import org.junit.jupiter.api.Test; import static org.junit.jupiter.api.Assertions.*; · dentro de InventarioTest</span><pre class="code"><code><span class="tok-annotation">@Test</span> <span class="tok-keyword">void</span> retiroValidoDejaTres() {
     <span class="tok-type">Inventario</span> i = <span class="tok-keyword">new</span> <span class="tok-type">Inventario</span>(); <span class="tok-comment">// empieza en 5</span>
@@ -1021,52 +1049,52 @@ codigos.add(<span class="tok-keyword">new</span> <span class="tok-type">CodigoPr
     assertEquals(<span class="tok-number">5</span>, i.consultarStock());
 }</code></pre></div><article class="panel accent stack"><h3>La lambda expresa la acción</h3><p>assertThrows la ejecuta y comprueba que se lance el tipo indicado.</p><p>JUnit Jupiter es una dependencia de prueba, no parte del JDK.</p></article></div></div>
 </section>
-<section class="slide" id="slide-79" data-title="Práctica: pruebas que protegen el contrato" data-level="Avanzado" hidden>
+<section class="slide" id="slide-80" data-title="Práctica: pruebas que protegen el contrato" data-level="Avanzado" hidden>
 <header class="slide-header"><p class="eyebrow">Avanzado · Unidad 16 · práctica guiada</p><h2>Práctica: pruebas que protegen el contrato</h2></header>
 <div class="slide-body"><div class="exercise"><article class="panel stack"><span class="label">Situación · objetivo · inicio</span><p>Prueba Inventario y un notificador de prueba que guarde el mensaje recibido.</p><p>Cada caso empieza con un inventario nuevo de stock 5. Usa A-17 para comprobar el aviso.</p></article><article class="panel stack"><span class="label">Resultado · condiciones</span><p>0 y −1 lanzan IllegalArgumentException y dejan 5; retirar 2 deja 3, 5 deja 0 y 8 lanza StockInsuficienteException y conserva 5. Verifica el mensaje capturado.</p><p>Fake: implementación simplificada que funciona; stub: respuestas predefinidas; mock: verifica interacciones esperadas.</p><p>Reto: agrupa los casos inválidos en una prueba parametrizada.</p></article></div><p class="callout">Verifica la API observable, no los campos privados.</p></div>
 </section>
-<section class="slide" id="slide-80" data-title="Del pedido disperso a un modelo que colabora" data-level="Avanzado" hidden>
+<section class="slide" id="slide-81" data-title="Del pedido disperso a un modelo que colabora" data-level="Avanzado" hidden>
 <header class="slide-header"><p class="eyebrow">Avanzado · recuperación · el modelo completo</p><h2>Del pedido disperso a un modelo que colabora</h2></header>
 <div class="slide-body"><div class="diagram"><svg viewBox="0 0 720 280" role="img" aria-labelledby="s74-title s74-desc"><title id="s74-title">Colaboración para confirmar el pedido A-17</title><desc id="s74-desc">ServicioPedido coordina Pedido, reserva Inventario, consulta TarifaEntrega y avisa mediante Notificador.</desc><defs><marker id="s74-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#00b3e0"/></marker></defs><rect x="20" y="100" width="150" height="70" rx="12" fill="#dcf3ff" stroke="#0097d0" stroke-width="2"/><text x="95" y="130" text-anchor="middle">ServicioPedido</text><text x="95" y="153" text-anchor="middle">coordina</text><rect x="245" y="10" width="190" height="66" rx="12" fill="#f5f5f5" stroke="#aaa"/><text x="340" y="38" text-anchor="middle">Pedido A-17</text><text x="340" y="60" text-anchor="middle">2 × $5 = $10</text><rect x="245" y="105" width="190" height="66" rx="12" fill="#f5f5f5" stroke="#aaa"/><text x="340" y="133" text-anchor="middle">Inventario</text><text x="340" y="155" text-anchor="middle">stock 5 → 3</text><rect x="245" y="200" width="190" height="66" rx="12" fill="#f5f5f5" stroke="#aaa"/><text x="340" y="228" text-anchor="middle">TarifaEntrega</text><text x="340" y="250" text-anchor="middle">regla intercambiable</text><rect x="525" y="100" width="175" height="70" rx="12" fill="#dcf3ff" stroke="#0097d0" stroke-width="2"/><text x="612" y="130" text-anchor="middle">Notificador</text><text x="612" y="153" text-anchor="middle">aviso por contrato</text><path d="M170 118 C200 118 207 43 245 43" fill="none" stroke="#00b3e0" stroke-width="3" marker-end="url(#s74-arrow)"/><text x="205" y="67" text-anchor="middle">consulta</text><path d="M170 135 H245" fill="none" stroke="#00b3e0" stroke-width="3" marker-end="url(#s74-arrow)"/><text x="207" y="128" text-anchor="middle">reserva</text><path d="M170 152 C200 152 207 232 245 232" fill="none" stroke="#00b3e0" stroke-width="3" marker-end="url(#s74-arrow)"/><text x="205" y="210" text-anchor="middle">cotiza</text><path d="M435 136 H525" fill="none" stroke="#00b3e0" stroke-width="3" marker-end="url(#s74-arrow)"/><text x="480" y="128" text-anchor="middle">confirma</text></svg></div><p class="mini-note">En una pantalla angosta, desplaza el diagrama horizontalmente.</p><p class="callout">Recuerda: reglas protegidas dentro del objeto, colaboración mediante contratos y pruebas de los resultados.</p></div>
 </section>
-<section class="slide" id="slide-81" data-title="Proyecto integrador: pedidos de una tienda" data-level="Avanzado" hidden>
+<section class="slide" id="slide-82" data-title="Proyecto integrador: pedidos de una tienda" data-level="Avanzado" hidden>
 <header class="slide-header"><p class="eyebrow">Avanzado · proyecto integrador · Java 21</p><h2>Proyecto integrador: pedidos de una tienda</h2></header>
 <div class="slide-body"><div class="exercise"><article class="panel stack"><span class="label">Inicio y objetivo</span><p>Implementa pedido A-17: 2 cuadernos a $5 cada uno, inventario de 5, entrega elegible y aviso al confirmar.</p><p>Modela Producto/Codigo, LíneaPedido, Inventario y contratos de tarifa y aviso.</p></article><article class="panel stack"><span class="label">Resultado y límites</span><p><b>Esperado:</b> total $10; reservar 2 deja stock 3.</p><p><b>Restricciones:</b> valida estado, protege las líneas, evita estado global mutable y prueba reglas con JUnit.</p><p><b>Reto:</b> añade una tarifa y un observador intercambiables.</p></article></div><p class="callout">Entrega código y pruebas; explica las relaciones y qué protege cada clase.</p></div>
 </section>
-<section class="slide" id="slide-82" data-title="Qué dominar antes del siguiente paso" data-level="Avanzado" hidden>
+<section class="slide" id="slide-83" data-title="Qué dominar antes del siguiente paso" data-level="Avanzado" hidden>
 <header class="slide-header"><p class="eyebrow">Avanzado · salida · prioridades</p><h2>Qué dominar antes del siguiente paso</h2></header>
 <div class="slide-body"><div class="rows"><div class="row"><b>Estructuras de datos</b><span>Imprescindible: clases, referencias, igualdad, encapsulamiento, genéricos y colecciones.</span></div><div class="row"><b>Aplicaciones Java</b><span>Imprescindible: composición, interfaces, excepciones, validación y pruebas básicas.</span></div><div class="row"><b>Frameworks Java</b><span>Imprescindible: polimorfismo, dependencias por constructor, genéricos y excepciones; reconoce anotaciones y reflexión.</span></div></div><p class="callout">SOLID, patrones y arquitectura se profundizan al encontrar problemas que los necesitan.</p><p class="mini-note">Vuelve al curso: <a href="../">inicio de Java</a>.</p></div>
 </section>
 
 </main>
 
-<div class="progress" role="progressbar" aria-label="Avance de la presentación" aria-valuemin="1" aria-valuemax="82" aria-valuenow="1"><div id="progress-fill"></div></div>
+<div class="progress" role="progressbar" aria-label="Avance de la presentación" aria-valuemin="1" aria-valuemax="83" aria-valuenow="1"><div id="progress-fill"></div></div>
 <nav class="deck-controls" aria-label="Controles de presentación">
   <div class="navigation">
     <button type="button" id="prev" aria-label="Diapositiva anterior" title="Anterior">←</button>
-    <span id="slide-indicator" aria-live="polite">1 / 82</span>
+    <span id="slide-indicator" aria-live="polite">1 / 83</span>
     <button type="button" id="next" aria-label="Diapositiva siguiente" title="Siguiente">→</button>
   </div>
   <div class="topic-control">
     <label for="topic-menu" class="sr-only">Saltar a un tema</label>
     <select id="topic-menu"><option value="1">1 · Fundamentos</option>
 <option value="7">2 · Clases y objetos</option>
-<option value="16">3 · Constructores</option>
-<option value="19">4 · Encapsulamiento</option>
-<option value="23">5 · Static y final</option>
-<option value="26">6 · Herencia</option>
-<option value="30">7 · Abstracción</option>
-<option value="33">8 · Polimorfismo</option>
-<option value="38">9 · Interfaces</option>
-<option value="42">10 · Relaciones</option>
-<option value="46">11 · Object e igualdad</option>
-<option value="50">12 · Excepciones</option>
-<option value="55">13 · Colecciones y genéricos</option>
-<option value="62">14 · Diseño y SOLID</option>
-<option value="67">15 · Patrones</option>
-<option value="76">16 · Pruebas</option>
-<option value="81">Proyecto integrador</option>
-<option value="82">Para continuar</option></select>
+<option value="17">3 · Constructores</option>
+<option value="20">4 · Encapsulamiento</option>
+<option value="24">5 · Static y final</option>
+<option value="27">6 · Herencia</option>
+<option value="31">7 · Abstracción</option>
+<option value="34">8 · Polimorfismo</option>
+<option value="39">9 · Interfaces</option>
+<option value="43">10 · Relaciones</option>
+<option value="47">11 · Object e igualdad</option>
+<option value="51">12 · Excepciones</option>
+<option value="56">13 · Colecciones y genéricos</option>
+<option value="63">14 · Diseño y SOLID</option>
+<option value="68">15 · Patrones</option>
+<option value="77">16 · Pruebas</option>
+<option value="82">Proyecto integrador</option>
+<option value="83">Para continuar</option></select>
   </div>
   <div class="tools">
     <button type="button" id="help" aria-label="Ayuda de teclado" title="Ayuda de teclado">?</button>
