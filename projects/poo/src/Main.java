@@ -82,6 +82,6 @@ public class Main {
 
         Pedido pedido1 = new Pedido(101, cliente2);
         pedido1.ingresarProducto(producto2, 10);
-
+        pedido1.removeProductos(2, 10);
     }
 }

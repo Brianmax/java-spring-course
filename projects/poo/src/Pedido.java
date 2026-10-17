@@ -32,16 +32,32 @@ public class Pedido {
         System.out.println("Se agrego " + qty + " unidades de " + producto.nombre);
     }
 
+    // remover unidades de un producto
+    // cuando la cantidad llegue a 0, eliminar el producto completamente del pedido
+    void removeProductos(int idProducto, int qtyRemove) {
+        PedidoLinea pl = findProducto(idProducto);
+        if(pl == null) {
+            System.out.println("No existe el producto que se desea remover");
+            return;
+        }
 
-//     double calcularPrecioTotal() {
-//        double acumulado = 0;
-//        for(PedidoLinea p: productos) {
-//            Producto producto = p.producto;
-//            double precio = producto.precio;
-//            int cantidad = p.cantidad;
-//            acumulado = cantidad * precio;
-//        }
-//        precioTotal = acumulado;
-//        return precioTotal;
-//    }
+        Producto pr = pl.producto;
+        pr.stock += qtyRemove;
+        if(qtyRemove < pl.cantidad) {
+            pl.cantidad -= qtyRemove;
+        } else if (qtyRemove == pl.cantidad) {
+            // remover el pedidoLinea del pedido
+            productos.remove(pl);
+        }
+    }
+
+    PedidoLinea findProducto(int idProducto) {
+        for(PedidoLinea pl: productos) {
+            Producto pr = pl.producto;
+            if(pr.id == idProducto) {
+                return pl;
+            }
+        }
+        return null;
+    }
 }
