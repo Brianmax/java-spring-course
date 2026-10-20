@@ -27,19 +27,6 @@
         "A diff shows no unrelated section changes or curriculum reordering.",
         "The complete edited deck passes static validation; browser checks and unverified items are reported separately."
       ]
-    },
-    {
-      "id": "repair-crowding",
-      "prompt": "La diapositiva con data-title='Total del pedido' en evals/files/crowded.html está demasiado llena. Mejora su legibilidad sin cambiar el objetivo ni los valores del ejemplo. Revisa 1366×768, 1280×720 y móvil.",
-      "files": ["evals/files/crowded.html"],
-      "expected_output": "A local layout repair preserving the objective and values, with rendered viewport evidence or an explicit unavailable-browser limitation.",
-      "assertions": [
-        "Only the targeted slide and necessary shared styles or supporting navigation metadata change.",
-        "The revised slide preserves Ana, 3 cuadernos, S/ 12 each, and S/ 36 total.",
-        "The agent simplifies or rearranges content instead of merely shrinking type.",
-        "The diagram and main explanation do not overlap controls at either laptop viewport; mobile preserves reading order and permits scrolling.",
-        "The report does not label source inspection as a rendered visual pass."
-      ]
     }
   ]
 }

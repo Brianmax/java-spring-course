@@ -1,8 +1,9 @@
 [
   {"query": "Crea diapositivas de Spring MVC para este curso", "should_trigger": true},
-  {"query": "This slide is too crowded; improve lessons/java-poo.html", "should_trigger": true},
+  {"query": "This slide is too crowded; improve lessons/java-poo.html", "should_trigger": false},
   {"query": "Añade una explicación de objetos antes del código en la presentación", "should_trigger": true},
-  {"query": "Review the accessibility of our Java lesson deck, don't edit it", "should_trigger": true},
+  {"query": "Review the visual accessibility and contrast of our Java lesson deck, don't edit it", "should_trigger": false},
+  {"query": "Review the teaching clarity of our Java lesson deck, don't edit it", "should_trigger": true},
   {"query": "Fix the total calculation in projects/poo/src/Pedido.java", "should_trigger": false},
   {"query": "Añade una tarjeta a la página de inicio para una lección existente", "should_trigger": false},
   {"query": "Explícame while aquí en el chat, no crees archivos", "should_trigger": false},

@@ -6,7 +6,7 @@ These cases evaluate agent behavior, not just HTML structure. Run them in dispos
 
 1. Preserve the pre-change skill package and host adapter files from the repository revision being compared. Record its commit and any uncommitted skill changes; do not assume HEAD includes them.
 2. Give each old/new run the same repository inputs, prompt, model, tool access, and output location. Use fresh sessions. Existing fixture defects are intentional.
-3. Run the three cases in `evals.json`. Resolve course paths from the repository root and fixture paths from this skill directory. Copy the crowded fixture to the same relative path in each sandbox.
+3. Run the two content-generation cases in `evals.json`. Run the separate visual repair case in `.pi/skills/java-course-slide-design/evals/evals.json` for design changes. Resolve course paths from the repository root and fixture paths from the skill directories. Copy the crowded fixture to the same relative path in each design-evaluation sandbox.
 4. Capture outputs, diffs, execution traces, validation output, and available duration/token measurements outside the skill package. Record unavailable measurements as null, not zero.
 5. Grade each assertion with PASS, FAIL, or NOT VERIFIED and concrete evidence. Mechanical checks use scripts; browser claims require browser evidence. Treat NOT VERIFIED as incomplete, not a pass.
 6. Review old/new screenshots blind where practical. Have a human judge readability, visual explanation, and teaching continuity; do not equate an LLM score with learner outcomes.
@@ -16,7 +16,7 @@ Stop when meaningful gains plateau. Do not add narrow rules merely to satisfy on
 
 ## Trigger evaluation
 
-Use `trigger-queries.json` as a small smoke set, not an accuracy benchmark. First confirm the host discovers the skill. In fresh sessions, observe whether the skill is loaded; do not execute negative prompts against live files. Repeat queries to reveal inconsistent activation. Expand with held-out Spanish/English near-misses before tuning the description.
+Use each skill's `trigger-queries.json` as a small smoke set, not an accuracy benchmark. First confirm the host discovers both skills. In fresh sessions, observe whether the correct skill is loaded; do not execute negative prompts against live files. Repeat queries to reveal inconsistent activation. Expand with held-out Spanish/English near-misses before tuning the descriptions.
 
 ## Verification levels
 

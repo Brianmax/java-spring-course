@@ -1,11 +1,13 @@
 ---
 name: java-course-slide-generator
-description: Creates, revises, and reviews this course's standalone HTML slide decks for Java, Spring, databases, and software development. Use for course presentations, slide explanations, diagrams, readability, or deck accessibility, including Spanish requests for diapositivas. Not for application-code changes, site catalog edits, or chat-only explanations.
+description: Creates, extends, revises, and reviews teaching content and behavior in this course's standalone HTML slide decks for Java, Spring, databases, and software development, including Spanish requests for diapositivas. Use for new lessons, explanations, examples, lesson sequence, or deck controls. For visual-only layout, style, or readability work on existing decks, use java-course-slide-design instead. Not for application-code changes, site catalog edits, or chat-only explanations.
 ---
 
 # Java Course Slide Generator
 
 For creation requests, deliver the finished lesson, not merely an outline. The artifact is one offline HTML file with inline CSS and JavaScript. For review-only requests, report findings without editing. Preserve existing course conventions and unrelated working-tree changes.
+
+For visual-only design changes or reviews of an existing deck, use `java-course-slide-design` instead. Continue to apply the shared design system when creating or changing teaching content; the design skill does not replace visual quality work in a complete lesson.
 
 ## Choose the smallest complete workflow
 
@@ -23,7 +25,7 @@ Default to beginners, clear Spanish, `lessons/<topic-slug>.html`, and the projec
 
 Paths below are relative to this skill directory. Load each applicable reference completely; do not follow a chain of partially read references.
 
-- Creating or changing content/layout: [design system](references/design-system.md). Preserve its palette, typography, stage, density, and diagram rules.
+- Creating or changing content/layout: read the [design skill's design system](../java-course-slide-design/references/design-system.md) in full. It owns the palette, typography, stage, density, and diagram rules used by every course deck.
 - Creating a deck or changing controls/runtime: [deck contract](references/deck-contract.md). Existing runtime need not be rebuilt for a wording edit.
 - Planning or delegating substantial work: [worked examples](references/examples.md) and [host adapters](references/host-adapters.md).
 - New deck: optionally copy [starter HTML](assets/deck-starter.html), then replace sample content. It is a runtime foundation, not a lesson or required layout template. Never replace an existing deck's runtime just to adopt it.

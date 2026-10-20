@@ -1,0 +1,9 @@
+[
+  {"query": "This slide is too crowded; improve lessons/java-poo.html", "should_trigger": true},
+  {"query": "Mejora los colores y la jerarquía visual de la presentación existente", "should_trigger": true},
+  {"query": "Review the visual accessibility and contrast of our Java lesson deck, don't edit it", "should_trigger": true},
+  {"query": "Create a complete beginner lesson on while with examples and exercises", "should_trigger": false},
+  {"query": "Add a new explanation of objects before the code", "should_trigger": false},
+  {"query": "Fix slide navigation and fullscreen controls", "should_trigger": false},
+  {"query": "Fix projects/poo/src/Pedido.java", "should_trigger": false}
+]

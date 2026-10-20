@@ -1,6 +1,6 @@
 ---
 name: java-course-slide-generator
-description: Creates, revises, and reviews this course's standalone HTML slide decks for Java, Spring, databases, and software development. Use for course presentations, slide explanations, diagrams, readability, or deck accessibility, including Spanish requests for diapositivas. Not for application-code changes, site catalog edits, or chat-only explanations.
+description: Creates, extends, revises, and reviews teaching content and behavior in this course's standalone HTML slide decks for Java, Spring, databases, and software development, including Spanish requests for diapositivas. Use for new lessons, explanations, examples, lesson sequence, or deck controls. For visual-only layout, style, or readability work on existing decks, use java-course-slide-design instead. Not for application-code changes, site catalog edits, or chat-only explanations.
 ---
 
 # Java Course Slide Generator (OpenCode entry point)

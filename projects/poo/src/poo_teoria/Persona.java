@@ -1,10 +1,10 @@
 package poo_teoria;
 
 public class Persona {
-    private String nombre;
-    private String apellido;
-    private int edad;
-    private String email;
+    protected String nombre;
+    protected String apellido;
+    protected int edad;
+    protected String email;
 
     public Persona(String nombre, String apellido, int edad, String email) {
         this.nombre = nombre;
