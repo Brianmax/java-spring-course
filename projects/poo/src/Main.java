@@ -19,7 +19,7 @@ public class Main {
         ArrayList arrayList = new ArrayList();
 
 
-        Alumno alumno = new Alumno(
+        Alumno estudiante1 = new Alumno(
                 "Sheyla",
                 "Suares",
                 29,
@@ -27,7 +27,7 @@ public class Main {
                 18
         );
 
-        Profesor profesor = new Profesor(
+        Profesor profesor1 = new Profesor(
                 "George",
                 "Maxi",
                 29,
@@ -36,10 +36,36 @@ public class Main {
         );
 
 
-        alumno.imprimirDetalles();
+        estudiante1.imprimirDetalles();
         System.out.println("=============================");
-        profesor.imprimirDetalles();
+        profesor1.imprimirDetalles();
 
+        // una variable de la superclase, puede almacenar
+        // un objeto de una subclase
+        Persona estudiante2 = new Alumno(
+                "Jose",
+                "Martinez",
+                29,
+                "jmartinez@jjdjd.com",
+                19
+        );
+
+        Persona profesor2 = new Profesor(
+                "James",
+                "Larson",
+                21,
+                "jlarson@jfdka.com",
+                999.99
+        );
+        System.out.println("============================================");
+        estudiante2.imprimirDetalles();
+        System.out.println("============================================");
+        profesor2.imprimirDetalles();
+
+        ArrayList<Persona> usuarios = new ArrayList<>();
+        usuarios.add(estudiante1);
+        usuarios.add(profesor1);
+        usuarios.add(estudiante2);
+        usuarios.add(profesor2);
     }
-    // Profesor: double salario
 }

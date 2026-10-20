@@ -63,6 +63,7 @@ After the concrete opening, develop the mental model and mechanics before implem
 - Match the lesson's established language. In this course, teach and label slides in clear Spanish.
 - Define an idea in ordinary words before introducing its technical name. Keep jargon off the first explanatory slide; introduce technical terms on the next step and define them in place.
 - Carry one concrete example through the conceptual and technical explanations. Preserve the same names, values, units, and event. For example, if an unread-message count goes from 3 to 4, make the Java variable, arithmetic, and printed result follow that same change.
+- Name code variables for their role or domain rather than only their order: when teaching two orders, `pedido1` and `pedido2` are clearer than `primero` and `segundo` unless the ordering itself matters. Keep names identical in declarations, calls, diagrams, accessible descriptions, and explanations across connected slides. Distinguish a variable's name from the object's identity (for example, `pedido1` can point to A-17 and later to C-19).
 - Place a topic's beginner explanation beside that topic's section. Do not front-load variables, loops, or another later unit before the lesson has reached it.
 - Use concrete names for code artifacts: say “programa Java que imprime un mensaje en consola” when that is what the example does. Distinguish a small program's instructions from a complete software product when the word “programa” could be ambiguous.
 - Explain the rule before judging the result. If rules are missing, say that the program may produce an incorrect result; avoid vague claims such as “no hay un único resultado esperado” unless multiple outcomes are the actual learning point.
@@ -108,7 +109,7 @@ For step-based visuals:
 
 Do not use decorative motion that competes with instruction.
 
-When illustrating a state change, show the values inside the diagram itself (for example, a visible unread-message badge changing from 3 to 4), and label the event that caused the change (`+1 mensaje`). Captions may reinforce the diagram but must not carry essential state that the visual omits. A simple before → event → after diagram is sufficient; animate the change only when animation makes the cause and result clearer.
+When illustrating a state change, show the values inside the diagram itself (for example, a visible unread-message badge changing from 3 to 4), and label the event that caused the change (`+1 mensaje`). Captions may reinforce the diagram but must not carry essential state that the visual omits. A simple before → event → after diagram is sufficient; animate the change only when animation makes the cause and result clearer. When the values belong to an object, follow the design system's identity grouping so snapshots of one object are not mistaken for separate objects.
 
 Apply the design system's connector geometry, accessible SVG, stage, and roomy/balanced/dense sizing rules. Simplify or split crowded content before shrinking text; narrow layouts preserve the same flow and may scroll. Verify labels above controls at both required laptop sizes.
 

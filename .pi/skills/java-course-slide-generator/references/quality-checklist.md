@@ -12,6 +12,7 @@ Apply this checklist manually after generating the deck. Do not claim an item pa
 - [ ] Makes the motivation specific and traceable: show the actual values, action, and difficulty; do not imply a possible mistake is inevitable or manufacture a failure to justify the concept.
 - [ ] For organizational concepts such as OOP, explains what the new organization helps keep together and acknowledges that a procedural approach can also solve the task correctly.
 - [ ] Keeps one example and its names, values, units, event, and result consistent across the situation, baseline, motivating difficulty, conceptual model, and code comparison.
+- [ ] Uses role- or domain-based variable names (rather than unexplained ordinals) consistently in code, diagrams, accessible descriptions, and adjacent slides; distinguishes variables from the objects they reference.
 - [ ] Places the course roadmap after learners understand the example and the reason for the topic.
 - [ ] Explains why the concept exists and what developers would do without it.
 - [ ] Provides a simple mental model before implementation details.
@@ -39,6 +40,7 @@ Apply this checklist manually after generating the deck. Do not claim an item pa
 - [ ] Loop diagrams match the construct's execution order (for example, `while`: check → body → check; counted `for`: initialize → check → body → update → check).
 - [ ] Relationships are shown spatially with labeled connections.
 - [ ] State changes show meaningful before/after states.
+- [ ] In object diagrams, each visual boundary has a clear identity: one object can show multiple moments within one group; separate objects have separate groups, with unchanged values identified. Separate snapshots of one object are explicitly connected and labeled as the same object.
 - [ ] State values appear inside the visual itself, and the event causing a change is labeled.
 - [ ] The chosen representation fits the topic rather than forcing a generic template.
 - [ ] Animation is used only when it improves understanding.

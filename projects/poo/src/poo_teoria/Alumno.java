@@ -15,4 +15,9 @@ public class Alumno extends Persona {
     public void setPromedio(double promedio) {
         this.promedio = promedio;
     }
+    @Override
+    public void imprimirDetalles() {
+        super.imprimirDetalles();
+        System.out.println("Promedio Alumno: " + promedio);
+    }
 }
