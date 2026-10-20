@@ -110,9 +110,11 @@ code { font-family:var(--font-mono); font-size:.91em; }
 #slide-17 .client-transition .client-arrow-vertical { display:none; }
 #slide-17 .client-transition path { fill:none; stroke:var(--tecsup-cyan); stroke-width:4; stroke-linecap:round; stroke-linejoin:round; }
 /* Slide 24: one product, a later attempted change, and a separate catalog rule. */
-#slide-24 .product-story { padding:22px 28px; border:2px solid #71cbe4; border-radius:16px; background:#f8fcfe; }
+#slide-24 .slide-body { width:min(100%,1320px); align-self:center; }
+#slide-24 .product-layout { display:grid; grid-template-columns:minmax(0,1.5fr) minmax(300px,.9fr); align-items:center; gap:28px; }
+#slide-24 .product-story { min-width:0; padding:22px 28px; border:2px solid #71cbe4; border-radius:16px; background:#f8fcfe; }
 #slide-24 .product-story h3 { margin:4px 0 20px; color:#075a7a; }
-#slide-24 .product-timeline { display:grid; grid-template-columns:minmax(0,1fr) 130px minmax(0,1fr); align-items:center; gap:20px; }
+#slide-24 .product-timeline { display:grid; grid-template-columns:minmax(0,1fr) 110px minmax(0,1.1fr); align-items:center; gap:14px; }
 #slide-24 .product-moment { min-width:0; }
 #slide-24 .product-moment .label { display:block; margin-bottom:8px; }
 #slide-24 .product-moment p { font-size:22px; }
@@ -122,7 +124,11 @@ code { font-family:var(--font-mono); font-size:.91em; }
 #slide-24 .product-next .product-arrow-vertical { display:none; }
 #slide-24 .product-next path { fill:none; stroke:var(--tecsup-cyan); stroke-width:4; stroke-linecap:round; stroke-linejoin:round; }
 #slide-24 .product-records { margin-top:22px; padding-top:14px; border-top:1px solid #abddea; font-size:19px; }
-#slide-24 .product-rule { display:flex; align-items:center; flex-wrap:wrap; gap:8px 18px; padding:12px 16px; border-left:5px solid var(--tecsup-blue); border-radius:0 10px 10px 0; background:var(--surface); font-size:20px; }
+#slide-24 .product-rule { display:flex; flex-direction:column; align-items:flex-start; gap:12px; min-width:0; padding:20px; border-left:5px solid var(--tecsup-blue); border-radius:0 10px 10px 0; background:var(--surface); font-size:18px; line-height:1.4; }
+#slide-24 .product-rule strong { font-size:24px; line-height:1.25; }
+@media(max-width:1050px) {
+  #slide-24 .product-layout { grid-template-columns:1fr; gap:18px; }
+}
 /* Slide 8: class description branches to two independent orders. */
 #slide-8 { gap:14px; padding-block:22px; }
 #slide-8 .slide-body { width:100%; gap:10px; }
@@ -220,6 +226,7 @@ li + li { margin-top:8px; }
   #slide-24 .product-next .product-arrow-horizontal { display:none; }
   #slide-24 .product-next .product-arrow-vertical { display:block; width:28px; height:52px; }
   #slide-24 .product-records { margin-top:16px; }
+  #slide-24 .product-rule { padding:16px 20px; }
   #slide-8 { gap:18px; }
   #slide-8 .slide-body { gap:14px; }
   #slide-8 .model-class { width:100%; padding:16px; }
@@ -616,8 +623,8 @@ pedidos[<span class="tok-number">0</span>].agregarUnidad();   <span class="tok-c
 <section class="slide" id="slide-22" data-title="Quién puede acceder a cada miembro" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 4 · Visibilidad</p><h2>Quién puede acceder a cada miembro</h2></header><div class="slide-body"><div class="comparison"><div><b>Modificador</b><b>Alcance</b></div><div><code>public</code><span>Desde cualquier clase que pueda ver ese tipo.</span></div><div><code>private</code><span>Oculto para otras clases independientes; se usa dentro de la clase declaradora.</span></div><div><i>sin modificador</i><span>Clases del mismo paquete, un grupo de clases relacionadas.</span></div><div><code>protected</code><span>Mismo paquete; también subclases fuera de él, con restricciones sobre el tipo de referencia usado.</span></div></div><p class="callout">Un getter permite consultar cuando conviene; un setter no es obligatorio. protected no significa “todo objeto hijo puede acceder a todo”.</p></div></section>
 <section class="slide" id="slide-23" data-title="Práctica: el inventario conserva sus reglas" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 4 · Práctica</p><h2>Práctica: el inventario conserva sus reglas</h2></header><div class="slide-body exercise"><article class="panel stack"><h3>Situación y objetivo</h3><p>Completa Inventario con operaciones para retirar y reponer existencias.</p><p><b>Inicio:</b> stock = 5.</p></article><article class="panel accent stack"><h3>Resultado esperado</h3><p>Retirar 2 deja 3. En un inventario nuevo, retirar 8 se rechaza y deja 5.</p><p><b>Restricciones:</b> cantidades positivas; stock no negativo; fallar sin cambiarlo; no exponer el campo.</p><p><b>Reto:</b> valida también el stock inicial.</p></article><p class="callout warning">Evita validar solo en la pantalla o devolver una colección interna modificable.</p></div></section>
 <section class="slide" id="slide-24" data-title="El código del producto no debe cambiar después" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Situación</p><h2>El código del producto no debe cambiar después</h2></header><div class="slide-body">
-<article class="product-story" aria-labelledby="product-cu10-title"><span class="label">Un solo producto</span><h3 id="product-cu10-title">Producto CU-10</h3><div class="product-timeline"><div class="product-moment"><span class="label">Al crearlo</span><p>Código <strong>CU-10</strong></p></div><div class="product-next"><span>Más tarde</span><svg class="product-arrow-horizontal" viewBox="0 0 110 28" aria-hidden="true"><path d="M3 14H103 M91 3L103 14L91 25"/></svg><svg class="product-arrow-vertical" viewBox="0 0 28 52" aria-hidden="true"><path d="M14 2V48 M3 37L14 48L25 37"/></svg></div><div class="product-moment"><span class="label">Intento de cambio</span><p>Cambiar a <strong>CU-99</strong></p></div></div><p class="product-records"><b>Problema:</b> los registros ya usan CU-10.</p></article>
-<p class="product-rule"><span class="label">Catálogo · regla compartida</span><strong>Máximo 12 caracteres por código</strong></p><p class="callout">El código identifica el producto. El límite es una regla compartida por el catálogo, no un valor distinto por ejemplar.</p></div></section>
+<div class="product-layout"><article class="product-story" aria-labelledby="product-cu10-title"><span class="label">Un solo producto</span><h3 id="product-cu10-title">Producto CU-10</h3><div class="product-timeline"><div class="product-moment"><span class="label">Al crearlo</span><p>Código <strong>CU-10</strong></p></div><div class="product-next"><span>Más tarde</span><svg class="product-arrow-horizontal" viewBox="0 0 110 28" aria-hidden="true"><path d="M3 14H103 M91 3L103 14L91 25"/></svg><svg class="product-arrow-vertical" viewBox="0 0 28 52" aria-hidden="true"><path d="M14 2V48 M3 37L14 48L25 37"/></svg></div><div class="product-moment"><span class="label">Intento de cambio</span><p>Cambiar a <strong>CU-99</strong></p></div></div><p class="product-records"><b>Problema:</b> los registros ya usan CU-10.</p></article>
+<aside class="product-rule"><span class="label">Catálogo · regla compartida</span><strong>Máximo 12 caracteres por código</strong><p>El código identifica el producto. El límite es una regla compartida por el catálogo, no un valor distinto por ejemplar.</p></aside></div></div></section>
 <section class="slide" id="slide-25" data-title="Un límite compartido pertenece a la clase" data-level="Básico" hidden><header class="slide-header"><p class="eyebrow">Básico · Unidad 5 · static final</p><h2>Un límite compartido pertenece a la clase</h2></header><div class="slide-body code-split"><div class="stack"><span class="code-label">Fragmento de clase Producto · no es un programa completo</span><pre class="code"><code><span class="tok-keyword">class</span> <span class="tok-type">Producto</span> {
     <span class="tok-keyword">static</span> <span class="tok-keyword">final</span> <span class="tok-keyword">int</span> <span class="tok-type">MAX_CODIGO</span> = <span class="tok-number">12</span>;
     <span class="tok-comment">// Resto de campos y métodos omitidos</span>
