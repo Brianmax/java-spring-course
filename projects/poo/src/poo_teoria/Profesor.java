@@ -14,4 +14,13 @@ public class Profesor extends Persona{
     public void setSalario(double salario) {
         this.salario = salario;
     }
+
+    @Override
+    public void imprimirDetalles() {
+        System.out.println("Nombre Profesor: " + nombre);
+        System.out.println("Apellido Profesor: " + apellido);
+        System.out.println("Edad Profesor: " + edad);
+        System.out.println("Email Profesor: " + email);
+        System.out.println("Salario Profesor: " + salario);
+    }
 }
