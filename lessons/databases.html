@@ -125,7 +125,7 @@
   <header class="chrome"><a href="../">Curso de Java</a><span>Bases de datos · de la compra al modelo de datos</span></header>
   <main class="deck" id="deck" tabindex="-1" aria-label="Presentación: bases de datos">
     <section class="slide" data-title="La compra de Ana">
-      <header class="slide-header"><div class="eyebrow">TECSUP · JAVA COURSE</div><h1>Una compra que recordar</h1></header>
+      <header class="slide-header"><div class="eyebrow">TECSUP · JAVA COURSE</div><h1>Ana quiere 3 cuadernos</h1></header>
       <div class="slide-body split">
         <div class="stack"><p class="lead">Ana quiere comprar <strong>3 cuadernos</strong>. Cada uno cuesta <strong>S/ 12</strong>.</p><p>Un <strong>pedido</strong> es el registro de quién compra, qué quiere, cuánto y cuánto pagará.</p></div>
         <div class="panel tint"><div class="label">Pedido A-17 · Ana</div><div class="fact"><span>Producto</span><strong>Cuaderno</strong></div><div class="fact"><span>Cantidad</span><strong>3 unidades</strong></div><div class="fact"><span>Precio por unidad</span><strong>S/ 12</strong></div><div class="fact"><span>3 × S/ 12</span><strong class="big blue">S/ 36</strong></div></div>
@@ -145,27 +145,27 @@
     </section>
 
     <section class="slide" data-title="Datos y gestor" hidden>
-      <header class="slide-header"><div class="eyebrow">Ahora sí, el concepto</div><h2>Datos persistentes + software que los gestiona</h2></header>
+      <header class="slide-header"><div class="eyebrow">Ahora sí, el concepto</div><h2>Datos y gestor: ¿qué hace cada uno?</h2></header>
       <div class="slide-body"><p class="lead">Para recuperar A-17 tras el reinicio, la tienda necesita conservar y organizar sus registros.</p><div class="flow"><div class="panel tint"><div class="label">Base de datos · datos</div><p>Pedidos y clientes <strong>organizados</strong> y guardados para usarlos más adelante.</p></div><div class="connector">consultar y<br>actualizar<b aria-hidden="true">↔</b></div><div class="panel white"><div class="label">SGBD · software</div><p>El <strong>sistema gestor de bases de datos</strong> guarda, busca y administra esos datos.</p></div></div><div class="callout">La aplicación Java solicita datos al gestor; Java no es el gestor ni los datos almacenados.</div></div>
     </section>
 
     <section class="slide" data-title="Ruta de la lección" hidden>
-      <header class="slide-header"><div class="eyebrow">TECSUP · JAVA COURSE</div><h2>Dos maneras de organizar la tienda</h2></header>
+      <header class="slide-header"><div class="eyebrow">TECSUP · JAVA COURSE</div><h2>¿Cómo organizar los datos de la tienda?</h2></header>
       <div class="slide-body"><p class="lead">Ya sabemos por qué persistir y recuperar A-17. Ahora veremos cómo organizar <strong>pedidos, clientes y productos</strong>.</p><div class="route"><div class="panel"><div class="label">01 · Relacional</div><p>Clientes y pedidos en tablas conectadas.</p></div><div class="panel"><div class="label">02 · No relacional</div><p>Productos con detalles distintos en documentos; otros modelos para otros accesos.</p></div><div class="panel"><div class="label">03 · Elegir</div><p>Comparar consultas, cambios e integridad según el problema.</p></div></div></div>
     </section>
 
     <section class="slide" data-title="Datos repetidos" hidden>
-      <header class="slide-header"><div class="eyebrow">Pedidos y clientes · punto de partida</div><h2>Editar dos copias puede causar desacuerdo</h2></header>
+      <header class="slide-header"><div class="eyebrow">Pedidos y clientes · punto de partida</div><h2>¿Qué pasa si actualizamos solo una copia?</h2></header>
       <div class="slide-body"><p class="lead">Si cada pedido guarda también el contacto de Ana, la lista funciona, pero el mismo contacto aparece dos veces.</p><div class="table-section"><strong class="table-title" id="flat-title">Lista única de pedidos, después de una edición incompleta</strong><p class="mobile-hint">Desliza o enfoca la tabla y usa las flechas para ver correos y detalles →</p><div class="table-wrap" tabindex="0" role="region" aria-labelledby="flat-title"><table><thead><tr><th>Pedido</th><th>Cliente</th><th>Correo copiado en el pedido</th><th>Detalle</th></tr></thead><tbody><tr><td>A-17</td><td>Ana</td><td class="key">ana@nueva.pe</td><td>3 cuadernos · S/ 36</td></tr><tr><td>A-18</td><td>Ana</td><td class="key">ana@tienda.pe</td><td>1 mochila · S/ 45</td></tr></tbody></table></div></div><div class="callout warn"><strong>Evento:</strong> Ana cambia su correo de ana@tienda.pe a ana@nueva.pe; se edita A-17, pero se olvida A-18. Una lista plana también puede mantenerse bien si la aplicación actualiza ambas copias.</div></div>
     </section>
 
     <section class="slide" data-title="Tablas relacionadas" hidden>
-      <header class="slide-header"><div class="eyebrow">Modelo relacional</div><h2>Una clienta, dos pedidos relacionados</h2></header>
+      <header class="slide-header"><div class="eyebrow">Modelo relacional</div><h2>¿Cómo se relacionan Clientes y Pedidos?</h2></header>
       <div class="slide-body"><p class="small">En vez de copiar el contacto en cada pedido, se guarda en <strong>Clientes</strong> y se identifica a Ana como C-01. Cada fila es un registro y cada columna describe un dato.</p><div class="relations"><div class="panel white table-section"><strong class="table-title" id="clients-title">Clientes</strong><div class="table-wrap" tabindex="0" role="region" aria-labelledby="clients-title"><table><thead><tr><th>ID · clave primaria</th><th>Nombre</th><th>Correo</th></tr></thead><tbody><tr><td class="key">C-01</td><td>Ana</td><td>ana@nueva.pe</td></tr></tbody></table></div></div><div class="connector">C-01 coincide con cliente_id<b aria-hidden="true">→</b></div><div class="panel white table-section"><strong class="table-title" id="orders-title">Pedidos</strong><p class="mobile-hint">Desliza o enfoca la tabla y usa las flechas para ver detalle y total →</p><div class="table-wrap" tabindex="0" role="region" aria-labelledby="orders-title"><table><thead><tr><th>ID · clave primaria</th><th>cliente_id · clave foránea</th><th>Detalle</th><th>Total</th></tr></thead><tbody><tr><td class="key">A-17</td><td class="key">C-01</td><td>3 cuadernos × S/ 12</td><td>S/ 36</td></tr><tr><td class="key">A-18</td><td class="key">C-01</td><td>1 mochila × S/ 45</td><td>S/ 45</td></tr></tbody></table></div></div></div><div class="callout">La <strong>clave primaria</strong> identifica una fila; la <strong>clave foránea</strong> señala la fila relacionada. Otros datos, como el detalle del pedido, pueden repetirse cuando corresponde.</div></div>
     </section>
 
     <section class="slide" data-title="Consultar la relación" hidden>
-      <header class="slide-header"><div class="eyebrow">Del vínculo a la consulta</div><h2>Buscar A-17 y el nombre de su cliente</h2></header>
+      <header class="slide-header"><div class="eyebrow">Del vínculo a la consulta</div><h2>¿Cómo encontrar a Ana desde A-17?</h2></header>
       <div class="slide-body split wide-left"><div><span class="code-label">Consulta SQL de ejemplo · tablas de la diapositiva anterior</span><pre><code><span class="tok-keyword">SELECT</span> p.id, c.nombre
 <span class="tok-keyword">FROM</span> Pedidos <span class="tok-keyword">AS</span> p
 <span class="tok-keyword">JOIN</span> Clientes <span class="tok-keyword">AS</span> c
@@ -174,12 +174,12 @@
     </section>
 
     <section class="slide" data-title="Integridad configurada" hidden>
-      <header class="slide-header"><div class="eyebrow">Cuándo ayuda el modelo</div><h2>Evitar un pedido que apunta a nadie</h2></header>
+      <header class="slide-header"><div class="eyebrow">Cuándo ayuda el modelo</div><h2>¿Qué pasa si el cliente C-99 no existe?</h2></header>
       <div class="slide-body"><p class="lead">La tienda intenta guardar el pedido A-19 con <strong>cliente_id C-99</strong>, pero en Clientes solo existe C-01.</p><div class="flow"><div class="panel white"><div class="label">Pedido propuesto</div><p><strong>A-19</strong><br>cliente_id = C-99</p></div><div class="connector">buscar C-99<br>en Clientes<b aria-hidden="true">→</b></div><div class="panel white"><div class="label">Clientes</div><p>Solo <strong>C-01</strong> · Ana</p></div><div class="connector">C-99 no existe<b aria-hidden="true">→</b></div><div class="panel tint"><div class="label">Regla configurada</div><p>La <strong>clave foránea</strong> rechaza A-19.</p></div></div><div class="callout warn">La integridad <strong>no aparece solo por usar tablas</strong>: hay que definir y mantener las restricciones adecuadas. Otros motores y modelos también ofrecen mecanismos de integridad.</div></div>
     </section>
 
     <section class="slide" data-title="Catálogo variable" hidden>
-      <header class="slide-header"><div class="eyebrow">Puente: de pedidos al catálogo</div><h2>Los productos no describen lo mismo</h2></header>
+      <header class="slide-header"><div class="eyebrow">Puente: de pedidos al catálogo</div><h2>¿Qué dato necesita cada producto?</h2></header>
       <div class="slide-body"><p class="lead">A-17 contiene cuadernos y A-18 una mochila. Para mostrar el catálogo, cada producto necesita datos propios.</p><div class="split"><div class="panel white"><div class="label">P-01 · Cuaderno · S/ 12</div><div class="fact"><span>Dato particular</span><strong>80 páginas</strong></div></div><div class="panel tint"><div class="label">P-02 · Mochila · S/ 45</div><div class="fact"><span>Dato particular</span><strong>20 L de capacidad</strong></div></div></div><div class="callout">Una tabla con columnas <strong>páginas</strong> y <strong>capacidad</strong> puede funcionar, pero acumula campos opcionales al crecer el catálogo. También hay soluciones relacionales con tablas auxiliares o campos JSON.</div></div>
     </section>
 
@@ -199,27 +199,27 @@
     </section>
 
     <section class="slide" data-title="Otros modelos no relacionales" hidden>
-      <header class="slide-header"><div class="eyebrow">Además de documentos</div><h2>Elegir por la pregunta que hay que responder</h2></header>
+      <header class="slide-header"><div class="eyebrow">Además de documentos</div><h2>Clave-valor y grafos: otras opciones</h2></header>
       <div class="slide-body"><p class="lead">El catálogo variable favorece explorar documentos; otras necesidades de la misma tienda piden otras formas de acceso.</p><div class="split"><div class="panel tint"><div class="label">Clave → valor</div><p><strong>carrito:C-01</strong> → [P-01, P-02]</p><p class="small">Útil si la aplicación necesita recuperar rápidamente un carrito por una clave conocida.</p></div><div class="panel white"><div class="label">Grafo · nodos y relaciones</div><p><strong>Ana (C-01)</strong> —hizo→ <strong>Pedido A-17</strong></p><p class="small">Útil para recorrer relaciones entre clientes y pedidos, por ejemplo al explorar compras relacionadas.</p></div></div><div class="callout">No todos los sistemas no relacionales guardan documentos. Sus consultas, transacciones y relaciones dependen del motor y del diseño: no se puede afirmar que “ninguno hace JOIN”.</div></div>
     </section>
 
     <section class="slide" data-title="Comparación justa" hidden>
-      <header class="slide-header"><div class="eyebrow">Pedidos y clientes · catálogo variable</div><h2>Comparar necesidades, no etiquetas</h2></header>
+      <header class="slide-header"><div class="eyebrow">Pedidos y clientes · catálogo variable</div><h2>¿Cuándo convienen tablas o documentos?</h2></header>
       <div class="slide-body"><div class="table-section"><p class="mobile-hint">Desliza o enfoca la tabla y usa las flechas para comparar ambas opciones →</p><div class="table-wrap" tabindex="0" role="region" aria-label="Comparación entre tablas relacionadas y documentos"><table class="choice"><thead><tr><th>Pregunta</th><th>Tablas relacionadas</th><th>Documentos</th></tr></thead><tbody><tr><td>Modelo</td><td>Clientes C-01 y Pedidos A-17/A-18 vinculados por ID.</td><td>Productos P-01 y P-02 con detalles distintos por documento.</td></tr><tr><td>Consultas</td><td>Unir datos relacionados, como A-17 y Ana, con SQL.</td><td>Leer un producto completo por ID; otras consultas dependen del motor.</td></tr><tr><td>Cambios</td><td>Definir columnas o usar otras estructuras para atributos nuevos.</td><td>Añadir un campo a algunos documentos; validar datos igualmente.</td></tr><tr><td>Integridad</td><td>Restricciones configurables para vínculos como cliente_id.</td><td>Reglas y transacciones varían según el motor y la configuración.</td></tr></tbody></table></div></div><div class="callout">La escala y el rendimiento dependen del motor, índices, consultas y arquitectura; <strong>ambos enfoques pueden resolver muchas de estas tareas</strong>.</div></div>
     </section>
 
     <section class="slide" data-title="Cómo decidir" hidden>
-      <header class="slide-header"><div class="eyebrow">Decisión práctica</div><h2>Empieza por las operaciones reales</h2></header>
+      <header class="slide-header"><div class="eyebrow">Decisión práctica</div><h2>¿Qué consultas y reglas necesita la tienda?</h2></header>
       <div class="slide-body"><div class="route"><div class="panel"><div class="label">01 · Datos</div><p>¿Qué se guarda? A-17, C-01 y productos P-01/P-02.</p></div><div class="panel"><div class="label">02 · Consultas y reglas</div><p>¿Se consulta A-17 con Ana? ¿Debe impedirse cliente_id inexistente? ¿Cambian los detalles del catálogo?</p></div><div class="panel"><div class="label">03 · Prueba</div><p>Elige un motor y verifica consultas, índices, validación y crecimiento con datos de ejemplo.</p></div></div><div class="callout good">No hace falta mezclar tecnologías por obligación: una sola solución bien diseñada puede cubrir pedidos y catálogo. Mezclar motores añade operación y sincronización.</div></div>
     </section>
 
     <section class="slide" data-title="Resumen visual" hidden>
-      <header class="slide-header"><div class="eyebrow">Volvemos a la compra</div><h2>Del pedido de Ana a una elección informada</h2></header>
+      <header class="slide-header"><div class="eyebrow">Volvemos a la compra</div><h2>¿Qué modelo conviene para esta tienda?</h2></header>
       <div class="slide-body"><div class="flow"><div class="panel white"><div class="label">Compra</div><p><strong>A-17</strong><br>Ana · 3 cuadernos × S/ 12<br><strong>Total S/ 36</strong></p></div><div class="connector">guardar<b aria-hidden="true">→</b></div><div class="panel tint"><div class="label">Pedidos y clientes</div><p><strong>Clientes C-01</strong> · Ana<br><strong>Pedidos A-17</strong> · cliente_id C-01</p></div><div class="connector">otra necesidad:<br>describir productos<b aria-hidden="true">→</b></div><div class="panel white"><div class="label">Catálogo</div><p><strong>P-01</strong> · cuaderno · 80 páginas<br><strong>P-02</strong> · mochila · 20 L</p></div></div><div class="callout">A-17 contiene cuadernos y A-18 una mochila en el ejemplo; <strong>no modelamos una clave de producto en Pedidos</strong>. Un gestor conserva y consulta datos; elige el modelo según las consultas y reglas necesarias.</div></div>
     </section>
 
     <section class="slide" data-title="Practica con la tienda" hidden>
-      <header class="slide-header"><div class="eyebrow">Ahora te toca</div><h2>Diseña cómo recuperar las compras</h2></header>
+      <header class="slide-header"><div class="eyebrow">Ahora te toca</div><h2>Diseña las tablas Clientes y Pedidos</h2></header>
       <div class="slide-body"><div class="exercise"><div class="panel tint"><div class="label">Objetivo y punto de partida</div><p>Después de reiniciar el programa, recuperar el pedido <strong>A-17</strong> con el nombre de su cliente.</p><p class="small">Ana = C-01 · ana@nueva.pe.<br>A-17: 3 cuadernos × S/ 12 = S/ 36.<br>A-18: 1 mochila × S/ 45 = S/ 45.</p></div><div class="panel"><div class="label">Tu entrega</div><p>Dibuja <strong>Clientes</strong> y <strong>Pedidos</strong>: filas, columnas, claves y vínculo. Escribe qué campos consultarías para mostrar <strong>“A-17 · Ana · S/ 36”</strong>.</p></div><div class="panel"><div class="label">Restricciones</div><p>Usa C-01 en ambos pedidos, sin duplicar el correo de Ana. Explica qué regla impediría un pedido con cliente_id C-99.</p></div><div class="panel"><div class="label">Desafío opcional</div><p>Representa el catálogo P-01 (cuaderno, S/ 12, 80 páginas) y P-02 (mochila, S/ 45, 20 L); justifica tabla o documentos.</p></div></div></div>
     </section>
   </main>
