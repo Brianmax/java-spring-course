@@ -93,6 +93,22 @@
     .choice { width:100%; border-collapse:collapse; }
     .choice th:first-child { width:22%; }
     .choice th:nth-child(2),.choice th:nth-child(3) { width:39%; }
+    .client-map { display:grid; grid-template-columns:minmax(0,1fr) 150px minmax(0,1fr); gap:10px 18px; align-items:center; }
+    .client-map .server-node { grid-column:3; grid-row:1 / 3; border:2px solid var(--tecsup-blue); }
+    .client-map .connector { font-size:16px; }
+    .client-map .connector b { font-size:29px; }
+    .exchange { display:grid; grid-template-columns:minmax(0,1fr) 148px minmax(0,1fr); gap:10px 18px; align-items:center; }
+    .exchange .connector { font-size:16px; }
+    .exchange .connector b { font-size:29px; }
+    .exchange .return-client { grid-column:1; grid-row:2; }
+    .exchange .return-arrow { grid-column:2; grid-row:2; }
+    .exchange .return-server { grid-column:3; grid-row:2; }
+    .hierarchy { border:2px solid var(--tecsup-blue); border-radius:16px; padding:14px 18px; background:#f7fcff; }
+    .hierarchy > .label { margin-bottom:10px; }
+    .hierarchy-inner { margin-left:24px; padding:12px 18px; border:1px solid #a9d9e8; border-left:5px solid var(--tecsup-cyan); border-radius:12px; background:white; }
+    .hierarchy-tables { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; margin-top:12px; }
+    .hierarchy-tables .panel { padding:12px 16px; }
+    .hierarchy-tables p { margin-top:5px; }
     .mobile-hint { display:none; }
     .exercise { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:15px; }
     .exercise .panel { border-top:4px solid var(--tecsup-blue); }
@@ -115,6 +131,18 @@
       .table-wrap:not(.panel) > table { min-width:560px; }
       .relations .panel:last-child table { min-width:580px; }
       .choice { min-width:560px; }
+      .client-map { grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; align-items:start; }
+      .client-map > :nth-child(1) { grid-column:1; grid-row:1; }
+      .client-map > :nth-child(2) { grid-column:1; grid-row:2; }
+      .client-map > :nth-child(3) { grid-column:2; grid-row:1; }
+      .client-map > :nth-child(4) { grid-column:2; grid-row:2; }
+      .client-map .server-node { grid-column:1 / -1; grid-row:3; }
+      .exchange { grid-template-columns:1fr; gap:8px; }
+      .exchange .return-client,.exchange .return-arrow,.exchange .return-server { grid-column:auto; grid-row:auto; }
+      .client-map .connector b,.exchange .connector b { transform:rotate(90deg); }
+      .exchange .return-arrow b { transform:rotate(-90deg); }
+      .hierarchy-inner { margin-left:8px; padding:12px; }
+      .hierarchy-tables { grid-template-columns:1fr; }
       .mobile-hint { display:block; margin:0 0 7px; color:#075f82; font-size:15px; font-weight:700; }
       pre { white-space:pre-wrap; overflow-wrap:anywhere; }
     }
@@ -149,9 +177,29 @@
       <div class="slide-body"><p class="lead">Para recuperar A-17 tras el reinicio, la tienda necesita conservar y organizar sus registros.</p><div class="flow"><div class="panel tint"><div class="label">Base de datos · datos</div><p>Pedidos y clientes <strong>organizados</strong> y guardados para usarlos más adelante.</p></div><div class="connector">consultar y<br>actualizar<b aria-hidden="true">↔</b></div><div class="panel white"><div class="label">SGBD · software</div><p>El <strong>sistema gestor de bases de datos</strong> guarda, busca y administra esos datos.</p></div></div><div class="callout">La aplicación Java solicita datos al gestor; Java no es el gestor ni los datos almacenados.</div></div>
     </section>
 
+    <section class="slide" data-title="MySQL Server y tienda" hidden>
+      <header class="slide-header"><div class="eyebrow">Un gestor concreto</div><h2>¿Quién recupera A-17?</h2></header>
+      <div class="slide-body split"><div class="stack"><p class="lead"><strong>MySQL Server</strong> es el software gestor en ejecución: recibe solicitudes, comprueba el acceso y lee o escribe datos.</p><div class="callout">El programa servidor no es la base de datos: <strong>tienda</strong> es el conjunto de datos almacenados que administra.</div></div><div class="panel tint"><div class="label">Ejemplo · tienda</div><div class="fact"><span>Gestor en ejecución</span><strong>MySQL Server</strong></div><div class="fact"><span>Base de datos guardada</span><strong>tienda</strong></div><div class="fact"><span>Registro recuperado</span><strong>A-17 · Ana · S/ 36</strong></div></div></div>
+    </section>
+
+    <section class="slide" data-title="Clientes del servidor" hidden>
+      <header class="slide-header"><div class="eyebrow">¿Quién hace la solicitud?</div><h2>Dos programas pueden pedir datos</h2></header>
+      <div class="slide-body"><p class="lead">Un <strong>cliente de base de datos</strong> es un programa que se conecta y solicita datos al servidor.</p><div class="client-map"><div class="panel white"><div class="label">Cliente gráfico</div><strong>MySQL Workbench</strong><p class="small">Una persona escribe consultas en su interfaz.</p></div><div class="connector">solicita datos<b aria-hidden="true">→</b></div><div class="panel white"><div class="label">Cliente de la tienda</div><strong>Aplicación Java</strong><p class="small">Solicita A-17 mediante un conector de base de datos.</p></div><div class="connector">solicita A-17<b aria-hidden="true">→</b></div><div class="panel tint server-node"><div class="label">Un mismo destino</div><strong>MySQL Server</strong><p class="small">Consulta los datos de <strong>tienda</strong>.</p></div></div><div class="callout">Aquí «cliente» significa <strong>programa que consulta</strong>; Ana es una compradora guardada en la tabla Clientes, no un cliente de conexión.</div></div>
+    </section>
+
+    <section class="slide" data-title="Conexión y respuesta" hidden>
+      <header class="slide-header"><div class="eyebrow">Una conexión de ejemplo</div><h2>¿Cómo llega la respuesta A-17?</h2></header>
+      <div class="slide-body"><div class="panel tint small"><strong>Configurar:</strong> servidor <strong>localhost</strong> (este equipo; también podría ser otro) · puerto TCP <strong>3306</strong> (predeterminado en MySQL, configurable) · base <strong>tienda</strong> · usuario y contraseña autorizados (solo ilustrativos).</div><div class="exchange"><div class="panel white"><div class="label">1 · Cliente</div><p>Se conecta con sus credenciales; al obtener acceso, envía una consulta SQL para buscar A-17 y el nombre de su cliente.</p></div><div class="connector">credenciales;<br>luego consulta<b aria-hidden="true">→</b></div><div class="panel tint"><div class="label">2 · MySQL Server</div><p>Autentica primero y, si permite el acceso, consulta <strong>tienda</strong>.</p></div><div class="panel tint return-server"><div class="label">3 · Servidor devuelve</div><p>Envía el resultado al cliente.</p></div><div class="connector return-arrow">respuesta<b aria-hidden="true">←</b></div><div class="panel white return-client"><div class="label">4 · Cliente recibe</div><p>Resultado: <strong>A-17 · Ana</strong>.</p></div></div><p class="small">Más adelante escribiremos la consulta en SQL; aquí seguimos el recorrido de ida y vuelta.</p></div>
+    </section>
+
+    <section class="slide" data-title="Workbench no es el servidor" hidden>
+      <header class="slide-header"><div class="eyebrow">Evitar una confusión</div><h2>¿Cerrar Workbench apaga MySQL?</h2></header>
+      <div class="slide-body"><p class="lead"><strong>No:</strong> MySQL Workbench es una aplicación cliente, no MySQL Server ni la base de datos <strong>tienda</strong>.</p><div class="split"><div class="panel tint"><div class="label">Antes · servidor en ejecución</div><p>Workbench abierto → consulta A-17.<br>Aplicación Java → consulta A-17.</p></div><div class="panel white"><div class="label">Después · Workbench cerrado</div><p>Workbench ya no consulta.<br><strong>Java aún puede consultar</strong> si MySQL Server sigue en ejecución.</p></div></div><div class="callout warn">Si se detiene MySQL Server, Workbench y Java pierden acceso; <strong>los datos ya guardados no se borran por apagarlo</strong>. Instalar Workbench no garantiza que el servidor esté instalado o iniciado.</div></div>
+    </section>
+
     <section class="slide" data-title="Ruta de la lección" hidden>
       <header class="slide-header"><div class="eyebrow">TECSUP · JAVA COURSE</div><h2>¿Cómo organizar los datos de la tienda?</h2></header>
-      <div class="slide-body"><p class="lead">Ya sabemos por qué persistir y recuperar A-17. Ahora veremos cómo organizar <strong>pedidos, clientes y productos</strong>.</p><div class="route"><div class="panel"><div class="label">01 · Relacional</div><p>Clientes y pedidos en tablas conectadas.</p></div><div class="panel"><div class="label">02 · No relacional</div><p>Productos con detalles distintos en documentos; otros modelos para otros accesos.</p></div><div class="panel"><div class="label">03 · Elegir</div><p>Comparar consultas, cambios e integridad según el problema.</p></div></div></div>
+      <div class="slide-body"><p class="lead">Ya vimos cómo un cliente recupera A-17 desde el servidor. Ahora veremos cómo organizar <strong>pedidos, clientes y productos</strong> dentro de los datos.</p><div class="route"><div class="panel"><div class="label">01 · Relacional</div><p>Clientes y pedidos en tablas conectadas.</p></div><div class="panel"><div class="label">02 · No relacional</div><p>Productos con detalles distintos en documentos; otros modelos para otros accesos.</p></div><div class="panel"><div class="label">03 · Elegir</div><p>Comparar consultas, cambios e integridad según el problema.</p></div></div></div>
     </section>
 
     <section class="slide" data-title="Datos repetidos" hidden>
@@ -164,9 +212,14 @@
       <div class="slide-body"><p class="small">En vez de copiar el contacto en cada pedido, se guarda en <strong>Clientes</strong> y se identifica a Ana como C-01. Cada fila es un registro y cada columna describe un dato.</p><div class="relations"><div class="panel white table-section"><strong class="table-title" id="clients-title">Clientes</strong><div class="table-wrap" tabindex="0" role="region" aria-labelledby="clients-title"><table><thead><tr><th>ID · clave primaria</th><th>Nombre</th><th>Correo</th></tr></thead><tbody><tr><td class="key">C-01</td><td>Ana</td><td>ana@nueva.pe</td></tr></tbody></table></div></div><div class="connector">C-01 coincide con cliente_id<b aria-hidden="true">→</b></div><div class="panel white table-section"><strong class="table-title" id="orders-title">Pedidos</strong><p class="mobile-hint">Desliza o enfoca la tabla y usa las flechas para ver detalle y total →</p><div class="table-wrap" tabindex="0" role="region" aria-labelledby="orders-title"><table><thead><tr><th>ID · clave primaria</th><th>cliente_id · clave foránea</th><th>Detalle</th><th>Total</th></tr></thead><tbody><tr><td class="key">A-17</td><td class="key">C-01</td><td>3 cuadernos × S/ 12</td><td>S/ 36</td></tr><tr><td class="key">A-18</td><td class="key">C-01</td><td>1 mochila × S/ 45</td><td>S/ 45</td></tr></tbody></table></div></div></div><div class="callout">La <strong>clave primaria</strong> identifica una fila; la <strong>clave foránea</strong> señala la fila relacionada. Otros datos, como el detalle del pedido, pueden repetirse cuando corresponde.</div></div>
     </section>
 
+    <section class="slide" data-title="Dentro de la base tienda" hidden>
+      <header class="slide-header"><div class="eyebrow">Ubicar las tablas</div><h2>¿Dónde viven Clientes y Pedidos?</h2></header>
+      <div class="slide-body"><div class="hierarchy"><div class="label">MySQL Server · puede administrar varias bases de datos</div><div class="hierarchy-inner"><strong>Base de datos tienda</strong><div class="hierarchy-tables"><div class="panel white"><div class="label">Tabla Clientes</div><p class="small"><strong>Columnas (campos):</strong> id, nombre, correo</p><p class="small"><strong>Fila (registro):</strong> C-01 · Ana · ana@nueva.pe</p></div><div class="panel white"><div class="label">Tabla Pedidos</div><p class="small"><strong>Columnas (campos):</strong> id, cliente_id, detalle, total</p><p class="small"><strong>Fila (registro):</strong> A-17 · C-01 · 3 cuadernos · S/ 36</p></div></div></div></div><div class="callout"><strong>Relación:</strong> Pedidos.cliente_id = <strong>C-01</strong> apunta a Clientes.id = <strong>C-01</strong> (Ana). Ambas tablas pertenecen a <strong>tienda</strong>; la siguiente consulta reunirá sus datos.</div></div>
+    </section>
+
     <section class="slide" data-title="Consultar la relación" hidden>
       <header class="slide-header"><div class="eyebrow">Del vínculo a la consulta</div><h2>¿Cómo encontrar a Ana desde A-17?</h2></header>
-      <div class="slide-body split wide-left"><div><span class="code-label">Consulta SQL de ejemplo · tablas de la diapositiva anterior</span><pre><code><span class="tok-keyword">SELECT</span> p.id, c.nombre
+      <div class="slide-body split wide-left"><div><span class="code-label">Consulta SQL de ejemplo · tablas Clientes y Pedidos de tienda</span><pre><code><span class="tok-keyword">SELECT</span> p.id, c.nombre
 <span class="tok-keyword">FROM</span> Pedidos <span class="tok-keyword">AS</span> p
 <span class="tok-keyword">JOIN</span> Clientes <span class="tok-keyword">AS</span> c
   <span class="tok-keyword">ON</span> p.cliente_id = c.id
@@ -231,7 +284,7 @@
     <button type="button" id="help" aria-controls="help-dialog">Ayuda</button>
     <span id="runtime-status" role="status"></span>
   </nav>
-  <progress id="progress" value="1" max="16" aria-label="Progreso de la lección"></progress>
+  <progress id="progress" value="1" max="21" aria-label="Progreso de la lección"></progress>
   <dialog id="help-dialog" aria-labelledby="help-title">
     <h2 id="help-title">Controles de la presentación</h2>
     <p>← / ↑: anterior. → / ↓ / Espacio: siguiente. Home: primera. End: última.</p>
