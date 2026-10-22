@@ -22,12 +22,14 @@
 .file-filter { display: block; padding: 16px 12px 8px; }
 .file-filter span { display: block; margin-bottom: 7px; color: var(--muted); font-size: 12px; }
 .file-filter input { width: 100%; min-height: 38px; font: inherit; font-size: 13px; border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px; background: var(--paper); color: var(--ink); }
-.file-tree { padding: 5px 6px 12px; max-height: 64vh; overflow: auto; font-size: 13px; }
-.file-tree details { margin-left: 10px; }
-.file-tree > details { margin-left: 0; }
-.file-tree summary { cursor: pointer; padding: 9px 7px; border-radius: 5px; color: var(--ink); font-weight: 600; }
+.file-tree { padding: 5px 10px 12px; max-height: 64vh; overflow: auto; font-size: 13px; }
+.file-tree details details { margin-left: 18px; padding-left: 6px; border-left: 1px solid var(--line); }
+.file-tree summary { cursor: pointer; padding: 9px 7px; border-radius: 5px; color: var(--violet); font-weight: 750; }
+.file-tree > details > summary { color: var(--ink); }
 .file-tree summary::marker { color: var(--muted); }
+.file-tree details:has(.file-link[aria-current="true"]:not([hidden])) > summary { color: var(--blue); }
 .file-tree summary:hover { background: var(--pale); }
+.file-tree details > .file-link { margin-left: 20px; }
 .file-link { display: flex; align-items: center; gap: 7px; min-height: 38px; padding: 7px 8px; border-radius: 5px; text-decoration: none; white-space: nowrap; }
 .file-link:hover { background: var(--pale); }
 .file-link[aria-current="true"] { color: var(--blue); font-weight: 700; background: var(--pale); box-shadow: inset 3px 0 var(--cyan); }
