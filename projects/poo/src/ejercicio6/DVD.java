@@ -35,4 +35,11 @@ public class DVD extends LibraryItem{
         System.out.println("Director: " + director);
         System.out.println("Duracion: " + duracion);
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + "\n" +
+                "Director: " + director + "\n" +
+                "Duracion: " + duracion;
+    }
 }

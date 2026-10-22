@@ -22,4 +22,10 @@ public class Book extends LibraryItem{
         super.mostrarDetalles();
         System.out.println("Autor: " + autor);
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + "\n" +
+                "Autor: " + autor;
+    }
 }

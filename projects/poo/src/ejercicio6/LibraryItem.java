@@ -40,5 +40,12 @@ public class LibraryItem {
         System.out.println("Disponible: " + prestario == null ? "SI": "NO" );
     }
 
+    @Override
+    public String toString() {
+        String disponible = prestario == null?"SI":"NO";
+        return "ID Item: " + itemId + "\n" +
+                "Titulo: " + titulo + "\n" +
+                "Disponible: " + disponible;
+    }
 
 }
