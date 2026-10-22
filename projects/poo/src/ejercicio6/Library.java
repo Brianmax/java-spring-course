@@ -6,7 +6,12 @@ public class Library {
     private ArrayList<LibraryItem> items;
     private ArrayList<LibraryUser> usuarios;
 
-    public boolean agregarItem(LibraryItem item) {
+    public Library() {
+        items = new ArrayList<>();
+        usuarios = new ArrayList<>();
+    }
+
+    public boolean agregarItem(LibraryItem itemAgregar) {
         // validar que el item no tenga un ID repetido
 
         // recorrer el arrayList de items y verficar que no se repita
@@ -14,7 +19,18 @@ public class Library {
         // en caso de que el id este repetido, rechazar la insercion y retornar falso
 
         // imprimir un mensaje de advertencia
-        return false;
+
+        // extraemos el item id del item que deseamos ingresar
+        String itemId = itemAgregar.getItemId();
+        for(LibraryItem itemLibrary: items) {
+            if(itemId.equals(itemLibrary.getItemId())) {
+                System.out.println("\\u001B[31mItem ID duplicado\\u001B[0m");
+                return false;
+            }
+        }
+        // agregamos el item a el array
+        items.add(itemAgregar);
+        return true;
     }
 
     public boolean registrarUsuario(LibraryUser usuario) {
