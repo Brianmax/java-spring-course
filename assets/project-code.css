@@ -22,17 +22,21 @@
 .file-filter { display: block; padding: 16px 12px 8px; }
 .file-filter span { display: block; margin-bottom: 7px; color: var(--muted); font-size: 12px; }
 .file-filter input { width: 100%; min-height: 38px; font: inherit; font-size: 13px; border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px; background: var(--paper); color: var(--ink); }
-.file-tree { padding: 5px 10px 12px; max-height: 64vh; overflow: auto; font-size: 13px; }
+.file-tree { padding: 5px 10px 12px; max-height: 64vh; overflow: auto; font-size: 14px; }
 .file-tree details details { margin-left: 18px; padding-left: 6px; border-left: 1px solid var(--line); }
-.file-tree summary { cursor: pointer; padding: 9px 7px; border-radius: 5px; color: var(--violet); font-weight: 750; }
-.file-tree > details > summary { color: var(--ink); }
-.file-tree summary::marker { color: var(--muted); }
+.file-tree summary { display: flex; min-height: 40px; align-items: center; gap: 8px; padding: 7px 6px; border-radius: 7px; color: var(--ink); font-weight: 650; list-style: none; cursor: pointer; }
+.file-tree summary::-webkit-details-marker { display: none; }
+.file-tree summary::before { content: ""; width: 7px; height: 7px; flex: 0 0 7px; border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted); transform: rotate(-45deg); }
+.file-tree details[open] > summary::before { transform: rotate(45deg); }
+.file-tree > details > summary { font-weight: 750; }
 .file-tree details:has(.file-link[aria-current="true"]:not([hidden])) > summary { color: var(--blue); }
 .file-tree summary:hover { background: var(--pale); }
+.file-tree .folder-icon { width: 20px; height: 18px; flex: 0 0 20px; color: var(--muted); }
+.file-tree .folder-name, .file-tree .file-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .file-tree details > .file-link { margin-left: 20px; }
-.file-link { display: flex; align-items: center; gap: 7px; min-height: 38px; padding: 7px 8px; border-radius: 5px; text-decoration: none; white-space: nowrap; }
+.file-link { display: flex; min-width: 0; align-items: center; gap: 9px; min-height: 40px; padding: 7px 8px; border-radius: 7px; text-decoration: none; white-space: nowrap; }
 .file-link:hover { background: var(--pale); }
-.file-link[aria-current="true"] { color: var(--blue); font-weight: 700; background: var(--pale); box-shadow: inset 3px 0 var(--cyan); }
+.file-link[aria-current="true"] { color: var(--ink); font-weight: 700; background: var(--pale); box-shadow: inset 3px 0 var(--cyan); }
 .file-link .file-icon { color: var(--muted); width: 15px; height: 17px; flex-shrink: 0; }
 .search-status { font-size: 12px; color: var(--muted); padding: 0 14px 14px; margin: 0; }
 .file-pane { min-width: 0; }

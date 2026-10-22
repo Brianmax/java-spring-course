@@ -46,6 +46,17 @@
     svg.append(shape);
     return svg;
   }
+  function folderIcon() {
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('viewBox', '0 0 20 18');
+    svg.setAttribute('class', 'folder-icon');
+    svg.setAttribute('aria-hidden', 'true');
+    const shape = document.createElementNS(svg.namespaceURI, 'path');
+    shape.setAttribute('d', 'M1.5 5a2 2 0 0 1 2-2h4l2 2h7a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2Z');
+    shape.setAttribute('fill', 'currentColor');
+    svg.append(shape);
+    return svg;
+  }
 
   // Native disclosure controls keep folder navigation usable with the keyboard.
   const root = { directories: new Map(), files: [] };
@@ -64,7 +75,11 @@
       const group = document.createElement('details');
       group.open = true;
       const title = document.createElement('summary');
-      title.textContent = name;
+      title.title = name;
+      const label = document.createElement('span');
+      label.className = 'folder-name';
+      label.textContent = name;
+      title.append(folderIcon(), label);
       group.append(title);
       appendTree(child, group);
       parent.append(group);
@@ -75,7 +90,10 @@
       link.dataset.path = file.path;
       link.href = fileHash(file.path);
       link.title = file.path;
-      link.append(icon(), document.createTextNode(file.path.split('/').pop()));
+      const label = document.createElement('span');
+      label.className = 'file-name';
+      label.textContent = file.path.split('/').pop();
+      link.append(icon(), label);
       parent.append(link);
     }
   }
