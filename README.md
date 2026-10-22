@@ -8,9 +8,15 @@ Sitio estático para que los estudiantes consulten las diapositivas y los proyec
 - `lessons/`: catálogo y archivos de las lecciones.
 - `exercises/`: catálogo por temas con ejercicios locales y enlaces a los enunciados de [Brianmax/javaG7](https://github.com/Brianmax/javaG7/tree/main/ejercicios).
 - `projects/`: catálogo de proyectos del curso.
-- `assets/site.css`: estilos compartidos de las páginas del sitio.
+- `assets/styles.css`: fuente de Tailwind y estilos compartidos de las páginas del sitio.
+- `assets/tailwind.css`: CSS compilado y versionado para GitHub Pages y uso local sin conexión.
+- `assets/project-code.styles.css`: fuente de los estilos del visor de proyectos, importada por Tailwind.
 
-Las diapositivas de cada lección son archivos HTML independientes y se pueden abrir directamente en un navegador.
+Las diapositivas se pueden abrir directamente desde el repositorio en un navegador. Las tres lecciones usan CSS compilado en `assets/decks/`; conserva la carpeta `assets/` al abrirlas sin conexión.
+
+## Estilos
+
+La migración usa Tailwind CSS 4 sin Preflight para conservar los estilos existentes. Después de cambiar `assets/styles.css`, un archivo `assets/decks/*.styles.css` o las clases Tailwind del HTML, ejecuta `npm ci` (la primera vez) y `npm run build:css`; incluye `assets/tailwind.css` y los archivos compilados `assets/decks/*.css` en el commit. `npm run check:css` comprueba que el CSS versionado coincide con las fuentes. Mantener el CSS compilado en el repositorio permite abrir las páginas directamente desde el sistema de archivos sin Node ni conexión. Las reglas especiales de diagramas y presentación aún se mantienen como CSS fuente dentro del pipeline de Tailwind.
 
 El [temario de Programación Orientada a Objetos en Java](docs/temario-poo-java.md) organiza el aprendizaje en 16 unidades, desde los fundamentos hasta diseño, patrones y pruebas, con ejemplos y ejercicios por nivel.
 
@@ -34,6 +40,6 @@ En OpenCode V2, `.opencode/` expone la misma skill, los subagentes `slide-implem
 
 ## Publicación
 
-Cada push a `main` ejecuta `.github/workflows/pages.yml`. El workflow usa Python 3 (sin dependencias adicionales) para construir `_site/`, regenerar el código del visor y los ZIP de los proyectos, y desplegar el resultado en GitHub Pages. La fuente de Pages debe estar configurada como **GitHub Actions**.
+Cada push a `main` ejecuta `.github/workflows/pages.yml`. El workflow instala las dependencias de Node y verifica que `assets/tailwind.css` esté actualizado. Luego usa Python 3 para construir `_site/`, regenerar el código del visor y los ZIP de los proyectos, y desplegar el resultado en GitHub Pages. La fuente de Pages debe estar configurada como **GitHub Actions**.
 
 Para publicar cambios de Java, basta con guardar los archivos fuente, crear un commit y hacer push. Espera a que **Publish course site** finalice y recarga la página. Consulta [la guía de proyectos](projects/README.md) para los comandos de actualización y generación local.

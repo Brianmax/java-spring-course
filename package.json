@@ -1,0 +1,12 @@
+{
+  "private": true,
+  "scripts": {
+    "build:css": "node scripts/build_css.mjs",
+    "check:css": "npm run build:css && git diff --exit-code -- assets/tailwind.css assets/decks/databases.css assets/decks/java-introduction.css assets/decks/java-poo.css"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "4.3.3",
+    "postcss": "8.5.31",
+    "tailwindcss": "4.3.3"
+  }
+}

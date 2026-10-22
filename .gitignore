@@ -1,5 +1,6 @@
 .DS_Store
 /_site/
+/node_modules/
 __pycache__/
 .pi/*
 !.pi/skills/

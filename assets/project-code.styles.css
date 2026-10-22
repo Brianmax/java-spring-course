@@ -5,14 +5,14 @@
 .project-head { padding: 32px 0 24px; }
 .project-back { font-size: 13px; color: var(--muted); text-decoration: none; }
 .project-back:hover { color: var(--blue); text-decoration: underline; }
-.project-heading { display: flex; justify-content: space-between; gap: 24px; align-items: center; margin-top: 22px; }
+.project-heading { @apply flex items-center justify-between; gap: 24px; margin-top: 22px; }
 .project-heading h1 { font-size: clamp(28px, 3.6vw, 42px); line-height: 1.15; letter-spacing: -.04em; margin: 0 0 10px; }
 .project-heading p { color: var(--muted); line-height: 1.5; margin: 0; max-width: 700px; }
 .project-download { flex-shrink: 0; display: grid; gap: 8px; text-align: center; }
 .project-download small { font-size: 12px; color: var(--muted); }
 .project-download .button { background: var(--blue); border-color: var(--blue); }
 .project-download .button:hover { background: #a2e7ef; }
-.project-tags { display: flex; flex-wrap: wrap; align-items: center; gap: 9px; margin-top: 18px; color: var(--muted); font-size: 12px; }
+.project-tags { @apply flex flex-wrap items-center; gap: 9px; margin-top: 18px; color: var(--muted); font-size: 12px; }
 .project-tags span { padding: 5px 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--white); }
 .project-tags .java-tag { border-color: var(--line); background: var(--pale); color: var(--violet); font-weight: 700; }
 .browser { display: grid; grid-template-columns: 265px minmax(0, 1fr); border: 1px solid var(--line); border-radius: 12px; background: var(--white); overflow: hidden; margin-bottom: 24px; }
@@ -45,7 +45,7 @@
 .file-pane { min-width: 0; }
 .file-path { margin: 0; padding: 18px 20px; border-bottom: 1px solid var(--line); min-height: 57px; font-size: 13px; color: var(--muted); overflow-wrap: anywhere; }
 .file-path strong { color: var(--ink); font-weight: 600; }
-.file-toolbar { display: flex; gap: 16px; justify-content: space-between; align-items: center; padding: 12px 16px; border-bottom: 1px solid var(--line); background: var(--navy); flex-wrap: wrap; }
+.file-toolbar { @apply flex flex-wrap items-center justify-between; gap: 16px; padding: 12px 16px; border-bottom: 1px solid var(--line); background: var(--navy); }
 .file-heading { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
 .file-heading h2 { font-size: 14px; margin: 0; letter-spacing: -.01em; }
 .file-meta { font-size: 12px; color: var(--muted); }
