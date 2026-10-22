@@ -7,11 +7,12 @@
 <title>Programación orientada a objetos en Java — Curso de Java Tecsup</title>
 <style>
 :root {
-  --bg:#ffffff; --surface:#f5f5f5; --surface-2:#dcf3ff;
-  --text:#111111; --muted:#555555; --tecsup-blue:#0097d0;
-  --tecsup-cyan:#00b3e0; --tecsup-pale:#dcf3ff; --success:#16835b;
-  --warning:#9a6700; --danger:#c62828; --line:#dddddd; --ink-panel:#111111;
-  --shadow:0 14px 36px rgb(17 17 17 / 12%);
+  color-scheme:dark;
+  --bg:#0d1821; --surface:#182833; --surface-2:#1b3948;
+  --text:#edf5f8; --muted:#b3c5cf; --tecsup-blue:#68d3f5;
+  --tecsup-cyan:#55d4ed; --tecsup-pale:#1b3948; --success:#64d9a5;
+  --warning:#f0bb65; --danger:#ff8585; --line:#344a58; --ink-panel:#101d27;
+  --shadow:0 14px 36px rgb(0 0 0 / 35%);
   --font-sans:"Arial Nova",Arial,Helvetica,ui-sans-serif,system-ui,sans-serif;
   --font-heading:var(--font-sans);
   --font-mono:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;
@@ -500,11 +501,52 @@ li + li { margin-top:8px; }
 }
 @media(max-width:760px) {
   .refs-route,.refs-snapshots { display:flex; flex-direction:column; align-items:stretch; gap:10px; }
- .refs-route > .refs-event .refs-arrow,.refs-snapshots > .refs-event .refs-arrow { transform:rotate(90deg); }
- .refs-link { grid-template-columns:max-content 40px minmax(0,1fr); }
- .refs-event > span { font-size:15px; }
+  .refs-route > .refs-event .refs-arrow,.refs-snapshots > .refs-event .refs-arrow { transform:rotate(90deg); }
+  .refs-link { grid-template-columns:max-content 40px minmax(0,1fr); }
+  .refs-event > span { font-size:15px; }
 }
 
+/* Adapt legacy light-only components to the dark course palette. */
+:focus-visible { outline-color:var(--tecsup-cyan); }
+.eyebrow,.label,.result,.row > :first-child,.comparison th,.flow-label,
+#slide-7 .order-state h3,#slide-7 .order-reading span,#slide-7 .order-change,
+#slide-17 .client-card h3,#slide-17 .client-transition,
+#slide-24 .product-story h3,#slide-24 .product-next,
+#slide-8 .model-class p b,#slide-8 .model-branch span,
+.comparison > div:first-child,.home,.receipt-grid > :nth-child(odd),
+.result-block strong,.opening-roadmap b,.poo-map-group h3,.poo-map-item b,
+.inventory-track h3,.refs-event > span,.refs-array-change,
+#slide-8 .model-mobile-connection,#slide-87 .mobile-collab-action,
+.mobile-diagram-connector { color:var(--tecsup-blue); }
+#slide-17 .client-stage .missing { color:var(--warning); }
+.panel.accent,.opening-roadmap div,.poo-map-group { border-color:#376779; }
+.panel.warning,.callout.warning { background:#3c3023; border-color:#846439; }
+.callout { background:#193543; }
+.callout.success { background:#19392f; }
+#slide-17 .client-card,#slide-24 .product-story,.inventory-track,
+.refs-array-diagram { background:var(--surface); border-color:#376779; }
+.inventory-state,.refs-state,.refs-var,.refs-object.empty,.refs-snapshot,
+.refs-array-row .refs-null { background:var(--surface); }
+.rejected .inventory-state.after { background:#233039; }
+.deck-controls,.deck-controls button,.deck-controls select,.help-dialog { background:var(--surface); }
+.deck-controls button,.deck-controls select { border-color:var(--line); }
+.help-dialog button { color:#09202b; background:var(--tecsup-cyan); }
+.progress { background:var(--line); }
+.opening-diagram text,.opening-arrow text { fill:var(--text); }
+#slide-87 .diagram svg .diagram-action { stroke:var(--bg); }
+.opening-diagram rect[fill="#dcf3ff"],.diagram rect[fill="#dcf3ff"],
+.exception-flow rect[fill="#dcf3ff"] { fill:var(--surface-2); }
+.opening-diagram rect[fill="#f5f5f5"],.opening-diagram rect[fill="#ffffff"],
+.diagram rect[fill="#f5f5f5"],.exception-flow path[fill="#f5f5f5"] {
+  fill:var(--surface);
+}
+.opening-diagram rect[fill="#fff8eb"],.exception-flow rect[fill="#fff8eb"] { fill:#3c3023; }
+.slide svg rect[fill="#dcf3ff"] { fill:var(--surface-2); }
+.slide svg rect[fill="#f5f5f5"],.slide svg rect[fill="#fff"],
+.slide svg rect[fill="#ffffff"],.slide svg path[fill="#f5f5f5"] { fill:var(--surface); }
+.slide svg rect[fill="#fff8eb"] { fill:#3c3023; }
+.slide svg text { fill:var(--text); }
+.slide svg path[fill="#fff"] { fill:var(--surface); }
 </style>
 </head>
 <body>

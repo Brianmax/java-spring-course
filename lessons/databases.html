@@ -7,11 +7,12 @@
   <title>Bases de datos — Curso de Java Tecsup</title>
   <style>
     :root {
-      --bg:#ffffff; --surface:#f5f5f5; --surface-2:#dcf3ff;
-      --text:#111111; --muted:#555555; --tecsup-blue:#0097d0;
-      --tecsup-cyan:#00b3e0; --tecsup-pale:#dcf3ff;
-      --success:#16835b; --warning:#9a6700; --danger:#c62828;
-      --line:#dddddd; --ink-panel:#111111; --shadow:0 14px 36px rgb(17 17 17 / .12);
+      color-scheme:dark;
+      --bg:#0d1821; --surface:#182833; --surface-2:#1b3948;
+      --text:#edf5f8; --muted:#b3c5cf; --tecsup-blue:#68d3f5;
+      --tecsup-cyan:#55d4ed; --tecsup-pale:#1b3948;
+      --success:#64d9a5; --warning:#f0bb65; --danger:#ff8585;
+      --line:#344a58; --ink-panel:#101d27; --shadow:0 14px 36px rgb(0 0 0 / 35%);
       --font-sans:"Arial Nova",Arial,Helvetica,ui-sans-serif,system-ui,sans-serif;
       --font-heading:"Arial Nova",Arial,Helvetica,ui-sans-serif,system-ui,sans-serif;
       --font-mono:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;
@@ -175,6 +176,20 @@
       pre { white-space:pre-wrap; overflow-wrap:anywhere; }
     }
     @media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation:none !important; transition:none !important; scroll-behavior:auto !important; } }
+    /* Adapt legacy light-only components to the dark course palette. */
+    a,.eyebrow,.label,.blue,.connector,.model-join,.mobile-hint { color:var(--tecsup-blue); }
+    .connector b { color:var(--tecsup-cyan); }
+    :focus-visible { outline-color:var(--tecsup-cyan); }
+    .panel.tint { border-color:#376779; }
+    .panel.white,.hierarchy-inner { background:var(--surface); }
+    .callout { background:#193543; }
+    .callout.warn { background:#3c3023; }
+    .callout.good,.result { background:#19392f; }
+    th,.model-join,.key { color:var(--tecsup-blue); }
+    .key { background:var(--surface-2); }
+    .hierarchy { background:var(--surface-2); }
+    .hierarchy-inner { border-color:#376779; }
+    dialog { color:var(--text); background:var(--surface); }
   </style>
 </head>
 <body>
