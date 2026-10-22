@@ -36,7 +36,8 @@
 .file-tree details > .file-link { margin-left: 20px; }
 .file-link { display: flex; min-width: 0; align-items: center; gap: 9px; min-height: 40px; padding: 7px 8px; border-radius: 7px; text-decoration: none; white-space: nowrap; }
 .file-link:hover { background: var(--pale); }
-.file-link[aria-current="true"] { color: var(--ink); font-weight: 700; background: var(--pale); box-shadow: inset 3px 0 var(--cyan); }
+.file-link[aria-current="true"] { position: relative; color: var(--ink); font-weight: 700; background: var(--pale); }
+.file-link[aria-current="true"]::before { position: absolute; top: 50%; left: -10px; width: 4px; height: 26px; border-radius: 4px; background: var(--cyan); content: ""; transform: translateY(-50%); }
 .file-link .file-icon { color: var(--muted); width: 15px; height: 17px; flex-shrink: 0; }
 .search-status { font-size: 12px; color: var(--muted); padding: 0 14px 14px; margin: 0; }
 .file-pane { min-width: 0; }
