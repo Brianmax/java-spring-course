@@ -209,27 +209,22 @@
       <div class="slide-body"><p class="lead">Es un <strong>conjunto de datos organizados y almacenados</strong> para buscarlos, actualizarlos y recuperarlos más adelante.</p><div class="flow"><div class="panel tint"><div class="label">Pedidos guardados</div><p><strong>A-17</strong> · Ana · 3 cuadernos · S/ 36<br><strong>A-18</strong> · Ana · 1 mochila · S/ 45</p></div><div class="connector">Reiniciar Java<br>y buscar A-17<b aria-hidden="true">→</b></div><div class="panel white"><div class="label">Pedido recuperado</div><p><strong>A-17</strong> · Ana · 3 cuadernos · S/ 36</p></div></div><div class="callout">La aplicación debe <strong>guardar</strong> los pedidos para encontrarlos tras reiniciar; una lista que solo estaba en memoria no se conserva por sí sola.</div></div>
     </section>
 
-    <section class="slide" data-title="Datos repetidos" hidden>
-      <header class="slide-header"><div class="eyebrow">Una sola tabla · pedidos y clientes</div><h2>¿Qué pasa si actualizamos solo una copia?</h2></header>
-      <div class="slide-body"><p class="lead">En una sola tabla, A-17 y A-18 guardan el correo de Ana: <strong>ana@tienda.pe</strong>. Ana lo cambia a <strong>ana@nueva.pe</strong>, pero solo se actualiza A-17.</p><div class="table-section"><strong class="table-title" id="flat-title">Después del cambio · una sola tabla</strong><p class="mobile-hint">Desliza o enfoca la tabla y usa las flechas para ver correos y detalles →</p><div class="table-wrap" tabindex="0" role="region" aria-labelledby="flat-title"><table><thead><tr><th>Pedido</th><th>Cliente</th><th>Correo copiado en el pedido</th><th>Detalle</th></tr></thead><tbody><tr><td>A-17</td><td>Ana</td><td class="key">ana@nueva.pe</td><td>3 cuadernos · S/ 36</td></tr><tr><td>A-18</td><td>Ana</td><td class="key">ana@tienda.pe</td><td>1 mochila · S/ 45</td></tr></tbody></table></div></div><div class="callout warn">A-18 conserva el correo anterior. Si actualizamos ambas filas, esta tabla también queda correcta; guardar el contacto una vez evita mantener dos copias.</div></div>
-    </section>
-
     <section class="slide" data-title="Dos modelos de bases de datos" hidden>
       <header class="slide-header"><div class="eyebrow">Organizar el mismo pedido</div><h2>Dos modelos de bases de datos</h2></header>
-      <div class="slide-body"><p class="lead">El correo se repitió. Comparemos tablas conectadas con un documento de A-17.</p>
+      <div class="slide-body"><p class="lead">Podemos organizar estos pedidos en tablas conectadas o, por ejemplo, en documentos.</p>
         <div class="model-compare">
           <div class="panel white"><div class="label">Relacional · tablas conectadas</div>
             <p class="mobile-hint">Desliza o enfoca Pedidos y usa las flechas para ver todas las columnas →</p>
             <div class="table-wrap" tabindex="0" role="region" aria-labelledby="model-orders-title"><table class="orders-table"><caption id="model-orders-title">Pedidos</caption><thead><tr><th scope="col">id</th><th scope="col">cliente_id</th><th scope="col">detalle</th><th scope="col">total</th></tr></thead><tbody><tr><td>A-17</td><td class="key">C-01</td><td>3 cuadernos × S/ 12</td><td>S/ 36</td></tr><tr><td>A-18</td><td class="key">C-01</td><td>1 mochila × S/ 45</td><td>S/ 45</td></tr><tr><td>A-20</td><td class="key">C-02</td><td>2 lapiceros × S/ 5</td><td>S/ 10</td></tr></tbody></table></div>
             <div class="model-join"><span class="model-join-arrow" aria-hidden="true">↓</span><span><strong>Pedidos.cliente_id</strong> señala a <strong>Clientes.id</strong>: C-01 → Ana; C-02 → Luis</span></div>
-            <div class="table-wrap"><table><caption>Clientes</caption><thead><tr><th scope="col">id</th><th scope="col">nombre</th><th scope="col">correo</th></tr></thead><tbody><tr><td class="key">C-01</td><td>Ana</td><td>ana@nueva.pe</td></tr><tr><td class="key">C-02</td><td>Luis</td><td>luis@tienda.pe</td></tr></tbody></table></div>
+            <div class="table-wrap"><table><caption>Clientes</caption><thead><tr><th scope="col">id</th><th scope="col">nombre</th><th scope="col">correo</th></tr></thead><tbody><tr><td class="key">C-01</td><td>Ana</td><td>ana@tienda.pe</td></tr><tr><td class="key">C-02</td><td>Luis</td><td>luis@tienda.pe</td></tr></tbody></table></div>
           </div>
           <div class="panel tint"><div class="label">No relacional · ejemplo: documento</div>
             <pre aria-label="Documento JSON del pedido A-17"><code>{
   <span class="tok-string">"id"</span>: <span class="tok-string">"A-17"</span>,
   <span class="tok-string">"cliente"</span>: {
     <span class="tok-string">"id"</span>: <span class="tok-string">"C-01"</span>, <span class="tok-string">"nombre"</span>: <span class="tok-string">"Ana"</span>,
-    <span class="tok-string">"correo"</span>: <span class="tok-string">"ana@nueva.pe"</span>
+    <span class="tok-string">"correo"</span>: <span class="tok-string">"ana@tienda.pe"</span>
   },
   <span class="tok-string">"detalle"</span>: {
     <span class="tok-string">"producto"</span>: <span class="tok-string">"cuaderno"</span>, <span class="tok-string">"cantidad"</span>: <span class="tok-number">3</span>,
@@ -237,11 +232,16 @@
   },
   <span class="tok-string">"totalSoles"</span>: <span class="tok-number">36</span>
 }</code></pre>
-            <p class="model-note">A-17 es un documento; A-18 y A-20 serían otros. Si A-18 copia el correo, también hay que actualizarlo. Existen otros modelos no relacionales.</p>
+            <p class="model-note">A-17 es un documento; A-18 y A-20 serían otros. Si A-18 copia el correo, un cambio exigiría actualizar ambas copias. Existen otros modelos no relacionales.</p>
           </div>
         </div>
         <div class="callout">Ambos modelos pueden guardar y consultar A-17. Se elige según la necesidad; <strong>ninguno conserva la lista de Java si no se guardan los pedidos</strong>.</div>
       </div>
+    </section>
+
+    <section class="slide" data-title="Datos repetidos" hidden>
+      <header class="slide-header"><div class="eyebrow">Una sola tabla · pedidos y clientes</div><h2>¿Qué pasa si actualizamos solo una copia?</h2></header>
+      <div class="slide-body"><p class="lead">En una sola tabla, A-17 y A-18 guardan el correo de Ana: <strong>ana@tienda.pe</strong>. Ana lo cambia a <strong>ana@nueva.pe</strong>, pero solo se actualiza A-17.</p><div class="table-section"><strong class="table-title" id="flat-title">Después del cambio · una sola tabla</strong><p class="mobile-hint">Desliza o enfoca la tabla y usa las flechas para ver correos y detalles →</p><div class="table-wrap" tabindex="0" role="region" aria-labelledby="flat-title"><table><thead><tr><th>Pedido</th><th>Cliente</th><th>Correo copiado en el pedido</th><th>Detalle</th></tr></thead><tbody><tr><td>A-17</td><td>Ana</td><td class="key">ana@nueva.pe</td><td>3 cuadernos · S/ 36</td></tr><tr><td>A-18</td><td>Ana</td><td class="key">ana@tienda.pe</td><td>1 mochila · S/ 45</td></tr></tbody></table></div></div><div class="callout warn">A-18 conserva el correo anterior. Si actualizamos ambas filas, esta tabla también queda correcta; guardar el contacto una vez evita mantener dos copias.</div></div>
     </section>
 
     <section class="slide" data-title="Una clienta, dos pedidos" hidden>
