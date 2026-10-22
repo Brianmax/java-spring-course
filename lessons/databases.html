@@ -72,6 +72,7 @@
     .table-wrap { min-width:0; overflow-x:auto; }
     table { width:100%; border-collapse:collapse; font-size:clamp(16px,1.4vw,20px); line-height:1.3; }
     th,td { padding:11px 12px; text-align:left; vertical-align:top; border-bottom:1px solid var(--line); }
+    .flat-orders th,.flat-orders td { padding-block:7px; }
     th { background:var(--tecsup-pale); color:#075f82; }
     caption { padding-bottom:9px; text-align:left; font-weight:800; font-size:22px; }
     .table-title { display:block; margin-bottom:9px; font-size:22px; font-weight:800; }
@@ -240,8 +241,8 @@
     </section>
 
     <section class="slide" data-title="Datos repetidos" hidden>
-      <header class="slide-header"><div class="eyebrow">Una sola tabla · pedidos y clientes</div><h2>¿Qué pasa si actualizamos solo una copia?</h2></header>
-      <div class="slide-body"><p class="lead">En una sola tabla, A-17 y A-18 guardan el correo de Ana: <strong>ana@tienda.pe</strong>. Ana lo cambia a <strong>ana@nueva.pe</strong>, pero solo se actualiza A-17.</p><div class="table-section"><strong class="table-title" id="flat-title">Después del cambio · una sola tabla</strong><p class="mobile-hint">Desliza o enfoca la tabla y usa las flechas para ver correos y detalles →</p><div class="table-wrap" tabindex="0" role="region" aria-labelledby="flat-title"><table><thead><tr><th>Pedido</th><th>Cliente</th><th>Correo copiado en el pedido</th><th>Detalle</th></tr></thead><tbody><tr><td>A-17</td><td>Ana</td><td class="key">ana@nueva.pe</td><td>3 cuadernos · S/ 36</td></tr><tr><td>A-18</td><td>Ana</td><td class="key">ana@tienda.pe</td><td>1 mochila · S/ 45</td></tr></tbody></table></div></div><div class="callout warn">A-18 conserva el correo anterior. Si actualizamos ambas filas, esta tabla también queda correcta; guardar el contacto una vez evita mantener dos copias.</div></div>
+      <header class="slide-header"><div class="eyebrow">Modelo relacional · una sola tabla</div><h2>¿Qué pasa si actualizamos solo una copia?</h2></header>
+      <div class="slide-body"><p class="lead">En este ejemplo de <strong>base de datos relacional</strong>, reunimos pedidos y clientes en una sola tabla. Ana cambia su correo de <strong>ana@tienda.pe</strong> a <strong>ana@nueva.pe</strong>, pero solo se actualiza A-17.</p><div class="table-section"><strong class="table-title" id="flat-title">Después del cambio · pedidos y clientes juntos</strong><p class="mobile-hint">Desliza o enfoca la tabla y usa las flechas para ver correos y detalles →</p><div class="table-wrap" tabindex="0" role="region" aria-labelledby="flat-title"><table class="flat-orders"><thead><tr><th>Pedido</th><th>Cliente</th><th>Correo copiado en el pedido</th><th>Detalle</th></tr></thead><tbody><tr><td>A-17</td><td>Ana</td><td class="key">ana@nueva.pe</td><td>3 cuadernos · S/ 36</td></tr><tr><td>A-18</td><td>Ana</td><td class="key">ana@tienda.pe</td><td>1 mochila · S/ 45</td></tr><tr><td>A-20</td><td>Luis</td><td>luis@tienda.pe</td><td>2 lapiceros · S/ 10</td></tr><tr><td>A-21</td><td>Luis</td><td>luis@tienda.pe</td><td>1 cuaderno · S/ 12</td></tr><tr><td>A-22</td><td>Luis</td><td>luis@tienda.pe</td><td>3 lapiceros · S/ 15</td></tr></tbody></table></div></div><div class="callout warn">A-18 conserva el correo anterior; actualizar ambas filas también funcionaría. En las siguientes diapositivas nos enfocaremos en <strong>separar Clientes y Pedidos</strong> dentro del modelo relacional para guardar el contacto una sola vez.</div></div>
     </section>
 
     <section class="slide" data-title="Una clienta, dos pedidos" hidden>
