@@ -82,6 +82,15 @@
     .relations th,.relations td { padding:9px; }
     .relations td:last-child { white-space:nowrap; }
     .intro-relations { grid-template-columns:minmax(0,1.3fr) 155px minmax(0,.8fr); }
+    .model-compare { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px; align-items:start; }
+    .model-compare > .panel { padding:16px 18px; }
+    .model-compare .label { margin-bottom:10px; }
+    .model-row { display:flex; align-items:center; gap:9px; }
+    .model-record { flex:1; min-width:0; padding:10px 12px; border:1px solid #a9d9e8; border-radius:12px; background:white; font-size:clamp(16px,1.3vw,19px); line-height:1.35; }
+    .model-record strong { display:block; }
+    .model-link { flex:none; color:#006b94; text-align:center; font-size:15px; font-weight:750; }
+    .model-link b { display:block; font-size:28px; line-height:1; }
+    .model-note { margin-top:9px; font-size:clamp(16px,1.3vw,19px); line-height:1.35; }
     .code-label { display:block; margin-bottom:8px; font-size:16px; color:var(--muted); }
     pre { width:100%; min-width:0; margin:0; padding:16px 18px; border:1px solid #245461; border-radius:12px; overflow:auto; background:var(--ink-panel); color:#f5f8f8; font:clamp(15px,1.25vw,18px)/1.48 var(--font-mono); tab-size:2; }
     code { font-family:var(--font-mono); font-size:.91em; }
@@ -129,12 +138,14 @@
     @media (max-width:700px) {
       .slide { min-height:100%; padding:20px 18px 40px; gap:18px; }
       .slide-body { margin-block:0; }
-      .split,.split.wide-left,.documents,.exercise,.route,.relations { grid-template-columns:1fr; }
+      .split,.split.wide-left,.documents,.exercise,.route,.relations,.model-compare { grid-template-columns:1fr; }
       .relations.intro-relations { grid-template-columns:1fr; }
       .flow { flex-direction:column; }
       .connector { transform:none; }
       .connector b { transform:rotate(90deg); }
       .relations .connector b { transform:rotate(90deg); }
+      .model-row { flex-direction:column; align-items:stretch; }
+      .model-link b { transform:rotate(90deg); }
       .deck-controls { gap:6px; }
       .deck-controls button { padding:7px 9px; font-size:14px; }
       .chrome { font-size:13px; }
@@ -187,16 +198,26 @@
 
     <section class="slide" data-title="Pedidos que permanecen" hidden>
       <header class="slide-header"><div class="eyebrow">Del reinicio a los datos guardados</div><h2>Pedidos que permanecen</h2></header>
-      <div class="slide-body"><p class="lead">La lista de Java quedó vacía al reiniciar. Si la aplicación <strong>guarda</strong> los pedidos en una base de datos relacional, podrá recuperarlos después.</p><div class="table-section"><strong class="table-title" id="saved-orders-title">Tabla Pedidos · datos guardados</strong><p class="mobile-hint">Desliza o enfoca la tabla y usa las flechas para ver los detalles →</p><div class="table-wrap" tabindex="0" role="region" aria-labelledby="saved-orders-title"><table><thead><tr><th>ID</th><th>Cliente</th><th>Detalle</th><th>Total</th></tr></thead><tbody><tr><td>A-17</td><td>Ana</td><td>3 cuadernos × S/ 12</td><td>S/ 36</td></tr><tr><td>A-18</td><td>Ana</td><td>1 mochila × S/ 45</td><td>S/ 45</td></tr></tbody></table></div></div><div class="callout">En una base de datos <strong>relacional</strong>, los registros se organizan en tablas que pueden conectarse. Cada <strong>columna</strong> describe un dato y cada <strong>fila</strong> guarda un pedido. Cerrar Java no borra las filas ya guardadas.</div></div>
+      <div class="slide-body"><p class="lead">La lista de Java quedó vacía al reiniciar. Si la aplicación <strong>guarda</strong> los pedidos en una base de datos, podrá recuperarlos después.</p><div class="table-section"><strong class="table-title" id="saved-orders-title">Pedidos guardados · vista de la aplicación</strong><p class="mobile-hint">Desliza o enfoca esta vista y usa las flechas para ver los detalles →</p><div class="table-wrap" tabindex="0" role="region" aria-labelledby="saved-orders-title"><table><thead><tr><th>ID</th><th>Cliente</th><th>Detalle</th><th>Total</th></tr></thead><tbody><tr><td>A-17</td><td>Ana</td><td>3 cuadernos × S/ 12</td><td>S/ 36</td></tr><tr><td>A-18</td><td>Ana</td><td>1 mochila × S/ 45</td><td>S/ 45</td></tr></tbody></table></div></div><div class="callout">La aplicación puede volver a consultar estos pedidos porque los <strong>guardó fuera de la lista en memoria</strong>. Esta vista no indica todavía cómo están organizados dentro de la base de datos.</div></div>
+    </section>
+
+    <section class="slide" data-title="¿Qué es una base de datos?" hidden>
+      <header class="slide-header"><div class="eyebrow">De los pedidos guardados a la idea</div><h2>¿Qué es una base de datos?</h2></header>
+      <div class="slide-body"><p class="lead">Es un <strong>conjunto de datos organizados y almacenados</strong> para buscarlos, actualizarlos y recuperarlos más adelante.</p><div class="flow"><div class="panel tint"><div class="label">Pedidos guardados</div><p><strong>A-17</strong> · Ana · 3 cuadernos · S/ 36<br><strong>A-18</strong> · Ana · 1 mochila · S/ 45</p></div><div class="connector">Reiniciar Java<br>y buscar A-17<b aria-hidden="true">→</b></div><div class="panel white"><div class="label">Pedido recuperado</div><p><strong>A-17</strong> · Ana · 3 cuadernos · S/ 36</p></div></div><div class="callout">La aplicación debe <strong>guardar</strong> los pedidos para encontrarlos tras reiniciar; una lista que solo estaba en memoria no se conserva por sí sola.</div></div>
+    </section>
+
+    <section class="slide" data-title="Dos modelos de bases de datos" hidden>
+      <header class="slide-header"><div class="eyebrow">Organizar el mismo pedido</div><h2>Dos modelos de bases de datos</h2></header>
+      <div class="slide-body"><p class="lead">A-17 puede organizarse de más de una manera:</p><div class="model-compare"><div class="panel white"><div class="label">Relacional · tablas conectadas</div><div class="model-row"><div class="model-record"><strong>Pedidos</strong> A-17 · cliente C-01<br>3 cuadernos · S/ 36</div><div class="model-link">C-01<b aria-hidden="true">→</b></div><div class="model-record"><strong>Clientes</strong> C-01 · Ana</div></div><p class="model-note">El pedido señala a Ana en otra tabla.</p></div><div class="panel tint"><div class="label">No relacional · ejemplo: documento</div><div class="model-record"><strong>Documento de A-17</strong> Ana · C-01<br>3 cuadernos · S/ 36</div><p class="model-note">El pedido y los datos de Ana están agrupados. Los documentos son <strong>solo un modelo</strong> no relacional; hay otros.</p></div></div><div class="callout">Ambos modelos pueden guardar y consultar A-17. Se elige según la necesidad; <strong>ninguno conserva la lista de Java si no se guardan los pedidos</strong>.</div></div>
     </section>
 
     <section class="slide" data-title="Una clienta, dos pedidos" hidden>
       <header class="slide-header"><div class="eyebrow">Organizar sin repetir el contacto</div><h2>Una clienta, dos pedidos</h2></header>
-      <div class="slide-body"><p class="lead">A-17 y A-18 son de Ana. Podemos guardar su contacto una vez y hacer que ambos pedidos señalen a la misma clienta.</p><div class="relations intro-relations"><div class="panel white table-section"><strong class="table-title" id="intro-orders-title">Pedidos</strong><p class="mobile-hint">Desliza o enfoca la tabla y usa las flechas para ver el detalle →</p><div class="table-wrap" tabindex="0" role="region" aria-labelledby="intro-orders-title"><table><thead><tr><th>Pedido</th><th>Cliente</th><th>Detalle</th></tr></thead><tbody><tr><td>A-17</td><td class="key">C-01</td><td>3 cuadernos · S/ 36</td></tr><tr><td>A-18</td><td class="key">C-01</td><td>1 mochila · S/ 45</td></tr></tbody></table></div></div><div class="connector">C-01 en cada pedido<br>señala a C-01 en Clientes<b aria-hidden="true">→</b></div><div class="panel tint table-section"><strong class="table-title" id="intro-clients-title">Clientes</strong><div class="table-wrap" tabindex="0" role="region" aria-labelledby="intro-clients-title"><table><thead><tr><th>ID</th><th>Nombre</th><th>Correo</th></tr></thead><tbody><tr><td class="key">C-01</td><td>Ana</td><td>ana@tienda.pe</td></tr></tbody></table></div></div></div><div class="callout">El correo de Ana vive en <strong>Clientes</strong>, no en cada pedido. Así, si cambia, no hay que corregir dos copias.</div></div>
+      <div class="slide-body"><p class="lead">Veamos más de cerca la opción <strong>relacional</strong>: A-17 y A-18 son de Ana. Podemos guardar su contacto una vez y hacer que ambos pedidos señalen a la misma clienta.</p><div class="relations intro-relations"><div class="panel white table-section"><strong class="table-title" id="intro-orders-title">Pedidos</strong><p class="mobile-hint">Desliza o enfoca la tabla y usa las flechas para ver el detalle →</p><div class="table-wrap" tabindex="0" role="region" aria-labelledby="intro-orders-title"><table><thead><tr><th>Pedido</th><th>Cliente</th><th>Detalle</th></tr></thead><tbody><tr><td>A-17</td><td class="key">C-01</td><td>3 cuadernos · S/ 36</td></tr><tr><td>A-18</td><td class="key">C-01</td><td>1 mochila · S/ 45</td></tr></tbody></table></div></div><div class="connector">C-01 en cada pedido<br>señala a C-01 en Clientes<b aria-hidden="true">→</b></div><div class="panel tint table-section"><strong class="table-title" id="intro-clients-title">Clientes</strong><div class="table-wrap" tabindex="0" role="region" aria-labelledby="intro-clients-title"><table><thead><tr><th>ID</th><th>Nombre</th><th>Correo</th></tr></thead><tbody><tr><td class="key">C-01</td><td>Ana</td><td>ana@tienda.pe</td></tr></tbody></table></div></div></div><div class="callout">El correo de Ana vive en <strong>Clientes</strong>, no en cada pedido. Así, si cambia, no hay que corregir dos copias.</div></div>
     </section>
 
     <section class="slide" data-title="Datos y gestor" hidden>
-      <header class="slide-header"><div class="eyebrow">Ahora sí, el concepto</div><h2>Datos y gestor: ¿qué hace cada uno?</h2></header>
+      <header class="slide-header"><div class="eyebrow">Dos piezas distintas</div><h2>Datos y gestor: ¿qué hace cada uno?</h2></header>
       <div class="slide-body"><p class="lead">Ya organizamos A-17 y A-18 en Pedidos y a Ana en Clientes. ¿Qué permite guardar y consultar esas tablas?</p><div class="flow"><div class="panel tint"><div class="label">Base de datos · datos</div><p>Las filas de <strong>Pedidos</strong> y <strong>Clientes</strong> guardadas para usarlas más adelante.</p></div><div class="connector">consultar y<br>actualizar<b aria-hidden="true">↔</b></div><div class="panel white"><div class="label">SGBD · software</div><p>El <strong>sistema gestor de bases de datos</strong> guarda, busca y administra esos datos.</p></div></div><div class="callout">La aplicación Java debe <strong>enviar los pedidos al gestor para guardarlos</strong>; dibujar tablas no conserva automáticamente su lista en memoria.</div></div>
     </section>
 
@@ -307,7 +328,7 @@
     <button type="button" id="help" aria-controls="help-dialog">Ayuda</button>
     <span id="runtime-status" role="status"></span>
   </nav>
-  <progress id="progress" value="1" max="23" aria-label="Progreso de la lección"></progress>
+  <progress id="progress" value="1" max="25" aria-label="Progreso de la lección"></progress>
   <dialog id="help-dialog" aria-labelledby="help-title">
     <h2 id="help-title">Controles de la presentación</h2>
     <p>← / ↑: anterior. → / ↓ / Espacio: siguiente. Home: primera. End: última.</p>
