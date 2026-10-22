@@ -70,7 +70,7 @@
     }
     parent.files.push(file);
   }
-  function appendTree(node, parent) {
+  function appendTree(node, parent, depth = 0) {
     for (const [name, child] of [...node.directories].sort(([a], [b]) => a.localeCompare(b))) {
       const group = document.createElement('details');
       group.open = true;
@@ -81,7 +81,7 @@
       label.textContent = name;
       title.append(folderIcon(), label);
       group.append(title);
-      appendTree(child, group);
+      appendTree(child, group, depth + 1);
       parent.append(group);
     }
     for (const file of node.files) {
@@ -90,6 +90,8 @@
       link.dataset.path = file.path;
       link.href = fileHash(file.path);
       link.title = file.path;
+      // Keep the selected row in the tree gutter while its contents stay indented.
+      if (depth) link.style.setProperty('--tree-outdent', `${10 + (depth - 1) * 25}px`);
       const label = document.createElement('span');
       label.className = 'file-name';
       label.textContent = file.path.split('/').pop();

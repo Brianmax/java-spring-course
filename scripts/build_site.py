@@ -52,6 +52,14 @@ def main():
         html = html.replace(script, f'src="project-data.js?v={version}"')
         html = html.replace(f'href="{project.name}.zip"',
                             f'href="{project.name}.zip?v={version}"')
+        # Shared explorer assets need fresh URLs too; Pages caches them for 10 minutes.
+        for asset, attribute in (("project-code.css", "href"),
+                                 ("project-code.js", "src")):
+            reference = f"../../assets/{asset}"
+            marker = f'{attribute}="{reference}"'
+            if marker in html:
+                asset_version = hashlib.sha256((OUTPUT / "assets" / asset).read_bytes()).hexdigest()[:16]
+                html = html.replace(marker, f'{attribute}="{reference}?v={asset_version}"')
         page.write_text(html, encoding="utf-8")
         print(f"Packaged {project.name} from current sources ({version})")
 
