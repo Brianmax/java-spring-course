@@ -8,11 +8,12 @@
   <style>
     :root {
       color-scheme:dark;
-      --bg:#282a36; --surface:#343746; --surface-2:#3b3e52;
-      --text:#f8f8f2; --muted:#b7bed4; --tecsup-blue:#caa9fa;
-      --tecsup-cyan:#8be9fd; --tecsup-pale:#3b3e52;
-      --success:#50fa7b; --warning:#ffb86c; --danger:#ff5555;
-      --line:#50546c; --ink-panel:#21222c; --shadow:0 14px 36px rgb(0 0 0 / 35%);
+      --bg:#101820; --secondary-bg:#182330; --surface:#202c3c;
+      --surface-2:#29384a; --table-head:#2d3b50;
+      --text:#e6edf3; --muted:#a8b3c5; --tecsup-blue:#70d9e8;
+      --tecsup-cyan:#70d9e8; --violet:#b9a0ff; --tecsup-pale:#29384a;
+      --success:#a6e3a1; --warning:#ffc78a; --danger:#ff5555;
+      --line:#39495d; --ink-panel:#21222c; --shadow:0 14px 36px rgb(0 0 0 / 35%);
       --font-sans:"Arial Nova",Arial,Helvetica,ui-sans-serif,system-ui,sans-serif;
       --font-heading:"Arial Nova",Arial,Helvetica,ui-sans-serif,system-ui,sans-serif;
       --font-mono:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;
@@ -176,20 +177,23 @@
       pre { white-space:pre-wrap; overflow-wrap:anywhere; }
     }
     @media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation:none !important; transition:none !important; scroll-behavior:auto !important; } }
-    /* Adapt legacy light-only components to the dark course palette. */
-    a,.eyebrow,.label,.blue,.connector,.model-join,.mobile-hint { color:var(--tecsup-blue); }
+    /* Structural colors only; preserve code blocks and their syntax colors. */
+    a,.blue,.connector,.model-join,.mobile-hint { color:var(--tecsup-blue); }
+    .eyebrow,.label { color:var(--violet); }
     .connector b { color:var(--tecsup-cyan); }
     :focus-visible { outline-color:var(--tecsup-cyan); }
-    .panel.tint { border-color:#6c6184; }
+    .chrome,.deck-controls { background:var(--secondary-bg); }
+    .slide { border-left-color:var(--line); }
+    .panel.tint { border-color:var(--line); }
     .panel.white,.hierarchy-inner { background:var(--surface); }
-    .callout { background:#393b53; }
-    .callout.warn { background:#4a3c38; }
-    .callout.good,.result { background:#30463d; }
-    th,.model-join,.key { color:var(--tecsup-blue); }
+    .callout,.callout.warn,.callout.good,.result { background:var(--surface-2); }
+    th { color:var(--text); background:var(--table-head); }
+    .model-join,.key { color:var(--tecsup-blue); }
     .key { background:var(--surface-2); }
     .hierarchy { background:var(--surface-2); }
-    .hierarchy-inner { border-color:#6c6184; }
+    .hierarchy-inner { border-color:var(--line); border-left-color:var(--tecsup-cyan); }
     dialog { color:var(--text); background:var(--surface); }
+    .slide :not(pre):not(.code) > code { color:#f8f8f2; }
   </style>
 </head>
 <body>

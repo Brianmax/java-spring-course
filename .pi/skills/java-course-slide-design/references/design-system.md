@@ -14,33 +14,36 @@ Use this shared visual language for every generated lesson unless the repository
 
 ## Visual identity
 
-The course style is **technical clarity**: readable typography, spacious layouts, crisp geometric diagrams, and restrained motion. The current site uses a Dracula-inspired dark palette, but neither the course name nor its host institution dictates its colors. If a user requests another palette or light mode, adapt the tokens while preserving contrast and consistency across the lesson.
+The course style is **technical clarity**: readable typography, spacious layouts, crisp geometric diagrams, and restrained motion. The current course site and decks use a Developer Dark palette inspired by modern IDEs and documentation. Neither the course name nor its host institution dictates its colors. If a user requests another palette or light mode, adapt the tokens while preserving contrast and consistency across the whole site.
 
 ### Color tokens
 
-The following are the current Dracula-inspired defaults, not mandatory brand colors. Define theme tokens on `:root` and reuse them rather than introducing arbitrary per-lesson palettes:
+The following are current course defaults, not mandatory brand colors. Use the same semantic roles for the site catalog and standalone lessons. Define theme tokens on `:root` and reuse them rather than introducing arbitrary per-lesson palettes:
 
 ```css
 :root {
   color-scheme: dark;
-  --bg: #282a36;
-  --surface: #343746;
-  --surface-2: #3b3e52;
-  --text: #f8f8f2;
-  --muted: #b7bed4;
-  --accent: #caa9fa;
-  --flow: #8be9fd;
-  --highlight: #ff79c6;
-  --success: #50fa7b;
-  --warning: #ffb86c;
+  --bg: #101820;
+  --secondary-bg: #182330;
+  --surface: #202c3c;
+  --surface-2: #29384a;
+  --table-head: #2d3b50;
+  --text: #e6edf3;
+  --muted: #a8b3c5;
+  --accent: #70d9e8;
+  --flow: #70d9e8;
+  --highlight: #b9a0ff;
+  --success: #a6e3a1;
+  --warning: #ffc78a;
   --danger: #ff5555;
-  --line: #50546c;
+  --line: #39495d;
+  /* Existing code blocks retain their independent background and syntax palette. */
   --ink-panel: #21222c;
   --shadow: 0 14px 36px rgb(0 0 0 / 0.35);
 }
 ```
 
-Use `--accent` for headings, actions, and selected nodes, `--flow` for arrows, progress, links, and focus, and darker surfaces for highlighted regions. The purple is slightly brighter than canonical Dracula purple to keep small text legible on dark panels. Use `--highlight` sparingly for emphasis. Keep `--text` for essential text and `--muted` only for supporting text. Check contrast in context: Dracula accents often need dark text when used as button or badge backgrounds. Use semantic colors only for their meanings, and never communicate meaning by color alone. Existing decks may still use legacy `--tecsup-*` variable names; their names do not require the old brand colors.
+Use `--accent` for active states and meaningful links or relationships, `--flow` for arrows and focus, and `--highlight` sparingly for section and category labels. Keep main titles and ordinary values in `--text`, and supporting text in `--muted`. Give cards subtle borders and distinguish them by surface brightness; table headers use `--table-head`. Callouts use a dark surface and a thin semantic left border. On filled accent buttons use dark text. Aim for WCAG AA contrast: 4.5:1 for normal text and 3:1 for large text and essential UI. Never communicate meaning by color alone. Existing decks may still use legacy `--tecsup-*` variable names; their names do not require brand colors. Do not recolor existing inline code, code blocks, or syntax tokens as part of a structural theme change.
 
 ### Typography
 
@@ -85,7 +88,7 @@ Every slide should use a meaningful composition selected from: centered hero, sp
 
 ### Code blocks
 
-Use the `--ink-panel` surface, a subtle one-pixel border, 12–16px radius, mono font, and optional filename/language header. Highlight only tokens or lines relevant to the explanation. Keep code text near-white for contrast.
+For new decks, use the `--ink-panel` surface, a subtle one-pixel border, 12–16px radius, mono font, and optional filename/language header. Highlight only tokens or lines relevant to the explanation. Keep code text near-white for contrast. When applying a new structural theme to existing decks, preserve their code backgrounds, syntax colors, inline-code colors, and formatting.
 
 Use stable token classes:
 
@@ -101,8 +104,8 @@ Always HTML-escape `<`, `>`, and `&` inside code.
 
 ### Diagrams
 
-- Nodes: `--surface` or `--surface-2` fill, `--line` border, 12px radius.
-- Primary/current node: `--accent` border or restrained emphasis.
+- Nodes: `--surface` or `--surface-2` fill, subtle `--line` border, 12px radius.
+- Primary/current node: `--accent` border or restrained emphasis; avoid outlining every node brightly.
 - Flow arrows: `--flow`, with clear arrowheads and labels where ambiguity exists.
 - Use solid lines for direct relationships and dashed lines for optional/indirect relationships.
 - Use CSS/HTML for simple layouts and inline SVG for connectors or spatial diagrams.

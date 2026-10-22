@@ -8,10 +8,12 @@
 <style>
 :root {
   color-scheme:dark;
-  --bg:#282a36; --surface:#343746; --surface-2:#3b3e52;
-  --text:#f8f8f2; --muted:#b7bed4; --tecsup-blue:#caa9fa;
-  --tecsup-cyan:#8be9fd; --tecsup-pale:#3b3e52; --success:#50fa7b;
-  --warning:#ffb86c; --danger:#ff5555; --line:#50546c; --ink-panel:#21222c;
+  --bg:#101820; --secondary-bg:#182330; --surface:#202c3c;
+  --surface-2:#29384a; --table-head:#2d3b50;
+  --text:#e6edf3; --muted:#a8b3c5; --tecsup-blue:#70d9e8;
+  --tecsup-cyan:#70d9e8; --violet:#b9a0ff; --tecsup-pale:#29384a;
+  --success:#a6e3a1; --warning:#ffc78a; --danger:#ff5555;
+  --line:#39495d; --ink-panel:#21222c;
   --shadow:0 14px 36px rgb(0 0 0 / 35%);
   --font-sans:"Arial Nova",Arial,Helvetica,ui-sans-serif,system-ui,sans-serif;
   --font-heading:var(--font-sans);
@@ -506,32 +508,41 @@ li + li { margin-top:8px; }
   .refs-event > span { font-size:15px; }
 }
 
-/* Adapt legacy light-only components to the dark course palette. */
+/* Structural colors only; code blocks and highlighting retain their palette. */
 :focus-visible { outline-color:var(--tecsup-cyan); }
-.eyebrow,.label,.result,.row > :first-child,.comparison th,.flow-label,
+.eyebrow,.label,.opening-roadmap b,.poo-map-group h3,.poo-map-item b,
+#slide-8 .model-class p b { color:var(--violet); }
+.result,.flow-label,
 #slide-7 .order-state h3,#slide-7 .order-reading span,#slide-7 .order-change,
 #slide-17 .client-card h3,#slide-17 .client-transition,
 #slide-24 .product-story h3,#slide-24 .product-next,
-#slide-8 .model-class p b,#slide-8 .model-branch span,
-.comparison > div:first-child,.home,.receipt-grid > :nth-child(odd),
-.result-block strong,.opening-roadmap b,.poo-map-group h3,.poo-map-item b,
-.inventory-track h3,.refs-event > span,.refs-array-change,
+#slide-8 .model-branch span,.home,.result-block strong,
+.refs-event > span,.refs-array-change,
 #slide-8 .model-mobile-connection,#slide-87 .mobile-collab-action,
 .mobile-diagram-connector { color:var(--tecsup-blue); }
+#slide-7 .order-state h3,#slide-17 .client-card h3,
+#slide-24 .product-story h3,.inventory-track h3 { color:var(--text); }
+.row > :first-child,.receipt-grid > :nth-child(odd) { color:var(--muted); }
+.comparison th,.comparison > div:first-child { color:var(--text); background:var(--table-head); }
 #slide-17 .client-stage .missing { color:var(--warning); }
-.panel.accent,.opening-roadmap div,.poo-map-group { border-color:#6c6184; }
-.panel.warning,.callout.warning { background:#4a3c38; border-color:#9a7050; }
-.callout { background:#393b53; }
-.callout.success { background:#30463d; }
+.panel.accent,.opening-roadmap div,.poo-map-group,
+.poo-map-group:first-child { border-color:var(--line); }
+.node,#slide-7 .order-state,#slide-17 .client-card,
+#slide-24 .product-story,#slide-8 .model-object,
+.mobile-diagram-box,.refs-object { border-color:var(--line); }
+.panel.warning,.callout,.callout.warning,.callout.success { background:var(--surface-2); }
+.panel.warning { border-color:var(--line); }
 #slide-17 .client-card,#slide-24 .product-story,.inventory-track,
-.refs-array-diagram { background:var(--surface); border-color:#6c6184; }
+.refs-array-diagram { background:var(--surface); border-color:var(--line); }
 .inventory-state,.refs-state,.refs-var,.refs-object.empty,.refs-snapshot,
 .refs-array-row .refs-null { background:var(--surface); }
-.rejected .inventory-state.after { background:#3a3b48; }
-.deck-controls,.deck-controls button,.deck-controls select,.help-dialog { background:var(--surface); }
+.rejected .inventory-state.after { background:var(--surface-2); }
+.deck-controls { background:var(--secondary-bg); }
+.deck-controls button,.deck-controls select,.help-dialog { background:var(--surface); }
 .deck-controls button,.deck-controls select { border-color:var(--line); }
 .help-dialog button { color:var(--bg); background:var(--tecsup-cyan); }
 .progress { background:var(--line); }
+.slide :not(pre):not(.code) > code { color:#f8f8f2; }
 .opening-diagram text,.opening-arrow text { fill:var(--text); }
 #slide-87 .diagram svg .diagram-action { stroke:var(--bg); }
 .slide svg text { fill:var(--text); }
@@ -539,9 +550,11 @@ li + li { margin-top:8px; }
 .slide svg [fill="#dcf3ff"] { fill:var(--surface-2); }
 .slide svg [fill="#f5f5f5"],.slide svg [fill="#ffffff"],
 .slide svg [fill="#fff"] { fill:var(--surface); }
-.slide svg [fill="#fff8eb"] { fill:#4a3c38; }
-.slide svg [stroke="#0097d0"],.slide svg [stroke="#71cbe4"] { stroke:var(--tecsup-blue); }
+.slide svg [fill="#fff8eb"] { fill:var(--surface-2); }
+.slide svg [stroke="#0097d0"] { stroke:var(--tecsup-blue); }
+.slide svg [stroke="#71cbe4"] { stroke:var(--line); }
 .slide svg [stroke="#555"] { stroke:var(--line); }
+.slide svg [stroke="#9a6700"] { stroke:var(--warning); }
 .slide svg [stroke="#00b3e0"] { stroke:var(--tecsup-cyan); }
 .slide svg [fill="#0097d0"] { fill:var(--tecsup-blue); }
 .slide svg [fill="#00b3e0"] { fill:var(--tecsup-cyan); }
