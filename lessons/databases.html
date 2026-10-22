@@ -27,9 +27,10 @@
     .chrome,.deck-controls { display:flex; align-items:center; flex-wrap:wrap; gap:10px; padding:7px clamp(20px,3vw,48px); }
     .chrome { border-bottom:1px solid var(--line); font-size:14px; }
     .chrome span { color:var(--muted); }
-    .deck-controls { border-top:1px solid var(--line); }
-    #slide-count { font-size:14px; font-variant-numeric:tabular-nums; }
+    .deck-controls { display:grid; grid-template-columns:auto 260px auto auto auto minmax(0,1fr); border-top:1px solid var(--line); }
+    #slide-count { min-width:0; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; font-size:14px; font-variant-numeric:tabular-nums; }
     #runtime-status { margin-left:auto; font-size:14px; }
+    #runtime-status:empty { display:none; }
     progress { width:100%; height:6px; border:0; accent-color:var(--tecsup-cyan); }
     progress::-webkit-progress-bar { background:var(--surface); }
     progress::-webkit-progress-value { background:var(--tecsup-cyan); }
@@ -80,6 +81,7 @@
     .relations .panel { padding:12px; }
     .relations th,.relations td { padding:9px; }
     .relations td:last-child { white-space:nowrap; }
+    .intro-relations { grid-template-columns:minmax(0,1.3fr) 155px minmax(0,.8fr); }
     .code-label { display:block; margin-bottom:8px; font-size:16px; color:var(--muted); }
     pre { width:100%; min-width:0; margin:0; padding:16px 18px; border:1px solid #245461; border-radius:12px; overflow:auto; background:var(--ink-panel); color:#f5f8f8; font:clamp(15px,1.25vw,18px)/1.48 var(--font-mono); tab-size:2; }
     code { font-family:var(--font-mono); font-size:.91em; }
@@ -115,10 +117,20 @@
     dialog { max-width:min(90vw,640px); max-height:85vh; overflow:auto; padding:24px; border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); }
     dialog::backdrop { background:rgb(17 17 17 / .35); }
     @keyframes enter { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
+    @media (max-width:850px) {
+      .deck-controls { grid-template-columns:repeat(2,minmax(0,1fr)); }
+      #slide-count { grid-column:1 / -1; grid-row:1; }
+      #previous { grid-column:1; grid-row:2; }
+      #next { grid-column:2; grid-row:2; }
+      #fullscreen { grid-column:1; grid-row:3; }
+      #help { grid-column:2; grid-row:3; }
+      #runtime-status { grid-column:1 / -1; margin-left:0; }
+    }
     @media (max-width:700px) {
       .slide { min-height:100%; padding:20px 18px 40px; gap:18px; }
       .slide-body { margin-block:0; }
       .split,.split.wide-left,.documents,.exercise,.route,.relations { grid-template-columns:1fr; }
+      .relations.intro-relations { grid-template-columns:1fr; }
       .flow { flex-direction:column; }
       .connector { transform:none; }
       .connector b { transform:rotate(90deg); }
@@ -130,6 +142,7 @@
       th,td { padding:8px; }
       .table-wrap:not(.panel) > table { min-width:560px; }
       .relations .panel:last-child table { min-width:580px; }
+      .relations.intro-relations .panel:last-child table { min-width:0; }
       .choice { min-width:560px; }
       .client-map { grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; align-items:start; }
       .client-map > :nth-child(1) { grid-column:1; grid-row:1; }
@@ -172,14 +185,24 @@
       <div class="slide-body"><div class="flow"><div class="panel tint"><div class="label">Antes · memoria del programa</div><p><strong>A-17</strong> · Ana · S/ 36<br><strong>A-18</strong> · Ana · S/ 45</p></div><div class="connector">Cerrar y abrir<br>el programa<b aria-hidden="true">→</b></div><div class="panel white"><div class="label">Después · lista nueva</div><p><strong>Vacía.</strong> Buscar A-17 ya no devuelve el registro anterior.</p></div></div><div class="callout">Un <strong>archivo</strong> también podría guardar los pedidos entre ejecuciones. Una base de datos agrega una forma organizada de almacenarlos, buscarlos y administrarlos mediante software especializado.</div></div>
     </section>
 
+    <section class="slide" data-title="Pedidos que permanecen" hidden>
+      <header class="slide-header"><div class="eyebrow">Del reinicio a los datos guardados</div><h2>Pedidos que permanecen</h2></header>
+      <div class="slide-body"><p class="lead">La lista de Java quedó vacía al reiniciar. Si la aplicación <strong>guarda</strong> los pedidos en una base de datos relacional, podrá recuperarlos después.</p><div class="table-section"><strong class="table-title" id="saved-orders-title">Tabla Pedidos · datos guardados</strong><p class="mobile-hint">Desliza o enfoca la tabla y usa las flechas para ver los detalles →</p><div class="table-wrap" tabindex="0" role="region" aria-labelledby="saved-orders-title"><table><thead><tr><th>ID</th><th>Cliente</th><th>Detalle</th><th>Total</th></tr></thead><tbody><tr><td>A-17</td><td>Ana</td><td>3 cuadernos × S/ 12</td><td>S/ 36</td></tr><tr><td>A-18</td><td>Ana</td><td>1 mochila × S/ 45</td><td>S/ 45</td></tr></tbody></table></div></div><div class="callout">En una base de datos <strong>relacional</strong>, los registros se organizan en tablas que pueden conectarse. Cada <strong>columna</strong> describe un dato y cada <strong>fila</strong> guarda un pedido. Cerrar Java no borra las filas ya guardadas.</div></div>
+    </section>
+
+    <section class="slide" data-title="Una clienta, dos pedidos" hidden>
+      <header class="slide-header"><div class="eyebrow">Organizar sin repetir el contacto</div><h2>Una clienta, dos pedidos</h2></header>
+      <div class="slide-body"><p class="lead">A-17 y A-18 son de Ana. Podemos guardar su contacto una vez y hacer que ambos pedidos señalen a la misma clienta.</p><div class="relations intro-relations"><div class="panel white table-section"><strong class="table-title" id="intro-orders-title">Pedidos</strong><p class="mobile-hint">Desliza o enfoca la tabla y usa las flechas para ver el detalle →</p><div class="table-wrap" tabindex="0" role="region" aria-labelledby="intro-orders-title"><table><thead><tr><th>Pedido</th><th>Cliente</th><th>Detalle</th></tr></thead><tbody><tr><td>A-17</td><td class="key">C-01</td><td>3 cuadernos · S/ 36</td></tr><tr><td>A-18</td><td class="key">C-01</td><td>1 mochila · S/ 45</td></tr></tbody></table></div></div><div class="connector">C-01 en cada pedido<br>señala a C-01 en Clientes<b aria-hidden="true">→</b></div><div class="panel tint table-section"><strong class="table-title" id="intro-clients-title">Clientes</strong><div class="table-wrap" tabindex="0" role="region" aria-labelledby="intro-clients-title"><table><thead><tr><th>ID</th><th>Nombre</th><th>Correo</th></tr></thead><tbody><tr><td class="key">C-01</td><td>Ana</td><td>ana@tienda.pe</td></tr></tbody></table></div></div></div><div class="callout">El correo de Ana vive en <strong>Clientes</strong>, no en cada pedido. Así, si cambia, no hay que corregir dos copias.</div></div>
+    </section>
+
     <section class="slide" data-title="Datos y gestor" hidden>
       <header class="slide-header"><div class="eyebrow">Ahora sí, el concepto</div><h2>Datos y gestor: ¿qué hace cada uno?</h2></header>
-      <div class="slide-body"><p class="lead">Para recuperar A-17 tras el reinicio, la tienda necesita conservar y organizar sus registros.</p><div class="flow"><div class="panel tint"><div class="label">Base de datos · datos</div><p>Pedidos y clientes <strong>organizados</strong> y guardados para usarlos más adelante.</p></div><div class="connector">consultar y<br>actualizar<b aria-hidden="true">↔</b></div><div class="panel white"><div class="label">SGBD · software</div><p>El <strong>sistema gestor de bases de datos</strong> guarda, busca y administra esos datos.</p></div></div><div class="callout">La aplicación Java solicita datos al gestor; Java no es el gestor ni los datos almacenados.</div></div>
+      <div class="slide-body"><p class="lead">Ya organizamos A-17 y A-18 en Pedidos y a Ana en Clientes. ¿Qué permite guardar y consultar esas tablas?</p><div class="flow"><div class="panel tint"><div class="label">Base de datos · datos</div><p>Las filas de <strong>Pedidos</strong> y <strong>Clientes</strong> guardadas para usarlas más adelante.</p></div><div class="connector">consultar y<br>actualizar<b aria-hidden="true">↔</b></div><div class="panel white"><div class="label">SGBD · software</div><p>El <strong>sistema gestor de bases de datos</strong> guarda, busca y administra esos datos.</p></div></div><div class="callout">La aplicación Java debe <strong>enviar los pedidos al gestor para guardarlos</strong>; dibujar tablas no conserva automáticamente su lista en memoria.</div></div>
     </section>
 
     <section class="slide" data-title="MySQL Server y tienda" hidden>
       <header class="slide-header"><div class="eyebrow">Un gestor concreto</div><h2>¿Quién recupera A-17?</h2></header>
-      <div class="slide-body split"><div class="stack"><p class="lead"><strong>MySQL Server</strong> es el software gestor en ejecución: recibe solicitudes, comprueba el acceso y lee o escribe datos.</p><div class="callout">El programa servidor no es la base de datos: <strong>tienda</strong> es el conjunto de datos almacenados que administra.</div></div><div class="panel tint"><div class="label">Ejemplo · tienda</div><div class="fact"><span>Gestor en ejecución</span><strong>MySQL Server</strong></div><div class="fact"><span>Base de datos guardada</span><strong>tienda</strong></div><div class="fact"><span>Registro recuperado</span><strong>A-17 · Ana · S/ 36</strong></div></div></div>
+      <div class="slide-body split"><div class="stack"><p class="lead"><strong>MySQL Server</strong> es el software gestor en ejecución: recibe solicitudes, comprueba el acceso y lee o escribe datos.</p><div class="callout">El programa servidor no es la base de datos: <strong>tienda</strong> es el conjunto de datos almacenados que administra.</div><p class="small">Si MySQL Server se detiene o reinicia, las filas <strong>ya guardadas</strong> no se borran por eso; mientras esté apagado, Java no puede consultarlas.</p></div><div class="panel tint"><div class="label">Ejemplo · tienda</div><div class="fact"><span>Gestor en ejecución</span><strong>MySQL Server</strong></div><div class="fact"><span>Base de datos guardada</span><strong>tienda</strong></div><div class="fact"><span>Registro recuperado</span><strong>A-17 · Ana · S/ 36</strong></div></div></div>
     </section>
 
     <section class="slide" data-title="Clientes del servidor" hidden>
@@ -284,7 +307,7 @@
     <button type="button" id="help" aria-controls="help-dialog">Ayuda</button>
     <span id="runtime-status" role="status"></span>
   </nav>
-  <progress id="progress" value="1" max="21" aria-label="Progreso de la lección"></progress>
+  <progress id="progress" value="1" max="23" aria-label="Progreso de la lección"></progress>
   <dialog id="help-dialog" aria-labelledby="help-title">
     <h2 id="help-title">Controles de la presentación</h2>
     <p>← / ↑: anterior. → / ↓ / Espacio: siguiente. Home: primera. End: última.</p>
