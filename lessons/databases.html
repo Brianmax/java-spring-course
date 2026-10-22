@@ -86,7 +86,7 @@
     .model-compare > .panel { padding:12px 14px; }
     .model-compare .label { margin-bottom:7px; }
     .model-compare caption { padding-bottom:4px; font-size:18px; }
-    .model-compare th,.model-compare td { padding:6px 7px; font-size:16px; }
+    .model-compare th,.model-compare td { padding:5px 7px; font-size:16px; }
     .model-compare .orders-table { min-width:500px; }
     .model-join { display:flex; align-items:center; gap:10px; padding:6px 0; color:#075f82; font-size:16px; line-height:1.25; }
     .model-join-arrow { flex:none; font-size:24px; line-height:1; }
@@ -211,13 +211,13 @@
 
     <section class="slide" data-title="Dos modelos de bases de datos" hidden>
       <header class="slide-header"><div class="eyebrow">Organizar el mismo pedido</div><h2>Dos modelos de bases de datos</h2></header>
-      <div class="slide-body"><p class="lead">A-17 puede organizarse de más de una manera:</p>
+      <div class="slide-body"><p class="lead">Tres pedidos en tablas; a la derecha, A-17 como documento:</p>
         <div class="model-compare">
           <div class="panel white"><div class="label">Relacional · tablas conectadas</div>
             <p class="mobile-hint">Desliza o enfoca Pedidos y usa las flechas para ver todas las columnas →</p>
-            <div class="table-wrap" tabindex="0" role="region" aria-labelledby="model-orders-title"><table class="orders-table"><caption id="model-orders-title">Pedidos</caption><thead><tr><th scope="col">id</th><th scope="col">cliente_id</th><th scope="col">detalle</th><th scope="col">total</th></tr></thead><tbody><tr><td>A-17</td><td class="key">C-01</td><td>3 cuadernos × S/ 12</td><td>S/ 36</td></tr></tbody></table></div>
-            <div class="model-join"><span class="model-join-arrow" aria-hidden="true">↓</span><span><strong>Pedidos.cliente_id = C-01</strong> señala a <strong>Clientes.id = C-01</strong></span></div>
-            <div class="table-wrap"><table><caption>Clientes</caption><thead><tr><th scope="col">id</th><th scope="col">nombre</th></tr></thead><tbody><tr><td class="key">C-01</td><td>Ana</td></tr></tbody></table></div>
+            <div class="table-wrap" tabindex="0" role="region" aria-labelledby="model-orders-title"><table class="orders-table"><caption id="model-orders-title">Pedidos</caption><thead><tr><th scope="col">id</th><th scope="col">cliente_id</th><th scope="col">detalle</th><th scope="col">total</th></tr></thead><tbody><tr><td>A-17</td><td class="key">C-01</td><td>3 cuadernos × S/ 12</td><td>S/ 36</td></tr><tr><td>A-18</td><td class="key">C-01</td><td>1 mochila × S/ 45</td><td>S/ 45</td></tr><tr><td>A-20</td><td class="key">C-02</td><td>2 lapiceros × S/ 5</td><td>S/ 10</td></tr></tbody></table></div>
+            <div class="model-join"><span class="model-join-arrow" aria-hidden="true">↓</span><span><strong>Pedidos.cliente_id</strong> señala a <strong>Clientes.id</strong>: C-01 → Ana; C-02 → Luis</span></div>
+            <div class="table-wrap"><table><caption>Clientes</caption><thead><tr><th scope="col">id</th><th scope="col">nombre</th></tr></thead><tbody><tr><td class="key">C-01</td><td>Ana</td></tr><tr><td class="key">C-02</td><td>Luis</td></tr></tbody></table></div>
           </div>
           <div class="panel tint"><div class="label">No relacional · ejemplo: documento</div>
             <pre aria-label="Documento JSON del pedido A-17"><code>{
@@ -229,7 +229,7 @@
   },
   <span class="tok-string">"totalSoles"</span>: <span class="tok-number">36</span>
 }</code></pre>
-            <p class="model-note">3 cuadernos × S/ 12 = S/ 36. Los documentos son <strong>solo un modelo</strong> no relacional; hay otros.</p>
+            <p class="model-note">A-17 es un documento; A-18 y A-20 serían otros. Los documentos son <strong>solo un modelo</strong> no relacional; hay otros.</p>
           </div>
         </div>
         <div class="callout">Ambos modelos pueden guardar y consultar A-17. Se elige según la necesidad; <strong>ninguno conserva la lista de Java si no se guardan los pedidos</strong>.</div>
