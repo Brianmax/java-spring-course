@@ -6,11 +6,12 @@
   <title>Plantilla de lección — Curso de Java Tecsup</title>
   <style>
     :root {
-      --bg: #ffffff; --surface: #f5f5f5; --surface-2: #dcf3ff;
-      --text: #111111; --muted: #555555; --tecsup-blue: #0097d0;
-      --tecsup-cyan: #00b3e0; --tecsup-pale: #dcf3ff; --success: #16835b;
-      --warning: #9a6700; --danger: #c62828; --line: #dddddd;
-      --ink-panel: #111111; --shadow: 0 14px 36px rgb(17 17 17 / 0.12);
+      color-scheme: dark;
+      --bg: #282a36; --surface: #343746; --surface-2: #3b3e52;
+      --text: #f8f8f2; --muted: #b7bed4; --accent: #caa9fa;
+      --flow: #8be9fd; --highlight: #ff79c6; --success: #50fa7b;
+      --warning: #ffb86c; --danger: #ff5555; --line: #50546c;
+      --ink-panel: #21222c; --shadow: 0 14px 36px rgb(0 0 0 / 0.35);
       --font-sans: "Arial Nova", Arial, Helvetica, ui-sans-serif, system-ui, sans-serif;
       --font-heading: "Arial Nova", Arial, Helvetica, ui-sans-serif, system-ui, sans-serif;
       --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
@@ -20,10 +21,10 @@
     body { margin: 0; height: 100vh; height: 100dvh; display: grid; grid-template-rows: auto minmax(0, 1fr) auto auto auto; background: var(--bg); color: var(--text); font-family: var(--font-sans); }
     .chrome, .deck-controls { padding: 8px clamp(16px, 3vw, 40px); display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
     .chrome { border-bottom: 1px solid var(--line); font-size: 0.9rem; }
-    a { color: #00678e; }
+    a { color: var(--flow); }
     .deck { min-height: 0; overflow: auto; }
     .slide { min-height: 100%; padding: clamp(24px, 4vw, 56px); display: flex; flex-direction: column; gap: 24px; animation: enter 300ms ease-out; }
-    .eyebrow { font-size: 0.8rem; letter-spacing: 0.12em; font-weight: bold; }
+    .eyebrow { color: var(--accent); font-size: 0.8rem; letter-spacing: 0.12em; font-weight: bold; }
     h1, h2 { font-family: var(--font-heading); font-size: clamp(2rem, 4vw, 3rem); line-height: 1.1; margin: 8px 0 0; }
     .slide-body { margin-block: auto; font-size: clamp(1.2rem, 2vw, 1.6rem); line-height: 1.5; }
     .split { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; }
@@ -33,16 +34,16 @@
     pre { margin: 0; padding: 24px; overflow: auto; background: var(--ink-panel); color: white; border-radius: 16px; font: 1.1rem/1.5 var(--font-mono); }
     button { min-height: 44px; padding: 8px 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); color: var(--text); font: inherit; cursor: pointer; }
     button:disabled { opacity: 0.5; cursor: default; }
-    :focus-visible { outline: 3px solid #00678e; outline-offset: 3px; }
+    :focus-visible { outline: 3px solid var(--flow); outline-offset: 3px; }
     .deck-controls { border-top: 1px solid var(--line); }
     #slide-count { font-variant-numeric: tabular-nums; }
-    progress { width: 100%; height: 6px; border: 0; accent-color: var(--tecsup-cyan); }
+    progress { width: 100%; height: 6px; border: 0; accent-color: var(--flow); }
     progress::-webkit-progress-bar { background: var(--surface); }
-    progress::-webkit-progress-value { background: var(--tecsup-cyan); }
-    progress::-moz-progress-bar { background: var(--tecsup-cyan); }
+    progress::-webkit-progress-value { background: var(--flow); }
+    progress::-moz-progress-bar { background: var(--flow); }
     #notes-panel { margin: 0 24px; padding: 16px; max-height: 25vh; overflow: auto; background: var(--surface-2); }
     #notes-text { white-space: pre-wrap; }
-    dialog { max-width: min(90vw, 640px); max-height: 85vh; overflow: auto; padding: 24px; border: 1px solid var(--line); border-radius: 16px; box-shadow: var(--shadow); }
+    dialog { max-width: min(90vw, 640px); max-height: 85vh; overflow: auto; padding: 24px; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); color: var(--text); box-shadow: var(--shadow); }
     dialog::backdrop { background: rgb(17 17 17 / 0.3); }
     #runtime-status { margin-inline-start: auto; font-size: 0.9rem; }
     @keyframes enter { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
@@ -55,7 +56,7 @@
   <header class="chrome"><a href="../">Curso de Java</a><span>Plantilla · reemplazar por el tema</span></header>
   <main class="deck" id="deck" tabindex="-1" aria-label="Presentación">
     <section class="slide" data-title="Situación concreta">
-      <header><div class="eyebrow">TECSUP · JAVA COURSE</div><h1>Una compra de Ana</h1></header>
+      <header><div class="eyebrow">CURSO DE JAVA</div><h1>Una compra de Ana</h1></header>
       <div class="slide-body split">
         <div><p>Un pedido registra lo que una persona quiere comprar.</p><p>Ana quiere 3 cuadernos. Cada uno cuesta S/ 12.</p></div>
         <div class="panel"><p>3 cuadernos × S/ 12</p><p><strong>Total: S/ 36</strong></p></div>
@@ -63,7 +64,7 @@
       <aside class="speaker-notes" hidden>Pregunta qué representa cada número antes de introducir el código.</aside>
     </section>
     <section class="slide" data-title="Desarrollar la lección" hidden>
-      <header><div class="eyebrow">TECSUP · JAVA COURSE</div><h2>Completa la secuencia de enseñanza</h2></header>
+      <header><div class="eyebrow">CURSO DE JAVA</div><h2>Completa la secuencia de enseñanza</h2></header>
       <div class="slide-body"><p>Este archivo es una base de navegación, no una lección terminada.</p><p>Reemplaza esta diapositiva con la explicación, modelo visual, implementación, resumen y práctica del tema.</p></div>
     </section>
   </main>

@@ -14,36 +14,37 @@ Use this shared visual language for every generated lesson unless the repository
 
 ## Visual identity
 
-The course style is **Tecsup-inspired technical clarity**: a bright, confident white canvas, Tecsup cyan accents, charcoal typography, spacious layouts, crisp geometric diagrams, and restrained motion. The visual language should feel modern, practical, and technology-oriented without copying site assets or relying on remote brand resources.
+The course style is **technical clarity**: readable typography, spacious layouts, crisp geometric diagrams, and restrained motion. The current site uses a Dracula-inspired dark palette, but neither the course name nor its host institution dictates its colors. If a user requests another palette or light mode, adapt the tokens while preserving contrast and consistency across the lesson.
 
 ### Color tokens
 
-These tokens are sampled from the current Tecsup website palette. Define them on `:root` and reuse them rather than introducing per-lesson palettes:
+The following are the current Dracula-inspired defaults, not mandatory brand colors. Define theme tokens on `:root` and reuse them rather than introducing arbitrary per-lesson palettes:
 
 ```css
 :root {
-  --bg: #ffffff;
-  --surface: #f5f5f5;
-  --surface-2: #dcf3ff;
-  --text: #111111;
-  --muted: #555555;
-  --tecsup-blue: #0097d0;
-  --tecsup-cyan: #00b3e0;
-  --tecsup-pale: #dcf3ff;
-  --success: #16835b;
-  --warning: #9a6700;
-  --danger: #c62828;
-  --line: #dddddd;
-  --ink-panel: #111111;
-  --shadow: 0 14px 36px rgb(17 17 17 / 0.12);
+  color-scheme: dark;
+  --bg: #282a36;
+  --surface: #343746;
+  --surface-2: #3b3e52;
+  --text: #f8f8f2;
+  --muted: #b7bed4;
+  --accent: #caa9fa;
+  --flow: #8be9fd;
+  --highlight: #ff79c6;
+  --success: #50fa7b;
+  --warning: #ffb86c;
+  --danger: #ff5555;
+  --line: #50546c;
+  --ink-panel: #21222c;
+  --shadow: 0 14px 36px rgb(0 0 0 / 0.35);
 }
 ```
 
-Use `--tecsup-blue` for primary headings, actions, and selected diagram nodes; use `--tecsup-cyan` for flow arrows, progress, links, and interaction states; use `--tecsup-pale` for highlighted regions and explanatory panels. Keep `--text` for essential text and `--muted` only for supporting text. Use semantic colors only for their meanings, and never communicate meaning by color alone. White text is appropriate on `--tecsup-blue`, `--tecsup-cyan`, or `--ink-panel` only after checking contrast.
+Use `--accent` for headings, actions, and selected nodes, `--flow` for arrows, progress, links, and focus, and darker surfaces for highlighted regions. The purple is slightly brighter than canonical Dracula purple to keep small text legible on dark panels. Use `--highlight` sparingly for emphasis. Keep `--text` for essential text and `--muted` only for supporting text. Check contrast in context: Dracula accents often need dark text when used as button or badge backgrounds. Use semantic colors only for their meanings, and never communicate meaning by color alone. Existing decks may still use legacy `--tecsup-*` variable names; their names do not require the old brand colors.
 
 ### Typography
 
-Tecsup's site uses N27 for headings and Open Sans for body text. Because lessons must work offline with no external fonts, approximate that pairing with robust local/system stacks:
+Because lessons must work offline with no external fonts, use robust local/system stacks:
 
 ```css
 --font-sans: "Arial Nova", Arial, Helvetica, ui-sans-serif, system-ui, sans-serif;
@@ -51,7 +52,7 @@ Tecsup's site uses N27 for headings and Open Sans for body text. Because lessons
 --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
 ```
 
-Use bold, compact headings with sentence case. Prefer a cyan rule, eyebrow, or geometric mark for Tecsup identity rather than decorative gradients or a copied logo.
+Use bold, compact headings with sentence case. A small accent rule, eyebrow, or geometric mark can reinforce course identity without fixing a brand color or copying a logo.
 
 Recommended hierarchy (responsive with `clamp`):
 
@@ -84,25 +85,25 @@ Every slide should use a meaningful composition selected from: centered hero, sp
 
 ### Code blocks
 
-Use the Tecsup charcoal `--ink-panel` surface, one-pixel cyan or charcoal border, 12–16px radius, mono font, and optional filename/language header. Highlight only tokens or lines relevant to the explanation. Keep code text near-white for contrast.
+Use the `--ink-panel` surface, a subtle one-pixel border, 12–16px radius, mono font, and optional filename/language header. Highlight only tokens or lines relevant to the explanation. Keep code text near-white for contrast.
 
 Use stable token classes:
 
-- `.tok-keyword` — Tecsup blue or cyan
-- `.tok-type` — bright cyan
+- `.tok-keyword` — pink or purple
+- `.tok-type` — cyan
 - `.tok-string` — green
-- `.tok-number` — amber
+- `.tok-number` — purple or orange
 - `.tok-comment` — muted
-- `.code-focus` — subtle Tecsup-cyan line background/border
+- `.code-focus` — subtle accent line background/border
 - `.code-dim` — reduced opacity
 
 Always HTML-escape `<`, `>`, and `&` inside code.
 
 ### Diagrams
 
-- Nodes: white or `--surface-2` fill, `--line` border, 12px radius.
-- Primary/current node: `--tecsup-blue` border or restrained cyan emphasis.
-- Flow arrows: `--tecsup-cyan`, with clear arrowheads and labels where ambiguity exists.
+- Nodes: `--surface` or `--surface-2` fill, `--line` border, 12px radius.
+- Primary/current node: `--accent` border or restrained emphasis.
+- Flow arrows: `--flow`, with clear arrowheads and labels where ambiguity exists.
 - Use solid lines for direct relationships and dashed lines for optional/indirect relationships.
 - Use CSS/HTML for simple layouts and inline SVG for connectors or spatial diagrams.
 - Include concise text labels; icon-only diagrams are not acceptable.
@@ -118,7 +119,7 @@ Always HTML-escape `<`, `>`, and `&` inside code.
 
 Use a colored left border plus a text label/icon glyph:
 
-- info: `--tecsup-cyan`
+- info: `--flow`
 - key idea/success: `--success`
 - warning/common mistake: `--warning`
 - error/anti-pattern: `--danger`
@@ -146,7 +147,7 @@ Use ease-out for entrances and ease-in-out for state changes. Animate opacity an
 
 ## Recurring course identity
 
-Include a small `TECSUP · JAVA COURSE` eyebrow on title/section slides and a subtle lesson/topic label in deck chrome. Do not use an external logo or remote brand asset. A small abstract cyan geometric mark made with CSS or inline SVG is allowed.
+Include a small course/topic eyebrow on title/section slides and a subtle lesson/topic label in deck chrome. The real institution name may appear where appropriate, but is not a color or logo requirement. Do not use an external logo or remote brand asset. A small abstract geometric mark made with CSS or inline SVG is allowed.
 
 ## Responsive and accessible behavior
 
