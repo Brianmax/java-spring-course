@@ -83,14 +83,15 @@
     .relations td:last-child { white-space:nowrap; }
     .intro-relations { grid-template-columns:minmax(0,1.3fr) 155px minmax(0,.8fr); }
     .model-compare { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px; align-items:start; }
-    .model-compare > .panel { padding:16px 18px; }
-    .model-compare .label { margin-bottom:10px; }
-    .model-row { display:flex; align-items:center; gap:9px; }
-    .model-record { flex:1; min-width:0; padding:10px 12px; border:1px solid #a9d9e8; border-radius:12px; background:white; font-size:clamp(16px,1.3vw,19px); line-height:1.35; }
-    .model-record strong { display:block; }
-    .model-link { flex:none; color:#006b94; text-align:center; font-size:15px; font-weight:750; }
-    .model-link b { display:block; font-size:28px; line-height:1; }
-    .model-note { margin-top:9px; font-size:clamp(16px,1.3vw,19px); line-height:1.35; }
+    .model-compare > .panel { padding:12px 14px; }
+    .model-compare .label { margin-bottom:7px; }
+    .model-compare caption { padding-bottom:4px; font-size:18px; }
+    .model-compare th,.model-compare td { padding:6px 7px; font-size:16px; }
+    .model-compare .orders-table { min-width:500px; }
+    .model-join { display:flex; align-items:center; gap:10px; padding:6px 0; color:#075f82; font-size:16px; line-height:1.25; }
+    .model-join-arrow { flex:none; font-size:24px; line-height:1; }
+    .model-compare pre { padding:10px 12px; font-size:16px; line-height:1.35; }
+    .model-note { margin-top:8px; font-size:clamp(15px,1.2vw,17px); line-height:1.35; }
     .code-label { display:block; margin-bottom:8px; font-size:16px; color:var(--muted); }
     pre { width:100%; min-width:0; margin:0; padding:16px 18px; border:1px solid #245461; border-radius:12px; overflow:auto; background:var(--ink-panel); color:#f5f8f8; font:clamp(15px,1.25vw,18px)/1.48 var(--font-mono); tab-size:2; }
     code { font-family:var(--font-mono); font-size:.91em; }
@@ -135,6 +136,9 @@
       #help { grid-column:2; grid-row:3; }
       #runtime-status { grid-column:1 / -1; margin-left:0; }
     }
+    @media (max-width:1050px) {
+      .model-compare { grid-template-columns:1fr; }
+    }
     @media (max-width:700px) {
       .slide { min-height:100%; padding:20px 18px 40px; gap:18px; }
       .slide-body { margin-block:0; }
@@ -144,8 +148,6 @@
       .connector { transform:none; }
       .connector b { transform:rotate(90deg); }
       .relations .connector b { transform:rotate(90deg); }
-      .model-row { flex-direction:column; align-items:stretch; }
-      .model-link b { transform:rotate(90deg); }
       .deck-controls { gap:6px; }
       .deck-controls button { padding:7px 9px; font-size:14px; }
       .chrome { font-size:13px; }
@@ -154,6 +156,7 @@
       .table-wrap:not(.panel) > table { min-width:560px; }
       .relations .panel:last-child table { min-width:580px; }
       .relations.intro-relations .panel:last-child table { min-width:0; }
+      .model-compare .table-wrap > table:not(.orders-table) { min-width:0; }
       .choice { min-width:560px; }
       .client-map { grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; align-items:start; }
       .client-map > :nth-child(1) { grid-column:1; grid-row:1; }
@@ -208,7 +211,29 @@
 
     <section class="slide" data-title="Dos modelos de bases de datos" hidden>
       <header class="slide-header"><div class="eyebrow">Organizar el mismo pedido</div><h2>Dos modelos de bases de datos</h2></header>
-      <div class="slide-body"><p class="lead">A-17 puede organizarse de más de una manera:</p><div class="model-compare"><div class="panel white"><div class="label">Relacional · tablas conectadas</div><div class="model-row"><div class="model-record"><strong>Pedidos</strong> A-17 · cliente C-01<br>3 cuadernos · S/ 36</div><div class="model-link">C-01<b aria-hidden="true">→</b></div><div class="model-record"><strong>Clientes</strong> C-01 · Ana</div></div><p class="model-note">El pedido señala a Ana en otra tabla.</p></div><div class="panel tint"><div class="label">No relacional · ejemplo: documento</div><div class="model-record"><strong>Documento de A-17</strong> Ana · C-01<br>3 cuadernos · S/ 36</div><p class="model-note">El pedido y los datos de Ana están agrupados. Los documentos son <strong>solo un modelo</strong> no relacional; hay otros.</p></div></div><div class="callout">Ambos modelos pueden guardar y consultar A-17. Se elige según la necesidad; <strong>ninguno conserva la lista de Java si no se guardan los pedidos</strong>.</div></div>
+      <div class="slide-body"><p class="lead">A-17 puede organizarse de más de una manera:</p>
+        <div class="model-compare">
+          <div class="panel white"><div class="label">Relacional · tablas conectadas</div>
+            <p class="mobile-hint">Desliza o enfoca Pedidos y usa las flechas para ver todas las columnas →</p>
+            <div class="table-wrap" tabindex="0" role="region" aria-labelledby="model-orders-title"><table class="orders-table"><caption id="model-orders-title">Pedidos</caption><thead><tr><th scope="col">id</th><th scope="col">cliente_id</th><th scope="col">detalle</th><th scope="col">total</th></tr></thead><tbody><tr><td>A-17</td><td class="key">C-01</td><td>3 cuadernos × S/ 12</td><td>S/ 36</td></tr></tbody></table></div>
+            <div class="model-join"><span class="model-join-arrow" aria-hidden="true">↓</span><span><strong>Pedidos.cliente_id = C-01</strong> señala a <strong>Clientes.id = C-01</strong></span></div>
+            <div class="table-wrap"><table><caption>Clientes</caption><thead><tr><th scope="col">id</th><th scope="col">nombre</th></tr></thead><tbody><tr><td class="key">C-01</td><td>Ana</td></tr></tbody></table></div>
+          </div>
+          <div class="panel tint"><div class="label">No relacional · ejemplo: documento</div>
+            <pre aria-label="Documento JSON del pedido A-17"><code>{
+  <span class="tok-string">"id"</span>: <span class="tok-string">"A-17"</span>,
+  <span class="tok-string">"cliente"</span>: {<span class="tok-string">"id"</span>: <span class="tok-string">"C-01"</span>, <span class="tok-string">"nombre"</span>: <span class="tok-string">"Ana"</span>},
+  <span class="tok-string">"detalle"</span>: {
+    <span class="tok-string">"producto"</span>: <span class="tok-string">"cuaderno"</span>, <span class="tok-string">"cantidad"</span>: <span class="tok-number">3</span>,
+    <span class="tok-string">"precioUnitarioSoles"</span>: <span class="tok-number">12</span>
+  },
+  <span class="tok-string">"totalSoles"</span>: <span class="tok-number">36</span>
+}</code></pre>
+            <p class="model-note">3 cuadernos × S/ 12 = S/ 36. Los documentos son <strong>solo un modelo</strong> no relacional; hay otros.</p>
+          </div>
+        </div>
+        <div class="callout">Ambos modelos pueden guardar y consultar A-17. Se elige según la necesidad; <strong>ninguno conserva la lista de Java si no se guardan los pedidos</strong>.</div>
+      </div>
     </section>
 
     <section class="slide" data-title="Una clienta, dos pedidos" hidden>
