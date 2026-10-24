@@ -1,5 +1,8 @@
 package clasesAbstractas;
 
+// no se puede instanciar un objeto de la clase abstracta
+// tiene constructor
+// tiene atributos
 public abstract class Figura {
     protected String color;
 
