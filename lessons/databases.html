@@ -82,12 +82,17 @@
 
     <section class="slide" data-title="Datos y gestor" hidden>
       <header class="slide-header"><div class="eyebrow">Dos piezas distintas</div><h2>Datos y gestor: ¿qué hace cada uno?</h2></header>
-      <div class="slide-body"><p class="lead">Ya organizamos A-17 y A-18 en Pedidos y a Ana en Clientes. ¿Qué permite guardar y consultar esas tablas?</p><div class="flow"><div class="panel tint"><div class="label">Base de datos · datos</div><p>Las filas de <strong>Pedidos</strong> y <strong>Clientes</strong> guardadas para usarlas más adelante.</p></div><div class="connector">consultar y<br>actualizar<b aria-hidden="true">↔</b></div><div class="panel white"><div class="label">SGBD · software</div><p>El <strong>sistema gestor de bases de datos</strong> guarda, busca y administra esos datos.</p></div></div><div class="callout">La aplicación Java debe <strong>enviar los pedidos al gestor para guardarlos</strong>; dibujar tablas no conserva automáticamente su lista en memoria.</div></div>
+      <div class="slide-body"><p class="lead">Ya organizamos A-17 y A-18 en Pedidos y a Ana en Clientes. Esas tablas describen los <strong>datos</strong>, no el programa que atiende a Java.</p><div class="split"><div class="panel tint"><div class="label">Base de datos · datos guardados</div><p><strong>Pedidos:</strong> A-17 · C-01 · S/ 36<br><strong>Clientes:</strong> C-01 · Ana</p></div><div class="panel white"><div class="label">Falta una pieza · software</div><p>¿Quién recibe de la aplicación Java la solicitud de guardar o recuperar A-17?</p></div></div><div class="callout">Diseñar las tablas <strong>no guarda automáticamente</strong> los pedidos de la lista en memoria: Java debe solicitar que se guarden.</div></div>
+    </section>
+
+    <section class="slide" data-title="Sistema gestor de bases de datos" hidden>
+      <header class="slide-header"><div class="eyebrow">La pieza que atiende a Java</div><h2>¿Qué es un sistema gestor de bases de datos?</h2></header>
+      <div class="slide-body"><p class="lead">Un <strong>sistema gestor de bases de datos (SGBD)</strong> es el software que recibe solicitudes, comprueba el acceso y guarda o lee datos.</p><div class="flow"><div class="panel white"><div class="label">Aplicación Java</div><p>Solicita guardar el pedido <strong>A-17</strong>.</p></div><div class="connector">solicitud de guardar<b aria-hidden="true">→</b></div><div class="panel tint"><div class="label">Software · SGBD</div><p>Comprueba el acceso y guarda el pedido.</p></div><div class="connector">guarda A-17<b aria-hidden="true">→</b></div><div class="panel white"><div class="label">Base de datos guardada · tienda</div><p><strong>Pedidos:</strong> A-17 · C-01 · S/ 36<br><strong>Clientes:</strong> C-01 · Ana</p></div></div><p class="small">Después, Java puede pedirle al gestor que busque A-17; veremos un gestor concreto a continuación.</p></div>
     </section>
 
     <section class="slide" data-title="MySQL Server y tienda" hidden>
       <header class="slide-header"><div class="eyebrow">Un gestor concreto</div><h2>¿Quién recupera A-17?</h2></header>
-      <div class="slide-body split"><div class="stack"><p class="lead"><strong>MySQL Server</strong> es el software gestor en ejecución: recibe solicitudes, comprueba el acceso y lee o escribe datos.</p><div class="callout">El programa servidor no es la base de datos: <strong>tienda</strong> es el conjunto de datos almacenados que administra.</div><p class="small">Si MySQL Server se detiene o reinicia, las filas <strong>ya guardadas</strong> no se borran por eso; mientras esté apagado, Java no puede consultarlas.</p></div><div class="panel tint"><div class="label">Ejemplo · tienda</div><div class="fact"><span>Gestor en ejecución</span><strong>MySQL Server</strong></div><div class="fact"><span>Base de datos guardada</span><strong>tienda</strong></div><div class="fact"><span>Registro recuperado</span><strong>A-17 · Ana · S/ 36</strong></div></div></div>
+      <div class="slide-body split"><div class="stack"><p class="lead"><strong>MySQL Server</strong> es un SGBD concreto en ejecución: recibe solicitudes, comprueba el acceso y lee o escribe datos.</p><div class="callout">El programa servidor no es la base de datos: <strong>tienda</strong> es el conjunto de datos almacenados que administra.</div><p class="small">Si MySQL Server se detiene o reinicia, las filas <strong>ya guardadas</strong> no se borran por eso; mientras esté apagado, Java no puede consultarlas.</p></div><div class="panel tint"><div class="label">Ejemplo · tienda</div><div class="fact"><span>Gestor en ejecución</span><strong>MySQL Server</strong></div><div class="fact"><span>Base de datos guardada</span><strong>tienda</strong></div><div class="fact"><span>Registro recuperado</span><strong>A-17 · Ana · S/ 36</strong></div></div></div>
     </section>
 
     <section class="slide" data-title="Clientes del servidor" hidden>
@@ -187,7 +192,7 @@
     <button type="button" id="help" aria-controls="help-dialog">Ayuda</button>
     <span id="runtime-status" role="status"></span>
   </nav>
-  <progress id="progress" value="1" max="25" aria-label="Progreso de la lección"></progress>
+  <progress id="progress" value="1" max="26" aria-label="Progreso de la lección"></progress>
   <dialog id="help-dialog" aria-labelledby="help-title">
     <h2 id="help-title">Controles de la presentación</h2>
     <p>← / ↑: anterior. → / ↓ / Espacio: siguiente. Home: primera. End: última.</p>
