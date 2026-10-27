@@ -140,23 +140,32 @@
     </section>
 
     <section class="slide" data-title="Catálogo variable" hidden>
-      <header class="slide-header"><div class="eyebrow">Puente: de pedidos al catálogo</div><h2>¿Qué dato necesita cada producto?</h2></header>
-      <div class="slide-body"><p class="lead">A-17 contiene cuadernos y A-18 una mochila. Para mostrar el catálogo, cada producto necesita datos propios.</p><div class="split"><div class="panel white"><div class="label">P-01 · Cuaderno · S/ 12</div><div class="fact"><span>Dato particular</span><strong>80 páginas</strong></div></div><div class="panel tint"><div class="label">P-02 · Mochila · S/ 45</div><div class="fact"><span>Dato particular</span><strong>20 L de capacidad</strong></div></div></div><div class="callout">Una tabla con columnas <strong>páginas</strong> y <strong>capacidad</strong> puede funcionar, pero acumula campos opcionales al crecer el catálogo. También hay soluciones relacionales con tablas auxiliares o campos JSON.</div></div>
+      <header class="slide-header"><div class="eyebrow">De los pedidos al catálogo</div><h2>¿Cómo describimos productos distintos?</h2></header>
+      <div class="slide-body"><p class="lead">A-17 tiene 3 cuadernos y A-18 una mochila. En el catálogo, <strong>páginas</strong> describe al cuaderno y <strong>capacidad</strong> describe a la mochila.</p>
+        <div class="table-section"><strong class="table-title" id="catalog-title">Catálogo · una tabla para ambos productos</strong><p class="mobile-hint">Desliza o enfoca la tabla y usa las flechas para ver todas las columnas →</p><div class="table-wrap" tabindex="0" role="region" aria-labelledby="catalog-title"><table><thead><tr><th scope="col">Producto</th><th scope="col">Precio</th><th scope="col">Páginas</th><th scope="col">Capacidad</th></tr></thead><tbody><tr><td>P-01 · Cuaderno</td><td>S/ 12</td><td>80 páginas</td><td>No aplica</td></tr><tr><td>P-02 · Mochila</td><td>S/ 45</td><td>No aplica</td><td>20 L</td></tr></tbody></table></div></div>
+        <div class="callout">La tabla <strong>funciona</strong>, pero no todas sus columnas aplican a cada producto. Ahora veremos cómo <strong>MongoDB</strong> organiza estos productos en documentos; después veremos los ejemplos.</div></div>
+    </section>
+
+    <section class="slide" data-title="MongoDB y el catálogo" hidden>
+      <header class="slide-header"><div class="eyebrow">Otra forma de organizar el catálogo</div><h2>MongoDB guarda documentos</h2></header>
+      <div class="slide-body"><p class="lead"><strong>MongoDB</strong> es un programa gestor de bases de datos (SGBD) que organiza datos en <strong>documentos</strong> en lugar de filas de una tabla.</p>
+        <div class="hierarchy"><div class="label">MongoDB · gestor</div><div class="hierarchy-inner"><strong>Base de datos catalogo</strong> <span class="small">· ejemplo distinto de tienda en MySQL</span><div class="hierarchy-inner"><strong>Colección productos</strong><div class="hierarchy-tables"><div class="panel white"><div class="label">Documento P-01 · cuaderno</div><p class="small">S/ 12 · 80 páginas</p></div><div class="panel white"><div class="label">Documento P-02 · mochila</div><p class="small">S/ 45 · 20 L de capacidad</p></div></div></div></div></div>
+        <div class="callout">Cada documento reúne datos comunes (nombre y precio) y su dato propio (páginas o capacidad). MongoDB los almacena en <strong>BSON, un formato binario</strong>; en la siguiente diapositiva veremos esos datos como <strong>JSON</strong> legible.</div></div>
     </section>
 
     <section class="slide" data-title="Documentos de productos" hidden>
       <header class="slide-header"><div class="eyebrow">Una opción no relacional</div><h2>Un documento por producto</h2></header>
-      <div class="slide-body"><p class="small">“No relacional” nombra una familia de modelos. En uno de ellos, el de <strong>documentos</strong>, cada producto agrupa sus datos propios. Estos dos ejemplos tienen IDs estables.</p><div class="documents"><div><span class="code-label">Producto P-01 · cuaderno</span><pre><code>{
-  <span class="tok-string">"id"</span>: <span class="tok-string">"P-01"</span>,
+      <div class="slide-body"><p class="small">Estos son dos documentos de la colección <strong>productos</strong> en MongoDB: cada uno agrupa nombre, precio y su dato particular. “No relacional” incluye también otros modelos.</p><div class="documents"><div><span class="code-label">Producto P-01 · cuaderno</span><pre><code>{
+  <span class="tok-string">"_id"</span>: <span class="tok-string">"P-01"</span>,
   <span class="tok-string">"nombre"</span>: <span class="tok-string">"Cuaderno"</span>,
   <span class="tok-string">"precioSoles"</span>: <span class="tok-number">12</span>,
   <span class="tok-string">"paginas"</span>: <span class="tok-number">80</span>
 }</code></pre></div><div><span class="code-label">Producto P-02 · mochila</span><pre><code>{
-  <span class="tok-string">"id"</span>: <span class="tok-string">"P-02"</span>,
+  <span class="tok-string">"_id"</span>: <span class="tok-string">"P-02"</span>,
   <span class="tok-string">"nombre"</span>: <span class="tok-string">"Mochila"</span>,
   <span class="tok-string">"precioSoles"</span>: <span class="tok-number">45</span>,
   <span class="tok-string">"capacidadLitros"</span>: <span class="tok-number">20</span>
-}</code></pre></div></div><div class="callout">Estos objetos están escritos en formato JSON como <strong>ejemplo de datos</strong>. “No relacional” es una familia de modelos, no un lenguaje de consulta único.</div></div>
+}</code></pre></div></div><div class="callout"><strong>_id</strong> identifica cada documento. Aquí mostramos los datos como <strong>JSON legible</strong>; MongoDB los guarda internamente en BSON, no como estos bloques de texto.</div></div>
     </section>
 
     <section class="slide" data-title="Otros modelos no relacionales" hidden>
@@ -192,7 +201,7 @@
     <button type="button" id="help" aria-controls="help-dialog">Ayuda</button>
     <span id="runtime-status" role="status"></span>
   </nav>
-  <progress id="progress" value="1" max="26" aria-label="Progreso de la lección"></progress>
+  <progress id="progress" value="1" max="27" aria-label="Progreso de la lección"></progress>
   <dialog id="help-dialog" aria-labelledby="help-title">
     <h2 id="help-title">Controles de la presentación</h2>
     <p>← / ↑: anterior. → / ↓ / Espacio: siguiente. Home: primera. End: última.</p>
