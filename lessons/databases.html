@@ -132,11 +132,16 @@
         <div class="callout">Un <strong>JOIN</strong> permite consultar juntas filas que se relacionan mediante un valor coincidente. Primero veremos qué significa “coincidir”; después, cómo cambia el resultado según el tipo de JOIN.</div></div>
     </section>
 
-    <section class="slide" data-title="La regla de coincidencia" hidden>
+    <section class="slide join-bridge-example" data-title="La regla de coincidencia" hidden>
       <header class="slide-header"><div class="eyebrow">La idea antes del SQL</div><h2>El identificador funciona como puente</h2></header>
-      <div class="slide-body"><p class="lead">Comparamos <strong>Pedidos.cliente_id</strong> con <strong>Clientes.id</strong>. Si los valores son iguales, esas filas describen el mismo vínculo.</p>
-        <div class="join-bridge" aria-label="Dos pedidos con cliente_id C-01 se conectan con la fila de Ana en Clientes porque su id también es C-01."><div class="join-bridge-table"><div class="join-table-head">Pedidos</div><div class="join-bridge-row"><b>A-17</b><span>cliente_id</span><strong>C-01</strong></div><div class="join-bridge-row"><b>A-18</b><span>cliente_id</span><strong>C-01</strong></div></div><svg viewBox="0 0 160 170" role="img" aria-labelledby="bridge-title bridge-desc"><title id="bridge-title">Dos pedidos llegan al mismo cliente</title><desc id="bridge-desc">Dos líneas conectan los valores C-01 de los pedidos con el identificador C-01 de Ana.</desc><path d="M5 48 C65 48 75 85 150 85"/><path d="M5 126 C65 126 75 85 150 85"/><circle cx="22" cy="48" r="7"/><circle cx="22" cy="126" r="7"/><circle cx="141" cy="85" r="9"/><text x="44" y="38">C-01</text><text x="44" y="148">C-01</text></svg><div class="join-bridge-table"><div class="join-table-head">Clientes</div><div class="join-bridge-row"><b>C-01</b><span>Ana</span></div></div></div>
-        <div class="join-rule"><strong>ON Pedidos.cliente_id = Clientes.id</strong><span>ON expresa la regla que decide qué filas coinciden.</span></div></div>
+      <div class="slide-body"><p class="lead">Comparamos <strong>Pedidos.cliente_id</strong> con <strong>Clientes.id</strong>. Cada pedido se une con el cliente que tiene el mismo identificador.</p>
+        <div class="join-bridge-inputs">
+          <div class="table-section"><strong class="table-title" id="bridge-orders-title">Pedidos</strong><div class="table-wrap" tabindex="0" role="region" aria-labelledby="bridge-orders-title"><table><thead><tr><th scope="col">id</th><th scope="col">cliente_id</th></tr></thead><tbody><tr><td>A-17</td><td class="key">C-01</td></tr><tr><td>A-18</td><td class="key">C-01</td></tr><tr><td>A-20</td><td class="key">C-02</td></tr></tbody></table></div></div>
+          <div class="table-section"><strong class="table-title" id="bridge-clients-title">Clientes</strong><div class="table-wrap" tabindex="0" role="region" aria-labelledby="bridge-clients-title"><table><thead><tr><th scope="col">id</th><th scope="col">nombre</th></tr></thead><tbody><tr><td class="key">C-01</td><td>Ana</td></tr><tr><td class="key">C-02</td><td>Luis</td></tr></tbody></table></div></div>
+        </div>
+        <div class="join-rule"><strong>ON Pedidos.cliente_id = Clientes.id</strong><span>Comparar los ID iguales ↓</span></div>
+        <div class="table-section join-bridge-result"><strong class="table-title" id="bridge-result-title">Resultado · una fila por cada pedido que encuentra cliente</strong><div class="table-wrap" tabindex="0" role="region" aria-labelledby="bridge-result-title"><table><thead><tr><th scope="col">Pedidos.id</th><th scope="col">Pedidos.cliente_id</th><th scope="col">Clientes.id</th><th scope="col">Clientes.nombre</th></tr></thead><tbody><tr><td>A-17</td><td class="key">C-01</td><td class="key">C-01</td><td>Ana</td></tr><tr><td>A-18</td><td class="key">C-01</td><td class="key">C-01</td><td>Ana</td></tr><tr><td>A-20</td><td class="key">C-02</td><td class="key">C-02</td><td>Luis</td></tr></tbody></table></div></div>
+      </div>
     </section>
 
     <section class="slide" data-title="Consultar la relación" hidden>
