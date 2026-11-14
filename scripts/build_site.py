@@ -6,7 +6,7 @@ from pathlib import Path
 import shutil
 import subprocess
 
-from package_projects import ROOT, PROJECTS, artifacts
+from package_projects import ROOT, PROJECTS, artifacts, spring_boot_artifacts
 
 OUTPUT = ROOT / "_site"
 PUBLIC_DIRS = {"assets", "lessons", "exercises", "projects", "spring-introduccion"}
@@ -62,6 +62,32 @@ def main():
                 html = html.replace(marker, f'{attribute}="{reference}?v={asset_version}"')
         page.write_text(html, encoding="utf-8")
         print(f"Packaged {project.name} from current sources ({version})")
+
+    spring_project = ROOT / "spring-introduccion"
+    if (spring_project / "src").is_dir():
+        generated = spring_boot_artifacts(spring_project)
+        for path, content in generated.items():
+            destination = OUTPUT / path.relative_to(ROOT)
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            destination.write_bytes(content)
+        data = generated[spring_project / "project-data.js"]
+        version = hashlib.sha256(data).hexdigest()[:16]
+        page = OUTPUT / "spring-introduccion" / "index.html"
+        html = page.read_text(encoding="utf-8")
+        for script in ('src="project-data.js"',):
+            if script not in html:
+                raise ValueError(f"Missing project-data.js script in {page}")
+            html = html.replace(script, f'src="project-data.js?v={version}"')
+        html = html.replace('href="spring-introduccion.zip"',
+                            f'href="spring-introduccion.zip?v={version}"')
+        for asset, attribute in (("project-code.css", "href"), ("project-code.js", "src")):
+            reference = f"../assets/{asset}"
+            marker = f'{attribute}="{reference}"'
+            if marker in html:
+                asset_version = hashlib.sha256((OUTPUT / "assets" / asset).read_bytes()).hexdigest()[:16]
+                html = html.replace(marker, f'{attribute}="{reference}?v={asset_version}"')
+        page.write_text(html, encoding="utf-8")
+        print(f"Packaged spring-introduccion from current sources ({version})")
 
     (OUTPUT / ".nojekyll").touch()
     print(f"Site ready: {OUTPUT}")

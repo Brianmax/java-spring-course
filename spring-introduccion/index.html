@@ -3,29 +3,64 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Proyecto de introducción a Spring Boot con controladores REST.">
+  <meta name="description" content="Explora y descarga el código del proyecto de introducción a Spring Boot.">
   <title>Introducción a Spring Boot · Curso de Java · Tecsup</title>
   <link rel="stylesheet" href="../assets/tailwind.css">
+  <script defer src="project-data.js"></script>
+  <script defer src="../assets/project-code.js"></script>
 </head>
-<body>
+<body class="code-page">
+  <a class="skip-code" href="#file-pane">Saltar al código</a>
   <header class="topbar">
     <nav class="shell nav" aria-label="Navegación principal">
-      <a class="brand" href="../"><span class="brand-mark">J</span><span class="brand-name">Curso de Java · Tecsup</span></a>
-      <div class="nav-links"><a href="../lessons/">Lecciones</a><a href="../exercises/index.html">Ejercicios</a><a href="../projects/" aria-current="page">Proyectos</a></div>
+      <a class="brand" href="../index.html"><span class="brand-mark">J</span><span class="brand-name">Curso de Java · Tecsup</span></a>
+      <div class="nav-links"><a href="../lessons/index.html">Lecciones</a><a href="../exercises/index.html">Ejercicios</a><a href="../projects/index.html" aria-current="page">Proyectos</a></div>
     </nav>
   </header>
   <main class="shell">
-    <div class="page-head"><div class="eyebrow">Proyecto · Spring Boot</div><h1>Introducción a Spring Boot</h1><p>Aplicación de ejemplo para comenzar a crear servicios web REST con Spring Boot y Java 21.</p></div>
-    <section class="section pt-0" aria-label="Archivos del proyecto">
-      <div class="card-grid">
-        <a class="card" href="pom.xml"><span class="tag">Maven</span><h3>Configuración del proyecto</h3><p>Consulta las dependencias de Spring Boot y la versión de Java utilizadas.</p><span class="more">Ver pom.xml →</span></a>
-        <a class="card" href="src/main/java/com/codigo/codigo/CodigoApplication.java"><span class="tag">Aplicación</span><h3>Clase principal</h3><p>Punto de entrada de la aplicación Spring Boot.</p><span class="more">Ver código →</span></a>
-        <a class="card" href="src/main/java/com/codigo/codigo/controller/ProductoController.java"><span class="tag">API REST</span><h3>Controlador de productos</h3><p>Ejemplo de endpoint GET para consultar productos.</p><span class="more">Ver controlador →</span></a>
-        <a class="card" href="src/main/java/com/codigo/codigo/controller/UsuarioController.java"><span class="tag">API REST</span><h3>Controlador de usuarios</h3><p>Segundo ejemplo de controlador para practicar rutas REST.</p><span class="more">Ver controlador →</span></a>
+    <header class="project-head">
+      <a class="project-back" href="../projects/index.html">← Todos los proyectos</a>
+      <div class="project-heading">
+        <div><h1>Spring Boot · Introducción</h1><p>Explora la aplicación y sus controladores REST; revisa cada archivo o descarga el proyecto Maven completo.</p></div>
+        <div class="project-download">
+          <a class="button" id="download-project" href="spring-introduccion.zip" download>↓ Descargar proyecto</a>
+          <small id="archive-size">Solo este proyecto · ZIP</small>
+        </div>
       </div>
-      <div class="project-guide"><h2>Ejecutar localmente</h2><p>Descarga o clona el repositorio, entra en <code>spring-introduccion</code> y ejecuta <code>./mvnw spring-boot:run</code>. Requiere Java 21. GitHub Pages muestra los archivos del proyecto, pero no ejecuta la aplicación.</p></div>
+      <div class="project-tags"><span class="java-tag">Java 21</span><span>Spring Boot · Maven</span><span id="source-count">Archivos Java</span></div>
+    </header>
+    <noscript><p>Activa JavaScript para explorar el código aquí, o descarga el proyecto con el botón de arriba.</p></noscript>
+    <section class="browser" id="project-browser" data-default-file="src/main/java/com/codigo/codigo/CodigoApplication.java" aria-label="Explorador de código">
+      <details class="file-sidebar" id="file-sidebar" open>
+        <summary>Archivos <span id="file-count"></span></summary>
+        <label class="file-filter"><span>Buscar archivo</span><input id="file-filter" type="search" placeholder="Nombre o carpeta…" autocomplete="off" spellcheck="false" aria-controls="file-tree"></label>
+        <nav class="file-tree" id="file-tree" aria-label="Archivos del proyecto"></nav>
+        <p class="search-status" id="search-status" role="status"></p>
+      </details>
+      <div class="file-pane" id="file-pane" tabindex="-1">
+        <p class="file-path" id="file-path">spring-introduccion / src / <strong>CodigoApplication.java</strong></p>
+        <div class="file-toolbar">
+          <div class="file-heading"><h2 id="file-name" tabindex="-1">CodigoApplication.java</h2><span class="file-meta" id="file-meta">Java</span></div>
+          <div class="code-actions" aria-label="Acciones del archivo">
+            <button class="code-action" id="wrap-code" type="button" aria-pressed="false">Ajustar líneas</button>
+            <button class="code-action" id="copy-code" type="button">Copiar</button>
+            <a class="code-action" id="raw-file" href="src/main/java/com/codigo/codigo/CodigoApplication.java" target="_blank" rel="noopener" aria-label="Ver archivo original en otra pestaña">Original ↗</a>
+            <a class="code-action" id="download-file" href="src/main/java/com/codigo/codigo/CodigoApplication.java" download>Descargar archivo</a>
+          </div>
+        </div>
+        <div class="code-scroll" id="code-scroll" tabindex="0" role="region" aria-label="Código fuente; usa las flechas para desplazarte"><div class="source-code" id="source-code"></div></div>
+        <div class="file-footer"><p>Selecciona un número de línea para compartir su enlace.</p><p id="viewer-status" role="status"></p></div>
+      </div>
+    </section>
+    <section class="project-start" aria-labelledby="start-title">
+      <div><h2 id="start-title">Del código a la práctica</h2><p>Abre el proyecto y ejecuta la aplicación. <a href="#file=README.md">Ver instrucciones</a></p></div>
+      <ol>
+        <li><strong>Descarga y extrae</strong>Descomprime el ZIP para obtener la carpeta <code>spring-introduccion</code>.</li>
+        <li><strong>Abre el proyecto</strong>Abre la carpeta en IntelliJ IDEA con Java 21; Maven Wrapper descargará las dependencias.</li>
+        <li><strong>Ejecuta la aplicación</strong>En macOS/Linux ejecuta <code>./mvnw spring-boot:run</code>; en Windows usa <code>mvnw.cmd spring-boot:run</code>.</li>
+      </ol>
     </section>
   </main>
-  <footer class="footer"><div class="shell"><a href="../projects/">← Volver a proyectos</a></div></footer>
+  <footer class="footer"><div class="shell"><a href="../projects/index.html">← Todos los proyectos</a></div></footer>
 </body>
 </html>
