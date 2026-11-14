@@ -12,6 +12,8 @@
   const byPath = new Map(project.files.map(file => [file.path, file]));
   const tree = document.querySelector('#file-tree');
   const sidebar = document.querySelector('#file-sidebar');
+  const splitter = document.querySelector('#sidebar-resizer');
+  const browser = document.querySelector('#project-browser');
   const code = document.querySelector('#source-code');
   const scroller = document.querySelector('#code-scroll');
   const status = document.querySelector('#viewer-status');
@@ -118,6 +120,52 @@
   document.querySelector('#archive-size').textContent = `Solo este proyecto · ZIP · ${size(project.archiveBytes)}`;
   sidebar.open = !mobile.matches;
   mobile.addEventListener('change', event => { sidebar.open = !event.matches; });
+
+  if (splitter) {
+    const minSidebarWidth = 220;
+    function maxSidebarWidth() {
+      return Math.max(minSidebarWidth, Math.min(520, Math.floor(browser.clientWidth * 0.5)));
+    }
+    function setSidebarWidth(value) {
+      const width = Math.round(Math.max(minSidebarWidth, Math.min(maxSidebarWidth(), value)));
+      browser.style.setProperty('--sidebar-width', `${width}px`);
+      splitter.setAttribute('aria-valuemax', String(maxSidebarWidth()));
+      splitter.setAttribute('aria-valuenow', String(width));
+      splitter.setAttribute('aria-valuetext', `${width} píxeles`);
+    }
+    function currentSidebarWidth() {
+      return sidebar.getBoundingClientRect().width;
+    }
+    function syncSplitter() {
+      splitter.hidden = mobile.matches;
+      setSidebarWidth(currentSidebarWidth() || 300);
+    }
+    splitter.addEventListener('pointerdown', event => {
+      if (mobile.matches || event.button !== 0) return;
+      event.preventDefault();
+      splitter.setPointerCapture(event.pointerId);
+      const startX = event.clientX;
+      const startWidth = currentSidebarWidth();
+      splitter.onpointermove = moveEvent => setSidebarWidth(startWidth + moveEvent.clientX - startX);
+      splitter.onpointerup = splitter.onpointercancel = () => {
+        splitter.onpointermove = splitter.onpointerup = splitter.onpointercancel = null;
+      };
+    });
+    splitter.addEventListener('keydown', event => {
+      const step = event.shiftKey ? 40 : 16;
+      let width;
+      if (event.key === 'ArrowLeft') width = currentSidebarWidth() - step;
+      else if (event.key === 'ArrowRight') width = currentSidebarWidth() + step;
+      else if (event.key === 'Home') width = minSidebarWidth;
+      else if (event.key === 'End') width = maxSidebarWidth();
+      else return;
+      event.preventDefault();
+      setSidebarWidth(width);
+    });
+    mobile.addEventListener('change', syncSplitter);
+    window.addEventListener('resize', syncSplitter);
+    syncSplitter();
+  }
 
   const fileLinks = [...tree.querySelectorAll('.file-link')];
   document.querySelector('#file-filter').addEventListener('input', event => {
