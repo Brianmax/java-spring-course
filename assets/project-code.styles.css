@@ -15,14 +15,14 @@
 .project-tags { @apply flex flex-wrap items-center; gap: 9px; margin-top: 18px; color: var(--muted); font-size: 12px; }
 .project-tags span { padding: 5px 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--white); }
 .project-tags .java-tag { border-color: var(--line); background: var(--pale); color: var(--violet); font-weight: 700; }
-.browser { display: grid; grid-template-columns: 265px minmax(0, 1fr); border: 1px solid var(--line); border-radius: 12px; background: var(--white); overflow: hidden; margin-bottom: 24px; }
+.browser { display: grid; grid-template-columns: minmax(270px, 300px) minmax(0, 1fr); border: 1px solid var(--line); border-radius: 12px; background: var(--white); overflow: hidden; margin-bottom: 24px; }
 .file-sidebar { min-width: 0; border-right: 1px solid var(--line); background: var(--navy); }
 .file-sidebar > summary { padding: 18px 16px; font-weight: 700; font-size: 14px; cursor: pointer; border-bottom: 1px solid var(--line); }
 .file-sidebar > summary span { float: right; padding: 2px 7px; background: var(--pale); border-radius: 12px; font-size: 11px; font-weight: 500; }
 .file-filter { display: block; padding: 16px 12px 8px; }
 .file-filter span { display: block; margin-bottom: 7px; color: var(--muted); font-size: 12px; }
 .file-filter input { width: 100%; min-height: 38px; font: inherit; font-size: 13px; border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px; background: var(--paper); color: var(--ink); }
-.file-tree { padding: 5px 10px 12px; max-height: 64vh; overflow: auto; font-size: 14px; }
+.file-tree { padding: 5px 10px 12px; max-height: 64vh; overflow: auto; overscroll-behavior: contain; font-size: 14px; }
 .file-tree details details { margin-left: 18px; padding-left: 6px; border-left: 1px solid var(--line); } /* 25px per level; matches the selected-row outdent. */
 .file-tree summary { display: flex; min-height: 40px; align-items: center; gap: 8px; padding: 7px 6px; border-radius: 7px; color: var(--ink); font-weight: 650; list-style: none; cursor: pointer; }
 .file-tree summary::-webkit-details-marker { display: none; }
@@ -32,7 +32,8 @@
 .file-tree details:has(.file-link[aria-current="true"]:not([hidden])) > summary { color: var(--blue); }
 .file-tree summary:hover { background: var(--pale); }
 .file-tree .folder-icon { width: 20px; height: 18px; flex: 0 0 20px; color: var(--muted); }
-.file-tree .folder-name, .file-tree .file-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.file-tree .folder-name, .file-tree .file-name { min-width: 0; overflow-wrap: anywhere; }
+.file-tree .folder-name { line-height: 1.35; }
 .file-tree details > .file-link { margin-left: 20px; }
 .file-link { display: flex; min-width: 0; align-items: center; gap: 9px; min-height: 40px; padding: 7px 8px; border-radius: 7px; text-decoration: none; white-space: nowrap; }
 .file-link:hover { background: var(--pale); }
@@ -81,7 +82,7 @@
 .viewer-error { padding: 24px; color: #ff8e8e; }
 [hidden] { display: none !important; }
 @media (max-width: 980px) {
-  .browser { grid-template-columns: 235px minmax(0, 1fr); }
+  .browser { grid-template-columns: minmax(260px, 280px) minmax(0, 1fr); }
   .project-heading { align-items: flex-start; }
   .project-start { grid-template-columns: 1fr; gap: 20px; }
 }

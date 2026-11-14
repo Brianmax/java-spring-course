@@ -139,7 +139,7 @@
   }
   .browser {
     display: grid;
-    grid-template-columns: 265px minmax(0, 1fr);
+    grid-template-columns: minmax(270px, 300px) minmax(0, 1fr);
     border: 1px solid var(--line);
     border-radius: 12px;
     background: var(--white);
@@ -191,6 +191,7 @@
     padding: 5px 10px 12px;
     max-height: 64vh;
     overflow: auto;
+    overscroll-behavior: contain;
     font-size: 14px;
   }
   .file-tree details details {
@@ -242,9 +243,10 @@
   }
   .file-tree .folder-name, .file-tree .file-name {
     min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    overflow-wrap: anywhere;
+  }
+  .file-tree .folder-name {
+    line-height: 1.35;
   }
   .file-tree details > .file-link {
     margin-left: 20px;
@@ -499,7 +501,7 @@
   }
   @media (max-width: 980px) {
     .browser {
-      grid-template-columns: 235px minmax(0, 1fr);
+      grid-template-columns: minmax(260px, 280px) minmax(0, 1fr);
     }
     .project-heading {
       align-items: flex-start;

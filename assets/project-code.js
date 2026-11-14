@@ -71,7 +71,17 @@
     parent.files.push(file);
   }
   function appendTree(node, parent, depth = 0) {
-    for (const [name, child] of [...node.directories].sort(([a], [b]) => a.localeCompare(b))) {
+    for (const [firstName, firstChild] of [...node.directories].sort(([a], [b]) => a.localeCompare(b))) {
+      // Keep single-child package paths together so deep Java namespaces do not
+      // consume the sidebar's entire width with indentation.
+      const path = [firstName];
+      let child = firstChild;
+      while (child.files.length === 0 && child.directories.size === 1) {
+        const [nextName, nextChild] = child.directories.entries().next().value;
+        path.push(nextName);
+        child = nextChild;
+      }
+      const name = path.join(' / ');
       const group = document.createElement('details');
       group.open = true;
       const title = document.createElement('summary');
