@@ -9,7 +9,7 @@ import subprocess
 from package_projects import ROOT, PROJECTS, artifacts
 
 OUTPUT = ROOT / "_site"
-PUBLIC_DIRS = {"assets", "lessons", "exercises", "projects"}
+PUBLIC_DIRS = {"assets", "lessons", "exercises", "projects", "spring-introduccion"}
 
 
 def main():
