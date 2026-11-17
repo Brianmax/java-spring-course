@@ -1,6 +1,7 @@
 ---
 description: Reviews course slides against the approved plan for beginner clarity, visual flow, and technical accuracy without editing files.
 mode: subagent
+model: openai/gpt-6-luna#medium
 permissions:
   - action: "*"
     resource: "*"

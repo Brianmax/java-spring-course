@@ -14,6 +14,7 @@ public class Main {
         TuplaGenerica<String> tuplaGenerica3 =  new TuplaGenerica<>("George", "Maxi");
 
         // Implementar un arrayList generico
+        // Object
 
     }
 }

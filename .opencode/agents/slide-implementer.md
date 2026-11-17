@@ -1,6 +1,7 @@
 ---
 description: Implements an approved course slide or deck plan in its assigned HTML file, preserving the teaching sequence and visual standards.
 mode: subagent
+model: openai/gpt-6-luna#medium
 permissions:
   - action: subagent
     resource: "*"

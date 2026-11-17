@@ -1,0 +1,7 @@
+[
+  {"query": "Create a Spring Boot REST API teaching project with a step-by-step guide students can follow", "should_trigger": true},
+  {"query": "Grill me on scope, then create a complete JWT project and verify it can be rebuilt from the guide", "should_trigger": true},
+  {"query": "Add a curl-based shell script to check every endpoint in this API project", "should_trigger": true},
+  {"query": "What is Hibernate? Explain it in a paragraph", "should_trigger": false},
+  {"query": "Review this production API for security issues", "should_trigger": false}
+]

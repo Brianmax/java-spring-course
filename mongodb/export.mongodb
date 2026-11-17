@@ -1,0 +1,5 @@
+use("sample_airbnb");
+
+const documents = db.listingsAndReviews.find({}).toArray();
+
+console.log(JSON.stringify(documents, null, 2));

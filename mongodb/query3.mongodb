@@ -1,0 +1,95 @@
+use("sample_restaurants")
+
+db.createCollection("usuarios", {
+    validator: {
+        $jsonSchema: {
+            bsonType: "object",
+            required: ["nombre", "edad", "email"],
+            properties: {
+                nombre: {
+                    bsonType: "string",
+                    description: "Nombre del usuario"
+                },
+                edad: {
+                    bsonType: "int",
+                    description: "Edad del usuario"
+                },
+                email: {
+                    bsonType: "string",
+                    description: "Email del usuario"
+                },
+                direcciones: {
+                    bsonType: "array",
+                    items: {
+                        bsonType: "object",
+                        properties: {
+                            calle: {
+                                bsonType: "string"
+                            },
+                            ciudad: {
+                                bsonType: "string"
+                            },
+                            pais: {
+                                bsonType: "string"
+                            },
+                            zipcode: {
+                                bsonType: "string"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+});
+
+
+use("sample_restaurants")
+db.usuarios.insertOne(
+    {
+        "nombre": "George",
+        "edad": 29,
+        "email": "george@email.com"
+    }
+);
+
+use("sample_restaurants")
+db.usuarios.insertOne(
+    {
+        "nombre": "Jose",
+        "edad": 29,
+        "email": "jose@email.com",
+        "direcciones": [
+            {
+                "calle": "Av Leones",
+                "ciudad": "Arequipa",
+                "pais": "Peru"
+            }
+        ]
+    }
+);
+
+// crear el schema para un documento como el que 
+
+// se muestra
+// productos
+
+{
+    "name": "MacBook Pro",
+    "sku": "LAP-001",
+    "description": "Apple laptop",
+    "price": 2499.99,
+    "stock": 15,
+    "category": "ELECTRONICS",
+    "active": true,
+    "tags": [
+      "laptop",
+      "apple",
+      "computer"
+    ],
+    "specifications": {
+      "brand": "Apple",
+      "model": "MacBook Pro M4",
+      "color": "Space Black"
+    }
+  }

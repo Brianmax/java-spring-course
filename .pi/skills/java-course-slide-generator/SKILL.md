@@ -83,6 +83,8 @@ After the concrete opening, develop the mental model and mechanics before implem
 4. Review the diff against the plan. For substantial work or uncertain clarity, request a read-only `slide-reviewer` if available. Findings must include slide, evidence, severity, and correction. The primary agent owns integration and final acceptance.
 5. Validate, fix, and repeat the affected checks. Do not enlarge scope or redesign unrelated slides in response to incidental findings; report unrelated issues separately.
 
+When using Pi's `.pi/extensions/subagent` tool for project agents, pass `agentScope: "project"` (or `"both"` when user agents are also needed) and keep `confirmProjectAgents: true`. Its default scope is `"user"`, which does not discover `.pi/agents/`. Do not change that trust-preserving default to make project agents appear automatically.
+
 ## Build the complete artifact
 
 Write a single `.html` file containing all markup, styles, scripts, diagrams, notes, and controls. Use only:

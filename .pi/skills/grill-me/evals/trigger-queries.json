@@ -1,0 +1,7 @@
+[
+  {"query": "Grill me on the scope for a JWT teaching project before we plan it", "should_trigger": true},
+  {"query": "Help me decide how advanced the REST API exercise should be; ask me questions first", "should_trigger": true},
+  {"query": "What is a JWT? Explain it briefly", "should_trigger": false},
+  {"query": "Create a basic Java class that prints hello", "should_trigger": false},
+  {"query": "Build a REST API project with these exact requirements: ...", "should_trigger": false}
+]

@@ -1,0 +1,12 @@
+{
+  "id": "A-1984",
+  "cliente_id": 2392,
+  "detalle": "1 Mochila X S/45",
+  "detalle2": "Segundo detalle",
+  "total": 45,
+  "direccion": {
+    "calle": "Calle 1",
+    "distrito": "Distrito 1",
+    "ciudad": null
+  }
+}

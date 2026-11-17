@@ -7,6 +7,9 @@ __pycache__/
 .pi/skills/*
 !.pi/skills/java-course-slide-generator/
 !.pi/skills/java-course-slide-design/
+!.pi/skills/java-course-slide-planner/
+!.pi/skills/java-teaching-project/
+!.pi/skills/grill-me/
 !.pi/extensions/
 .pi/extensions/*
 !.pi/extensions/subagent/

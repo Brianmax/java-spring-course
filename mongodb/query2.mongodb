@@ -1,0 +1,117 @@
+use('sample_restaurants')
+
+// and implicito
+db.restaurants.find(
+    {
+        cuisine: 'American',
+        borough: 'Manhattan',
+        "address.building": "522"
+    }
+);
+
+// and explicito
+use('sample_restaurants')
+db.restaurants.find(
+    // filtro
+    {
+        $and: [
+            {
+                cuisine: 'American'
+            },
+            {
+                borough: 'Manhattan'
+            },
+            {
+                "address.building": "522"
+            }
+        ]
+    },
+    // proyeccion
+    {
+        _id: 0,
+        address: 1,
+        borough: 1,
+        cuisine: 1
+    }
+);
+
+// or implicito
+use('sample_restaurants')
+db.restaurants.find(
+    {
+        $or: [
+            {
+                cuisine: 'American'
+            },
+            {
+                borough: 'Manhattan'
+            }
+        ]
+    }
+);
+
+// gt, gte, lt, lte
+
+use('sample_restaurants')
+db.restaurants.find(
+    // filtro
+    {
+        "address.coord": {
+            $elemMatch: {
+                $gt: 100
+            }
+        }
+    }
+);
+
+// todos los restaurantes que
+// sus coordenadas sean menores iguales a -50
+
+
+
+// traer todos los restaurantes que
+// tengan una nota mayor a 90
+
+use('sample_restaurants')
+db.restaurants.find(
+    {
+        grades: {
+            $elemMatch: {
+                score: { $gt: 90 }
+            }
+        }
+    }
+);
+
+
+use('sample_restaurants')
+db.restaurants.updateOne(
+    {
+        _id: ObjectId('5eb3d668b31de5d588f42c88')
+    },
+    {
+        $set: {
+            cuisine: 'Italian'
+        }
+    }
+);
+
+use('sample_restaurants')
+db.restaurants.find(
+    {
+        _id: ObjectId('5eb3d668b31de5d588f42c88')
+    }
+);
+
+use('sample_restaurants')
+db.restaurants.updateMany(
+
+)
+
+// opeador inc
+// operador mul
+
+use('sample_restaurants')
+db.createCollection('usuarios', {
+    
+})

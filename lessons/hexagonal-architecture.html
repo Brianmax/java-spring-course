@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Lección de arquitectura hexagonal: separar el caso de uso de HTTP y la persistencia al migrar PostgreSQL a MongoDB.">
+<title>Arquitectura hexagonal — Curso de Java</title>
+<style>
+:root {
+  color-scheme: dark;
+  --bg: #101820;
+  --secondary-bg: #182330;
+  --surface: #202c3c;
+  --surface-2: #29384a;
+  --text: #e6edf3;
+  --muted: #a8b3c5;
+  --accent: #70d9e8;
+  --flow: #70d9e8;
+  --highlight: #b9a0ff;
+  --success: #a6e3a1;
+  --warning: #ffc78a;
+  --danger: #ff8585;
+  --line: #39495d;
+  --ink-panel: #21222c;
+  --font-sans: Arial, Helvetica, system-ui, sans-serif;
+  --font-mono: Consolas, "Liberation Mono", monospace;
+}
+*{box-sizing:border-box} [hidden]{display:none!important} body{margin:0;height:100vh;height:100dvh;display:grid;grid-template-rows:auto minmax(0,1fr) auto auto;background:var(--bg);color:var(--text);font-family:var(--font-sans)}
+.chrome,.controls{display:flex;align-items:center;gap:12px;padding:8px clamp(16px,3vw,40px);background:#182330}.chrome{justify-content:space-between;border-bottom:1px solid var(--line);font-size:.9rem;color:var(--muted)}.chrome a{color:var(--accent);text-decoration:none}.deck{min-height:0;overflow:auto}.slide{min-height:100%;padding:clamp(20px,3vh,36px) clamp(24px,6vw,84px);display:flex;flex-direction:column;justify-content:center;gap:clamp(16px,2.5vh,26px);animation:enter .28s ease-out}.slide-header,.body{width:min(100%,1240px);margin-inline:auto}.eyebrow{color:var(--highlight);font-weight:700;letter-spacing:.12em;text-transform:uppercase;font-size:.78rem;margin-bottom:9px}.slide h1,.slide h2{font-size:clamp(2rem,3.5vw,3.2rem);line-height:1.08;letter-spacing:-.03em;margin:0;max-width:1100px}.slide h1{font-size:clamp(2.6rem,5vw,4.4rem)}.body{display:flex;flex-direction:column;gap:18px;justify-content:center;font-size:clamp(1rem,1.35vw,1.22rem);line-height:1.48}.lead{font-size:clamp(1.15rem,1.8vw,1.55rem);line-height:1.42;max-width:1050px;margin:0}.small{font-size:.92rem;color:var(--muted)}p{margin:.35em 0}.split{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center}.triplet{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.panel{border:1px solid var(--line);border-radius:14px;background:var(--surface);padding:20px}.tint{background:var(--secondary-bg);border-color:#476174}.label{font-size:.76rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);font-weight:700;margin-bottom:10px}.callout{border-left:3px solid var(--flow);padding:12px 16px;background:var(--secondary-bg);border-radius:0 10px 10px 0}.warn{border-color:var(--warning)}.good{border-color:var(--success)}.flow{display:flex;align-items:stretch;justify-content:center;gap:12px}.node{flex:1;border:1px solid var(--line);border-radius:13px;background:var(--surface);padding:16px;text-align:center;align-content:center;min-width:0}.node.primary{border-color:var(--accent);background:#182b35}.arrow{align-self:center;color:var(--flow);font-size:1.6rem;font-weight:bold;text-align:center}.tag{font-size:.8rem;color:var(--muted)}pre{margin:0;padding:16px 18px;overflow:auto;background:var(--ink-panel);border:1px solid var(--line);border-radius:12px;color:#f2f4f8;font:clamp(.78rem,1.1vw,.98rem)/1.5 var(--font-mono);white-space:pre}.code-label{font-size:.8rem;color:var(--accent);font-weight:bold;margin-bottom:8px}.tok-keyword{color:#d6a8ff}.tok-type{color:#83d9ef}.tok-string{color:#a6e3a1}.tok-comment{color:#a8b3c5}.focus-line{background:#29384a;display:inline-block;width:100%}.table{width:100%;border-collapse:collapse;font-size:.95em}.table th,.table td{text-align:left;border:1px solid var(--line);padding:8px 10px}.table th{background:#2d3b50}.diagram{display:grid;grid-template-columns:1fr auto 1.1fr auto 1fr;gap:12px;align-items:center}.diagram.vertical{grid-template-columns:1fr;max-width:800px;margin:auto}.diagram .node{min-height:86px}.badge{color:var(--highlight);font-size:.8rem;font-weight:bold}.controls{border-top:1px solid var(--line);justify-content:center}.controls button{min-width:46px;min-height:44px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--text);font:inherit;cursor:pointer}.controls button:disabled{opacity:.45;cursor:default}.counter{min-width:100px;text-align:center;font-variant-numeric:tabular-nums}.progress{height:5px;background:var(--surface)}.progress span{display:block;height:100%;width:0;background:var(--flow);transition:width .2s}.help{position:fixed;inset:0;background:#0009;display:grid;place-items:center;z-index:5}.help article{width:min(90vw,560px);padding:24px;border:1px solid var(--line);border-radius:16px;background:var(--surface)}button:focus-visible,a:focus-visible{outline:3px solid var(--flow);outline-offset:3px}.exercise{display:grid;grid-template-columns:1fr 1fr;gap:12px}.exercise .panel{padding:14px 18px}.return{display:flex;justify-content:space-between;gap:14px;align-items:center}.return span{padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+@keyframes enter{from{opacity:.55;transform:translateY(5px)}to{opacity:1;transform:none}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+@media(max-width:700px){body{height:auto;min-height:100dvh;grid-template-rows:auto minmax(0,1fr) auto auto}.chrome{font-size:.75rem;gap:8px}.chrome span{text-align:right}.deck{overflow:visible}.slide{min-height:calc(100dvh - 112px);justify-content:flex-start;padding:24px 18px 30px}.slide h2{font-size:2rem}.body{font-size:1rem}.split,.triplet,.exercise{grid-template-columns:1fr}.flow,.diagram{display:flex;flex-direction:column}.arrow{transform:rotate(90deg)}.diagram .arrow{transform:rotate(90deg)}.controls{position:sticky;bottom:0;z-index:3;flex-wrap:wrap;padding:8px}.panel{padding:16px}.progress{position:sticky;bottom:0}.return{flex-direction:column}}
+@media(min-width:701px) and (max-height:760px){.slide{gap:14px;padding-block:16px}.body{gap:12px;font-size:1rem}.panel{padding:15px}.slide h2{font-size:clamp(1.9rem,3vw,2.65rem)}}
+/* Keep the heading anchored; center only the lesson content below it. */
+.slide {
+  height: 100%;
+  min-height: 100%;
+  justify-content: flex-start;
+  gap: 20px;
+  padding: 24px clamp(24px, 4vw, 64px);
+}
+.slide-header { flex: 0 0 auto; }
+.slide h1 { font-size: clamp(2.3rem, 4vw, 3.6rem); }
+.slide h2 { font-size: clamp(2rem, 3vw, 2.65rem); }
+.body { flex: 1 0 auto; min-height: 0; font-size: 1.15rem; gap: 20px; }
+.body.split, .body.triplet { align-content: center; }
+.body > *, .split > *, .triplet > *, .exercise > * { min-width: 0; }
+.split { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.triplet { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.split > .callout, .split > .small, .triplet > .callout { grid-column: 1 / -1; }
+.stack { display: flex; flex-direction: column; gap: 12px; }
+pre { max-width: 100%; font-size: .94rem; line-height: 1.45; }
+.table-wrap { overflow-x: auto; }
+.counter { min-width: 0; max-width: 56vw; font-size: .9rem; }
+.controls { flex-wrap: wrap; }
+.arrow svg { display: block; width: 36px; height: 24px; overflow: visible; }
+.arrow svg path { fill: none; stroke: currentColor; stroke-width: 2.5; }
+.arrow .tag { display: block; max-width: 110px; margin-top: 8px; font-weight: 400; }
+.call-route { display: flex; flex-direction: column; gap: 12px; }
+.route-nodes { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.route-svg { width: 100%; height: 58px; overflow: visible; }
+.route-svg path { fill: none; stroke: var(--flow); stroke-width: 2; }
+.route-svg text { fill: var(--text); font: 16px Arial, sans-serif; text-anchor: middle; }
+.route-mobile-svg { display: none; }
+.route-mobile-svg rect { fill: var(--surface); stroke: var(--line); }
+.route-mobile-svg path { fill: none; stroke: var(--flow); stroke-width: 2; }
+.route-mobile-svg text { fill: var(--text); font: 16px Arial, sans-serif; text-anchor: middle; }
+.boundary { border: 1px solid var(--accent); border-radius: 16px; padding: 24px; background: var(--secondary-bg); }
+.package-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.package-list .node { text-align: left; }
+.help article button { min-height: 44px; padding: 8px 16px; font: inherit; }
+@media (min-width: 701px) and (max-height: 760px) {
+  .slide { padding-block: 20px; gap: 16px; }
+  .body { font-size: 1.1rem; gap: 16px; }
+  .panel { padding: 18px; }
+}
+@media (max-width: 700px) {
+  body { height: 100dvh; min-height: 0; overflow: hidden; }
+  .chrome { min-width: 0; }
+  .chrome span { max-width: 65%; }
+  .deck { overflow: auto; min-width: 0; }
+  .slide { height: auto; min-height: 100%; padding: 24px 18px; gap: 24px; }
+  .slide h1, .slide h2 { font-size: 2rem; }
+  .body { flex: 0 0 auto; width: 100%; font-size: 1.08rem; }
+  .split, .triplet, .exercise, .package-list { grid-template-columns: minmax(0, 1fr); }
+  .panel { max-width: 100%; }
+  pre { font-size: .94rem; white-space: pre-wrap; overflow-wrap: anywhere; }
+  .node { overflow-wrap: anywhere; }
+  .controls { position: static; gap: 8px; padding: 8px; }
+  .counter { order: -1; flex-basis: 100%; max-width: 100%; font-size: .8rem; }
+  .progress { position: static; }
+  .arrow { transform: rotate(90deg); }
+  .arrow:has(.tag) { display: flex; align-items: center; gap: 8px; transform: none; }
+  .arrow:has(.tag) svg { transform: rotate(90deg); }
+  .arrow .tag { margin: 0; }
+  .route-nodes { display: none; }
+  .route-svg { display: none; }
+  .route-mobile { display: none !important; }
+  .route-mobile-svg { display: block; width: 100%; }
+  .boundary { padding: 16px; }
+}
+</style>
+</head>
+<body>
+<header class="chrome"><a href="../">Curso de Java</a><span>Arquitectura · cambiar persistencia sin cambiar el caso de uso</span></header>
+<main class="deck" id="deck" tabindex="-1" aria-label="Presentación: arquitectura hexagonal" aria-live="polite">
+<section class="slide" data-title="El equipo mantiene una API de pedidos"><header class="slide-header"><div class="eyebrow">Arquitectura hexagonal · Java 21</div><h1>El equipo mantiene una API de pedidos que ya funciona</h1></header><div class="body split"><div class="stack"><p class="lead">La operación <strong>GET /pedidos/A-17</strong> recupera un pedido guardado en PostgreSQL.</p><p>Un <strong>pedido</strong> registra una compra: A-17 contiene 3 cuadernos de S/ 12 cada uno.</p><p class="small">Partimos de una versión ampliada del ejemplo anterior: ahora la consulta sí lee datos guardados.</p></div><div class="panel tint"><div class="label">Consulta exitosa · A-17</div><p class="lead"><strong>3 × S/ 12 = S/ 36</strong></p><p>Estado: <strong>EN_PREPARACION</strong></p><p>HTTP: <strong>200 OK</strong> y datos del pedido.</p></div></div></section>
+<section class="slide" data-title="El equipo estipula una migración"><header class="slide-header"><div class="eyebrow">Cambio solicitado</div><h2>El equipo debe pasar de PostgreSQL a MongoDB</h2></header><div class="body"><p class="lead">La migración es un requisito estipulado del equipo; no afirmamos que una base sea superior para todo caso.</p><div class="flow"><div class="node"><b>Hoy</b><br>PostgreSQL<br><span class="small">relacional: filas y columnas</span></div><div class="arrow" aria-hidden="true">→</div><div class="node primary"><b>Destino requerido</b><br>MongoDB<br><span class="small">base de datos de documentos</span></div></div><div class="callout">En MongoDB, un <strong>documento</strong> es un registro con campos nombrados agrupados, parecido a un objeto expresado como JSON.</div></div></section>
+<section class="slide" data-title="El mismo A-17 en dos modelos"><header class="slide-header"><div class="eyebrow">Mismos datos · distinta representación</div><h2>Fila y documento describen el mismo A-17</h2></header><div class="body split"><div class="panel"><div class="label">PostgreSQL · fila simplificada</div><div class="table-wrap" tabindex="0" role="region" aria-label="Campos de la fila A-17"><table class="table"><tr><th>Campo</th><th>Valor</th></tr><tr><td>id</td><td>A-17</td></tr><tr><td>cantidad</td><td>3</td></tr><tr><td>precio_soles</td><td>12</td></tr><tr><td>total_soles</td><td>36</td></tr><tr><td>estado</td><td>EN_PREPARACION</td></tr></table></div></div><div class="panel tint"><div class="label">MongoDB · documento de A-17</div><pre>{
+  "id": "A-17",
+  "cantidad": 3,
+  "precioSoles": 12,
+  "totalSoles": 36,
+  "estado": "EN_PREPARACION"
+}</pre></div><p class="small">El total es 3 × S/ 12 = S/ 36. Guardarlo también es una simplificación del modelo para esta comparación; no prescribe cómo diseñar todas las compras.</p></div></section>
+<section class="slide" data-title="Lo que debe permanecer estable"><header class="slide-header"><div class="eyebrow">Contrato de la API</div><h2>El cambio de base debe conservar la respuesta acordada</h2></header><div class="body"><div class="split"><div class="panel tint"><div class="label">Operación estable</div><strong>GET /pedidos/A-17</strong><p>Si existe: 200 y estos cinco campos.</p><p>Si no existe, como A-99: 404.</p><p>Para esta lección ampliamos la respuesta anterior con cantidad y precio unitario.</p></div><div><div class="code-label">Respuesta JSON con cualquiera de las dos bases</div><pre>{
+  "id": "A-17",
+  "cantidad": 3,
+  "precioSoles": 12,
+  "totalSoles": 36,
+  "estado": "EN_PREPARACION"
+}</pre></div></div><div class="callout">El equipo cambia la persistencia, no este contrato. Mantenerlo requiere que el nuevo adaptador conserve el significado de los datos.</div></div></section>
+<section class="slide" data-title="Una implementación actual que funciona"><header class="slide-header"><div class="eyebrow">Punto de partida técnico</div><h2>El servicio consulta directamente PostgreSQL</h2></header><div class="body split"><div><div class="code-label">Dentro de ConsultarPedidoService · fragmento de éxito</div><pre><code><span class="tok-type">Pedido</span> buscar(<span class="tok-type">String</span> id) {
+  <span class="tok-type">String</span> sql =
+      <span class="tok-string">"SELECT * "</span> +
+      <span class="tok-string">"FROM pedidos WHERE id = ?"</span>;
+  <span class="tok-type">Map</span>&lt;<span class="tok-type">String</span>, <span class="tok-type">Object</span>&gt; fila = jdbc.queryForMap(sql, id);
+  <span class="tok-keyword">return new</span> <span class="tok-type">Pedido</span>(
+      (String) fila.get(<span class="tok-string">"id"</span>),
+      (int) fila.get(<span class="tok-string">"cantidad"</span>),
+      (int) fila.get(<span class="tok-string">"precio_soles"</span>),
+      (int) fila.get(<span class="tok-string">"total_soles"</span>),
+      (String) fila.get(<span class="tok-string">"estado"</span>));
+}</code></pre></div><div class="stack"><p><strong>SQL</strong> es un lenguaje para consultar datos relacionales; <code>?</code> recibe el ID como parámetro.</p><p><strong>JdbcTemplate</strong> es una ayuda de Spring. Aquí <code>jdbc</code> lo representa; la fila se recibe como un mapa de nombres de columna a valores.</p><div class="callout warn">El código funciona. Mostramos solo el caso exitoso y suponemos columnas de enteros para cantidad y soles; omitimos conexión, imports y tratamiento de ausencia.</div></div></div></section>
+<section class="slide" data-title="Qué líneas dependen de persistencia"><header class="slide-header"><div class="eyebrow">Cambio localizado en código</div><h2>Para MongoDB habría que cambiar SQL y el mapeo</h2></header><div class="body"><p>La tarea que ofrece la aplicación —aquí, consultar un pedido— se llama <strong>caso de uso</strong>.</p><div class="triplet"><div class="panel"><span class="badge">1 · Consulta</span><p>SQL y tabla <code>pedidos</code>: sustituir por búsqueda de documentos.</p></div><div class="panel"><span class="badge">2 · Lectura</span><p>Columnas de la fila: sustituir por campos del documento.</p></div><div class="panel tint"><span class="badge">3 · Conversión</span><p>Crear el mismo Pedido a partir de la nueva representación.</p></div></div><div class="callout">La tarea sigue siendo buscar A-17, pero hoy el servicio debe editarse porque contiene esos detalles de persistencia.</div><p class="lead">A eso llamamos <strong>acoplamiento</strong>: una parte del código conoce y depende de decisiones de otra. Aquí depende del acceso SQL usado con PostgreSQL.</p></div></section>
+<section class="slide" data-title="La presión al probar el caso de uso"><header class="slide-header"><div class="eyebrow">Costo visible</div><h2>El comportamiento queda difícil de revisar sin la base</h2></header><div class="body split"><div class="panel tint"><div class="label">Prueba del caso de uso</div><p>¿Al pedir A-17, el servicio devuelve el pedido recibido?</p><p>El servicio actual crea la consulta y depende de la conexión real.</p></div><div class="panel"><div class="label">Consecuencia práctica</div><p>Para ejecutar esa lógica se necesita preparar o simular infraestructura de datos, aunque solo queramos comprobar la coordinación.</p></div><div class="callout good">Las pruebas de integración con base real siguen siendo valiosas. La necesidad no es fingir que fallan, sino poder probar por separado cada responsabilidad.</div></div></section>
+<section class="slide" data-title="Separar la petición de su transporte y almacenamiento"><header class="slide-header"><div class="eyebrow">La idea antes del nombre</div><h2>El caso de uso solo necesita «buscar un pedido por ID»</h2></header><div class="body"><div class="diagram" role="img" aria-label="HTTP solicita la operación a la aplicación; la aplicación solicita recuperar el pedido a la persistencia elegida."><div class="node">Llega por HTTP<br><span class="small">GET /pedidos/A-17</span></div><div class="arrow"><svg viewBox="0 0 40 24" aria-hidden="true"><path d="M1 12H37 M29 4L37 12L29 20"/></svg><span class="tag">solicita</span></div><div class="node primary boundary">Aplicación<br><strong>buscar un pedido por ID</strong></div><div class="arrow"><svg viewBox="0 0 40 24" aria-hidden="true"><path d="M1 12H37 M29 4L37 12L29 20"/></svg><span class="tag">pide recuperar</span></div><div class="node">Se recupera de<br>PostgreSQL o MongoDB</div></div><div class="callout">La aplicación coordina la operación sin expresar cómo llegó la llamada ni cómo se recuperó el registro. A esta organización la llamamos <strong>arquitectura hexagonal</strong>; también se conoce como puertos y adaptadores.</div><p class="small">No exige seis capas ni una forma geométrica literal: sus límites separan contratos y detalles intercambiables.</p></div></section>
+<section class="slide" data-title="Qué necesitas saber para seguir"><header class="slide-header"><div class="eyebrow">Ruta · después de la motivación</div><h2>Prerrequisitos para leer los ejemplos</h2></header><div class="body"><div class="triplet"><div class="panel"><div class="label">Java</div><p>Clases, interfaces y constructores.</p></div><div class="panel"><div class="label">Aplicaciones web</div><p>Una ruta HTTP y un controlador básico de Spring.</p></div><div class="panel"><div class="label">No hace falta asumir</div><p>Experiencia con MongoDB, su driver, <code>Optional</code>, inyección de dependencias o JUnit.</p></div></div><div class="callout">Veremos cada término nuevo antes de usarlo. El ejemplo conceptual emplea Java 21.</div></div></section>
+<section class="slide" data-title="Dominio y aplicación"><header class="slide-header"><div class="eyebrow">Dos responsabilidades del núcleo</div><h2>El núcleo representa el pedido y coordina la consulta</h2></header><div class="body split"><div class="panel tint"><div class="label">Dominio · qué representa</div><p><code>Pedido</code> modela el registro A-17: ID, cantidad, precio unitario y total.</p></div><div class="panel"><div class="label">Aplicación · qué hacer</div><p>El caso de uso recibe un ID, solicita buscarlo y comunica el resultado.</p></div><div class="callout">Para esta búsqueda sencilla no inventamos reglas de negocio. Elegimos un núcleo Java simple, sin imports de Spring. No es una obligación universal de toda arquitectura.</div></div></section>
+<section class="slide" data-title="Resultado presente o ausente"><header class="slide-header"><div class="eyebrow">Definir el comportamiento</div><h2>Buscar un ID puede devolver un pedido o ninguno</h2></header><div class="body"><div class="flow"><div class="node primary">Entrada<br><strong>"A-17"</strong></div><div class="arrow">→</div><div class="node">Resultado presente<br><strong>Pedido A-17</strong></div></div><div class="flow"><div class="node primary">Entrada<br><strong>"A-99"</strong></div><div class="arrow">→</div><div class="node">Resultado ausente<br><strong>sin Pedido</strong></div></div><p class="lead"><code>Optional&lt;Pedido&gt;</code> es un tipo de Java que expresa que puede haber un valor <code>Pedido</code> o no.</p><div class="callout">La ausencia en el núcleo aún no es un estado HTTP: es el resultado de la búsqueda.</div></div></section>
+<section class="slide" data-title="Puerto de entrada"><header class="slide-header"><div class="eyebrow">Contrato que ofrece la aplicación</div><h2>El puerto de entrada nombra la operación disponible</h2></header><div class="body split"><div><div class="code-label">Contrato Java · puerto de entrada</div><pre><code><span class="tok-keyword">public interface</span> <span class="tok-type">ConsultarPedido</span> {
+  <span class="tok-type">Optional</span>&lt;<span class="tok-type">Pedido</span>&gt; buscarPorId(
+      <span class="tok-type">String</span> id);
+}</code></pre></div><div><p>La interfaz declara qué puede pedir un llamador a la aplicación: consultar por ID.</p><div class="callout">Aquí elegimos una interfaz como representación del puerto. No todo puerto tiene que representarse con una interfaz Java.</div></div></div></section>
+<section class="slide" data-title="Puerto de salida"><header class="slide-header"><div class="eyebrow">Capacidad que necesita la aplicación</div><h2>El puerto de salida expresa lo que el caso de uso necesita</h2></header><div class="body split"><div><div class="code-label">Contrato Java · puerto de salida</div><pre><code><span class="tok-keyword">public interface</span> <span class="tok-type">BuscarPedido</span> {
+  <span class="tok-type">Optional</span>&lt;<span class="tok-type">Pedido</span>&gt; buscarPorId(
+      <span class="tok-type">String</span> id);
+}</code></pre></div><div><p>La aplicación inicia esta interacción: necesita que alguien busque el pedido.</p><p><code>BuscarPedido</code> y <code>ConsultarPedido</code> pueden tener la misma firma y aun así roles distintos.</p><div class="callout warn">Puerto de salida no significa respuesta HTTP. Es un contrato interno de la aplicación.</div></div></div></section>
+<section class="slide" data-title="Adaptador de entrada HTTP"><header class="slide-header"><div class="eyebrow">El exterior llama al caso de uso</div><h2>El controlador traduce HTTP al puerto de entrada</h2></header><div class="body"><div class="diagram" role="img" aria-label="La solicitud HTTP llega al controlador; el controlador extrae el ID y llama a ConsultarPedido."><div class="node">Solicitud HTTP<br><strong>GET /pedidos/A-17</strong></div><div class="arrow"><svg viewBox="0 0 40 24" aria-hidden="true"><path d="M1 12H37 M29 4L37 12L29 20"/></svg><span class="tag">recibe</span></div><div class="node tint">Adaptador de entrada<br><strong>Controlador</strong><br>traduce la ruta y el ID</div><div class="arrow"><svg viewBox="0 0 40 24" aria-hidden="true"><path d="M1 12H37 M29 4L37 12L29 20"/></svg><span class="tag">invoca con ID</span></div><div class="node primary">Puerto de entrada<br><strong>ConsultarPedido</strong></div></div><div class="callout">Un adaptador es código que conecta un mecanismo externo con un puerto. Aquí el mecanismo es HTTP; el controlador lo traduce a una llamada de Java.</div></div></section>
+<section class="slide" data-title="Adaptadores de salida"><header class="slide-header"><div class="eyebrow">Implementaciones de la capacidad</div><h2>El núcleo define el contrato; los adaptadores lo cumplen</h2></header><div class="body"><div class="split"><div class="boundary stack"><div class="label">Dentro · núcleo de la aplicación</div><p><strong>Pedido</strong>: datos del dominio.</p><p><strong>ConsultarPedido</strong>: operación ofrecida.</p><p><strong>Servicio</strong>: coordina la consulta.</p><p><strong>BuscarPedido</strong>: capacidad necesaria.</p></div><div class="stack"><div class="panel"><div class="label">Fuera del núcleo · adaptador PostgreSQL</div><strong>PedidoPostgresAdapter</strong><p>Implementa BuscarPedido; convierte fila SQL a Pedido.</p></div><div class="panel"><div class="label">Alternativa · adaptador MongoDB</div><strong>PedidoMongoAdapter</strong><p>Implementa BuscarPedido; convierte documento a Pedido.</p></div></div></div><div class="callout">El adaptador es código que conecta con una tecnología. La base de datos no es el adaptador. Para la consulta elegimos una implementación a la vez.</div></div></section>
+<section class="slide" data-title="Llamadas en tiempo de ejecución"><header class="slide-header"><div class="eyebrow">Diagrama 1 · ejecución</div><h2>En ejecución, el servicio llama al adaptador concreto</h2></header><div class="body"><div class="diagram" role="img" aria-label="Controlador invoca al servicio; el servicio llama a PedidoPostgresAdapter mediante BuscarPedido."><div class="node">Controlador</div><div class="arrow"><svg viewBox="0 0 40 24" aria-hidden="true"><path d="M1 12H37 M29 4L37 12L29 20"/></svg><span class="tag">invoca</span></div><div class="node primary">Servicio<br>tiene BuscarPedido</div><div class="arrow"><svg viewBox="0 0 40 24" aria-hidden="true"><path d="M1 12H37 M29 4L37 12L29 20"/></svg><span class="tag">llama vía puerto</span></div><div class="node">PedidoPostgresAdapter<br>consulta PostgreSQL</div></div><div class="callout">El objeto real recibido por constructor ejecuta la búsqueda. En otra configuración, ese objeto podría ser PedidoMongoAdapter.</div><p class="small">Estas flechas muestran llamadas, no dependencias de código. El resultado vuelve al llamador; veremos el recorrido completo más adelante.</p></div></section>
+<section class="slide" data-title="Dependencias en el código fuente"><header class="slide-header"><div class="eyebrow">Diagrama 2 · dependencias de código</div><h2>En el código, ambos lados dependen del contrato</h2></header><div class="body"><div class="flow" role="img" aria-label="ConsultarPedidoService usa BuscarPedido. PedidoPostgresAdapter implementa BuscarPedido. Ambas flechas apuntan a la interfaz."><div class="node">ConsultarPedidoService</div><div class="arrow"><svg viewBox="0 0 40 24" aria-hidden="true"><path d="M1 12H37 M29 4L37 12L29 20"/></svg><span class="tag">usa / importa</span></div><div class="node primary">BuscarPedido<br><span class="small">interfaz del núcleo</span></div><div class="arrow"><svg viewBox="0 0 40 24" aria-hidden="true"><path d="M39 12H3 M11 4L3 12L11 20"/></svg><span class="tag">implementa</span></div><div class="node">PedidoPostgresAdapter</div></div><div class="callout">Una dependencia significa que el código necesita otro tipo para compilar. El servicio nombra BuscarPedido, no PedidoPostgresAdapter.</div><p class="small">La implementación depende del contrato definido por la aplicación: este es el cambio de dirección respecto al servicio que conocía SQL.</p></div></section>
+<section class="slide" data-title="Contratos Java"><header class="slide-header"><div class="eyebrow">Forma concreta de los puertos</div><h2>Los contratos usan tipos del dominio, no tipos de base</h2></header><div class="body split"><div><div class="code-label">Fragmentos Java · dominio y puertos</div><pre><code><span class="tok-keyword">record</span> <span class="tok-type">Pedido</span>(
+    <span class="tok-type">String</span> id,
+    <span class="tok-type">int</span> cantidad,
+    <span class="tok-type">int</span> precioSoles,
+    <span class="tok-type">int</span> totalSoles,
+    <span class="tok-type">String</span> estado) {}
+
+<span class="tok-keyword">interface</span> <span class="tok-type">ConsultarPedido</span> {
+  <span class="tok-type">Optional</span>&lt;<span class="tok-type">Pedido</span>&gt; buscarPorId(<span class="tok-type">String</span> id);
+}
+<span class="tok-keyword">interface</span> <span class="tok-type">BuscarPedido</span> {
+  <span class="tok-type">Optional</span>&lt;<span class="tok-type">Pedido</span>&gt; buscarPorId(<span class="tok-type">String</span> id);
+}</code></pre></div><div class="stack"><p><code>record</code> es una forma de Java para declarar una clase sencilla de datos; aquí <code>Pedido</code> agrupa los cinco valores de A-17.</p><p>Son fragmentos: importación de <code>Optional</code> omitida por brevedad.</p><div class="callout">Ningún contrato expone una fila SQL ni un documento MongoDB.</div></div></div></section>
+<section class="slide" data-title="Servicio con constructor"><header class="slide-header"><div class="eyebrow">Implementación de la aplicación</div><h2>El servicio recibe el puerto de salida</h2></header><div class="body split"><div><div class="code-label">Fragmento Java · implementación del caso de uso</div><pre><code><span class="tok-keyword">final class</span> <span class="tok-type">ConsultarPedidoService</span>
+    <span class="tok-keyword">implements</span> <span class="tok-type">ConsultarPedido</span> {
+  <span class="tok-keyword">private final</span> <span class="tok-type">BuscarPedido</span> pedidos;
+
+  <span class="tok-type">ConsultarPedidoService</span>(<span class="tok-type">BuscarPedido</span> pedidos) {
+    <span class="tok-keyword">this</span>.pedidos = pedidos;
+  }
+
+  <span class="tok-keyword">public</span> <span class="tok-type">Optional</span>&lt;<span class="tok-type">Pedido</span>&gt;
+      buscarPorId(<span class="tok-type">String</span> id) {
+    <span class="tok-keyword">return</span> pedidos.buscarPorId(id);
+  }
+}</code></pre></div><div><p>Un <strong>constructor</strong> prepara una instancia al recibir sus dependencias.</p><p><strong>Inyección por constructor</strong> significa que quien crea el servicio le suministra el colaborador <code>BuscarPedido</code>.</p><div class="callout">No se necesita un framework para esta relación. El servicio coordina la capacidad requerida y no importa una clase de base de datos.</div></div></div></section>
+<section class="slide" data-title="Adaptador PostgreSQL"><header class="slide-header"><div class="eyebrow">Una implementación realista en su límite</div><h2>El adaptador convierte fila SQL a Pedido</h2></header><div class="body split"><div><div class="code-label">Fragmento Java · encontrado o ausente</div><pre><code><span class="tok-keyword">final class</span> <span class="tok-type">PedidoPostgresAdapter</span>
+    <span class="tok-keyword">implements</span> <span class="tok-type">BuscarPedido</span> {
+  <span class="tok-keyword">public</span> <span class="tok-type">Optional</span>&lt;<span class="tok-type">Pedido</span>&gt;
+      buscarPorId(<span class="tok-type">String</span> id) {
+    <span class="tok-type">List</span>&lt;<span class="tok-type">Pedido</span>&gt; filas = jdbc.query(
+      <span class="tok-string">"SELECT * "</span> +
+      <span class="tok-string">"FROM pedidos WHERE id = ?"</span>, mapper, id);
+    <span class="tok-keyword">return</span> filas.stream().findFirst();
+  }
+}</code></pre></div><div class="stack"><p><code>mapper</code> es un conversor: lee los cinco campos de cada fila y crea un <code>Pedido</code>, como en el ejemplo anterior.</p><p><code>findFirst()</code> devuelve el primer pedido de la lista, o ausencia si está vacía. El ID debe identificar una sola fila.</p><div class="callout warn">Omitimos campos, constructor y configuración de <code>jdbc</code> y <code>mapper</code>. La consulta SQL queda dentro del adaptador, no del servicio.</div></div></div></section>
+<section class="slide" data-title="Adaptador MongoDB"><header class="slide-header"><div class="eyebrow">Mismo contrato · otra traducción</div><h2>El adaptador Mongo mapea campos a Pedido</h2></header><div class="body split"><div><div class="code-label">Pseudocódigo Java · acceso al driver omitido</div><pre><code><span class="tok-keyword">final class</span> <span class="tok-type">PedidoMongoAdapter</span>
+    <span class="tok-keyword">implements</span> <span class="tok-type">BuscarPedido</span> {
+  <span class="tok-keyword">public</span> <span class="tok-type">Optional</span>&lt;<span class="tok-type">Pedido</span>&gt;
+      buscarPorId(<span class="tok-type">String</span> id) {
+    documento = coleccion.findOne(<span class="tok-string">"id"</span>, id);
+    <span class="tok-keyword">if</span> (documento == null) {
+      <span class="tok-keyword">return</span> Optional.empty();
+    }
+    <span class="tok-keyword">return</span> Optional.of(<span class="tok-keyword">new</span> <span class="tok-type">Pedido</span>(
+      documento.getString(<span class="tok-string">"id"</span>),
+      documento.getInteger(<span class="tok-string">"cantidad"</span>),
+      documento.getInteger(<span class="tok-string">"precioSoles"</span>),
+       documento.getInteger(<span class="tok-string">"totalSoles"</span>),
+       documento.getString(<span class="tok-string">"estado"</span>)));
+  }
+}</code></pre></div><div class="stack"><p>Un <strong>driver</strong> permite comunicarse con MongoDB; una <strong>colección</strong> agrupa documentos relacionados.</p><p>Este pseudocódigo supone que no encontrar un documento devuelve <code>null</code>. No es la sintaxis de un driver concreto; el ID debe ser único.</p><div class="callout">El adaptador convierte los campos a <code>Pedido</code> y la ausencia a <code>Optional.empty()</code>. Ningún documento sale hacia el núcleo.</div></div></div></section>
+<section class="slide" data-title="Controlador HTTP"><header class="slide-header"><div class="eyebrow">Traducir de vuelta al contrato web</div><h2>El controlador transforma el resultado a HTTP</h2></header><div class="body split"><div><div class="code-label">Fragmento Spring Web · dentro de PedidoController</div><pre><code>@GetMapping(<span class="tok-string">"/pedidos/{id}"</span>)
+<span class="tok-keyword">public</span> ResponseEntity&lt;Pedido&gt; consultar(
+    @PathVariable(<span class="tok-string">"id"</span>) String id) {
+  Optional&lt;Pedido&gt; pedido =
+      servicio.buscarPorId(id);
+  <span class="tok-keyword">if</span> (pedido.isEmpty()) {
+    <span class="tok-keyword">return</span> ResponseEntity.notFound().build();
+  }
+  <span class="tok-keyword">return</span> ResponseEntity.ok(pedido.get());
+}</code></pre></div><div class="stack"><p><code>{id}</code> es la parte variable de la ruta. <code>@PathVariable</code> pasa su valor al argumento: A-17 o A-99.</p><p><code>ResponseEntity</code> es un tipo de Spring para respuestas HTTP. Aquí Spring convierte los cinco campos del pedido a JSON.</p><div class="callout">Omitimos imports, anotación de clase y constructor. <code>servicio</code> es el puerto <code>ConsultarPedido</code>. El núcleo no usa tipos HTTP.</div></div></div></section>
+<section class="slide" data-title="Ensamblar las piezas"><header class="slide-header"><div class="eyebrow">Elegir implementación</div><h2>El cableado conecta contratos y objetos concretos</h2></header><div class="body"><div class="split"><div class="panel tint"><div class="label">Pseudocódigo · construcción manual</div><pre><code>BuscarPedido salida = <span class="tok-keyword">new</span> PedidoPostgresAdapter(...);
+ConsultarPedido caso =
+    <span class="tok-keyword">new</span> ConsultarPedidoService(salida);
+PedidoController http =
+     <span class="tok-keyword">new</span> PedidoController(caso);</code></pre></div><div class="panel"><div class="label">Esquema Spring · ... omite dependencias</div><pre><code><span class="tok-keyword">@Configuration</span>
+<span class="tok-keyword">class</span> Config {
+  <span class="tok-keyword">@Bean</span> BuscarPedido buscarPedido(...) {
+    <span class="tok-keyword">return new</span> PedidoPostgresAdapter(...);
+  }
+}</code></pre></div></div><p>Spring puede crear objetos y suministrar dependencias: <code>@Configuration</code> agrupa configuración y <code>@Bean</code> declara un objeto administrado.</p><div class="callout warn">Registra una sola implementación activa de <code>BuscarPedido</code> para este caso. Si hay varias, selecciona una de forma explícita. La configuración queda fuera del núcleo.</div></div></section>
+<section class="slide" data-title="Recorrido completo de A-17 y A-99">
+  <header class="slide-header"><div class="eyebrow">La ida y el regreso visibles</div><h2>El resultado de la búsqueda vuelve hasta HTTP</h2></header>
+  <div class="body">
+    <div class="call-route">
+      <div class="route-nodes">
+        <div class="node">1 · Controlador<br>extrae el ID de HTTP</div>
+        <div class="node primary">2 · Servicio<br>ConsultarPedido</div>
+        <div class="node">3 · Adaptador<br>BuscarPedido</div>
+        <div class="node">4 · Base<br>consulta el ID</div>
+      </div>
+      <svg class="route-svg" viewBox="0 0 1000 58" role="img" aria-labelledby="roundtrip-title roundtrip-desc">
+        <title id="roundtrip-title">Llamadas y retorno entre las cuatro piezas</title>
+        <desc id="roundtrip-desc">Arriba: controlador llama a servicio, servicio llama a adaptador, adaptador consulta base. Abajo: resultado de base vuelve al adaptador, al servicio y al controlador.</desc>
+        <path d="M125 12H375 M366 6L375 12L366 18 M375 12H625 M616 6L625 12L616 18 M625 12H875 M866 6L875 12L866 18"/>
+        <path d="M875 46H625 M634 40L625 46L634 52 M625 46H375 M384 40L375 46L384 52 M375 46H125 M134 40L125 46L134 52"/>
+        <text x="500" y="33">Ida: ID solicitado · Regreso: resultado</text>
+      </svg>
+      <svg class="route-mobile-svg" viewBox="0 0 354 355" role="img" aria-labelledby="mobile-trip-title mobile-trip-desc">
+        <title id="mobile-trip-title">Llamadas hacia abajo y resultados hacia arriba</title>
+        <desc id="mobile-trip-desc">El controlador llama al servicio, el servicio al adaptador y el adaptador a la base. Las flechas a la izquierda devuelven el resultado desde la base al adaptador, luego al servicio y finalmente al controlador.</desc>
+        <rect x="50" y="10" width="280" height="52" rx="10"/>
+        <rect x="50" y="95" width="280" height="52" rx="10"/>
+        <rect x="50" y="180" width="280" height="52" rx="10"/>
+        <rect x="50" y="265" width="280" height="52" rx="10"/>
+        <text x="190" y="32">1 · Controlador</text><text x="190" y="51">extrae el ID de HTTP</text>
+        <text x="190" y="117">2 · Servicio</text><text x="190" y="136">ConsultarPedido</text>
+        <text x="190" y="202">3 · Adaptador</text><text x="190" y="221">BuscarPedido</text>
+        <text x="190" y="287">4 · Base</text><text x="190" y="306">consulta el ID</text>
+        <path d="M190 62V94 M184 86L190 94L196 86 M190 147V179 M184 171L190 179L196 171 M190 232V264 M184 256L190 264L196 256"/>
+        <path d="M50 291H25V206H49 M41 200L49 206L41 212 M50 206H25V121H49 M41 115L49 121L41 127 M50 121H25V36H49 M41 30L49 36L41 42"/>
+        <text x="190" y="345">Baja: ID · Izquierda: resultado</text>
+      </svg>
+    </div>
+    <div class="split">
+      <div class="panel tint"><div class="label">A-17 · encontrado</div><p>Base: datos de A-17.</p><p>Adaptador y servicio: <code>Optional</code> con Pedido.</p><p>Controlador: <strong>200 + JSON</strong>.</p></div>
+      <div class="panel"><div class="label">A-99 · ausente</div><p>Base: ninguna coincidencia.</p><p>Adaptador y servicio: <code>Optional</code> vacío.</p><p>Controlador: <strong>404</strong>.</p></div>
+    </div>
+    <p class="small">Un fallo de conexión no es una ausencia; debe tratarse como error. El núcleo no decide estados HTTP.</p>
+  </div>
+</section>
+<section class="slide" data-title="Prueba unitaria del servicio"><header class="slide-header"><div class="eyebrow">Comprobar sin infraestructura</div><h2>Un doble de prueba controla la salida del puerto</h2></header><div class="body split"><div><div class="code-label">Fragmento Java · dentro de un método de prueba</div><pre><code>Pedido pedidoA17 = <span class="tok-keyword">new</span> Pedido(
+    <span class="tok-string">"A-17"</span>, 3, 12, 36, <span class="tok-string">"EN_PREPARACION"</span>);
+BuscarPedido falso = id -&gt; Optional.of(pedidoA17);
+ConsultarPedido servicio =
+    <span class="tok-keyword">new</span> ConsultarPedidoService(falso);
+
+boolean coincide = servicio.buscarPorId(<span class="tok-string">"A-17"</span>)
+    .equals(Optional.of(pedidoA17));
+System.out.println(coincide); <span class="tok-comment">// true</span></code></pre></div><div class="stack"><p>Un <strong>doble de prueba</strong> sustituye una dependencia para controlar lo que devuelve.</p><p><code>id -&gt; ...</code> es una función breve de Java: implementa el único método del puerto. Este doble devuelve siempre A-17.</p><div class="callout warn">Solo comprobamos que el servicio devuelve el resultado recibido. No demostramos búsqueda por ID ni mapeo correcto. No iniciamos Spring ni una base.</div></div></div></section>
+<section class="slide" data-title="Pruebas de integración"><header class="slide-header"><div class="eyebrow">Cada límite requiere su propia comprobación</div><h2>Integración comprueba adaptadores y contrato web</h2></header><div class="body triplet"><div class="panel tint"><div class="label">Integración de adaptador</div><p>Con PostgreSQL o MongoDB real, verifica mapeo de A-17 y ausencia de A-99.</p></div><div class="panel"><div class="label">Prueba HTTP</div><p>Comprueba que la API mantiene JSON y estados 200 / 404 acordados.</p></div><div class="panel"><div class="label">Qué significa integración</div><p>Probar piezas conectadas entre sí, por ejemplo código y base de datos.</p></div><div class="callout">No todas las pruebas tienen que usar las mismas piezas: cada tipo aporta evidencia distinta.</div></div></section>
+<section class="slide" data-title="El cambio de base no es una migración automática"><header class="slide-header"><div class="eyebrow">Alcance real del cambio</div><h2>Separar código ayuda; no mueve datos por sí solo</h2></header><div class="body"><div class="flow"><div class="node">Cambiar adaptador<br>y su configuración</div><div class="arrow">≠</div><div class="node primary">Migrar datos<br>y validar el comportamiento</div></div><div class="triplet"><div class="panel">Copiar registros y comprobar que A-17 conserva todos sus valores.</div><div class="panel">Diseñar documentos y verificar que buscar por ID sea correcto y suficientemente rápido.</div><div class="panel">Preparar conexión y credenciales; planear cómo pasar a la nueva base sin perder cambios.</div></div><div class="callout warn">Cambiar cableado solo preserva el comportamiento si la nueva implementación cumple el mismo contrato. Los fallos de conexión son errores, no «pedido ausente».</div></div></section>
+<section class="slide" data-title="Una posible organización de paquetes"><header class="slide-header"><div class="eyebrow">Ubicar el código · opción, no regla</div><h2>Los paquetes pueden hacer visibles los límites</h2></header><div class="body"><div class="package-list"><div class="node">dominio<br><strong>Pedido</strong><p class="small">No conoce adaptadores ni Spring.</p></div><div class="node primary">aplicacion<br><strong>puertos · servicio</strong><p class="small">Usa Pedido y define los contratos.</p></div><div class="node">adaptadores / configuracion<br><strong>HTTP · Postgres · Mongo</strong><p class="small">Usan los contratos y tipos del núcleo.</p></div></div><div class="callout">Este es un mapa de ubicación, no de llamadas. Los nombres de carpetas no crean la arquitectura: importan las dependencias. Todo puede vivir en una sola aplicación, sin servicios separados.</div></div></section>
+<section class="slide" data-title="Cuándo compensa y cuánto cuesta"><header class="slide-header"><div class="eyebrow">Beneficios y costos</div><h2>Los límites tienen un costo y un propósito</h2></header><div class="body split"><div class="panel tint"><div class="label">Puede ayudar cuando</div><p>Existen límites de responsabilidad claros, alternativas concretas de integración o necesidad de probar la aplicación aislada.</p></div><div class="panel"><div class="label">También cuesta</div><p>Más contratos, mapeos y cableado que mantener. Una API con pocas operaciones sencillas puede necesitar menos estructura.</p></div><div class="callout">Si un componente de acceso a datos ya oculta bien la persistencia, puede que ya tengas una frontera útil. No agregues capas por cumplir un dibujo.</div></div></section>
+<section class="slide" data-title="Resumen: volver al cambio PostgreSQL a MongoDB"><header class="slide-header"><div class="eyebrow">Recuperar las ideas clave</div><h2>La pregunta es quién cambia y qué permanece igual</h2></header><div class="body"><div class="triplet"><div class="node">Se conserva<br><strong>HTTP y sus cinco campos</strong></div><div class="node primary">Se conserva<br><strong>ConsultarPedidoService</strong></div><div class="node">Se reemplaza<br><strong>Adaptador de persistencia y configuración</strong></div></div><div class="triplet"><div class="panel">¿Qué pide el puerto de salida?<p class="small">BuscarPedido solicita recuperar un pedido; no devolver JSON.</p></div><div class="panel">¿Quién depende de quién?<p class="small">Servicio y adaptador conocen el contrato del núcleo.</p></div><div class="panel">¿Qué queda pendiente?<p class="small">Migrar datos y comprobar integración y operación.</p></div></div><p class="lead">A-17 conserva sus cinco valores y A-99 sigue ausente, si el adaptador cumple el mismo contrato.</p></div></section>
+<section class="slide" data-title="Práctica: doble controlado para la migración"><header class="slide-header"><div class="eyebrow">Práctica · sin solución completa</div><h2>Comprueba el caso de uso antes de cambiar su adaptador</h2></header><div class="body"><div class="exercise"><div class="panel tint"><div class="label">Objetivo y punto de partida</div><p>Con los contratos <code>ConsultarPedido</code>, <code>BuscarPedido</code>, servicio y <code>Pedido</code> de esta lección, implementa un doble de prueba en memoria.</p></div><div class="panel"><div class="label">Resultado observable</div><p>Buscar A-17 devuelve sus 3 cuadernos, S/ 12 y total S/ 36; buscar A-99 devuelve ausencia.</p></div><div class="panel"><div class="label">Restricciones</div><p>No edites el núcleo, no conectes base ni Spring. El doble debe implementar <code>BuscarPedido</code>.</p></div><div class="panel"><div class="label">Entrega y desafío</div><p>Muestra ambas comprobaciones. Opcional: enumera qué trabajo de datos y configuración faltaría para MongoDB.</p></div></div><div class="callout good">La prueba reduce incertidumbre del caso de uso, pero no demuestra que el adaptador Postgres o Mongo consulte y mapee bien.</div></div></section>
+</main>
+<div class="progress" aria-hidden="true"><span id="fill"></span></div>
+<nav class="controls" aria-label="Controles de presentación"><button type="button" id="prev" aria-label="Diapositiva anterior">←</button><span class="counter slide-indicator" id="counter" role="status" aria-live="polite"></span><button type="button" id="next" aria-label="Diapositiva siguiente">→</button><button type="button" id="help-button" aria-haspopup="dialog">Ayuda</button><button type="button" id="fullscreen" aria-pressed="false">Pantalla completa</button></nav>
+<div class="help" id="help" hidden><article role="dialog" aria-modal="true" aria-labelledby="help-title"><h2 id="help-title">Ayuda de teclado</h2><p>← / ↑ anterior · → / ↓ / espacio siguiente</p><p>Inicio primera · Fin última · F pantalla completa · Esc cierra ayuda</p><button type="button" id="close-help">Cerrar ayuda</button></article></div>
+<script>
+(() => {
+  'use strict';
+  const slides = [...document.querySelectorAll('.slide')];
+  const previous = document.getElementById('prev');
+  const next = document.getElementById('next');
+  const counter = document.getElementById('counter');
+  const fill = document.getElementById('fill');
+  const deck = document.getElementById('deck');
+  const help = document.getElementById('help');
+  const fullscreen = document.getElementById('fullscreen');
+  let index = 0;
+  let helpReturn = null;
+  function render(requested, updateHash = true) {
+    index = Math.max(0, Math.min(slides.length - 1, requested));
+    slides.forEach((slide, i) => {
+      slide.hidden = i !== index;
+      slide.setAttribute('aria-current', i === index ? 'step' : 'false');
+    });
+    counter.textContent = `${index + 1} / ${slides.length} · ${slides[index].dataset.title}`;
+    fill.style.width = `${((index + 1) / slides.length) * 100}%`;
+    previous.disabled = index === 0;
+    next.disabled = index === slides.length - 1;
+    document.title = `${slides[index].dataset.title} — Arquitectura hexagonal`;
+    if (updateHash) {
+      try { history.replaceState(null, '', `#slide-${index + 1}`); } catch { /* Navegación sigue disponible sin hash. */ }
+    }
+    deck.scrollTop = 0;
+  }
+  function fromHash() {
+    const match = /^#slide-([1-9]\d*)$/.exec(location.hash);
+    const target = match ? Number(match[1]) - 1 : 0;
+    render(Number.isSafeInteger(target) && target >= 0 && target < slides.length ? target : 0);
+  }
+  previous.addEventListener('click', () => render(index - 1));
+  next.addEventListener('click', () => render(index + 1));
+  window.addEventListener('hashchange', fromHash);
+  function openHelp() { helpReturn = document.activeElement; help.hidden = false; deck.inert = true; document.querySelector('.controls').inert = true; document.getElementById('close-help').focus(); }
+  function closeHelp() { help.hidden = true; deck.inert = false; document.querySelector('.controls').inert = false; if (helpReturn) helpReturn.focus(); }
+  document.getElementById('help-button').addEventListener('click', openHelp);
+  document.getElementById('close-help').addEventListener('click', closeHelp);
+  help.addEventListener('click', event => { if (event.target === help) closeHelp(); });
+  async function toggleFullscreen() {
+    try {
+      if (document.fullscreenElement) await document.exitFullscreen();
+      else if (document.documentElement.requestFullscreen) await document.documentElement.requestFullscreen();
+    } catch { counter.textContent = `${index + 1} / ${slides.length} · Pantalla completa no disponible`; }
+  }
+  if (!document.documentElement.requestFullscreen || document.fullscreenEnabled === false) {
+    fullscreen.disabled = true;
+    fullscreen.title = 'Pantalla completa no disponible en este navegador';
+  }
+  fullscreen.addEventListener('click', toggleFullscreen);
+  document.addEventListener('fullscreenchange', () => fullscreen.setAttribute('aria-pressed', String(Boolean(document.fullscreenElement))));
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && !help.hidden) { closeHelp(); return; }
+    if (!help.hidden) { if (event.key === 'Tab') { event.preventDefault(); document.getElementById('close-help').focus(); } return; }
+    if (event.ctrlKey || event.altKey || event.metaKey || event.shiftKey) return;
+    if (event.target.closest('button, input, textarea, select, a, [contenteditable="true"]')) return;
+    const actions = {ArrowLeft: () => render(index - 1), ArrowUp: () => render(index - 1), ArrowRight: () => render(index + 1), ArrowDown: () => render(index + 1), ' ': () => render(index + 1), Home: () => render(0), End: () => render(slides.length - 1), f: toggleFullscreen, F: toggleFullscreen};
+    if (actions[event.key]) { event.preventDefault(); actions[event.key](); }
+  });
+  fromHash();
+})();
+</script>
+</body>
+</html>

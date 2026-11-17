@@ -105,6 +105,7 @@ public class Main {
                     break;
                 case "6":
                     library.imprimirItemsBiblioteca();
+                    break;
                 case "0":
                     salir = true;
                     break;

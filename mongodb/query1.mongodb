@@ -1,0 +1,45 @@
+use("test-db");
+
+db.user.insertOne(
+    {
+        name: "John Doe",
+        email: "john.doe@example.com",
+        age: 30,
+        city: "New York"
+    }
+);
+
+use("test-db");
+db.user.insertMany(
+    [
+    {
+        name: "John Doe",
+        email: "john.doe@example.com",
+        age: 30,
+        city: "New York",
+        createdAt: new Date()
+    },
+    {
+        name: "Jane Doe",
+        email: "jane.doe@example.com",
+        age: 25,
+        city: "Los Angeles"
+    },
+    {
+        name: "Jim Doe",
+        email: "jim.doe@example.com",
+        age: 35,
+        city: "Chicago"
+    }
+    ]
+);
+
+use("test-db");
+db.user.insertOne(
+    {
+        name: "John Doe 2",
+        email: "john.doe2@example.com",
+        age: 30,
+        city: 23
+    }
+);

@@ -1,0 +1,7 @@
+[
+  {"query": "Plan the slide order and content for a beginner lesson on Java methods", "should_trigger": true},
+  {"query": "Antes de crear el HTML, propón qué enseña cada diapositiva sobre Spring MVC", "should_trigger": true},
+  {"query": "Create the complete HTML deck for Java arrays", "should_trigger": false},
+  {"query": "Improve the visual layout of lessons/java-poo.html", "should_trigger": false},
+  {"query": "Explain Java methods in chat, no slide plan", "should_trigger": false}
+]

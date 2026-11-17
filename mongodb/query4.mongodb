@@ -1,0 +1,91 @@
+use("sample_restaurants")
+db.createCollection("productos",{
+    validator:{
+        $jsonSchema:{
+            bsonType: "object",
+            required:["name","sku","price","stock","category","active"],
+            properties:{
+                name:{
+                    bsonType:"string",
+                    description:"Nombre del producto"
+                },
+                sku:{
+                    bsonType:"string",
+                    description:"Codigo del producto"
+                },
+                description:{
+                    bsonType:"string",
+                    description:"Descripcion del producto"
+                },
+                price:{
+                    bsonType:"decimal",
+                    description:"Precio del producto"
+                },
+                stock:{
+                    bsonType:"int",
+                    description:"Stock del producto"
+                },
+                category:{
+                    bsonType:"string",
+                    description:"Categoria del producto"
+                },
+                active:{
+                   bsonType: "bool",
+                   description:"Estado del producto"
+                },
+                tags:{
+                    bsonType:"array",
+                    items: {
+                        bsonType:"string",
+                    }
+                },
+                specifications:{
+                    bsonType:"object",
+                    items: {
+                        bsonType:"object",
+                        required:["brand","model"],
+                        properties:{
+                            brand:{
+                                bsonType: "string",
+                                description: "Marca del producto"
+                            },
+                            model:{
+                                bsonType: "string",
+                                description: "Modelo del producto"
+                            },
+                            color:{
+                                bsonType: "string",
+                                description: "Color del producto"
+                            }
+                        }
+                    }
+                },
+            }
+
+
+        }
+    }
+});
+
+
+
+use("sample_restaurants")
+db.productos.insertOne({
+    name: "MacBook Pro",
+    sku: "LAP-001",
+    description: "Apple laptop",
+    price: 2499.99,
+    stock: 15,
+    category: "ELECTRONICS",
+    active: true,
+    tags: [
+        "laptop",
+        "apple",
+        "computer"
+    ],
+    specifications: {
+        brand: "Apple",
+        model: "MacBook Pro M4",
+        color: "Space Black"
+    }
+});
