@@ -5,6 +5,7 @@ import com.codigo.codigo.dto.TareaResponse;
 import com.codigo.codigo.entity.TareaEntity;
 import com.codigo.codigo.repository.TareaRepository;
 import com.codigo.codigo.service.TareaService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +15,7 @@ import java.util.List;
 @RequestMapping("/api/v1/tarea")
 public class TareController {
 
+    // depende de
     private final TareaService tareaService;
     public TareController(TareaService tareaService) {
         this.tareaService = tareaService;
@@ -25,7 +27,7 @@ public class TareController {
         if(tr == null) {
             return ResponseEntity.badRequest().body(null);
         }
-        return null;
+        return ResponseEntity.status(HttpStatus.CREATED).body(tr);
     }
 
     // Usuario

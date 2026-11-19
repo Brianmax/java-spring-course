@@ -12,6 +12,7 @@ import java.sql.Date;
 
 @Service
 public class TareaService {
+    // depende de
     private final TareaRepository tareaRepository;
 
     public TareaService(TareaRepository tareaRepository) {
@@ -38,6 +39,13 @@ public class TareaService {
         tareaEntity.setDescripcion(tareaRequest.getDescripcion());
         tareaEntity.setFechaFinalizacion(tareaRequest.getFechaFinalizacion());
         tareaRepository.save(tareaEntity);
-        return null;
+
+        TareaResponse tareaResponse = new TareaResponse();
+        tareaResponse.setId(tareaEntity.getId());
+        tareaResponse.setTitulo(tareaEntity.getTitulo());
+        tareaResponse.setDescripcion(tareaEntity.getDescripcion());
+        tareaResponse.setFechaFinalizacion(tareaEntity.getFechaFinalizacion());
+        tareaResponse.setCompletado(tareaEntity.isCompletado());
+        return tareaResponse;
     }
 }
