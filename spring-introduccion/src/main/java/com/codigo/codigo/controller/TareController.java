@@ -49,14 +49,16 @@ public class TareController {
         return ResponseEntity.status(HttpStatus.OK).body(trs);
     }
 
-    // Usuario
-    // id UUID
-    // username
-    // email
-    // nombre
-    // apellido
-    // edad (opcional)
-    // password
-
-    // insertar un usuario usando la api
+    @PatchMapping ("/cambiar-titulo/{id}")
+    ResponseEntity<TareaResponse> cambiarTitulo(
+            @RequestParam String nuevoTitulo,
+            @PathVariable(name = "id") UUID idTarea
+    ) {
+        TareaResponse tr = tareaService.cambiarTitulo(nuevoTitulo, idTarea);
+        if(tr == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(tr);
+    }
+    // buscar una tarea por id
 }

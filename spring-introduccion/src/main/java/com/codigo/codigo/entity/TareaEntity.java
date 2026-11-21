@@ -23,6 +23,10 @@ public class TareaEntity {
     @Column(name = "fecha_finalizacion")
     private Date fechaFinalizacion;
 
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private UsuarioEntity usuarioEntity;
+
     @Override
     public String toString() {
         return "TareaEntity{" +

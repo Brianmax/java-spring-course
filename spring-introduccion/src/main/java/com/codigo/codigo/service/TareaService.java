@@ -44,13 +44,7 @@ public class TareaService {
         tareaEntity.setFechaFinalizacion(tareaRequest.getFechaFinalizacion());
         tareaRepository.save(tareaEntity);
 
-        TareaResponse tareaResponse = new TareaResponse();
-        tareaResponse.setId(tareaEntity.getId());
-        tareaResponse.setTitulo(tareaEntity.getTitulo());
-        tareaResponse.setDescripcion(tareaEntity.getDescripcion());
-        tareaResponse.setFechaFinalizacion(tareaEntity.getFechaFinalizacion());
-        tareaResponse.setCompletado(tareaEntity.isCompletado());
-        return tareaResponse;
+        return fromTareaEntity(tareaEntity);
     }
 
     public TareaResponse completarTarea(UUID idTarea) {
@@ -75,6 +69,26 @@ public class TareaService {
         return tareaResponses;
     }
 
+    public TareaResponse cambiarTitulo(String nuevoTitulo, UUID idTarea) {
+        if(!nuevoTitulo.matches("^[a-zA-Z0-9 ]+$")) {
+            System.out.println("El titulo es incorrecto");
+            // bad request
+            return null;
+        }
+
+        Optional<TareaEntity> optionalTareaEntity = tareaRepository.findById(idTarea);
+
+        if(optionalTareaEntity.isEmpty()) {
+            System.out.println("No Encontrado");
+            // not found
+            return null;
+        }
+        TareaEntity tareaEntity = optionalTareaEntity.get();
+        tareaEntity.setTitulo(nuevoTitulo);
+        tareaRepository.save(tareaEntity);
+        return fromTareaEntity(tareaEntity);
+    }
+
     private TareaResponse fromTareaEntity(TareaEntity tareaEntity) {
         return new TareaResponse(
                 tareaEntity.getId(),
@@ -85,3 +99,5 @@ public class TareaService {
         );
     }
 }
+
+// crear un endpoint donde podamos cambiar el titulo de una tarea
