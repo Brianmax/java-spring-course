@@ -82,7 +82,8 @@ public class TareaService {
         tareaRepository.save(te);
         return fromTareaEntity(te);
     }
-
+    // modificar el endpoint de completar tarea
+    // se debe de reducir el numero de tareas activas del usuario asociado a la tarea
     public List<TareaResponse> findAll() {
         List<TareaEntity> tareaEntities = tareaRepository.findAll();
         List<TareaResponse> tareaResponses = new ArrayList<>();
@@ -110,6 +111,22 @@ public class TareaService {
         tareaEntity.setTitulo(nuevoTitulo);
         tareaRepository.save(tareaEntity);
         return fromTareaEntity(tareaEntity);
+    }
+
+    public List<TareaResponse> findTareasUsuario(UUID usuarioId) {
+        UsuarioEntity usuarioEntity = usuarioRepository.findById(usuarioId).orElse(null);
+        if(!usuarioRepository.existsById(usuarioId)){
+            System.out.println("El usuario no existe");
+            return null;
+        }
+
+        List<TareaEntity> tareas = tareaRepository.findByIdUsuario(usuarioId);
+        List<TareaResponse> tareaResponses = new ArrayList<>();
+        for(TareaEntity te: tareas) {
+            TareaResponse tr = fromTareaEntity(te);
+            tareaResponses.add(tr);
+        }
+        return tareaResponses;
     }
 
     private TareaResponse fromTareaEntity(TareaEntity tareaEntity) {

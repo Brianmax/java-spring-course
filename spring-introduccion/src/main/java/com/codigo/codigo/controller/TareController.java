@@ -49,6 +49,20 @@ public class TareController {
         return ResponseEntity.status(HttpStatus.OK).body(trs);
     }
 
+    @GetMapping("/find/{id}")
+    public ResponseEntity<TareaResponse> findById(@PathVariable UUID id) {
+        return null;
+    }
+
+    @GetMapping("/find-tareas-usuario/{idUsuario}")
+    public ResponseEntity<List<TareaResponse>> findTareasUsuario(@PathVariable UUID idUsuario) {
+        List<TareaResponse> tr = tareaService.findTareasUsuario(idUsuario);
+        if(tr == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(tr);
+    }
+
     @PatchMapping ("/cambiar-titulo/{id}")
     ResponseEntity<TareaResponse> cambiarTitulo(
             @RequestParam String nuevoTitulo,

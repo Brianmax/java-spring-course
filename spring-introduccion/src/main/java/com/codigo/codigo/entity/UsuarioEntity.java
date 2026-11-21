@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -35,6 +36,9 @@ public class UsuarioEntity {
 
     @Column(name = "tareas_activas")
     private int tareasActivas = 0;
+
+    @OneToMany(mappedBy = "usuarioEntity", fetch = FetchType.LAZY)
+    List<TareaEntity> tareaEntities;
 
     @Override
     public String toString() {
