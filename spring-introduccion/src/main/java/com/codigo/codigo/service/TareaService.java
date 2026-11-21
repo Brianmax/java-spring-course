@@ -3,7 +3,9 @@ package com.codigo.codigo.service;
 import com.codigo.codigo.dto.TareaRequest;
 import com.codigo.codigo.dto.TareaResponse;
 import com.codigo.codigo.entity.TareaEntity;
+import com.codigo.codigo.entity.UsuarioEntity;
 import com.codigo.codigo.repository.TareaRepository;
+import com.codigo.codigo.repository.UsuarioRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -18,9 +20,11 @@ import java.util.UUID;
 public class TareaService {
     // depende de
     private final TareaRepository tareaRepository;
+    private final UsuarioRepository usuarioRepository;
 
-    public TareaService(TareaRepository tareaRepository) {
+    public TareaService(TareaRepository tareaRepository, UsuarioRepository usuarioRepository) {
         this.tareaRepository = tareaRepository;
+        this.usuarioRepository = usuarioRepository;
     }
 
     public TareaResponse saveTarea(TareaRequest tareaRequest) {
@@ -38,11 +42,30 @@ public class TareaService {
             System.out.println("Fecha incorrecta");
             return null;
         }
+
+        // verificar el usuario
+        UUID usuarioId = tareaRequest.getUsuarioId();
+        UsuarioEntity usuarioEntity = usuarioRepository.findById(usuarioId).orElse(null);
+        if(usuarioEntity == null) {
+            System.out.println("Usuario no existe");
+            return null;
+        }
+
+        if(usuarioEntity.getTareasActivas() >= 10) {
+            System.out.println("El usuario no puede tener mas de diez tareas");
+            return null;
+        }
+
         TareaEntity tareaEntity = new TareaEntity();
         tareaEntity.setTitulo(tareaRequest.getTitulo());
         tareaEntity.setDescripcion(tareaRequest.getDescripcion());
         tareaEntity.setFechaFinalizacion(tareaRequest.getFechaFinalizacion());
+        tareaEntity.setUsuarioEntity(usuarioEntity);
+
+        int tareasActivas = usuarioEntity.getTareasActivas();
+        usuarioEntity.setTareasActivas(tareasActivas + 1);
         tareaRepository.save(tareaEntity);
+        usuarioRepository.save(usuarioEntity);
 
         return fromTareaEntity(tareaEntity);
     }
@@ -95,7 +118,8 @@ public class TareaService {
                 tareaEntity.getTitulo(),
                 tareaEntity.isCompletado(),
                 tareaEntity.getDescripcion(),
-                tareaEntity.getFechaFinalizacion()
+                tareaEntity.getFechaFinalizacion(),
+                tareaEntity.getUsuarioEntity().getId()
         );
     }
 }

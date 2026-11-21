@@ -33,6 +33,9 @@ public class UsuarioEntity {
     @Column(nullable = false)
     private String password;
 
+    @Column(name = "tareas_activas")
+    private int tareasActivas = 0;
+
     @Override
     public String toString() {
         return "UsuarioEntity{" +

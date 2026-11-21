@@ -18,4 +18,5 @@ public class TareaResponse {
     private boolean completado;
     private String descripcion;
     private Date fechaFinalizacion;
+    private UUID usuarioId;
 }
