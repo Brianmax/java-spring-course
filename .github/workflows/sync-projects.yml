@@ -1,0 +1,58 @@
+name: Sync standalone project repos
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'spring-introduccion/**'
+      - 'projects/java-g19-intro/**'
+      - 'projects/poo/**'
+      - 'projects/tienda-mysql/**'
+      - 'projects/tienda-postgres/**'
+      - 'scripts/sync_project_repo.py'
+      - '.github/workflows/sync-projects.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sync-projects
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    name: Sync ${{ matrix.repo }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - source: spring-introduccion
+            repo: Brianmax/spring-introduccion-g19
+            secret_name: DEPLOY_KEY_SPRING_INTRODUCCION_G19
+          - source: projects/java-g19-intro
+            repo: Brianmax/java-g19-intro
+            secret_name: DEPLOY_KEY_JAVA_G19_INTRO
+          - source: projects/poo
+            repo: Brianmax/java-poo-g19
+            secret_name: DEPLOY_KEY_JAVA_POO_G19
+          - source: projects/tienda-mysql
+            repo: Brianmax/tienda-mysql-g19
+            secret_name: DEPLOY_KEY_TIENDA_MYSQL_G19
+          - source: projects/tienda-postgres
+            repo: Brianmax/tienda-postgres-g19
+            secret_name: DEPLOY_KEY_TIENDA_POSTGRES_G19
+    steps:
+      - name: Checkout course repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - name: Sync project to standalone repository
+        env:
+          DEPLOY_KEY: ${{ secrets[matrix.secret_name] }}
+        run: |
+          python3 scripts/sync_project_repo.py \
+            --source "${{ matrix.source }}" \
+            --repo "${{ matrix.repo }}" \
+            --key-env DEPLOY_KEY
