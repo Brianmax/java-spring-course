@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Práctica de Spring Boot, JPA y PostgreSQL: construye una API REST de gimnasio para gestionar socios, reservas de clases y cupos activos.">
+  <title>Gimnasio: clases y reservas · Práctica de Spring Boot · Curso de Java</title>
+  <link rel="stylesheet" href="../assets/tailwind.css">
+</head>
+<body class="exercise-page poo-exercise grades-exercise">
+  <header class="topbar">
+    <nav class="shell nav" aria-label="Navegación principal">
+      <a class="brand" href="../index.html"><span class="brand-mark">J</span><span class="brand-name">Curso de Java · Tecsup</span></a>
+      <div class="nav-links"><a href="../lessons/index.html">Lecciones</a><a href="index.html" aria-current="page">Ejercicios</a><a href="../projects/index.html">Proyectos</a></div>
+    </nav>
+  </header>
+  <main class="shell">
+    <header class="page-head">
+      <a class="back-link" href="index.html#spring-boot">← Volver al catálogo de ejercicios</a>
+      <div class="eyebrow">Práctica · Spring Boot, JPA y PostgreSQL</div>
+      <h1>Gimnasio: clases y reservas</h1>
+      <p>Construye una API REST para administrar socios y reservas de clases grupales aplicando la misma arquitectura por capas del proyecto de clase. <a href="https://github.com/Brianmax/java-spring-course/blob/main/exercises/spring-boot-gimnasio.md">Ver enunciado en Markdown ↗</a>.</p>
+    </header>
+    <div class="exercise-body">
+      <section class="exercise-block" aria-labelledby="objetivo">
+        <h2 id="objetivo">Lo que vas a practicar</h2>
+        <ul>
+          <li>Arquitectura en capas: <code>controller</code>, <code>service</code>, <code>repository</code>, <code>entity</code> y <code>dto</code>.</li>
+          <li>Endpoints REST con <code>@RestController</code>, <code>@GetMapping</code>, <code>@PostMapping</code>, <code>@PatchMapping</code>, <code>@PathVariable</code>, <code>@RequestParam</code> y <code>@RequestBody</code>.</li>
+          <li>Códigos HTTP con <code>ResponseEntity</code> (<code>200 OK</code>, <code>201 Created</code>, <code>400 Bad Request</code>, <code>404 Not Found</code>).</li>
+          <li>Persistencia en PostgreSQL con entidades JPA, claves <code>UUID</code> y relación <code>@ManyToOne</code> / <code>@OneToMany</code>.</li>
+          <li>Reglas de negocio en el servicio: validaciones, unicidad, límite de reservas activas y confirmación de asistencia.</li>
+        </ul>
+      </section>
+
+      <section class="exercise-block" aria-labelledby="configuracion">
+        <h2 id="configuracion">Configuración inicial</h2>
+        <ol>
+          <li>Crea un proyecto Spring Boot con <strong>Java 21</strong> y <strong>Maven</strong> usando como referencia <a href="../spring-introduccion/index.html">Introducción a Spring Boot</a>.</li>
+          <li>Incluye las dependencias de Web MVC, Spring Data JPA, PostgreSQL y Lombok.</li>
+          <li>Crea una base de datos llamada <code>gimnasio</code> en PostgreSQL y configura <code>src/main/resources/application.properties</code>:</li>
+        </ol>
+        <pre><code>spring.application.name=gimnasio
+
+spring.datasource.url=jdbc:postgresql://localhost:5432/gimnasio
+spring.datasource.username=postgres
+spring.datasource.password=admin
+
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+spring.jpa.hibernate.ddl-auto=update</code></pre>
+        <p class="note">No devuelvas entidades JPA directamente en los controladores. Crea DTOs separados (<code>SocioRequest</code>, <code>SocioResponse</code>, <code>ReservaRequest</code> y <code>ReservaResponse</code>) para controlar qué datos entran y salen de tu API.</p>
+      </section>
+
+      <section class="exercise-block" aria-labelledby="modelo">
+        <h2 id="modelo">Modelo de datos (Entidades JPA)</h2>
+        <h3><code>SocioEntity</code> (tabla <code>socio</code>)</h3>
+        <p>Representa a un miembro registrado en el gimnasio.</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th scope="col">Atributo</th><th scope="col">Tipo</th><th scope="col">Restricciones / Columna</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>id</code></td><td><code>UUID</code></td><td><code>@Id</code>, <code>@GeneratedValue(strategy = GenerationType.UUID)</code></td></tr>
+              <tr><td><code>dni</code></td><td><code>String</code></td><td><code>nullable = false</code>, <code>unique = true</code>, <code>length = 20</code></td></tr>
+              <tr><td><code>email</code></td><td><code>String</code></td><td><code>nullable = false</code>, <code>unique = true</code>, <code>length = 100</code></td></tr>
+              <tr><td><code>nombre</code></td><td><code>String</code></td><td><code>nullable = false</code>, <code>length = 50</code></td></tr>
+              <tr><td><code>apellido</code></td><td><code>String</code></td><td><code>nullable = false</code>, <code>length = 50</code></td></tr>
+              <tr><td><code>edad</code></td><td><code>Integer</code></td><td>Opcional (puede ser <code>null</code>)</td></tr>
+              <tr><td><code>reservasActivas</code></td><td><code>int</code></td><td>Columna <code>reservas_activas</code>, valor inicial <code>0</code></td></tr>
+              <tr><td><code>reservaEntities</code></td><td><code>List&lt;ReservaEntity&gt;</code></td><td><code>@OneToMany(mappedBy = "socioEntity", fetch = FetchType.LAZY)</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3><code>ReservaEntity</code> (tabla <code>reserva</code>)</h3>
+        <p>Representa la reserva de un socio para una clase grupal (por ejemplo, Spinning, Funcional o Yoga).</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th scope="col">Atributo</th><th scope="col">Tipo</th><th scope="col">Restricciones / Columna</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>id</code></td><td><code>UUID</code></td><td><code>@Id</code>, <code>@GeneratedValue(strategy = GenerationType.UUID)</code></td></tr>
+              <tr><td><code>nombreClase</code></td><td><code>String</code></td><td>Columna <code>nombre_clase</code>, <code>nullable = false</code></td></tr>
+              <tr><td><code>horario</code></td><td><code>String</code></td><td><code>nullable = false</code> (ej. <code>"08:00"</code>, <code>"18:30"</code>)</td></tr>
+              <tr><td><code>fechaCreacion</code></td><td><code>Date</code> (<code>java.sql.Date</code>)</td><td>Columna <code>fecha_creacion</code>, fecha actual por defecto</td></tr>
+              <tr><td><code>fechaClase</code></td><td><code>Date</code> (<code>java.sql.Date</code>)</td><td>Columna <code>fecha_clase</code>, <code>nullable = false</code></td></tr>
+              <tr><td><code>asistio</code></td><td><code>boolean</code></td><td>Valor inicial <code>false</code></td></tr>
+              <tr><td><code>socioEntity</code></td><td><code>SocioEntity</code></td><td><code>@ManyToOne</code>, <code>@JoinColumn(name = "socio_id")</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>DTOs sugeridos</h3>
+        <ul>
+          <li><code>SocioRequest</code>: <code>dni</code>, <code>email</code>, <code>nombre</code>, <code>apellido</code>, <code>edad</code>.</li>
+          <li><code>SocioResponse</code>: <code>id</code>, <code>dni</code>, <code>email</code>, <code>nombre</code>, <code>apellido</code>, <code>edad</code>, <code>reservasActivas</code>.</li>
+          <li><code>ReservaRequest</code>: <code>nombreClase</code>, <code>horario</code>, <code>fechaClase</code>, <code>socioId</code>.</li>
+          <li><code>ReservaResponse</code>: <code>id</code>, <code>nombreClase</code>, <code>horario</code>, <code>fechaClase</code>, <code>asistio</code>, <code>socioId</code>.</li>
+        </ul>
+      </section>
+
+      <section class="exercise-block" aria-labelledby="endpoints">
+        <h2 id="endpoints">Endpoints y reglas de negocio</h2>
+
+        <h3>1. Socios (<code>/api/v1/socio</code>)</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th scope="col">Método</th><th scope="col">Ruta</th><th scope="col">Descripción</th><th scope="col">Respuestas</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>POST</code></td><td><code>/api/v1/socio/save</code></td><td>Registra un nuevo socio</td><td><code>201</code>, <code>400</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <ul>
+          <li><code>dni</code>, <code>email</code>, <code>nombre</code> y <code>apellido</code> son obligatorios y no pueden estar vacíos.</li>
+          <li><code>email</code> debe contener <code>@</code>; normalízalo con <code>trim().toLowerCase()</code>.</li>
+          <li><code>edad</code> es opcional, pero si viene informada debe ser <strong>mayor o igual a 14</strong>.</li>
+          <li>Rechaza DNI o correo duplicado usando <code>existsByDni</code> y <code>existsByEmail</code> en <code>SocioRepository</code>.</li>
+        </ul>
+
+        <h3>2. Reservas (<code>/api/v1/reserva</code>)</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th scope="col">Método</th><th scope="col">Ruta</th><th scope="col">Descripción</th><th scope="col">Respuestas</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>POST</code></td><td><code>/api/v1/reserva/save</code></td><td>Crea una reserva para un socio</td><td><code>201</code>, <code>400</code></td></tr>
+              <tr><td><code>GET</code></td><td><code>/api/v1/reserva/find</code></td><td>Lista todas las reservas</td><td><code>200</code></td></tr>
+              <tr><td><code>GET</code></td><td><code>/api/v1/reserva/find/{id}</code></td><td>Busca una reserva por su <code>UUID</code></td><td><code>200</code>, <code>404</code></td></tr>
+              <tr><td><code>GET</code></td><td><code>/api/v1/reserva/find-reservas-socio/{idSocio}</code></td><td>Lista las reservas de un socio</td><td><code>200</code>, <code>404</code> / <code>400</code></td></tr>
+              <tr><td><code>PATCH</code></td><td><code>/api/v1/reserva/confirmar-asistencia/{id}</code></td><td>Confirma asistencia y reduce <code>reservasActivas</code></td><td><code>200</code>, <code>400</code>, <code>404</code></td></tr>
+              <tr><td><code>PATCH</code></td><td><code>/api/v1/reserva/cambiar-clase/{id}?nuevoNombre=...</code></td><td>Actualiza el nombre de la clase</td><td><code>200</code>, <code>400</code>, <code>404</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <ol>
+          <li><strong>Crear reserva:</strong> valida que <code>nombreClase</code> solo tenga letras, números y espacios (<code>^[a-zA-Z0-9 ]+$</code>), que <code>horario</code> no esté vacío, que <code>fechaClase</code> sea mayor o igual a la fecha actual y que el socio exista. Un socio puede tener como máximo <strong>4 reservas activas</strong> (<code>reservasActivas &gt;= 4</code> se rechaza con <code>400</code>). Al guardar, incrementa <code>reservasActivas</code> en <code>+1</code>.</li>
+          <li><strong>Buscar por ID:</strong> devuelve <code>200 OK</code> con la reserva encontrada o <code>404 Not Found</code> si no existe.</li>
+          <li><strong>Reservas por socio:</strong> verifica primero si el socio existe (<code>existsById</code>) y consulta sus reservas en <code>ReservaRepository</code> con una consulta personalizada <code>@Query</code> (por <code>socio_id</code>).</li>
+          <li><strong>Confirmar asistencia:</strong> si la reserva no existe devuelve <code>404</code>. Si <code>asistio</code> ya era <code>true</code>, rechaza con <code>400</code> para evitar descontar dos veces. Marca <code>asistio = true</code>, resta <code>1</code> a <code>reservasActivas</code> del socio (sin bajar de <code>0</code>) y guarda ambos cambios.</li>
+          <li><strong>Cambiar clase:</strong> valida <code>nuevoNombre</code> con <code>^[a-zA-Z0-9 ]+$</code> (si falla responde <code>400</code>; si la reserva no existe responde <code>404</code>), actualiza <code>nombreClase</code> y devuelve el DTO actualizado.</li>
+        </ol>
+      </section>
+
+      <section class="exercise-block" aria-labelledby="ejemplos">
+        <h2 id="ejemplos">Ejemplos de peticiones JSON</h2>
+        <h3>Registrar un socio (<code>POST /api/v1/socio/save</code>)</h3>
+        <pre><code>{
+  "dni": "72458910",
+  "email": "camila.torres@correo.com",
+  "nombre": "Camila",
+  "apellido": "Torres",
+  "edad": 24
+}</code></pre>
+        <h3>Crear una reserva (<code>POST /api/v1/reserva/save</code>)</h3>
+        <pre><code>{
+  "nombreClase": "Spinning Intermedio",
+  "horario": "18:30",
+  "fechaClase": "2026-12-10",
+  "socioId": "c7c9a8d2-4d34-4b4e-8f52-91b7c54f1a20"
+}</code></pre>
+        <h3>Cambiar el nombre de la clase</h3>
+        <pre><code>PATCH /api/v1/reserva/cambiar-clase/8a41f0b3-1c90-4a12-9b88-34e2a1d90f11?nuevoNombre=Yoga%20Matutino</code></pre>
+      </section>
+
+      <section class="exercise-block" aria-labelledby="pruebas">
+        <h2 id="pruebas">Comprueba tu solución</h2>
+        <ul>
+          <li><strong>Socios y unicidad:</strong> registra un socio válido (<code>201</code>). Repite el mismo DNI o email (<code>400</code>). Prueba con <code>edad: 12</code> (<code>400</code>) y omitiendo <code>edad</code> (<code>201</code>).</li>
+          <li><strong>Validaciones de reserva:</strong> intenta guardar una reserva con <code>nombreClase: "CrossFit!!!"</code> (<code>400</code>), con una fecha anterior a hoy (<code>400</code>) y con un <code>socioId</code> inexistente (<code>400</code>).</li>
+          <li><strong>Límite de 4 reservas activas:</strong> crea 4 reservas para un mismo socio (<code>201</code> en cada una y <code>reservas_activas = 4</code>). La quinta reserva debe responder <code>400</code>.</li>
+          <li><strong>Confirmar asistencia y liberar cupo:</strong> confirma asistencia en una de las 4 reservas (<code>200</code>, <code>asistio: true</code> y <code>reservas_activas = 3</code>). Vuelve a llamar al mismo endpoint con el mismo ID y comprueba que no vuelve a descontar. Luego registra una nueva reserva y verifica que ahora sí devuelve <code>201</code>.</li>
+          <li><strong>Consultas y edición:</strong> prueba <code>GET /find</code>, <code>GET /find/{id}</code> (existente e inexistente), <code>GET /find-reservas-socio/{idSocio}</code> y <code>PATCH /cambiar-clase/{id}</code> con un nombre válido y otro inválido.</li>
+        </ul>
+        <p class="check"><strong>Verifica en PostgreSQL:</strong> revisa las tablas <code>socio</code> y <code>reserva</code> para confirmar que <code>reservas_activas</code> coincide siempre con la cantidad de reservas cuyo campo <code>asistio</code> es <code>false</code>.</p>
+      </section>
+
+      <section class="exercise-block optional" aria-labelledby="extra">
+        <h2 id="extra">Desafío opcional: beneficios del gimnasio (<code>@ManyToMany</code>)</h2>
+        <p>Amplía el proyecto con una relación muchos a muchos similar a <code>RoleEntity</code> en clase:</p>
+        <ol>
+          <li>Crea <code>BeneficioEntity</code> (tabla <code>beneficio</code>) con <code>id: UUID</code>, <code>nombre</code> único (ej. <code>SAUNA</code>, <code>ESTACIONAMIENTO</code>, <code>NUTRICIONISTA</code>) y <code>descripcion</code>.</li>
+          <li>Relaciona <code>BeneficioEntity</code> y <code>SocioEntity</code> con <code>@ManyToMany</code> mediante la tabla intermedia <code>socio_beneficio</code> (<code>beneficio_id</code>, <code>socio_id</code>).</li>
+          <li>Implementa <code>POST /api/v1/beneficio/save</code>, <code>POST /api/v1/socio/{idSocio}/beneficios/{idBeneficio}</code> (evitando asignaciones duplicadas) y <code>GET /api/v1/socio/{idSocio}/beneficios</code>.</li>
+        </ol>
+      </section>
+
+      <a class="button secondary" href="../spring-introduccion/index.html">Ver proyecto de referencia en Spring Boot →</a>
+    </div>
+  </main>
+  <footer class="footer"><div class="shell"><a href="index.html#spring-boot">← Volver al catálogo de ejercicios</a></div></footer>
+</body>
+</html>
