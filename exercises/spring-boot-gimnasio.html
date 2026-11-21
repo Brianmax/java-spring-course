@@ -22,6 +22,17 @@
       <p>Construye una API REST para administrar socios y reservas de clases grupales aplicando la misma arquitectura por capas del proyecto de clase. <a href="https://github.com/Brianmax/java-spring-course/blob/main/exercises/spring-boot-gimnasio.md">Ver enunciado en Markdown ↗</a>.</p>
     </header>
     <div class="exercise-body">
+      <section class="exercise-block" aria-labelledby="contexto">
+        <h2 id="contexto">Contexto del producto</h2>
+        <p><strong>PulsoFit</strong> es un gimnasio local que ofrece clases grupales de Spinning, Funcional, Yoga y Pilates. Hasta hoy, la recepción registra a los socios y apunta sus reservas en hojas de cálculo y mensajes de WhatsApp, lo que provoca dos problemas frecuentes: algunos socios acaparan demasiados cupos durante la semana sin asistir, y el personal no sabe con certeza cuántas reservas activas tiene cada miembro.</p>
+        <p>Tu tarea es construir la <strong>primera versión del backend REST</strong> que usarán el panel de recepción y la futura app móvil para:</p>
+        <ul>
+          <li>Registrar socios sin duplicar DNI ni correo electrónico.</li>
+          <li>Crear reservas válidas y limitar a cada socio a un máximo de <strong>4 reservas activas</strong> a la vez.</li>
+          <li>Consultar reservas generales o filtradas por socio, corregir el nombre de una clase y confirmar asistencias en recepción para liberar cupos automáticamente.</li>
+        </ul>
+      </section>
+
       <section class="exercise-block" aria-labelledby="objetivo">
         <h2 id="objetivo">Lo que vas a practicar</h2>
         <ul>

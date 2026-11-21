@@ -2,6 +2,16 @@
 
 Construye una API REST con **Spring Boot, Spring Data JPA y PostgreSQL** para administrar los socios de un gimnasio y sus reservas de clases grupales. El ejercicio aplica la misma arquitectura por capas del proyecto de clase (`spring-introduccion`) en un dominio nuevo.
 
+## Contexto del producto
+
+**PulsoFit** es un gimnasio local que ofrece clases grupales de Spinning, Funcional, Yoga y Pilates. Hasta hoy, la recepción registra a los socios y apunta sus reservas en hojas de cálculo y mensajes de WhatsApp, lo que provoca dos problemas frecuentes: algunos socios acaparan demasiados cupos durante la semana sin asistir, y el personal no sabe con certeza cuántas reservas activas tiene cada miembro.
+
+Tu tarea es construir la **primera versión del backend REST** que usarán el panel de recepción y la futura app móvil para:
+
+- Registrar socios sin duplicar DNI ni correo electrónico.
+- Crear reservas válidas y limitar a cada socio a un máximo de **4 reservas activas** a la vez.
+- Consultar reservas generales o filtradas por socio, corregir el nombre de una clase y confirmar asistencias en recepción para liberar cupos automáticamente.
+
 ## Lo que vas a practicar
 
 - Arquitectura en capas: `controller`, `service`, `repository`, `entity` y `dto`.
