@@ -6,6 +6,8 @@ import com.codigo.codigo.entity.UsuarioEntity;
 import com.codigo.codigo.exception.DuplicateResourceException;
 import com.codigo.codigo.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 @Service
 public class UsuarioService {
@@ -18,24 +20,25 @@ public class UsuarioService {
     }
 
     public UsuarioResponse saveUsuario(UsuarioRequest usuarioRequest) {
-        if (!esValido(usuarioRequest)) {
-            System.out.println("Datos del usuario incorrectos");
-            return null;
-            // 404, 409, 400
-            // 404 --> not found
-            // 409 --> ya existe un usuario con el mismo valor
-            // 400 --> se incumple una regla
-        }
-
         String username = usuarioRequest.getUsername().trim();
         String email = usuarioRequest.getEmail().trim().toLowerCase();
 
         if (usuarioRepository.existsByUsername(username)) {
             System.out.println("El username ya existe");
+            FieldError fieldError = new FieldError(
+                    UsuarioRequest.class.toString(),
+                    "username",
+                    "El username ya existe"
+            );
             throw new DuplicateResourceException("El username ya existe");
         }
         if (usuarioRepository.existsByEmail(email)) {
             System.out.println("El email ya existe");
+            FieldError fieldError = new FieldError(
+                    UsuarioRequest.class.toString(),
+                    "email",
+                    "El email ya existe"
+                    );
             throw new DuplicateResourceException("El email ya existe");
         }
 

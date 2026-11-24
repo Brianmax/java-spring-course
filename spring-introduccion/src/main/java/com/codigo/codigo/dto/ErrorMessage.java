@@ -8,7 +8,7 @@ import java.util.Map;
 @Getter
 @Setter
 public class ErrorMessage {
-    private Date timestamp;
+    private Date timestamp = new Date(System.currentTimeMillis());
     private int estado;
     private String error;
     private String mensaje;
