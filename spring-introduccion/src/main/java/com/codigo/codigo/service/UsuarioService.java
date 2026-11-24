@@ -3,6 +3,7 @@ package com.codigo.codigo.service;
 import com.codigo.codigo.dto.UsuarioRequest;
 import com.codigo.codigo.dto.UsuarioResponse;
 import com.codigo.codigo.entity.UsuarioEntity;
+import com.codigo.codigo.exception.DuplicateResourceException;
 import com.codigo.codigo.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,10 @@ public class UsuarioService {
         if (!esValido(usuarioRequest)) {
             System.out.println("Datos del usuario incorrectos");
             return null;
+            // 404, 409, 400
+            // 404 --> not found
+            // 409 --> ya existe un usuario con el mismo valor
+            // 400 --> se incumple una regla
         }
 
         String username = usuarioRequest.getUsername().trim();
@@ -27,11 +32,11 @@ public class UsuarioService {
 
         if (usuarioRepository.existsByUsername(username)) {
             System.out.println("El username ya existe");
-            return null;
+            throw new DuplicateResourceException("El username ya existe");
         }
         if (usuarioRepository.existsByEmail(email)) {
             System.out.println("El email ya existe");
-            return null;
+            throw new DuplicateResourceException("El email ya existe");
         }
 
         UsuarioEntity usuarioEntity = new UsuarioEntity();
@@ -42,7 +47,14 @@ public class UsuarioService {
         usuarioEntity.setEdad(usuarioRequest.getEdad());
         usuarioEntity.setPassword(usuarioRequest.getPassword());
 
-        UsuarioEntity usuarioGuardado = usuarioRepository.save(usuarioEntity);
+        UsuarioEntity usuarioGuardado = null;
+        try {
+            usuarioGuardado = usuarioRepository.save(usuarioEntity);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            usuarioEntity.setId(null);
+        }
+
 
         return toResponse(usuarioGuardado);
     }

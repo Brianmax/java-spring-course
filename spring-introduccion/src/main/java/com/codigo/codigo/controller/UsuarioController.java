@@ -3,6 +3,7 @@ package com.codigo.codigo.controller;
 import com.codigo.codigo.dto.UsuarioRequest;
 import com.codigo.codigo.dto.UsuarioResponse;
 import com.codigo.codigo.service.UsuarioService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,7 @@ public class UsuarioController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<UsuarioResponse> saveUsuario(@RequestBody UsuarioRequest usuarioRequest) {
+    public ResponseEntity<UsuarioResponse> saveUsuario(@Valid @RequestBody UsuarioRequest usuarioRequest) {
         UsuarioResponse usuarioResponse = usuarioService.saveUsuario(usuarioRequest);
         if (usuarioResponse == null) {
             return ResponseEntity.badRequest().build();

@@ -1,0 +1,372 @@
+{
+  "info": {
+    "_postman_id": "a7f3c8e2-91b4-4d6e-8c1a-202611220001",
+    "name": "cupones-unit-testing (TICKET-14 / TICKET-28)",
+    "description": "Colección de endpoints REST para el proyecto didáctico cupones-unit-testing (Java 21 + Spring Boot + PostgreSQL). Compatible con Postman v2.1 e importación directa en Bruno.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Catálogo y pedidos",
+      "item": [
+        {
+          "name": "Listar cupones (DESC20 y VENCIDO10)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/cupones",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "cupones"
+              ]
+            },
+            "description": "Devuelve los cupones registrados en PostgreSQL (DESC20 activo y VENCIDO10 inactivo)."
+          },
+          "response": []
+        },
+        {
+          "name": "Listar pedidos (ORD-205 a ORD-208)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/pedidos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "pedidos"
+              ]
+            },
+            "description": "Lista todos los pedidos almacenados en PostgreSQL, incluyendo los datos demo iniciales."
+          },
+          "response": []
+        },
+        {
+          "name": "Consultar pedido ORD-205",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/pedidos/ORD-205",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "pedidos",
+                "ORD-205"
+              ]
+            },
+            "description": "Consulta el estado actual de ORD-205 (Ana, subtotal S/ 200)."
+          },
+          "response": []
+        },
+        {
+          "name": "Crear pedido nuevo (ORD-300 · S/ 200)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"ORD-300\",\n  \"subtotal\": 200\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/pedidos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "pedidos"
+              ]
+            },
+            "description": "Crea un nuevo pedido en PostgreSQL. Esperado: HTTP 201 Created (o 409 si ya existe)."
+          },
+          "response": []
+        },
+        {
+          "name": "Crear pedido inválido (400 · subtotal 0)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"ORD-BAD\",\n  \"subtotal\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/pedidos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "pedidos"
+              ]
+            },
+            "description": "Verifica rechazo de subtotal <= 0. Esperado: HTTP 400 Bad Request."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "2. Aplicar cupón (TICKET-14 y regresión TICKET-28)",
+      "item": [
+        {
+          "name": "ORD-205 + DESC20 (S/ 200 → descuento 40, total 160)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"codigoCupon\": \"DESC20\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/pedidos/ORD-205/aplicar-cupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "pedidos",
+                "ORD-205",
+                "aplicar-cupon"
+              ]
+            },
+            "description": "Caso principal de Ana (diapositivas 1 y 2). Esperado: HTTP 200 con descuento 40 y totalFinal 160."
+          },
+          "response": []
+        },
+        {
+          "name": "ORD-206 + DESC20 (S/ 400 → tope S/ 50, total 350)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"codigoCupon\": \"DESC20\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/pedidos/ORD-206/aplicar-cupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "pedidos",
+                "ORD-206",
+                "aplicar-cupon"
+              ]
+            },
+            "description": "Caso de Luis (tope máximo). 20% de 400 sería 80, pero el tope lo limita a S/ 50. Esperado: HTTP 200 con totalFinal 350."
+          },
+          "response": []
+        },
+        {
+          "name": "ORD-207 + DESC20 (S/ 100 exactos · borde TICKET-14 → total 80)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"codigoCupon\": \"DESC20\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/pedidos/ORD-207/aplicar-cupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "pedidos",
+                "ORD-207",
+                "aplicar-cupon"
+              ]
+            },
+            "description": "Borde exacto de TICKET-14 (subtotal >= 100). Esperado: HTTP 200 con descuento 20 y totalFinal 80. Este es el caso que se rompe si TICKET-28 cambia >= por >."
+          },
+          "response": []
+        },
+        {
+          "name": "ORD-208 + DESC20 (S/ 80 → 409 bajo mínimo)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"codigoCupon\": \"DESC20\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/pedidos/ORD-208/aplicar-cupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "pedidos",
+                "ORD-208",
+                "aplicar-cupon"
+              ]
+            },
+            "description": "Subtotal menor al mínimo de S/ 100. Esperado: HTTP 409 Conflict."
+          },
+          "response": []
+        },
+        {
+          "name": "ORD-205 + VENCIDO10 (409 cupón inactivo)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"codigoCupon\": \"VENCIDO10\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/pedidos/ORD-205/aplicar-cupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "pedidos",
+                "ORD-205",
+                "aplicar-cupon"
+              ]
+            },
+            "description": "Cupón inactivo. Esperado: HTTP 409 Conflict sin guardar ni notificar."
+          },
+          "response": []
+        },
+        {
+          "name": "ORD-999 + DESC20 (404 pedido inexistente)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"codigoCupon\": \"DESC20\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/pedidos/ORD-999/aplicar-cupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "pedidos",
+                "ORD-999",
+                "aplicar-cupon"
+              ]
+            },
+            "description": "Pedido inexistente. Esperado: HTTP 404 Not Found."
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

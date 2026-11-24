@@ -6,7 +6,7 @@ from pathlib import Path
 import shutil
 import subprocess
 
-from package_projects import ROOT, PROJECTS, artifacts, spring_boot_artifacts
+from package_projects import ROOT, PROJECTS, artifacts, has_sources, maven_artifacts
 
 OUTPUT = ROOT / "_site"
 PUBLIC_DIRS = {"assets", "lessons", "exercises", "projects", "spring-introduccion"}
@@ -32,12 +32,13 @@ def main():
         shutil.copyfile(source, destination)
 
     for project in sorted(PROJECTS.iterdir()):
-        if not (project / "src").is_dir():
+        if not has_sources(project):
             continue
         page = OUTPUT / project.relative_to(ROOT) / "index.html"
         if not page.is_file():
             raise ValueError(f"Missing tracked project page: {project.name}/index.html")
-        generated = artifacts(project)
+        generator = maven_artifacts if (project / "pom.xml").is_file() else artifacts
+        generated = generator(project)
         for path, content in generated.items():
             destination = OUTPUT / path.relative_to(ROOT)
             destination.write_bytes(content)
@@ -65,7 +66,7 @@ def main():
 
     spring_project = ROOT / "spring-introduccion"
     if (spring_project / "src").is_dir():
-        generated = spring_boot_artifacts(spring_project)
+        generated = maven_artifacts(spring_project)
         for path, content in generated.items():
             destination = OUTPUT / path.relative_to(ROOT)
             destination.parent.mkdir(parents=True, exist_ok=True)

@@ -12,6 +12,11 @@ ROOT = Path(__file__).resolve().parents[1]
 PROJECTS = ROOT / "projects"
 
 
+def has_sources(project):
+    """True when the project has its own src/ or Maven modules with src/."""
+    return (project / "src").is_dir() or any((module / "src").is_dir() for module in project.glob("*/"))
+
+
 def artifacts(project):
     sources = sorted((project / "src").rglob("*.java"))
     readable = [project / "README.md"] + sources
@@ -48,16 +53,42 @@ def artifacts(project):
     return {project / data["archive"]: zipped, project / "project-data.js": script.encode("utf-8")}
 
 
-def spring_boot_artifacts(project):
-    """Build the browser viewer and download for the Maven-based Spring project."""
-    sources = sorted((project / "src").rglob("*.java"))
-    readable = [project / "README.md", project / "pom.xml"] + sources
-    readable += sorted((project / "src").rglob("*.properties"))
-    portable = [project / ".gitignore", project / ".gitattributes", project / "pom.xml",
-                project / "mvnw", project / "mvnw.cmd"]
-    portable += sorted((project / ".mvn").rglob("*"))
-    portable += sorted((project / "src").rglob("*"))
-    members = sorted({path for path in readable + portable if path.is_file()})
+LANGUAGES = {".java": "Java", ".md": "Markdown", ".xml": "XML", ".properties": "Properties",
+             ".yml": "YAML", ".yaml": "YAML", ".sql": "SQL", ".json": "JSON", ".sh": "Shell"}
+
+
+def generated_paths(project):
+    """Files that belong to the published site, not to the downloadable sources."""
+    return [project / "index.html", project / "project-data.js", project / f"{project.name}.zip"]
+
+
+def source_tree(project):
+    """Files under any src/ directory, including those of Maven modules."""
+    return sorted(path for path in project.rglob("*")
+                  if path.is_file()
+                  and "src" in path.relative_to(project).parts
+                  and "target" not in path.relative_to(project).parts)
+
+
+def maven_artifacts(project):
+    """Build the browser viewer and download for single- or multi-module Maven projects."""
+    sources = [path for path in source_tree(project) if path.suffix == ".java"]
+    readable = [project / "README.md"]
+    readable += [project / name for name in ("GUIDE.md", "pom.xml") if (project / name).is_file()]
+    readable += sorted(project.glob("*/pom.xml"))
+    readable += sources
+    readable += [path for path in source_tree(project) if path.suffix != ".java" and path.name != ".gitkeep"]
+
+    roots = [".gitignore", ".gitattributes", "README.md", "GUIDE.md", "pom.xml",
+             "mvnw", "mvnw.cmd", "docker-compose.yml"]
+    portable = [project / name for name in roots]
+    for directory in (".mvn", "scripts", "postman"):
+        portable += sorted((project / directory).rglob("*")) if (project / directory).is_dir() else []
+    members = readable + portable
+    members = sorted({path for path in members
+                      if path.is_file()
+                      and path not in generated_paths(project)
+                      and "target" not in path.relative_to(project).parts})
     for path in members:
         if path.is_symlink() or project.resolve() not in path.resolve().parents:
             raise ValueError(f"Not a regular project file: {path}")
@@ -65,8 +96,7 @@ def spring_boot_artifacts(project):
     files = []
     for path in readable:
         content = path.read_bytes()
-        suffix = path.suffix
-        language = {".java": "Java", ".md": "Markdown", ".xml": "XML", ".properties": "Properties"}.get(suffix, "Text")
+        language = LANGUAGES.get(path.suffix, "Text")
         files.append({"path": path.relative_to(project).as_posix(), "language": language,
                       "content": content.decode("utf-8"), "bytes": len(content)})
 
@@ -100,12 +130,12 @@ def main():
     if args.project == "spring-introduccion":
         projects = [ROOT / args.project]
     else:
-        projects = [PROJECTS / args.project] if args.project else sorted(p for p in PROJECTS.iterdir() if (p / "src").is_dir())
+        projects = [PROJECTS / args.project] if args.project else sorted(p for p in PROJECTS.iterdir() if has_sources(p))
     stale = []
     for project in projects:
-        if not (project / "src").is_dir() or not (project / "README.md").is_file():
+        if not has_sources(project) or not (project / "README.md").is_file():
             parser.error(f"{project.name} needs src/ and README.md")
-        generator = spring_boot_artifacts if project.name == "spring-introduccion" else artifacts
+        generator = maven_artifacts if (project / "pom.xml").is_file() else artifacts
         for path, content in generator(project).items():
             if args.check:
                 if not path.exists() or path.read_bytes() != content:

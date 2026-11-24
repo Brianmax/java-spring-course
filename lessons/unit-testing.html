@@ -1,0 +1,1817 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Pruebas unitarias en Java con JUnit Jupiter y Mockito: fundamentos AAA, valores límite, ciclo de vida, dobles de prueba y frontera con integración en Spring Boot.">
+<title>Pruebas unitarias en Java — Curso de Java</title>
+<style>
+:root {
+  color-scheme: dark;
+  --bg: #101820;
+  --secondary-bg: #182330;
+  --surface: #202c3c;
+  --surface-2: #29384a;
+  --table-head: #2d3b50;
+  --text: #e6edf3;
+  --muted: #a8b3c5;
+  --accent: #70d9e8;
+  --flow: #70d9e8;
+  --highlight: #b9a0ff;
+  --success: #a6e3a1;
+  --warning: #ffc78a;
+  --danger: #ff7b7b;
+  --line: #39495d;
+  --ink-panel: #21222c;
+  --shadow: 0 14px 36px rgb(0 0 0 / 0.35);
+  --font-sans: "Arial Nova", Arial, Helvetica, ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+body {
+  margin: 0;
+  height: 100vh;
+  height: 100dvh;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto auto;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  overflow: hidden;
+}
+
+.chrome {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 9px clamp(16px, 3vw, 40px);
+  background: var(--secondary-bg);
+  border-bottom: 1px solid var(--line);
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+.chrome a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 700;
+}
+.chrome a:hover { text-decoration: underline; }
+
+.deck {
+  min-height: 0;
+  overflow: auto;
+  position: relative;
+}
+
+.slide {
+  min-height: 100%;
+  padding: clamp(18px, 3vh, 30px) clamp(24px, 4.5vw, 64px);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: clamp(14px, 2.2vh, 22px);
+  animation: enter 0.28s ease-out;
+}
+
+.slide-header,
+.body {
+  width: min(100%, 1240px);
+  margin-inline: auto;
+}
+.slide-header { flex: 0 0 auto; }
+
+.eyebrow {
+  color: var(--highlight);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+  margin-bottom: 8px;
+}
+
+.slide h1,
+.slide h2 {
+  margin: 0;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  max-width: 1120px;
+}
+.slide h1 { font-size: clamp(2.2rem, 3.8vw, 3.35rem); font-weight: 800; }
+.slide h2 { font-size: clamp(1.85rem, 2.8vw, 2.55rem); font-weight: 750; }
+.slide h3 { margin: 0 0 8px; font-size: 1.08rem; color: var(--text); }
+
+.body {
+  flex: 1 0 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16px;
+  font-size: clamp(0.98rem, 1.25vw, 1.14rem);
+  line-height: 1.48;
+}
+.body > *,
+.split > *,
+.triplet > *,
+.quad > *,
+.exercise > * { min-width: 0; }
+
+.lead {
+  font-size: clamp(1.08rem, 1.5vw, 1.32rem);
+  line-height: 1.42;
+  margin: 0;
+  max-width: 1080px;
+}
+.small { font-size: 0.9rem; color: var(--muted); }
+p { margin: 0.28em 0; }
+ul.list { margin: 0.25em 0 0; padding-left: 1.2em; line-height: 1.5; }
+ul.list li + li { margin-top: 6px; }
+
+code {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  background: rgb(255 255 255 / 0.07);
+  padding: 1px 5px;
+  border-radius: 5px;
+}
+pre code { background: transparent; padding: 0; font-size: inherit; }
+
+.split {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  align-items: center;
+}
+.split.align-start { align-items: start; }
+.split.wide-left { grid-template-columns: 1.24fr 0.76fr; }
+.split.wide-right { grid-template-columns: 0.8fr 1.2fr; }
+.split > .span-all,
+.triplet > .span-all { grid-column: 1 / -1; }
+
+.triplet {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+.quad {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+.stack { display: flex; flex-direction: column; gap: 12px; }
+
+.panel {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+  padding: 16px 18px;
+  box-shadow: var(--shadow);
+}
+.panel.tint { background: var(--secondary-bg); border-color: #466176; }
+.panel.accent-box { background: #162936; border-color: var(--accent); }
+.panel.good-box { background: #162a23; border-color: var(--success); }
+.panel.warn-box { background: #26221e; border-color: var(--warning); }
+.panel.danger-box { background: #291c22; border-color: var(--danger); }
+
+.label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.11em;
+  color: var(--accent);
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.label code { text-transform: none; letter-spacing: 0; }
+.label.warn { color: var(--warning); }
+.label.danger { color: var(--danger); }
+.label.good { color: var(--success); }
+.label.violet { color: var(--highlight); }
+
+.badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: var(--surface-2);
+  color: var(--accent);
+  border: 1px solid var(--line);
+  white-space: nowrap;
+}
+.badge.ok { background: #17362b; color: var(--success); border-color: #2f6c53; }
+.badge.warn { background: #382a1a; color: var(--warning); border-color: #7d5b2d; }
+.badge.err { background: #3a1e24; color: var(--danger); border-color: #84404b; }
+.badge.violet { background: #292242; color: var(--highlight); border-color: #5b4b8a; }
+
+.callout {
+  border-left: 4px solid var(--flow);
+  padding: 11px 16px;
+  background: var(--secondary-bg);
+  border-radius: 0 10px 10px 0;
+  line-height: 1.45;
+}
+.callout.warn { border-color: var(--warning); }
+.callout.good { border-color: var(--success); }
+.callout.danger { border-color: var(--danger); }
+
+.facts {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px 16px;
+  align-items: baseline;
+}
+.facts span { color: var(--muted); }
+.facts strong { text-align: right; }
+
+.big-num {
+  font-size: clamp(1.45rem, 2.3vw, 2rem);
+  font-weight: 800;
+  color: var(--accent);
+}
+.big-num.good { color: var(--success); }
+.big-num.danger { color: var(--danger); }
+
+.flow {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: 10px;
+}
+.node {
+  flex: 1;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  background: var(--surface);
+  padding: 14px 12px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  min-width: 0;
+}
+.node.primary { border-color: var(--accent); background: #162b38; }
+.node.warn-node { border-color: var(--warning); background: #27221d; }
+.node.danger-node { border-color: var(--danger); background: #2a1c22; }
+.node.good-node { border-color: var(--success); background: #182b24; }
+.node.dashed { border-style: dashed; border-color: var(--highlight); background: #1c2233; }
+
+.arrow {
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  flex: 0 0 auto;
+  font-size: 0.78rem;
+  color: var(--muted);
+  text-align: center;
+}
+.arrow svg { display: block; width: 34px; height: 20px; overflow: visible; }
+.arrow svg path { fill: none; stroke: var(--flow); stroke-width: 2.3; stroke-linecap: round; stroke-linejoin: round; }
+.arrow.good svg path { stroke: var(--success); }
+.arrow.danger svg path { stroke: var(--danger); }
+
+.code-label {
+  font-size: 0.78rem;
+  color: var(--accent);
+  font-weight: 700;
+  margin-bottom: 6px;
+  letter-spacing: 0.03em;
+}
+pre {
+  margin: 0;
+  padding: 13px 16px;
+  overflow: auto;
+  background: var(--ink-panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  color: #f2f4f8;
+  font: clamp(0.78rem, 1.02vw, 0.92rem) / 1.48 var(--font-mono);
+  white-space: pre;
+  max-width: 100%;
+}
+.tok-keyword { color: #d6a8ff; }
+.tok-type { color: #70d9e8; }
+.tok-string { color: #a6e3a1; }
+.tok-number { color: #ffc78a; }
+.tok-ann { color: #ffc78a; }
+.tok-comment { color: #8c9bb0; }
+.code-focus {
+  display: inline-block;
+  width: 100%;
+  background: rgb(112 217 232 / 0.14);
+  border-left: 3px solid var(--accent);
+  padding-left: 6px;
+  margin-left: -9px;
+}
+.code-good {
+  display: inline-block;
+  width: 100%;
+  background: rgb(166 227 161 / 0.13);
+  border-left: 3px solid var(--success);
+  padding-left: 6px;
+  margin-left: -9px;
+}
+.code-warn {
+  display: inline-block;
+  width: 100%;
+  background: rgb(255 123 123 / 0.15);
+  border-left: 3px solid var(--danger);
+  padding-left: 6px;
+  margin-left: -9px;
+}
+.code-dim { opacity: 0.62; }
+
+.table-wrap { overflow-x: auto; max-width: 100%; }
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92em;
+}
+.table th,
+.table td {
+  text-align: left;
+  border: 1px solid var(--line);
+  padding: 8px 11px;
+  vertical-align: top;
+}
+.table th {
+  background: var(--table-head);
+  color: var(--text);
+  font-weight: 700;
+}
+.table td { background: var(--surface); }
+.table tr:nth-child(even) td { background: var(--secondary-bg); }
+.table tr.row-alert td {
+  background: #2f1d24;
+  border-color: #79404b;
+}
+
+.toggle-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.toggle-btn {
+  min-height: 44px;
+  padding: 7px 14px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: border-color 0.15s ease-out, background 0.15s ease-out;
+}
+.toggle-btn:hover { border-color: var(--accent); }
+.toggle-btn[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: #173342;
+  color: var(--accent);
+}
+.toggle-btn.danger-active[aria-pressed="true"] {
+  border-color: var(--danger);
+  background: #361d24;
+  color: var(--danger);
+}
+
+.svg-desktop { display: block; width: 100%; max-width: 980px; margin-inline: auto; height: auto; }
+.svg-mobile { display: none; width: 100%; height: auto; }
+
+.exercise {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+.exercise .panel { padding: 14px 16px; }
+
+.progress {
+  height: 4px;
+  background: var(--surface);
+}
+.progress span {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--flow);
+  transition: width 0.2s ease-out;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 8px clamp(14px, 3vw, 40px);
+  background: var(--secondary-bg);
+  border-top: 1px solid var(--line);
+}
+.controls button {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 6px 13px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.92rem;
+  cursor: pointer;
+  transition: border-color 0.15s ease-out, background 0.15s ease-out;
+}
+.controls button:hover:not(:disabled) { border-color: var(--accent); }
+.controls button[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: #173342;
+  color: var(--accent);
+}
+.controls button:disabled { opacity: 0.42; cursor: default; }
+.counter {
+  min-width: 0;
+  max-width: 44vw;
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.notes-drawer {
+  position: fixed;
+  right: 18px;
+  bottom: 72px;
+  width: min(92vw, 460px);
+  max-height: 40vh;
+  overflow: auto;
+  padding: 16px 18px;
+  border: 1px solid var(--accent);
+  border-radius: 14px;
+  background: #15212d;
+  box-shadow: var(--shadow);
+  z-index: 4;
+}
+.notes-drawer-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.notes-drawer button {
+  min-height: 36px;
+  padding: 4px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  cursor: pointer;
+}
+
+.help {
+  position: fixed;
+  inset: 0;
+  background: rgb(0 0 0 / 0.72);
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  z-index: 6;
+}
+.help article {
+  width: min(92vw, 540px);
+  padding: 22px 24px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+.help h2 { margin: 0 0 12px; font-size: 1.4rem; }
+.help article button {
+  margin-top: 12px;
+  min-height: 44px;
+  padding: 8px 18px;
+  border: 1px solid var(--accent);
+  border-radius: 10px;
+  background: var(--accent);
+  color: #0d161e;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+button:focus-visible,
+a:focus-visible,
+.table-wrap:focus-visible {
+  outline: 3px solid var(--flow);
+  outline-offset: 3px;
+}
+
+@keyframes enter {
+  from { opacity: 0.65; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media (min-width: 721px) and (max-height: 780px) {
+  .slide { padding: 14px clamp(22px, 4vw, 52px); gap: 11px; }
+  .eyebrow { margin-bottom: 4px; font-size: 0.72rem; }
+  .slide h1 { font-size: clamp(2rem, 3.2vw, 2.75rem); }
+  .slide h2 { font-size: clamp(1.65rem, 2.4vw, 2.15rem); }
+  .body { gap: 11px; font-size: 0.96rem; line-height: 1.42; }
+  .lead { font-size: 1.06rem; }
+  .panel { padding: 12px 14px; }
+  .callout { padding: 9px 13px; font-size: 0.93rem; }
+  pre { padding: 10px 13px; font-size: 0.81rem; line-height: 1.42; }
+  .table th, .table td { padding: 6px 9px; font-size: 0.87rem; }
+  .node { padding: 10px 10px; }
+}
+
+@media (max-width: 720px) {
+  .chrome { font-size: 0.76rem; padding: 8px 14px; }
+  .chrome span { max-width: 62%; text-align: right; }
+  .slide { padding: 18px 16px 26px; gap: 16px; min-height: 100%; }
+  .slide h1 { font-size: 1.95rem; }
+  .slide h2 { font-size: 1.58rem; }
+  .body { flex: 0 0 auto; font-size: 0.98rem; gap: 14px; justify-content: flex-start; }
+  .split,
+  .split.wide-left,
+  .split.wide-right,
+  .triplet,
+  .quad,
+  .exercise { grid-template-columns: minmax(0, 1fr); }
+  .flow { flex-direction: column; }
+  .arrow svg { transform: rotate(90deg); }
+  pre { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 0.82rem; }
+  .svg-desktop { display: none; }
+  .svg-mobile { display: block; }
+  .controls { gap: 6px; padding: 8px 10px; }
+  .controls button { padding: 6px 10px; font-size: 0.84rem; }
+  .counter { order: -1; flex-basis: 100%; max-width: 100%; font-size: 0.8rem; }
+  .notes-drawer { right: 10px; left: 10px; width: auto; bottom: 112px; }
+}
+</style>
+</head>
+<body>
+<header class="chrome">
+  <a href="../">Curso de Java</a>
+  <span>Pruebas unitarias · JUnit Jupiter y Mockito en servicios</span>
+</header>
+
+<main class="deck" id="deck" tabindex="-1" aria-label="Presentación: pruebas unitarias en Java" aria-live="polite">
+
+<!-- SLIDE 1 -->
+<section class="slide is-active" data-title="El cupón de Ana">
+  <header class="slide-header">
+    <div class="eyebrow">TECSUP · CURSO DE JAVA · PRUEBAS UNITARIAS</div>
+    <h1>Ana aplica un cupón a su pedido</h1>
+  </header>
+  <div class="body split">
+    <div class="stack">
+      <p class="lead">Ana realiza el pedido <strong>ORD-205</strong> por <strong>S/ 200</strong> (2 mochilas × S/ 100) e ingresa el cupón <strong>DESC20</strong>.</p>
+      <p>Un <strong>cupón</strong> define condiciones concretas para rebajar el monto a pagar. Si el programa calcula mal ese monto, la tienda pierde dinero o cobra de más al cliente.</p>
+      <div class="callout">Estas tres condiciones son <strong>reglas de negocio comprobables</strong>: para cualquier subtotal y cupón, existe un resultado exacto esperado.</div>
+    </div>
+    <div class="panel accent-box stack">
+      <div class="label">Pedido ORD-205 · Cupón DESC20</div>
+      <div class="facts">
+        <span>Subtotal de Ana</span><strong>S/ 200</strong>
+        <span>Porcentaje de descuento</span><strong>20%</strong>
+        <span>Monto mínimo para aplicar</span><strong>Desde S/ 100 (inclusive)</strong>
+        <span>Tope máximo de descuento</span><strong>S/ 50</strong>
+      </div>
+      <hr style="border:0;border-top:1px solid var(--line);margin:4px 0;">
+      <div class="facts">
+        <span>Descuento calculado (20% de S/ 200)</span><strong class="big-num">− S/ 40</strong>
+        <span>Total final a pagar</span><strong class="big-num good">S/ 160</strong>
+      </div>
+    </div>
+  </div>
+  <aside class="speaker-notes" hidden>Empieza en lenguaje cotidiano, sin código ni nombres de librerías. Confirma que todos calculan mentalmente S/ 40 de descuento y S/ 160 de total para ORD-205 antes de avanzar.</aside>
+</section>
+
+<!-- SLIDE 2 -->
+<section class="slide" data-title="Punto de partida: TICKET-14 ya funciona" hidden>
+  <header class="slide-header">
+    <div class="eyebrow">Punto de partida · lo que ya sabemos hacer</div>
+    <h2>TICKET-14 ya funciona y lo comprobaste a mano</h2>
+  </header>
+  <div class="body">
+    <p class="lead">Implementaste <strong>TICKET-14</strong> (regla del cupón <strong>DESC20</strong>: 20%, mínimo desde S/ 100 inclusive y tope S/ 50). Para confirmar que funciona, levantaste la aplicación y probaste el pedido de Ana.</p>
+    <div class="flow" role="group" aria-label="Flujo manual de verificación con Postman, Spring Boot y PostgreSQL">
+      <div class="node">
+        <span class="badge">1 · Envías</span>
+        <strong>Postman / curl</strong>
+        <p class="small"><code>POST /pedidos/ORD-205/aplicar-cupon</code><br>con código <code>DESC20</code></p>
+      </div>
+      <div class="arrow" aria-hidden="true">
+        <span>arrancas app</span>
+        <svg viewBox="0 0 36 20"><path d="M2 10H32M24 3l8 7-8 7"/></svg>
+      </div>
+      <div class="node primary">
+        <span class="badge">2 · Ejecuta</span>
+        <strong>Spring Boot + PostgreSQL</strong>
+        <p class="small">Busca <code>ORD-205</code> y <code>DESC20</code>,<br>calcula el descuento y guarda</p>
+      </div>
+      <div class="arrow good" aria-hidden="true">
+        <span>200 OK</span>
+        <svg viewBox="0 0 36 20"><path d="M2 10H32M24 3l8 7-8 7"/></svg>
+      </div>
+      <div class="node good-node">
+        <span class="badge ok">3 · Ves el JSON</span>
+        <strong>totalFinal: 160</strong>
+        <p class="small">Descuento: 40 · Verificado<br>y cierras <strong>TICKET-14</strong></p>
+      </div>
+    </div>
+    <div class="callout good">Probar manualmente en Postman <strong>funciona muy bien</strong> para explorar un endpoint nuevo y ver la respuesta real. El reto aparece cuando el código sigue cambiando en equipo.</div>
+  </div>
+  <aside class="speaker-notes" hidden>No presentes la prueba manual como un error: funciona para verificar un flujo concreto. Construye empatía con la forma en que los alumnos ya trabajan hoy en Spring Boot.</aside>
+</section>
+
+<!-- SLIDE 3 -->
+<section class="slide" data-title="Presión real: Diego implementa TICKET-28" hidden>
+  <header class="slide-header">
+    <div class="eyebrow">Necesidad concreta · un cambio legítimo en equipo</div>
+    <h2>Diego cumple TICKET-28… y rompe TICKET-14 sin saberlo</h2>
+  </header>
+  <div class="body split align-start">
+    <div class="stack">
+      <div class="panel tint">
+        <div class="label">TICKET-14 · tu regla anterior (en producción)</div>
+        <p>El cupón <code>DESC20</code> aplica desde <strong>S/ 100 inclusive</strong> (<code>subtotal &gt;= 100</code>).</p>
+      </div>
+      <div class="panel warn-box">
+        <div class="label warn">TICKET-28 · asignado a Diego (dos semanas después)</div>
+        <p><em>«Agregar envío gratis para compras <strong>mayores a S/ 100</strong> y unificar la validación de monto mínimo.»</em></p>
+        <p class="small">Diego ajusta la condición compartida a <code>subtotal &gt; 100</code>, prueba <strong>su</strong> ticket en Postman (<code>ORD-205</code> y <code>ORD-208</code>) y sube el cambio.</p>
+      </div>
+      <div class="toggle-bar" role="group" aria-label="Alternar entre condición original de TICKET-14 y cambio de TICKET-28">
+        <button type="button" class="toggle-btn" id="btn-t14" aria-pressed="false">Ver TICKET-14 (subtotal &gt;= 100)</button>
+        <button type="button" class="toggle-btn danger-active" id="btn-t28" aria-pressed="true">Ver tras TICKET-28 (subtotal &gt; 100)</button>
+      </div>
+    </div>
+    <div class="stack">
+      <div class="table-wrap" tabindex="0" role="region" aria-label="Resultados de los pedidos tras el cambio de Diego">
+        <table class="table">
+          <thead>
+            <tr><th>Pedido</th><th>Subtotal</th><th>Esperado (TICKET-14)</th><th id="t3-col-head">Tras TICKET-28</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>ORD-205</strong></td>
+              <td>S/ 200</td>
+              <td>Descuento S/ 40</td>
+              <td><span class="badge ok">✓ S/ 40</span> <span class="small" id="t3-note-205">(Diego probó)</span></td>
+            </tr>
+            <tr>
+              <td><strong>ORD-208</strong></td>
+              <td>S/ 80</td>
+              <td>Rechazado</td>
+              <td><span class="badge ok">✓ Rechazado</span> <span class="small" id="t3-note-208">(Diego probó)</span></td>
+            </tr>
+            <tr id="t3-row-207" class="row-alert">
+              <td><strong>ORD-207</strong></td>
+              <td><strong>S/ 100</strong></td>
+              <td>Descuento S/ 20</td>
+              <td id="t3-cell-207"><span class="badge err">✗ Rechazado</span> <span class="small">rompió TICKET-14</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout danger" id="t3-callout"><strong>Diego no fue descuidado:</strong> cumplió los criterios de aceptación de <strong>TICKET-28</strong>. Simplemente es inviable re-probar manualmente todos los casos de tickets antiguos tras cada cambio.</div>
+    </div>
+  </div>
+  <aside class="speaker-notes" hidden>Usa los botones para alternar entre TICKET-14 y TICKET-28 si quieres mostrar el antes y después en vivo. Resalta que los bugs más comunes en equipos reales vienen de cambios bien intencionados en otro ticket.</aside>
+</section>
+
+<!-- SLIDE 4 -->
+<section class="slide" data-title="¿Qué es una prueba unitaria?" hidden>
+  <header class="slide-header">
+    <div class="eyebrow">La idea antes de la sintaxis</div>
+    <h2>Una prueba unitaria convierte criterios de aceptación en código ejecutable</h2>
+  </header>
+  <div class="body">
+    <p class="lead">Cuando un cambio nuevo rompe un comportamiento que antes funcionaba, ocurre una <strong>regresión</strong>. Una <strong>prueba unitaria</strong> verifica <strong>una sola unidad de comportamiento</strong> de forma aislada, automática y rápida.</p>
+    <svg class="svg-desktop" viewBox="0 0 980 185" role="img" aria-labelledby="s4-t s4-d">
+      <title id="s4-t">Una prueba unitaria aísla la regla sin infraestructura</title>
+      <desc id="s4-d">La prueba entrega subtotal 100 y cupón DESC20 a la unidad CalculadoraDescuento aislada de HTTP y PostgreSQL, y compara el resultado real contra el esperado S/ 20.</desc>
+      <rect x="14" y="42" width="220" height="98" rx="14" fill="#202c3c" stroke="#39495d" stroke-width="2"/>
+      <text x="124" y="75" fill="#70d9e8" font-size="13" font-weight="700" text-anchor="middle">ENTRADA PREPARADA</text>
+      <text x="124" y="102" fill="#e6edf3" font-size="16" font-weight="700" text-anchor="middle">ORD-207 · S/ 100</text>
+      <text x="124" y="124" fill="#a8b3c5" font-size="13" text-anchor="middle">Cupón DESC20</text>
+
+      <path d="M236 91 H304" stroke="#70d9e8" stroke-width="3" fill="none"/>
+      <path d="M296 84 L306 91 L296 98" stroke="#70d9e8" stroke-width="3" fill="none"/>
+
+      <rect x="310" y="22" width="330" height="140" rx="16" fill="#162936" stroke="#70d9e8" stroke-width="2.5"/>
+      <text x="475" y="52" fill="#b9a0ff" font-size="13" font-weight="700" text-anchor="middle">UNIDAD AISLADA (JAVA PURO)</text>
+      <text x="475" y="84" fill="#e6edf3" font-size="19" font-weight="800" text-anchor="middle">CalculadoraDescuento</text>
+      <text x="475" y="112" fill="#a8b3c5" font-size="14" text-anchor="middle">Ejecuta solo la regla de negocio</text>
+      <rect x="324" y="125" width="302" height="26" rx="8" fill="#202c3c" stroke="#39495d"/>
+      <text x="475" y="143" fill="#ffc78a" font-size="12.5" font-weight="700" text-anchor="middle">Sin HTTP · Sin Spring · Sin PostgreSQL</text>
+
+      <path d="M642 91 H710" stroke="#a6e3a1" stroke-width="3" fill="none"/>
+      <path d="M702 84 L712 91 L702 98" stroke="#a6e3a1" stroke-width="3" fill="none"/>
+
+      <rect x="716" y="42" width="250" height="98" rx="14" fill="#182b24" stroke="#a6e3a1" stroke-width="2"/>
+      <text x="841" y="75" fill="#a6e3a1" font-size="13" font-weight="700" text-anchor="middle">COMPROBACIÓN AUTOMÁTICA</text>
+      <text x="841" y="102" fill="#e6edf3" font-size="16" font-weight="700" text-anchor="middle">¿Resultado == S/ 20?</text>
+      <text x="841" y="124" fill="#a8b3c5" font-size="13" text-anchor="middle">Verde si cumple · Rojo si hay regresión</text>
+    </svg>
+    <svg class="svg-mobile" viewBox="0 0 360 356" role="img" aria-labelledby="s4-m-t s4-m-d">
+      <title id="s4-m-t">Una prueba unitaria aísla la regla sin infraestructura</title>
+      <desc id="s4-m-d">Flujo vertical: entrada preparada ORD-207 S/ 100 con cupón DESC20 hacia la unidad aislada CalculadoraDescuento sin HTTP, Spring ni PostgreSQL, y comprobación automática de resultado igual a S/ 20.</desc>
+      <rect x="16" y="10" width="328" height="82" rx="12" fill="#202c3c" stroke="#39495d" stroke-width="2"/>
+      <text x="180" y="34" fill="#70d9e8" font-size="12" font-weight="700" text-anchor="middle">ENTRADA PREPARADA</text>
+      <text x="180" y="57" fill="#e6edf3" font-size="15" font-weight="700" text-anchor="middle">ORD-207 · S/ 100</text>
+      <text x="180" y="77" fill="#a8b3c5" font-size="12.5" text-anchor="middle">Cupón DESC20</text>
+
+      <path d="M180 94 V120 M173 113 L180 122 L187 113" stroke="#70d9e8" stroke-width="2.5" fill="none"/>
+
+      <rect x="16" y="126" width="328" height="106" rx="14" fill="#162936" stroke="#70d9e8" stroke-width="2.2"/>
+      <text x="180" y="150" fill="#b9a0ff" font-size="12" font-weight="700" text-anchor="middle">UNIDAD AISLADA (JAVA PURO)</text>
+      <text x="180" y="176" fill="#e6edf3" font-size="17" font-weight="800" text-anchor="middle">CalculadoraDescuento</text>
+      <text x="180" y="198" fill="#a8b3c5" font-size="12.5" text-anchor="middle">Ejecuta solo la regla de negocio</text>
+      <text x="180" y="219" fill="#ffc78a" font-size="12" font-weight="700" text-anchor="middle">Sin HTTP · Sin Spring · Sin PostgreSQL</text>
+
+      <path d="M180 234 V260 M173 253 L180 262 L187 253" stroke="#a6e3a1" stroke-width="2.5" fill="none"/>
+
+      <rect x="16" y="266" width="328" height="80" rx="12" fill="#182b24" stroke="#a6e3a1" stroke-width="2"/>
+      <text x="180" y="290" fill="#a6e3a1" font-size="12" font-weight="700" text-anchor="middle">COMPROBACIÓN AUTOMÁTICA</text>
+      <text x="180" y="313" fill="#e6edf3" font-size="15" font-weight="700" text-anchor="middle">¿Resultado == S/ 20?</text>
+      <text x="180" y="333" fill="#a8b3c5" font-size="12.5" text-anchor="middle">Verde si cumple · Rojo si hay regresión</text>
+    </svg>
+    <div class="quad">
+      <div class="panel"><div class="label">Rápida</div><p class="small">Corre en milisegundos; se ejecuta tras cada cambio.</p></div>
+      <div class="panel"><div class="label">Aislada</div><p class="small">No depende de BD, red ni del orden de otras pruebas.</p></div>
+      <div class="panel"><div class="label">Repetible</div><p class="small">Mismo resultado en tu PC, la de Diego y en integración continua (CI).</p></div>
+      <div class="panel"><div class="label good">Autoverificable</div><p class="small">Responde pasa o falla sin leer logs a mano.</p></div>
+    </div>
+  </div>
+  <aside class="speaker-notes" hidden>Conecta explícitamente el término regresión con el incidente de Diego en la diapositiva anterior. Aún no mostramos anotaciones de JUnit: primero el concepto mental claro.</aside>
+</section>
+
+<!-- SLIDE 5 -->
+<section class="slide" data-title="Ruta de la lección" hidden>
+  <header class="slide-header">
+    <div class="eyebrow">TECSUP · JAVA FULL STACK G19</div>
+    <h2>Cómo construiremos pruebas unitarias confiables</h2>
+  </header>
+  <div class="body">
+    <p class="lead">Ya conoces POO (interfaces, excepciones, una primera vista de JUnit), Spring Boot y Arquitectura Hexagonal. Recorreremos cuatro pasos con los pedidos <strong>ORD-205</strong> a <strong>ORD-208</strong>:</p>
+    <div class="quad">
+      <div class="panel accent-box">
+        <span class="badge">Bloque 1</span>
+        <h3 style="margin-top:10px;">Anatomía y JUnit</h3>
+        <p class="small">Patrón AAA, <code>@Test</code>, <code>assertEquals</code> y cómo ejecutar pruebas en Maven.</p>
+      </div>
+      <div class="panel">
+        <span class="badge violet">Bloque 2</span>
+        <h3 style="margin-top:10px;">Bordes y ciclo</h3>
+        <p class="small"><code>assertThrows</code>, valores límite, <code>@ParameterizedTest</code> y <code>@BeforeEach</code>.</p>
+      </div>
+      <div class="panel">
+        <span class="badge ok">Bloque 3</span>
+        <h3 style="margin-top:10px;">Dobles y Mockito</h3>
+        <p class="small">Stub, Fake y Mock para probar <code>AplicarCuponService</code> sin BD ni correo.</p>
+      </div>
+      <div class="panel">
+        <span class="badge warn">Bloque 4</span>
+        <h3 style="margin-top:10px;">Criterio real</h3>
+        <p class="small">Evitar sobre-mockear, cobertura engañosa y frontera con integración.</p>
+      </div>
+    </div>
+    <div class="callout"><strong>Nota de simplificación:</strong> usaremos montos enteros en soles (<code>int</code>, ej. <code>200</code>) para enfocar la atención en las pruebas; en producción financiera los montos monetarios usan <code>BigDecimal</code>.</div>
+  </div>
+  <aside class="speaker-notes" hidden>Recuerda a la clase que en POO Unidad 16 ya vieron @Test y assertThrows sobre Inventario; aquí profundizamos y lo llevamos a servicios reales de backend.</aside>
+</section>
+
+<!-- SLIDE 6 -->
+<section class="slide" data-title="Anatomía AAA: Arrange, Act, Assert" hidden>
+  <header class="slide-header">
+    <div class="eyebrow">Bloque 1 · estructura mental antes del código</div>
+    <h2>Toda prueba clara sigue tres pasos: Arrange, Act, Assert</h2>
+  </header>
+  <div class="body">
+    <p class="lead">Antes de memorizar anotaciones, ordena siempre cada prueba en tres bloques visibles sobre el pedido <strong>ORD-205</strong>:</p>
+    <div class="flow" role="group" aria-label="Patrón Arrange, Act, Assert aplicado al pedido ORD-205">
+      <div class="node">
+        <span class="badge">1 · Arrange (Preparar)</span>
+        <strong>Crear escenario limpio</strong>
+        <p>Instancia <code>CalculadoraDescuento</code> y cupón <code>DESC20</code> (20%, mín. 100, tope 50).</p>
+        <p class="small">Subtotal de <code>ORD-205</code> = <strong>S/ 200</strong></p>
+      </div>
+      <div class="arrow" aria-hidden="true">
+        <span>ejecuta</span>
+        <svg viewBox="0 0 36 20"><path d="M2 10H32M24 3l8 7-8 7"/></svg>
+      </div>
+      <div class="node primary">
+        <span class="badge violet">2 · Act (Actuar)</span>
+        <strong>Una sola acción</strong>
+        <p>Llama a <code>calcularDescuento(200, desc20)</code> y guarda el valor devuelto.</p>
+        <p class="small">Resultado real = <code>descuento</code></p>
+      </div>
+      <div class="arrow good" aria-hidden="true">
+        <span>compara</span>
+        <svg viewBox="0 0 36 20"><path d="M2 10H32M24 3l8 7-8 7"/></svg>
+      </div>
+      <div class="node good-node">
+        <span class="badge ok">3 · Assert (Comprobar)</span>
+        <strong>Verificar promesa</strong>
+        <p>Comprueba que el resultado real coincide con el valor esperado.</p>
+        <p class="small">Esperado = <strong>40</strong></p>
+      </div>
+    </div>
+    <div class="callout"><strong>Nombre orientado a comportamiento:</strong> nombra cada prueba por el escenario y el resultado esperado (por ejemplo, <code>debeAplicar20PorCientoCuandoSuperaMinimo</code>), no como <code>test1()</code>.</div>
+  </div>
+  <aside class="speaker-notes" hidden>AAA también aparece en libros como Given / When / Then. Lo esencial es no mezclar cinco acciones distintas en un mismo método de prueba.</aside>
+</section>
+
+<!-- SLIDE 7 -->
+<section class="slide" data-title="Primera prueba con JUnit Jupiter" hidden>
+  <header class="slide-header">
+    <div class="eyebrow">Bloque 1 · biblioteca de pruebas JUnit Jupiter</div>
+    <h2>De AAA a código ejecutable con <code>@Test</code> y <code>assertEquals</code></h2>
+  </header>
+  <div class="body split wide-left align-start">
+    <div>
+      <div class="code-label">src/test/java/.../CalculadoraDescuentoTest.java · JUnit Jupiter</div>
+      <pre><code><span class="tok-keyword">import</span> org.junit.jupiter.api.DisplayName;
+<span class="tok-keyword">import</span> org.junit.jupiter.api.Test;
+<span class="tok-keyword">import static</span> org.junit.jupiter.api.Assertions.assertEquals;
+
+<span class="tok-keyword">class</span> <span class="tok-type">CalculadoraDescuentoTest</span> {
+
+  <span class="tok-ann">@Test</span>
+  <span class="tok-ann">@DisplayName</span>(<span class="tok-string">"ORD-205: aplica 20% cuando el subtotal supera el mínimo"</span>)
+  <span class="tok-keyword">void</span> debeAplicar20PorCientoCuandoSuperaMinimo() {
+    <span class="tok-comment">// Arrange</span>
+    <span class="tok-keyword">var</span> calculadora = <span class="tok-keyword">new</span> <span class="tok-type">CalculadoraDescuento</span>();
+    <span class="tok-keyword">var</span> desc20 = <span class="tok-keyword">new</span> <span class="tok-type">Cupon</span>(<span class="tok-string">"DESC20"</span>, <span class="tok-number">20</span>, <span class="tok-number">100</span>, <span class="tok-number">50</span>, <span class="tok-keyword">true</span>); <span class="tok-comment">// 20%, mín 100, tope 50, activo</span>
+
+    <span class="tok-comment">// Act</span>
+    <span class="tok-keyword">int</span> descuento = calculadora.calcularDescuento(<span class="tok-number">200</span>, desc20);
+
+    <span class="tok-comment">// Assert · primero esperado, segundo real</span>
+<span class="code-focus">    assertEquals(<span class="tok-number">40</span>, descuento);</span>
+  }
+}</code></pre>
+    </div>
+    <div class="stack">
+      <div class="panel tint">
+        <div class="label">Lenguaje vs. Biblioteca</div>
+        <p><strong>JUnit Jupiter</strong> (<code>org.junit.jupiter.api</code>) es una biblioteca de pruebas en Maven, <strong>no</strong> parte del JDK ni de Spring Boot.</p>
+      </div>
+      <div class="panel">
+        <div class="label">Orden en <code>assertEquals</code></div>
+        <p>Escribe <code>assertEquals(esperado, real)</code>. Si falla, JUnit dirá <em>«expected: 40 but was: 0»</em>; invertirlos confunde el diagnóstico.</p>
+      </div>
+      <div class="panel">
+        <div class="label good">Ubicación y ejecución</div>
+        <p class="small">Vive en <code>src/test/java</code> reflejando el paquete de <code>src/main/java</code>. Se ejecuta desde el IDE o con <code>mvn test</code>.</p>
+      </div>
+    </div>
+  </div>
+  <aside class="speaker-notes" hidden>Aclara que en Spring Boot 4 (spring-introduccion/pom.xml) JUnit Jupiter viene listo mediante los starters de test y mantiene exactamente el mismo paquete org.junit.jupiter.api que JUnit 5.</aside>
+</section>
+
+<!-- SLIDE 8 -->
+<section class="slide" data-title="Aserciones clave y pruebas de excepciones" hidden>
+  <header class="slide-header">
+    <div class="eyebrow">Bloque 2 · tope máximo y reglas de rechazo</div>
+    <h2>Verificar tope (<code>ORD-206</code>) y excepciones (<code>ORD-208</code>)</h2>
+  </header>
+  <div class="body split wide-left align-start">
+    <div>
+      <div class="code-label">Fragmento de CalculadoraDescuentoTest.java · tope y excepción</div>
+      <pre><code><span class="tok-ann">@Test</span>
+<span class="tok-keyword">void</span> debeLimitarDescuentoAlTopeDe50EnOrd206() {
+  <span class="tok-keyword">var</span> calculadora = <span class="tok-keyword">new</span> <span class="tok-type">CalculadoraDescuento</span>();
+  <span class="tok-keyword">var</span> desc20 = <span class="tok-keyword">new</span> <span class="tok-type">Cupon</span>(<span class="tok-string">"DESC20"</span>, <span class="tok-number">20</span>, <span class="tok-number">100</span>, <span class="tok-number">50</span>, <span class="tok-keyword">true</span>);
+
+  assertEquals(<span class="tok-number">50</span>, calculadora.calcularDescuento(<span class="tok-number">400</span>, desc20));
+}
+
+<span class="tok-ann">@Test</span>
+<span class="tok-keyword">void</span> debeLanzarExcepcionSiSubtotalEsMenorAlMinimoEnOrd208() {
+  <span class="tok-keyword">var</span> calculadora = <span class="tok-keyword">new</span> <span class="tok-type">CalculadoraDescuento</span>();
+  <span class="tok-keyword">var</span> desc20 = <span class="tok-keyword">new</span> <span class="tok-type">Cupon</span>(<span class="tok-string">"DESC20"</span>, <span class="tok-number">20</span>, <span class="tok-number">100</span>, <span class="tok-number">50</span>, <span class="tok-keyword">true</span>);
+
+<span class="code-warn">  <span class="tok-keyword">var</span> error = assertThrows(<span class="tok-type">MontoMinimoNoAlcanzadoException</span>.<span class="tok-keyword">class</span>,</span>
+<span class="code-warn">      () -&gt; calculadora.calcularDescuento(<span class="tok-number">80</span>, desc20));</span>
+<span class="code-focus">  assertAll(</span>
+<span class="code-focus">      () -&gt; assertEquals(<span class="tok-number">100</span>, error.minimoRequerido()),</span>
+<span class="code-focus">      () -&gt; assertEquals(<span class="tok-number">80</span>, error.subtotalRecibido())</span>
+<span class="code-focus">  );</span>
+}</code></pre>
+    </div>
+    <div class="stack">
+      <div class="panel accent-box">
+        <div class="label">¿Por qué lleva lambda <code>() -&gt; ...</code>?</div>
+        <p>Si llamaras al método fuera de la lambda, la excepción explotaría <strong>antes</strong> de entrar a <code>assertThrows</code>. La lambda entrega la acción para que JUnit la ejecute y capture el error esperado.</p>
+      </div>
+      <div class="panel">
+        <div class="label">Otras aserciones frecuentes</div>
+        <ul class="list small">
+          <li><code>assertAll(...)</code>: evalúa todas las comprobaciones y reporta cada fallo junto.</li>
+          <li><code>assertTrue / assertFalse</code>: condiciones booleanas claras.</li>
+          <li><code>assertNotNull</code> / <code>assertDoesNotThrow</code>: presencia y ejecución sin error.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <aside class="speaker-notes" hidden>Señala que assertThrows devuelve la instancia de la excepción capturada, útil cuando también importa comprobar un código de error o un dato clave del mensaje sin atarse a una redacción rígida.</aside>
+</section>
+
+<!-- SLIDE 9 -->
+<section class="slide" data-title="Valores límite y pruebas parametrizadas" hidden>
+  <header class="slide-header">
+    <div class="eyebrow">Bloque 2 · atrapar la regresión de TICKET-28</div>
+    <h2>Valores límite y <code>@ParameterizedTest</code> blindan <code>ORD-207</code></h2>
+  </header>
+  <div class="body">
+    <svg class="svg-desktop" viewBox="0 0 980 120" role="img" aria-labelledby="s9-t s9-d">
+      <title id="s9-t">Línea de valores límite para el cupón DESC20</title>
+      <desc id="s9-d">Subtotales menores a 100 (80 y 99) lanzan excepción; desde 100 inclusive hasta 250 aplican 20% (100 da 20, 200 da 40, 250 da 50); sobre 250 (400) se mantiene el tope de 50.</desc>
+      <rect x="20" y="34" width="235" height="44" rx="10" fill="#2a1c22" stroke="#ff7b7b" stroke-width="2"/>
+      <text x="137" y="54" fill="#ff7b7b" font-size="13" font-weight="700" text-anchor="middle">RECHAZADO (&lt; S/ 100)</text>
+      <text x="137" y="71" fill="#e6edf3" font-size="12.5" text-anchor="middle">S/ 80 (ORD-208) · S/ 99</text>
+
+      <line x1="268" y1="16" x2="268" y2="104" stroke="#ffc78a" stroke-width="2.5" stroke-dasharray="5 4"/>
+      <text x="268" y="13" fill="#ffc78a" font-size="12" font-weight="700" text-anchor="middle">FRONTERA S/ 100</text>
+
+      <rect x="280" y="34" width="380" height="44" rx="10" fill="#162936" stroke="#70d9e8" stroke-width="2"/>
+      <text x="470" y="54" fill="#70d9e8" font-size="13" font-weight="700" text-anchor="middle">APLICA 20% (S/ 100 a S/ 250)</text>
+      <text x="470" y="71" fill="#e6edf3" font-size="12.5" text-anchor="middle">100 → 20 (ORD-207) · 200 → 40 (ORD-205) · 250 → 50</text>
+
+      <line x1="673" y1="16" x2="673" y2="104" stroke="#b9a0ff" stroke-width="2.5" stroke-dasharray="5 4"/>
+      <text x="673" y="13" fill="#b9a0ff" font-size="12" font-weight="700" text-anchor="middle">TOPE S/ 250</text>
+
+      <rect x="686" y="34" width="274" height="44" rx="10" fill="#182b24" stroke="#a6e3a1" stroke-width="2"/>
+      <text x="823" y="54" fill="#a6e3a1" font-size="13" font-weight="700" text-anchor="middle">TOPE FIJO S/ 50 (&gt; S/ 250)</text>
+      <text x="823" y="71" fill="#e6edf3" font-size="12.5" text-anchor="middle">S/ 400 (ORD-206) → S/ 50</text>
+    </svg>
+    <svg class="svg-mobile" viewBox="0 0 360 278" role="img" aria-labelledby="s9-m-t s9-m-d">
+      <title id="s9-m-t">Línea vertical de valores límite para el cupón DESC20</title>
+      <desc id="s9-m-d">Subtotales menores a 100 (80 y 99) son rechazados; desde 100 inclusive hasta 250 aplican 20% (100 da 20, 200 da 40, 250 da 50); sobre 250 (400) se aplica el tope de S/ 50.</desc>
+      <rect x="14" y="8" width="332" height="58" rx="10" fill="#2a1c22" stroke="#ff7b7b" stroke-width="2"/>
+      <text x="180" y="31" fill="#ff7b7b" font-size="12.5" font-weight="700" text-anchor="middle">RECHAZADO (&lt; S/ 100)</text>
+      <text x="180" y="51" fill="#e6edf3" font-size="12.5" text-anchor="middle">S/ 80 (ORD-208) · S/ 99</text>
+
+      <line x1="20" y1="84" x2="340" y2="84" stroke="#ffc78a" stroke-width="2" stroke-dasharray="5 4"/>
+      <rect x="108" y="72" width="144" height="22" rx="6" fill="#101820"/>
+      <text x="180" y="87" fill="#ffc78a" font-size="11.5" font-weight="700" text-anchor="middle">FRONTERA S/ 100</text>
+
+      <rect x="14" y="102" width="332" height="72" rx="10" fill="#162936" stroke="#70d9e8" stroke-width="2"/>
+      <text x="180" y="124" fill="#70d9e8" font-size="12.5" font-weight="700" text-anchor="middle">APLICA 20% (S/ 100 a S/ 250)</text>
+      <text x="180" y="144" fill="#e6edf3" font-size="12" text-anchor="middle">100 → 20 (ORD-207) · 200 → 40 (ORD-205)</text>
+      <text x="180" y="162" fill="#e6edf3" font-size="12" text-anchor="middle">250 → 50 (borde exacto del tope)</text>
+
+      <line x1="20" y1="192" x2="340" y2="192" stroke="#b9a0ff" stroke-width="2" stroke-dasharray="5 4"/>
+      <rect x="122" y="180" width="116" height="22" rx="6" fill="#101820"/>
+      <text x="180" y="195" fill="#b9a0ff" font-size="11.5" font-weight="700" text-anchor="middle">TOPE S/ 250</text>
+
+      <rect x="14" y="210" width="332" height="58" rx="10" fill="#182b24" stroke="#a6e3a1" stroke-width="2"/>
+      <text x="180" y="233" fill="#a6e3a1" font-size="12.5" font-weight="700" text-anchor="middle">TOPE FIJO S/ 50 (&gt; S/ 250)</text>
+      <text x="180" y="253" fill="#e6edf3" font-size="12.5" text-anchor="middle">S/ 400 (ORD-206) → S/ 50</text>
+    </svg>
+    <div class="split wide-left align-start">
+      <div>
+        <div class="code-label">Misma regla para 4 entradas sin duplicar @Test · junit-jupiter-params</div>
+        <pre><code><span class="tok-ann">@ParameterizedTest</span>(name = <span class="tok-string">"subtotal S/ {0} =&gt; descuento S/ {1}"</span>)
+<span class="tok-ann">@CsvSource</span>({
+<span class="code-focus">    <span class="tok-string">"100, 20"</span>,  <span class="tok-comment">// ORD-207: borde exacto de TICKET-14</span></span>
+    <span class="tok-string">"200, 40"</span>,  <span class="tok-comment">// ORD-205: caso típico</span>
+    <span class="tok-string">"250, 50"</span>,  <span class="tok-comment">// borde exacto del tope</span>
+    <span class="tok-string">"400, 50"</span>   <span class="tok-comment">// ORD-206: limitado al tope</span>
+})
+<span class="tok-keyword">void</span> debeCalcularDescuentoEnRangoValido(<span class="tok-keyword">int</span> subtotal, <span class="tok-keyword">int</span> esperado) {
+  <span class="tok-keyword">var</span> calculadora = <span class="tok-keyword">new</span> <span class="tok-type">CalculadoraDescuento</span>();
+  <span class="tok-keyword">var</span> desc20 = <span class="tok-keyword">new</span> <span class="tok-type">Cupon</span>(<span class="tok-string">"DESC20"</span>, <span class="tok-number">20</span>, <span class="tok-number">100</span>, <span class="tok-number">50</span>, <span class="tok-keyword">true</span>);
+  assertEquals(esperado, calculadora.calcularDescuento(subtotal, desc20));
+}</code></pre>
+      </div>
+      <div class="stack">
+        <div class="panel good-box">
+          <div class="label good">Red de seguridad ante TICKET-28</div>
+          <p>En cuanto Diego cambia <code>&gt;=</code> por <code>&gt;</code>, la fila <code>"100, 20"</code> falla en rojo al correr <code>mvn test</code> <strong>antes del merge</strong>.</p>
+        </div>
+        <div class="panel">
+          <div class="label">Regla de valores límite</div>
+          <p class="small">Los defectos suelen vivir en los bordes: justo debajo (<code>99</code>), exacto en el límite (<code>100</code> y <code>250</code>) y por encima (<code>400</code>).</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <aside class="speaker-notes" hidden>Pregunta a la clase: ¿qué ocurre si además agregamos un @ParameterizedTest con @ValueSource(ints = {0, -10, 80, 99}) para los casos inválidos? Invita a separar excepciones de tipo distinto (monto &lt;= 0 vs menor al mínimo).</aside>
+</section>
+
+<!-- SLIDE 10 -->
+<section class="slide" data-title="Aislamiento y ciclo de vida en JUnit" hidden>
+  <header class="slide-header">
+    <div class="eyebrow">Bloque 2 · pruebas independientes del orden</div>
+    <h2>JUnit aísla cada prueba con <code>@BeforeEach</code></h2>
+  </header>
+  <div class="body">
+    <p class="lead">Por defecto, JUnit crea una <strong>instancia nueva</strong> de la clase de prueba por cada método <code>@Test</code> y ejecuta <code>@BeforeEach</code> antes de cada caso para evitar contaminación entre pruebas.</p>
+    <div class="flow" role="group" aria-label="Ciclo de vida de dos métodos de prueba independientes en JUnit">
+      <div class="node primary">
+        <span class="badge">Instancia #1</span>
+        <strong><code>@BeforeEach</code></strong>
+        <p class="small">Crea <code>calculadora</code> y <code>desc20</code> nuevos</p>
+      </div>
+      <div class="arrow" aria-hidden="true"><svg viewBox="0 0 36 20"><path d="M2 10H32M24 3l8 7-8 7"/></svg></div>
+      <div class="node good-node">
+        <span class="badge ok">Caso 1</span>
+        <strong><code>@Test</code> ORD-205</strong>
+        <p class="small">Solo afecta su instancia</p>
+      </div>
+      <div class="arrow" aria-hidden="true"><span>nueva instancia</span><svg viewBox="0 0 36 20"><path d="M2 10H32M24 3l8 7-8 7"/></svg></div>
+      <div class="node primary">
+        <span class="badge">Instancia #2</span>
+        <strong><code>@BeforeEach</code></strong>
+        <p class="small">Estado limpio otra vez</p>
+      </div>
+      <div class="arrow" aria-hidden="true"><svg viewBox="0 0 36 20"><path d="M2 10H32M24 3l8 7-8 7"/></svg></div>
+      <div class="node good-node">
+        <span class="badge ok">Caso 2</span>
+        <strong><code>@Test</code> ORD-207</strong>
+        <p class="small">Pasa en cualquier orden</p>
+      </div>
+    </div>
+    <div class="split wide-left align-start">
+      <div>
+        <div class="code-label">Extraer la preparación repetida sin compartir estado · CalculadoraDescuentoTest</div>
+        <pre><code><span class="tok-type">CalculadoraDescuento</span> calculadora;
+<span class="tok-type">Cupon</span> desc20;
+
+<span class="code-focus"><span class="tok-ann">@BeforeEach</span></span>
+<span class="code-focus"><span class="tok-keyword">void</span> setUp() {</span>
+  calculadora = <span class="tok-keyword">new</span> <span class="tok-type">CalculadoraDescuento</span>();
+  desc20 = <span class="tok-keyword">new</span> <span class="tok-type">Cupon</span>(<span class="tok-string">"DESC20"</span>, <span class="tok-number">20</span>, <span class="tok-number">100</span>, <span class="tok-number">50</span>, <span class="tok-keyword">true</span>);
+}</code></pre>
+      </div>
+      <div class="stack">
+        <div class="panel danger-box">
+          <div class="label danger">Error común · estado mutable compartido</div>
+          <p class="small">Un <code>static List</code> o un cupón mutable modificado por el Test A hace que el Test B falle al cambiar el orden.</p>
+        </div>
+        <div class="panel tint">
+          <div class="label">Otros ganchos de ciclo</div>
+          <p class="small"><code>@AfterEach</code> limpia tras cada prueba. <code>@BeforeAll</code> / <code>@AfterAll</code> corren una sola vez por clase y deben ser <code>static</code> en el ciclo por defecto.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <aside class="speaker-notes" hidden>Enfatiza que ninguna prueba debe depender de que otra corra antes. Si necesitas un orden fijo entre pruebas unitarias, hay estado compartido oculto que conviene eliminar.</aside>
+</section>
+
+<!-- SLIDE 11 -->
+<section class="slide" data-title="Transición: cuando el servicio tiene colaboradores" hidden>
+  <header class="slide-header">
+    <div class="eyebrow">Bloque 3 · de una regla pura a un servicio real</div>
+    <h2>¿Qué pasa cuando <code>AplicarCuponService</code> usa BD y correo?</h2>
+  </header>
+  <div class="body">
+    <p class="lead">Hasta ahora probamos <code>CalculadoraDescuento</code>, que no tiene dependencias externas. En nuestro backend Spring Boot, el servicio <strong><code>AplicarCuponService</code></strong> coordina varios colaboradores para atender <strong>ORD-205</strong>:</p>
+    <svg class="svg-desktop" viewBox="0 0 980 235" role="img" aria-labelledby="s11-t s11-d">
+      <title id="s11-t">Colaboradores de AplicarCuponService</title>
+      <desc id="s11-d">AplicarCuponService coordina tres dependencias externas (PedidoRepository hacia PostgreSQL, CuponRepository hacia PostgreSQL y NotificadorCliente hacia Correo/SMS) más una dependencia pura interna (CalculadoraDescuento).</desc>
+      <rect x="28" y="68" width="290" height="100" rx="16" fill="#162936" stroke="#70d9e8" stroke-width="2.5"/>
+      <text x="173" y="100" fill="#70d9e8" font-size="13" font-weight="700" text-anchor="middle">UNIDAD BAJO PRUEBA</text>
+      <text x="173" y="128" fill="#e6edf3" font-size="19" font-weight="800" text-anchor="middle">AplicarCuponService</text>
+      <text x="173" y="152" fill="#a8b3c5" font-size="13" text-anchor="middle">aplicar("ORD-205", "DESC20")</text>
+
+      <path d="M318 92 C390 92 400 38 470 38" stroke="#ffc78a" stroke-width="2.5" fill="none"/>
+      <path d="M463 32 L473 38 L463 44" stroke="#ffc78a" stroke-width="2.5" fill="none"/>
+      <path d="M318 110 C390 110 400 96 470 96" stroke="#ffc78a" stroke-width="2.5" fill="none"/>
+      <path d="M463 90 L473 96 L463 102" stroke="#ffc78a" stroke-width="2.5" fill="none"/>
+      <path d="M318 128 C390 128 400 154 470 154" stroke="#ffc78a" stroke-width="2.5" fill="none"/>
+      <path d="M463 148 L473 154 L463 160" stroke="#ffc78a" stroke-width="2.5" fill="none"/>
+      <path d="M318 148 C390 148 400 206 470 206" stroke="#a6e3a1" stroke-width="2.5" fill="none"/>
+      <path d="M463 200 L473 206 L463 212" stroke="#a6e3a1" stroke-width="2.5" fill="none"/>
+
+      <rect x="478" y="14" width="474" height="46" rx="12" fill="#27221d" stroke="#ffc78a" stroke-width="1.8"/>
+      <text x="498" y="42" fill="#e6edf3" font-size="15" font-weight="700">PedidoRepository</text>
+      <text x="934" y="42" fill="#ffc78a" font-size="13" font-weight="700" text-anchor="end">Frontera externa · PostgreSQL</text>
+
+      <rect x="478" y="72" width="474" height="46" rx="12" fill="#27221d" stroke="#ffc78a" stroke-width="1.8"/>
+      <text x="498" y="100" fill="#e6edf3" font-size="15" font-weight="700">CuponRepository</text>
+      <text x="934" y="100" fill="#ffc78a" font-size="13" font-weight="700" text-anchor="end">Frontera externa · PostgreSQL</text>
+
+      <rect x="478" y="130" width="474" height="46" rx="12" fill="#27221d" stroke="#ffc78a" stroke-width="1.8"/>
+      <text x="498" y="158" fill="#e6edf3" font-size="15" font-weight="700">NotificadorCliente</text>
+      <text x="934" y="158" fill="#ffc78a" font-size="13" font-weight="700" text-anchor="end">Frontera externa · Correo / SMS</text>
+
+      <rect x="478" y="186" width="474" height="42" rx="12" fill="#182b24" stroke="#a6e3a1" stroke-width="1.8"/>
+      <text x="498" y="212" fill="#e6edf3" font-size="15" font-weight="700">CalculadoraDescuento</text>
+      <text x="934" y="212" fill="#a6e3a1" font-size="13" font-weight="700" text-anchor="end">Regla pura interna · usar real</text>
+    </svg>
+    <svg class="svg-mobile" viewBox="0 0 360 358" role="img" aria-labelledby="s11-m-t s11-m-d">
+      <title id="s11-m-t">Colaboradores de AplicarCuponService en vista vertical</title>
+      <desc id="s11-m-d">AplicarCuponService se conecta hacia cuatro colaboradores: PedidoRepository (PostgreSQL), CuponRepository (PostgreSQL), NotificadorCliente (Correo o SMS) y la regla pura interna CalculadoraDescuento.</desc>
+      <rect x="16" y="8" width="328" height="76" rx="14" fill="#162936" stroke="#70d9e8" stroke-width="2.2"/>
+      <text x="180" y="30" fill="#70d9e8" font-size="11.5" font-weight="700" text-anchor="middle">UNIDAD BAJO PRUEBA</text>
+      <text x="180" y="54" fill="#e6edf3" font-size="16.5" font-weight="800" text-anchor="middle">AplicarCuponService</text>
+      <text x="180" y="73" fill="#a8b3c5" font-size="12" text-anchor="middle">aplicar("ORD-205", "DESC20")</text>
+
+      <path d="M28 84 V320" stroke="#70d9e8" stroke-width="2.2" fill="none"/>
+      <path d="M28 139 H48 M42 134 L49 139 L42 144" stroke="#ffc78a" stroke-width="2.2" fill="none"/>
+      <path d="M28 199 H48 M42 194 L49 199 L42 204" stroke="#ffc78a" stroke-width="2.2" fill="none"/>
+      <path d="M28 259 H48 M42 254 L49 259 L42 264" stroke="#ffc78a" stroke-width="2.2" fill="none"/>
+      <path d="M28 320 H48 M42 315 L49 320 L42 325" stroke="#a6e3a1" stroke-width="2.2" fill="none"/>
+
+      <rect x="54" y="114" width="290" height="50" rx="10" fill="#27221d" stroke="#ffc78a" stroke-width="1.8"/>
+      <text x="68" y="136" fill="#e6edf3" font-size="14" font-weight="700">PedidoRepository</text>
+      <text x="68" y="155" fill="#ffc78a" font-size="12">Frontera externa · PostgreSQL</text>
+
+      <rect x="54" y="174" width="290" height="50" rx="10" fill="#27221d" stroke="#ffc78a" stroke-width="1.8"/>
+      <text x="68" y="196" fill="#e6edf3" font-size="14" font-weight="700">CuponRepository</text>
+      <text x="68" y="215" fill="#ffc78a" font-size="12">Frontera externa · PostgreSQL</text>
+
+      <rect x="54" y="234" width="290" height="50" rx="10" fill="#27221d" stroke="#ffc78a" stroke-width="1.8"/>
+      <text x="68" y="256" fill="#e6edf3" font-size="14" font-weight="700">NotificadorCliente</text>
+      <text x="68" y="275" fill="#ffc78a" font-size="12">Frontera externa · Correo / SMS</text>
+
+      <rect x="54" y="294" width="290" height="52" rx="10" fill="#182b24" stroke="#a6e3a1" stroke-width="1.8"/>
+      <text x="68" y="316" fill="#e6edf3" font-size="14" font-weight="700">CalculadoraDescuento</text>
+      <text x="68" y="336" fill="#a6e3a1" font-size="12">Regla pura interna · usar real</text>
+    </svg>
+    <div class="callout warn"><strong>La fricción:</strong> si pasamos implementaciones reales de BD y correo solo para comprobar qué ocurre con un cupón vencido (<code>VENCIDO10</code>), la prueba necesita PostgreSQL encendido, red disponible y tarda segundos en vez de milisegundos.</div>
+  </div>
+  <aside class="speaker-notes" hidden>Transición explícita: venimos de lógica pura sin colaboradores y ahora entramos al escenario real de servicios backend. Subraya el color verde en CalculadoraDescuento: lo interno puro NO necesita ser sustituido.</aside>
+</section>
+
+<!-- SLIDE 12 -->
+<section class="slide" data-title="Dobles de prueba: Stub, Fake y Mock" hidden>
+  <header class="slide-header">
+    <div class="eyebrow">Bloque 3 · conceptos antes de Mockito</div>
+    <h2>Tres tipos de dobles de prueba: Stub, Fake y Mock</h2>
+  </header>
+  <div class="body">
+    <p class="lead">Para aislar las fronteras externas de <code>AplicarCuponService</code>, reemplazamos sus contratos por <strong>dobles de prueba</strong> (objetos de sustitución). Cada tipo cumple un papel distinto:</p>
+    <div class="triplet">
+      <div class="panel">
+        <div class="label">1 · Stub</div>
+        <h3>Controla entradas</h3>
+        <p>Devuelve respuestas fijas preconfiguradas para guiar el camino de la prueba.</p>
+        <p class="small"><strong>Ejemplo:</strong> <code>buscarPorId("ORD-205")</code> siempre devuelve el pedido de S/ 200; <code>"ORD-999"</code> devuelve <code>Optional.empty()</code>.</p>
+      </div>
+      <div class="panel accent-box">
+        <div class="label good">2 · Fake</div>
+        <h3>Implementación en memoria</h3>
+        <p>Funciona de verdad con una versión ligera (p. ej. un <code>HashMap</code>), sin BD real.</p>
+        <p class="small"><strong>Ejemplo:</strong> <code>PedidoRepositoryEnMemoria</code> guarda y luego permite consultar el estado actualizado (como vimos en Hexagonal).</p>
+      </div>
+      <div class="panel">
+        <div class="label violet">3 · Mock</div>
+        <h3>Verifica interacciones</h3>
+        <p>Además de devolver respuestas preparadas, registra si el servicio invocó un método y con qué datos.</p>
+        <p class="small"><strong>Ejemplo:</strong> comprobar que <code>notificador.avisarDescuento("ORD-205", 40)</code> se llamó una vez (o cero si falló).</p>
+      </div>
+    </div>
+    <div class="callout"><strong>Prerrequisito clave:</strong> los tres dobles funcionan porque <code>AplicarCuponService</code> recibe sus dependencias como <strong>interfaces por constructor</strong> (diseño POO/DIP, no magia de Spring).</div>
+  </div>
+  <aside class="speaker-notes" hidden>Aclara que en el día a día muchos llaman "mock" a todo, pero distinguir Stub (entradas), Fake (estado ligero en memoria) y Mock (verificar llamadas) evita pruebas confusas.</aside>
+</section>
+
+<!-- SLIDE 13 -->
+<section class="slide" data-title="Mockito: @ExtendWith y @Mock" hidden>
+  <header class="slide-header">
+    <div class="eyebrow">Bloque 3 · biblioteca Mockito con JUnit Jupiter</div>
+    <h2>Preparar dobles sin clases manuales con Mockito</h2>
+  </header>
+  <div class="body split wide-left align-start">
+    <div>
+      <div class="code-label">src/test/java/.../AplicarCuponServiceTest.java · configuración inicial</div>
+      <pre><code><span class="tok-keyword">import</span> org.junit.jupiter.api.BeforeEach;
+<span class="tok-keyword">import</span> org.junit.jupiter.api.extension.ExtendWith;
+<span class="tok-keyword">import</span> org.mockito.Mock;
+<span class="tok-keyword">import</span> org.mockito.junit.jupiter.MockitoExtension;
+
+<span class="code-focus"><span class="tok-ann">@ExtendWith</span>(<span class="tok-type">MockitoExtension</span>.<span class="tok-keyword">class</span>)</span>
+<span class="tok-keyword">class</span> <span class="tok-type">AplicarCuponServiceTest</span> {
+
+  <span class="tok-ann">@Mock</span> <span class="tok-type">PedidoRepository</span> pedidoRepo;
+  <span class="tok-ann">@Mock</span> <span class="tok-type">CuponRepository</span> cuponRepo;
+  <span class="tok-ann">@Mock</span> <span class="tok-type">NotificadorCliente</span> notificador;
+
+  <span class="tok-type">AplicarCuponService</span> service;
+
+  <span class="tok-ann">@BeforeEach</span>
+  <span class="tok-keyword">void</span> setUp() {
+<span class="code-good">    service = <span class="tok-keyword">new</span> <span class="tok-type">AplicarCuponService</span>(</span>
+<span class="code-good">        pedidoRepo, cuponRepo, notificador, <span class="tok-keyword">new</span> <span class="tok-type">CalculadoraDescuento</span>());</span>
+  }
+}</code></pre>
+    </div>
+    <div class="stack">
+      <div class="panel tint">
+        <div class="label">JUnit + Mockito (sin Spring)</div>
+        <p><code>@ExtendWith(MockitoExtension.class)</code> es una extensión de JUnit provista por Mockito: inicializa cada <code>@Mock</code> antes de cada prueba <strong>sin arrancar Spring</strong>.</p>
+      </div>
+      <div class="panel good-box">
+        <div class="label good"><code>CalculadoraDescuento</code> real</div>
+        <p>Solo mockeamos las tres fronteras externas; la calculadora entra como instancia real para probar el cálculo de verdad.</p>
+      </div>
+      <div class="panel">
+        <div class="label">Constructor explícito vs. <code>@InjectMocks</code></div>
+        <p class="small"><code>@InjectMocks</code> ahorra líneas, pero llamar a <code>new AplicarCuponService(...)</code> en <code>@BeforeEach</code> detecta en compilación cualquier cambio del constructor y deja mezclar mocks con objetos reales.</p>
+      </div>
+    </div>
+  </div>
+  <aside class="speaker-notes" hidden>Señala el beneficio práctico de usar new AplicarCuponService(...) en @BeforeEach: es explícito, claro para principiantes y permite pasar new CalculadoraDescuento() sin trucos de @Spy.</aside>
+</section>
+
+<!-- SLIDE 14 -->
+<section class="slide" data-title="Controlar entradas: when y thenReturn / thenThrow" hidden>
+  <header class="slide-header">
+    <div class="eyebrow">Bloque 3 · programar respuestas del colaborador</div>
+    <h2>Controlar entradas con <code>when(...).thenReturn(...)</code> y <code>thenThrow(...)</code></h2>
+  </header>
+  <div class="body split wide-left align-start">
+    <div>
+      <div class="code-label">Casos ORD-205 (éxito) y ORD-999 (ausente) en AplicarCuponServiceTest</div>
+      <pre><code><span class="tok-ann">@Test</span>
+<span class="tok-keyword">void</span> debeAplicarDesc20YDevolverTotal160ParaOrd205() {
+  <span class="tok-keyword">var</span> pedido = <span class="tok-keyword">new</span> <span class="tok-type">Pedido</span>(<span class="tok-string">"ORD-205"</span>, <span class="tok-number">200</span>);
+  <span class="tok-keyword">var</span> desc20 = <span class="tok-keyword">new</span> <span class="tok-type">Cupon</span>(<span class="tok-string">"DESC20"</span>, <span class="tok-number">20</span>, <span class="tok-number">100</span>, <span class="tok-number">50</span>, <span class="tok-keyword">true</span>);
+<span class="code-focus">  when(pedidoRepo.buscarPorId(<span class="tok-string">"ORD-205"</span>)).thenReturn(Optional.of(pedido));</span>
+<span class="code-focus">  when(cuponRepo.buscarPorCodigo(<span class="tok-string">"DESC20"</span>)).thenReturn(Optional.of(desc20));</span>
+
+  <span class="tok-type">ResultadoDescuento</span> r = service.aplicar(<span class="tok-string">"ORD-205"</span>, <span class="tok-string">"DESC20"</span>);
+
+  assertEquals(<span class="tok-number">160</span>, r.totalFinal());
+}
+
+<span class="tok-ann">@Test</span>
+<span class="tok-keyword">void</span> debeFallarSiElPedidoOrd999NoExiste() {
+  when(pedidoRepo.buscarPorId(<span class="tok-string">"ORD-999"</span>)).thenReturn(Optional.empty());
+
+  assertThrows(<span class="tok-type">PedidoNoEncontradoException</span>.<span class="tok-keyword">class</span>,
+      () -&gt; service.aplicar(<span class="tok-string">"ORD-999"</span>, <span class="tok-string">"DESC20"</span>));
+}</code></pre>
+    </div>
+    <div class="stack">
+      <div class="panel accent-box">
+        <div class="label">Qué hace cada <code>when(...)</code></div>
+        <p>En <strong>Arrange</strong> le dices al mock qué devolver cuando el servicio le pregunte por <code>"ORD-205"</code> o <code>"ORD-999"</code>. Si no programas un método, Mockito devuelve valores por defecto (<code>Optional.empty()</code>, <code>0</code>, <code>null</code>).</p>
+      </div>
+      <div class="panel warn-box">
+        <div class="label warn">Simular un fallo técnico con <code>thenThrow</code></div>
+        <pre style="font-size:0.78rem;padding:9px 11px;"><code>when(pedidoRepo.buscarPorId(<span class="tok-string">"ORD-205"</span>))
+    .thenThrow(<span class="tok-keyword">new</span> <span class="tok-type">ErrorPersistenciaException</span>(<span class="tok-string">"BD caída"</span>));</code></pre>
+        <p class="small">Permite probar manejo de errores técnicos sin apagar una base de datos real.</p>
+      </div>
+    </div>
+  </div>
+  <aside class="speaker-notes" hidden>Haz notar que MockitoExtension en modo estricto (por defecto) también avisa con UnnecessaryStubbingException si declaras un when(...) que el servicio nunca llamó: ayuda a mantener pruebas limpias.</aside>
+</section>
+
+<!-- SLIDE 15 -->
+<section class="slide" data-title="Verificar efectos: verify, never y ArgumentCaptor" hidden>
+  <header class="slide-header">
+    <div class="eyebrow">Bloque 3 · efectos observables y ausencia de llamadas</div>
+    <h2>Comprobar guardado y aviso con <code>verify</code>, <code>never()</code> y <code>ArgumentCaptor</code></h2>
+  </header>
+  <div class="body split wide-left align-start">
+    <div>
+      <div class="code-label">Verificar qué se guardó y garantizar silencio cuando falla VENCIDO10</div>
+      <pre><code><span class="tok-comment">// En el caso exitoso ORD-205 + DESC20:</span>
+<span class="tok-type">ArgumentCaptor</span>&lt;<span class="tok-type">Pedido</span>&gt; captor = <span class="tok-type">ArgumentCaptor</span>.forClass(<span class="tok-type">Pedido</span>.<span class="tok-keyword">class</span>);
+<span class="code-focus">verify(pedidoRepo).guardar(captor.capture());</span>
+assertEquals(<span class="tok-number">160</span>, captor.getValue().totalFinal());
+<span class="code-focus">verify(notificador).avisarDescuento(<span class="tok-string">"ORD-205"</span>, <span class="tok-number">40</span>);</span>
+
+<span class="tok-comment">// En el caso fallido ORD-205 + VENCIDO10 (cupón inactivo):</span>
+when(pedidoRepo.buscarPorId(<span class="tok-string">"ORD-205"</span>)).thenReturn(Optional.of(pedido));
+when(cuponRepo.buscarPorCodigo(<span class="tok-string">"VENCIDO10"</span>))
+    .thenReturn(Optional.of(<span class="tok-keyword">new</span> <span class="tok-type">Cupon</span>(<span class="tok-string">"VENCIDO10"</span>, <span class="tok-number">10</span>, <span class="tok-number">100</span>, <span class="tok-number">50</span>, <span class="tok-keyword">false</span>)));
+
+assertThrows(<span class="tok-type">CuponInvalidoException</span>.<span class="tok-keyword">class</span>,
+    () -&gt; service.aplicar(<span class="tok-string">"ORD-205"</span>, <span class="tok-string">"VENCIDO10"</span>));
+<span class="code-warn">verify(pedidoRepo, never()).guardar(any());</span>
+<span class="code-warn">verifyNoInteractions(notificador);</span></code></pre>
+    </div>
+    <div class="stack">
+      <div class="panel good-box">
+        <div class="label good">Qué atrapa <code>ArgumentCaptor</code></div>
+        <p>No basta comprobar que <code>guardar(...)</code> se llamó: con el captor verificamos que el objeto <code>Pedido</code> enviado a la BD lleva <code>totalFinal == 160</code>.</p>
+      </div>
+      <div class="panel warn-box">
+        <div class="label warn">Regla de oro de los matchers (comodines)</div>
+        <p>Si usas un <strong>matcher</strong> (comodín de argumento como <code>any()</code> o <code>anyInt()</code>) en una llamada de Mockito, <strong>todos</strong> los argumentos deben ser matchers:</p>
+        <p class="small">✗ <code>avisarDescuento("ORD-205", anyInt())</code><br>✓ <code>avisarDescuento(eq("ORD-205"), anyInt())</code></p>
+      </div>
+    </div>
+  </div>
+  <aside class="speaker-notes" hidden>Resalta la importancia de verifyNoInteractions(notificador) cuando el cupón está vencido: evita un bug muy real en producción donde se envía correo de descuento a pesar de que la operación falló.</aside>
+</section>
+
+<!-- SLIDE 16 -->
+<section class="slide" data-title="Error común 1: sobre-mockear" hidden>
+  <header class="slide-header">
+    <div class="eyebrow">Bloque 4 · error común con Mockito</div>
+    <h2>Sobre-mockear prueba el mock en lugar de tu lógica</h2>
+  </header>
+  <div class="body">
+    <p class="lead">Un riesgo frecuente al aprender Mockito es mockear <strong>demasiado</strong> y verificar cada paso interno en lugar de comprobar el resultado observable.</p>
+    <div class="split align-start">
+      <div class="panel danger-box stack">
+        <div class="label danger">Anti-patrón · prueba frágil y engañosa</div>
+        <pre style="font-size:0.8rem;"><code><span class="tok-ann">@Mock</span> <span class="tok-type">CalculadoraDescuento</span> calcMock; <span class="tok-comment">// ¡regla pura!</span>
+...
+when(calcMock.calcularDescuento(<span class="tok-number">200</span>, desc20))
+    .thenReturn(<span class="tok-number">40</span>);
+<span class="tok-keyword">var</span> r = service.aplicar(<span class="tok-string">"ORD-205"</span>, <span class="tok-string">"DESC20"</span>);
+assertEquals(<span class="tok-number">160</span>, r.totalFinal());
+verify(calcMock).calcularDescuento(<span class="tok-number">200</span>, desc20);</code></pre>
+        <p class="small">Si la calculadora real tiene un bug, esta prueba sigue pasando porque solo devolvió tu propio <code>thenReturn(40)</code>. Además, cualquier refactor interno rompe el <code>verify</code>.</p>
+      </div>
+      <div class="panel good-box stack">
+        <div class="label good">Enfoque sólido · mockea solo fronteras externas</div>
+        <ul class="list">
+          <li><strong>Usa objetos reales</strong> para entidades, DTOs y reglas puras (<code>Pedido</code>, <code>Cupon</code>, <code>CalculadoraDescuento</code>).</li>
+          <li><strong>Sustituye solo fronteras</strong>: base de datos, HTTP externo, mensajería, reloj o correo.</li>
+          <li><strong>Verifica comportamiento observable:</strong> valor retornado, excepción lanzada y efectos externos relevantes (<code>guardar</code>, <code>avisarDescuento</code>).</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout"><strong>Regla práctica:</strong> una buena prueba unitaria te deja refactorizar cómo está escrito el servicio por dentro sin romperse, mientras el comportamiento externo siga igual.</div>
+  </div>
+  <aside class="speaker-notes" hidden>Pregunta a la clase: si mañana decides mover el cálculo de descuento dentro de un método Pedido.aplicarCupon(cupon) manteniendo el resultado S/ 160, ¿qué prueba sobrevive? La del enfoque sólido.</aside>
+</section>
+
+<!-- SLIDE 17 -->
+<section class="slide" data-title="Fake en memoria frente a Mock con Mockito" hidden>
+  <header class="slide-header">
+    <div class="eyebrow">Bloque 4 · criterio de diseño</div>
+    <h2>Fake en memoria frente a Mockito: cuándo conviene cada uno</h2>
+  </header>
+  <div class="body">
+    <p class="lead">En Arquitectura Hexagonal probamos servicios con un <strong>fake en memoria</strong> (<code>Map</code>); hoy vimos <strong>Mockito</strong>. No compiten como «bueno vs. malo»: cada herramienta resuelve mejor distintos casos.</p>
+    <div class="table-wrap" tabindex="0" role="region" aria-label="Comparación entre fake en memoria y mock con Mockito">
+      <table class="table">
+        <thead>
+          <tr><th>Criterio</th><th>Fake en memoria (<code>Map</code> / <code>List</code>)</th><th>Mock con Mockito (<code>@Mock</code>)</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Trabajo inicial</strong></td>
+            <td>Requiere escribir y mantener una clase en memoria para el puerto.</td>
+            <td>Inmediato: declaras <code>@Mock</code> y programas solo el caso actual.</td>
+          </tr>
+          <tr>
+            <td><strong>Flujos con estado</strong></td>
+            <td>Excelente cuando una prueba guarda y luego consulta el mismo estado.</td>
+            <td>Más verboso si debes encadenar varios <code>when(...)</code> sucesivos.</td>
+          </tr>
+          <tr>
+            <td><strong>Simular errores raros</strong></td>
+            <td>Exige agregar banderas al fake para forzar fallos de red o BD.</td>
+            <td>Muy ágil con una sola línea: <code>when(...).thenThrow(...)</code>.</td>
+          </tr>
+          <tr>
+            <td><strong>Acoplamiento al refactor</strong></td>
+            <td>Menor: compruebas el estado resultante en el mapa o lista.</td>
+            <td>Mayor si abusas de <code>verify(...)</code> sobre llamadas internas.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout good"><strong>Criterio equilibrado:</strong> un <strong>fake en memoria</strong> destaca en repositorios reutilizados por muchas pruebas; <strong>Mockito</strong> brilla para simular fallos puntuales y verificar salidas hacia clientes externos (correo, SMS, pasarelas).</div>
+  </div>
+  <aside class="speaker-notes" hidden>Conecta explícitamente con la lección anterior de Arquitectura Hexagonal para que el alumno no perciba contradicción entre ambos enfoques.</aside>
+</section>
+
+<!-- SLIDE 18 -->
+<section class="slide" data-title="Error común 2: 100% de cobertura no garantiza calidad" hidden>
+  <header class="slide-header">
+    <div class="eyebrow">Bloque 4 · el mito de la cobertura</div>
+    <h2>100% de cobertura de líneas no detecta un borde faltante</h2>
+  </header>
+  <div class="body split align-start">
+    <div class="stack">
+      <div class="code-label">CalculadoraDescuento.java tras el cambio de Diego (TICKET-28)</div>
+      <pre><code><span class="code-good"><span class="tok-keyword">int</span> calcularDescuento(<span class="tok-keyword">int</span> subtotal, <span class="tok-type">Cupon</span> cupon) {</span>
+<span class="code-warn">  <span class="tok-keyword">if</span> (subtotal &gt; cupon.minimo()) { <span class="tok-comment">// bug: era &gt;=</span></span>
+<span class="code-good">    <span class="tok-keyword">int</span> bruto = subtotal * cupon.porcentaje() / <span class="tok-number">100</span>;</span>
+<span class="code-good">    <span class="tok-keyword">return</span> Math.min(bruto, cupon.tope());</span>
+<span class="code-good">  }</span>
+<span class="code-good">  <span class="tok-keyword">throw new</span> <span class="tok-type">MontoMinimoNoAlcanzadoException</span>(cupon.minimo());</span>
+}</code></pre>
+      <p class="small">Con solo dos pruebas — <code>ORD-205</code> (S/ 200) y <code>ORD-208</code> (S/ 80) — se ejecutan todas las líneas y ambas ramas del <code>if</code>.</p>
+    </div>
+    <div class="stack">
+      <div class="panel danger-box">
+        <div class="label danger">Reporte del medidor · trampa clásica</div>
+        <div class="facts">
+          <span>Cobertura de líneas</span><strong class="big-num good">100%</strong>
+          <span>Cobertura de ramas (<code>if</code>)</span><strong class="big-num good">100%</strong>
+          <span>Defecto en <code>ORD-207</code> (S/ 100)</span><strong class="big-num danger">No detectado</strong>
+        </div>
+      </div>
+      <div class="panel tint">
+        <div class="label">Para qué SÍ sirve la cobertura</div>
+        <p>Sirve como <strong>radar de puntos ciegos</strong> (muestra ramas nunca ejecutadas), nunca como certificado de calidad. La confianza viene de buenas aserciones y casos borde.</p>
+      </div>
+    </div>
+  </div>
+  <aside class="speaker-notes" hidden>Retoma la historia de Diego: incluso con un gate de 100% de cobertura en CI, un suite sin el caso borde S/ 100 habría dejado pasar la regresión de TICKET-14.</aside>
+</section>
+
+<!-- SLIDE 19 -->
+<section class="slide" data-title="Frontera real: unitarias frente a integración en Spring Boot" hidden>
+  <header class="slide-header">
+    <div class="eyebrow">Bloque 4 · alcance honesto en Spring Boot</div>
+    <h2>Lo que las pruebas unitarias cubren y lo que exige integración</h2>
+  </header>
+  <div class="body">
+    <p class="lead">Mockito y los fakes confirman tus reglas y coordinación en milisegundos, pero <strong>no demuestran</strong> que una consulta SQL, un mapeo JPA o una ruta HTTP funcionen de verdad.</p>
+    <div class="table-wrap" tabindex="0" role="region" aria-label="Matriz de tipos de pruebas en Spring Boot">
+      <table class="table">
+        <thead>
+          <tr><th>Nivel de prueba</th><th>Herramienta típica</th><th>Qué valida realmente</th><th>Velocidad</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Unitaria</strong></td>
+            <td>JUnit Jupiter + Mockito o Fakes (sin Spring)</td>
+            <td>Reglas de <code>CalculadoraDescuento</code>, bordes, excepciones y orquestación de <code>AplicarCuponService</code>.</td>
+            <td><span class="badge ok">Milisegundos</span></td>
+          </tr>
+          <tr>
+            <td><strong>Slice web (capa HTTP)</strong></td>
+            <td><code>@WebMvcTest</code> + <code>MockMvc</code></td>
+            <td>Ruta <code>POST /pedidos/{id}/aplicar-cupon</code>, JSON de entrada/salida y códigos <code>200 / 404 / 409</code>.</td>
+            <td><span class="badge">Rápida (~1–2 s)</span></td>
+          </tr>
+          <tr>
+            <td><strong>Slice de datos (capa JPA)</strong></td>
+            <td><code>@DataJpaTest</code> + BD de prueba</td>
+            <td>Consultas SQL/JPQL, anotaciones <code>@Entity</code> y restricciones de columnas en repositorios.</td>
+            <td><span class="badge warn">Media</span></td>
+          </tr>
+          <tr>
+            <td><strong>Integración completa</strong></td>
+            <td><code>@SpringBootTest</code></td>
+            <td>Cableado real de beans, filtros, configuración y flujo extremo a extremo.</td>
+            <td><span class="badge warn">Más lenta</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout good"><strong>Complementarias, no rivales:</strong> muchas pruebas unitarias rápidas protegen la lógica diaria; un grupo enfocado de pruebas de integración valida las fronteras reales. En <code>spring-introduccion/pom.xml</code>, los starters <code>*-test</code> ya incluyen JUnit Jupiter y Mockito.</div>
+  </div>
+  <aside class="speaker-notes" hidden>Recuerda al grupo no levantar @SpringBootTest para probar un simple cálculo o un servicio que puede correr en Java puro con @ExtendWith(MockitoExtension.class).</aside>
+</section>
+
+<!-- SLIDE 20 -->
+<section class="slide" data-title="Resumen: del cupón de Ana a una suite confiable" hidden>
+  <header class="slide-header">
+    <div class="eyebrow">Resumen · volver a TICKET-14 y TICKET-28</div>
+    <h2>Cuatro hábitos para que ningún ticket rompa el trabajo anterior</h2>
+  </header>
+  <div class="body">
+    <div class="quad">
+      <div class="panel accent-box">
+        <div class="label">1 · Estructura AAA</div>
+        <p>Preparar, actuar y comprobar con nombres claros y pruebas aisladas en <code>@BeforeEach</code>.</p>
+      </div>
+      <div class="panel">
+        <div class="label violet">2 · Bordes y errores</div>
+        <p>Proteger límites exactos (<code>ORD-207</code> S/ 100) con <code>@ParameterizedTest</code> y <code>assertThrows</code>.</p>
+      </div>
+      <div class="panel">
+        <div class="label good">3 · Aislar fronteras</div>
+        <p>Sustituir BD y correo con Fakes o Mockito; nunca mockear reglas puras como <code>CalculadoraDescuento</code>.</p>
+      </div>
+      <div class="panel">
+        <div class="label warn">4 · Evidencia real</div>
+        <p>No fiarse solo del % de cobertura y complementar con integración para HTTP y SQL.</p>
+      </div>
+    </div>
+    <div class="triplet">
+      <div class="panel"><strong>Comprueba 1:</strong> ¿Por qué el cambio de Diego en <code>TICKET-28</code> rompió <code>ORD-207</code>?<p class="small">Cambió <code>&gt;= 100</code> a <code>&gt; 100</code> y solo verificó manualmente sus casos (200 y 80).</p></div>
+      <div class="panel"><strong>Comprueba 2:</strong> ¿Por qué <code>CalculadoraDescuento</code> no lleva <code>@Mock</code>?<p class="small">Es lógica pura interna; mockearla ocultaría errores reales en el cálculo.</p></div>
+      <div class="panel"><strong>Comprueba 3:</strong> ¿Qué error NO atrapa <code>AplicarCuponServiceTest</code> con mocks?<p class="small">Una query SQL mal escrita, un mapeo <code>@Entity</code> roto o una ruta HTTP incorrecta.</p></div>
+    </div>
+  </div>
+  <aside class="speaker-notes" hidden>Pide a tres estudiantes distintos que respondan las tres comprobaciones antes de mostrar el enunciado de la práctica.</aside>
+</section>
+
+<!-- SLIDE 21 -->
+<section class="slide" data-title="Práctica: suite unitaria para AplicarCuponService" hidden>
+  <header class="slide-header">
+    <div class="eyebrow">Práctica guiada · sin solución completa</div>
+    <h2>Construye la suite unitaria que proteja TICKET-14</h2>
+  </header>
+  <div class="body">
+    <div class="exercise">
+      <div class="panel accent-box">
+        <div class="label">Objetivo</div>
+        <p>Escribir pruebas unitarias con JUnit Jupiter y Mockito para <code>CalculadoraDescuento</code> y <code>AplicarCuponService</code> (o aplicar el mismo esquema a <code>TareaService</code> en <code>spring-introduccion</code>).</p>
+      </div>
+      <div class="panel">
+        <div class="label">Punto de partida</div>
+        <p>Contratos <code>PedidoRepository</code>, <code>CuponRepository</code>, <code>NotificadorCliente</code> y la clase pura <code>CalculadoraDescuento</code>. Casos: <code>ORD-205</code> (200), <code>ORD-206</code> (400), <code>ORD-207</code> (100), <code>ORD-208</code> (80), <code>ORD-999</code> (ausente) y <code>VENCIDO10</code> (inactivo).</p>
+      </div>
+      <div class="panel good-box">
+        <div class="label good">Resultado esperado</div>
+        <p>Batería verde que valide: montos válidos y bordes (<code>100 / 200 / 250 / 400</code>) con <code>@ParameterizedTest</code>, rechazos (<code>80 / 99</code>, <code>ORD-999</code>, <code>VENCIDO10</code>) con <code>assertThrows</code>, guardado del total actualizado y cero notificaciones cuando falla.</p>
+      </div>
+      <div class="panel warn-box">
+        <div class="label warn">Restricciones</div>
+        <p>Sin <code>@SpringBootTest</code>, sin PostgreSQL ni envío de correo real, sin mockear <code>CalculadoraDescuento</code> y sin depender del orden de ejecución entre métodos <code>@Test</code>.</p>
+      </div>
+    </div>
+    <div class="callout good"><strong>Desafío opcional:</strong> usa <code>ArgumentCaptor&lt;Pedido&gt;</code> para verificar el total exacto enviado a <code>guardar(...)</code> y luego crea una variante con un <strong>Fake en memoria</strong> para <code>PedidoRepository</code> comparando legibilidad y esfuerzo.</div>
+  </div>
+  <aside class="speaker-notes" hidden>Para verificar la efectividad de su suite, reta a los alumnos a introducir el cambio de Diego (&gt; 100 en vez de &gt;= 100) y confirmar que la prueba de ORD-207 se pone en rojo de inmediato.</aside>
+</section>
+
+</main>
+
+<div class="progress" aria-hidden="true"><span id="fill"></span></div>
+
+<nav class="controls" aria-label="Controles de presentación">
+  <button type="button" id="prev" aria-label="Diapositiva anterior">←</button>
+  <span class="counter slide-indicator" id="counter" role="status" aria-live="polite">1 / 21</span>
+  <button type="button" id="next" aria-label="Diapositiva siguiente">→</button>
+  <button type="button" id="notes-button" aria-pressed="false" aria-controls="notes-drawer">Notas</button>
+  <button type="button" id="help-button" aria-haspopup="dialog">Ayuda</button>
+  <button type="button" id="fullscreen" aria-pressed="false">Pantalla completa</button>
+</nav>
+
+<aside class="notes-drawer" id="notes-drawer" role="region" aria-labelledby="notes-title" hidden>
+  <div class="notes-drawer-head">
+    <strong id="notes-title">Notas del docente</strong>
+    <button type="button" id="close-notes" aria-label="Cerrar notas">Cerrar</button>
+  </div>
+  <p id="notes-content" class="small"></p>
+</aside>
+
+<div class="help" id="help" hidden>
+  <article role="dialog" aria-modal="true" aria-labelledby="help-title">
+    <h2 id="help-title">Ayuda de teclado</h2>
+    <p><strong>← / ↑</strong> anterior · <strong>→ / ↓ / espacio</strong> siguiente</p>
+    <p><strong>Inicio (Home)</strong> primera · <strong>Fin (End)</strong> última · <strong>N</strong> notas · <strong>F</strong> pantalla completa · <strong>Esc</strong> cerrar panel</p>
+    <button type="button" id="close-help">Cerrar ayuda</button>
+  </article>
+</div>
+
+<script>
+(() => {
+  'use strict';
+
+  const slides = [...document.querySelectorAll('.slide')];
+  const previousButton = document.getElementById('prev');
+  const nextButton = document.getElementById('next');
+  const counter = document.getElementById('counter');
+  const progressFill = document.getElementById('fill');
+  const deck = document.getElementById('deck');
+  const controls = document.querySelector('.controls');
+  const notesButton = document.getElementById('notes-button');
+  const notesDrawer = document.getElementById('notes-drawer');
+  const notesContent = document.getElementById('notes-content');
+  const closeNotesButton = document.getElementById('close-notes');
+  const helpOverlay = document.getElementById('help');
+  const helpButton = document.getElementById('help-button');
+  const closeHelpButton = document.getElementById('close-help');
+  const fullscreenButton = document.getElementById('fullscreen');
+
+  const btnT14 = document.getElementById('btn-t14');
+  const btnT28 = document.getElementById('btn-t28');
+  const t3ColHead = document.getElementById('t3-col-head');
+  const t3Note205 = document.getElementById('t3-note-205');
+  const t3Note208 = document.getElementById('t3-note-208');
+  const t3Row207 = document.getElementById('t3-row-207');
+  const t3Cell207 = document.getElementById('t3-cell-207');
+  const t3Callout = document.getElementById('t3-callout');
+
+  let currentIndex = 0;
+  let helpReturnFocus = null;
+
+  function setSlide3Mode(mode) {
+    const isT28 = mode === 't28';
+    btnT14.setAttribute('aria-pressed', String(!isT28));
+    btnT28.setAttribute('aria-pressed', String(isT28));
+    t3ColHead.textContent = isT28 ? 'Tras TICKET-28' : 'Con TICKET-14';
+    t3Note205.textContent = isT28 ? '(Diego probó)' : '(cumple TICKET-14)';
+    t3Note208.textContent = isT28 ? '(Diego probó)' : '(cumple TICKET-14)';
+    t3Row207.classList.toggle('row-alert', isT28);
+    if (isT28) {
+      t3Cell207.innerHTML = '<span class="badge err">✗ Rechazado</span> <span class="small">rompió TICKET-14</span>';
+      t3Callout.className = 'callout danger';
+      t3Callout.innerHTML = '<strong>Diego no fue descuidado:</strong> cumplió los criterios de aceptación de <strong>TICKET-28</strong>. Simplemente es inviable re-probar manualmente todos los casos de tickets antiguos tras cada cambio.';
+    } else {
+      t3Cell207.innerHTML = '<span class="badge ok">✓ S/ 20</span> <span class="small">cumple TICKET-14</span>';
+      t3Callout.className = 'callout good';
+      t3Callout.innerHTML = '<strong>Estado original de TICKET-14:</strong> con <code>subtotal &gt;= 100</code>, <code>ORD-205</code>, <code>ORD-207</code> y <code>ORD-208</code> cumplían las reglas acordadas.';
+    }
+  }
+
+  btnT14.addEventListener('click', () => setSlide3Mode('t14'));
+  btnT28.addEventListener('click', () => setSlide3Mode('t28'));
+  slides[2].addEventListener('deck:deactivate', () => setSlide3Mode('t28'));
+
+  function updateNotes() {
+    const noteElement = slides[currentIndex].querySelector('.speaker-notes');
+    notesContent.textContent = noteElement
+      ? noteElement.textContent.trim()
+      : 'Sin notas adicionales para esta diapositiva.';
+  }
+
+  function setNotesOpen(open) {
+    notesDrawer.hidden = !open;
+    notesButton.setAttribute('aria-pressed', String(open));
+    if (open) {
+      updateNotes();
+    }
+  }
+
+  function render(requestedIndex, updateHash = true) {
+    const previousSlide = slides[currentIndex];
+    currentIndex = Math.max(0, Math.min(slides.length - 1, requestedIndex));
+    const activeSlide = slides[currentIndex];
+
+    if (previousSlide !== activeSlide) {
+      previousSlide.dispatchEvent(new CustomEvent('deck:deactivate'));
+      if (previousSlide.contains(document.activeElement)) {
+        deck.focus();
+      }
+    }
+
+    slides.forEach((slide, index) => {
+      const isActive = index === currentIndex;
+      slide.hidden = !isActive;
+      slide.classList.toggle('is-active', isActive);
+      slide.setAttribute('aria-current', isActive ? 'step' : 'false');
+    });
+
+    if (previousSlide !== activeSlide) {
+      activeSlide.dispatchEvent(new CustomEvent('deck:activate'));
+    }
+
+    const title = activeSlide.dataset.title || `Diapositiva ${currentIndex + 1}`;
+    counter.textContent = `${currentIndex + 1} / ${slides.length} · ${title}`;
+    progressFill.style.width = `${((currentIndex + 1) / slides.length) * 100}%`;
+    previousButton.disabled = currentIndex === 0;
+    nextButton.disabled = currentIndex === slides.length - 1;
+    document.title = `${title} — Pruebas unitarias en Java`;
+
+    if (updateHash) {
+      try {
+        history.replaceState(null, '', `#slide-${currentIndex + 1}`);
+      } catch {
+        /* La navegación sigue funcionando si el entorno restringe replaceState. */
+      }
+    }
+
+    if (!notesDrawer.hidden) {
+      updateNotes();
+    }
+    deck.scrollTop = 0;
+  }
+
+  function syncFromHash() {
+    const match = /^#slide-([1-9]\d*)$/.exec(location.hash);
+    const parsedIndex = match ? Number(match[1]) - 1 : 0;
+    const validIndex = Number.isSafeInteger(parsedIndex) && parsedIndex >= 0 && parsedIndex < slides.length
+      ? parsedIndex
+      : 0;
+    render(validIndex, false);
+  }
+
+  function openHelp() {
+    helpReturnFocus = document.activeElement;
+    helpOverlay.hidden = false;
+    deck.inert = true;
+    controls.inert = true;
+    closeHelpButton.focus();
+  }
+
+  function closeHelp() {
+    helpOverlay.hidden = true;
+    deck.inert = false;
+    controls.inert = false;
+    if (helpReturnFocus && typeof helpReturnFocus.focus === 'function') {
+      helpReturnFocus.focus();
+    }
+  }
+
+  async function toggleFullscreen() {
+    try {
+      if (document.fullscreenElement) {
+        await document.exitFullscreen();
+      } else if (document.documentElement.requestFullscreen) {
+        await document.documentElement.requestFullscreen();
+      }
+    } catch {
+      counter.textContent = `${currentIndex + 1} / ${slides.length} · Pantalla completa no disponible`;
+    }
+  }
+
+  previousButton.addEventListener('click', () => render(currentIndex - 1));
+  nextButton.addEventListener('click', () => render(currentIndex + 1));
+  window.addEventListener('hashchange', syncFromHash);
+
+  notesButton.addEventListener('click', () => setNotesOpen(notesDrawer.hidden));
+  closeNotesButton.addEventListener('click', () => {
+    setNotesOpen(false);
+    notesButton.focus();
+  });
+
+  helpButton.addEventListener('click', openHelp);
+  closeHelpButton.addEventListener('click', closeHelp);
+  helpOverlay.addEventListener('click', event => {
+    if (event.target === helpOverlay) {
+      closeHelp();
+    }
+  });
+
+  if (!document.documentElement.requestFullscreen || document.fullscreenEnabled === false) {
+    fullscreenButton.disabled = true;
+    fullscreenButton.title = 'Pantalla completa no disponible en este navegador';
+  }
+  fullscreenButton.addEventListener('click', toggleFullscreen);
+  document.addEventListener('fullscreenchange', () => {
+    fullscreenButton.setAttribute('aria-pressed', String(Boolean(document.fullscreenElement)));
+  });
+
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape') {
+      if (!helpOverlay.hidden) {
+        event.preventDefault();
+        closeHelp();
+        return;
+      }
+      if (!notesDrawer.hidden) {
+        event.preventDefault();
+        const hadFocus = notesDrawer.contains(document.activeElement);
+        setNotesOpen(false);
+        if (hadFocus) {
+          notesButton.focus();
+        }
+        return;
+      }
+      return;
+    }
+
+    if (!helpOverlay.hidden) {
+      if (event.key === 'Tab') {
+        event.preventDefault();
+        closeHelpButton.focus();
+      }
+      return;
+    }
+
+    if (event.ctrlKey || event.altKey || event.metaKey) {
+      return;
+    }
+    if (event.target instanceof Element && event.target.closest('button, input, textarea, select, a, [contenteditable="true"], [role="button"], [data-deck-shortcuts="off"]')) {
+      return;
+    }
+
+    const actions = {
+      ArrowLeft: () => render(currentIndex - 1),
+      ArrowUp: () => render(currentIndex - 1),
+      ArrowRight: () => render(currentIndex + 1),
+      ArrowDown: () => render(currentIndex + 1),
+      ' ': () => render(currentIndex + 1),
+      Home: () => render(0),
+      End: () => render(slides.length - 1),
+      n: () => setNotesOpen(notesDrawer.hidden),
+      N: () => setNotesOpen(notesDrawer.hidden),
+      f: toggleFullscreen,
+      F: toggleFullscreen,
+    };
+
+    if (actions[event.key]) {
+      event.preventDefault();
+      actions[event.key]();
+    }
+  });
+
+  syncFromHash();
+})();
+</script>
+</body>
+</html>

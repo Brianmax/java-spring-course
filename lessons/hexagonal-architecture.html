@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Lección de arquitectura hexagonal: separar el caso de uso de HTTP y la persistencia al migrar PostgreSQL a MongoDB.">
+<meta name="description" content="Lección de arquitectura hexagonal en Spring Boot: proteger reglas de negocio ante cambios de base de datos, pasarelas de pago, mensajería y nuevos canales de entrada.">
 <title>Arquitectura hexagonal — Curso de Java</title>
 <style>
 :root {
@@ -12,6 +12,7 @@
   --secondary-bg: #182330;
   --surface: #202c3c;
   --surface-2: #29384a;
+  --table-head: #2d3b50;
   --text: #e6edf3;
   --muted: #a8b3c5;
   --accent: #70d9e8;
@@ -19,330 +20,2170 @@
   --highlight: #b9a0ff;
   --success: #a6e3a1;
   --warning: #ffc78a;
-  --danger: #ff8585;
+  --danger: #ff7b7b;
   --line: #39495d;
   --ink-panel: #21222c;
-  --font-sans: Arial, Helvetica, system-ui, sans-serif;
-  --font-mono: Consolas, "Liberation Mono", monospace;
+  --shadow: 0 14px 36px rgb(0 0 0 / 0.35);
+  --font-sans: "Arial Nova", Arial, Helvetica, ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
 }
-*{box-sizing:border-box} [hidden]{display:none!important} body{margin:0;height:100vh;height:100dvh;display:grid;grid-template-rows:auto minmax(0,1fr) auto auto;background:var(--bg);color:var(--text);font-family:var(--font-sans)}
-.chrome,.controls{display:flex;align-items:center;gap:12px;padding:8px clamp(16px,3vw,40px);background:#182330}.chrome{justify-content:space-between;border-bottom:1px solid var(--line);font-size:.9rem;color:var(--muted)}.chrome a{color:var(--accent);text-decoration:none}.deck{min-height:0;overflow:auto}.slide{min-height:100%;padding:clamp(20px,3vh,36px) clamp(24px,6vw,84px);display:flex;flex-direction:column;justify-content:center;gap:clamp(16px,2.5vh,26px);animation:enter .28s ease-out}.slide-header,.body{width:min(100%,1240px);margin-inline:auto}.eyebrow{color:var(--highlight);font-weight:700;letter-spacing:.12em;text-transform:uppercase;font-size:.78rem;margin-bottom:9px}.slide h1,.slide h2{font-size:clamp(2rem,3.5vw,3.2rem);line-height:1.08;letter-spacing:-.03em;margin:0;max-width:1100px}.slide h1{font-size:clamp(2.6rem,5vw,4.4rem)}.body{display:flex;flex-direction:column;gap:18px;justify-content:center;font-size:clamp(1rem,1.35vw,1.22rem);line-height:1.48}.lead{font-size:clamp(1.15rem,1.8vw,1.55rem);line-height:1.42;max-width:1050px;margin:0}.small{font-size:.92rem;color:var(--muted)}p{margin:.35em 0}.split{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center}.triplet{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.panel{border:1px solid var(--line);border-radius:14px;background:var(--surface);padding:20px}.tint{background:var(--secondary-bg);border-color:#476174}.label{font-size:.76rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);font-weight:700;margin-bottom:10px}.callout{border-left:3px solid var(--flow);padding:12px 16px;background:var(--secondary-bg);border-radius:0 10px 10px 0}.warn{border-color:var(--warning)}.good{border-color:var(--success)}.flow{display:flex;align-items:stretch;justify-content:center;gap:12px}.node{flex:1;border:1px solid var(--line);border-radius:13px;background:var(--surface);padding:16px;text-align:center;align-content:center;min-width:0}.node.primary{border-color:var(--accent);background:#182b35}.arrow{align-self:center;color:var(--flow);font-size:1.6rem;font-weight:bold;text-align:center}.tag{font-size:.8rem;color:var(--muted)}pre{margin:0;padding:16px 18px;overflow:auto;background:var(--ink-panel);border:1px solid var(--line);border-radius:12px;color:#f2f4f8;font:clamp(.78rem,1.1vw,.98rem)/1.5 var(--font-mono);white-space:pre}.code-label{font-size:.8rem;color:var(--accent);font-weight:bold;margin-bottom:8px}.tok-keyword{color:#d6a8ff}.tok-type{color:#83d9ef}.tok-string{color:#a6e3a1}.tok-comment{color:#a8b3c5}.focus-line{background:#29384a;display:inline-block;width:100%}.table{width:100%;border-collapse:collapse;font-size:.95em}.table th,.table td{text-align:left;border:1px solid var(--line);padding:8px 10px}.table th{background:#2d3b50}.diagram{display:grid;grid-template-columns:1fr auto 1.1fr auto 1fr;gap:12px;align-items:center}.diagram.vertical{grid-template-columns:1fr;max-width:800px;margin:auto}.diagram .node{min-height:86px}.badge{color:var(--highlight);font-size:.8rem;font-weight:bold}.controls{border-top:1px solid var(--line);justify-content:center}.controls button{min-width:46px;min-height:44px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--text);font:inherit;cursor:pointer}.controls button:disabled{opacity:.45;cursor:default}.counter{min-width:100px;text-align:center;font-variant-numeric:tabular-nums}.progress{height:5px;background:var(--surface)}.progress span{display:block;height:100%;width:0;background:var(--flow);transition:width .2s}.help{position:fixed;inset:0;background:#0009;display:grid;place-items:center;z-index:5}.help article{width:min(90vw,560px);padding:24px;border:1px solid var(--line);border-radius:16px;background:var(--surface)}button:focus-visible,a:focus-visible{outline:3px solid var(--flow);outline-offset:3px}.exercise{display:grid;grid-template-columns:1fr 1fr;gap:12px}.exercise .panel{padding:14px 18px}.return{display:flex;justify-content:space-between;gap:14px;align-items:center}.return span{padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
-@keyframes enter{from{opacity:.55;transform:translateY(5px)}to{opacity:1;transform:none}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
-@media(max-width:700px){body{height:auto;min-height:100dvh;grid-template-rows:auto minmax(0,1fr) auto auto}.chrome{font-size:.75rem;gap:8px}.chrome span{text-align:right}.deck{overflow:visible}.slide{min-height:calc(100dvh - 112px);justify-content:flex-start;padding:24px 18px 30px}.slide h2{font-size:2rem}.body{font-size:1rem}.split,.triplet,.exercise{grid-template-columns:1fr}.flow,.diagram{display:flex;flex-direction:column}.arrow{transform:rotate(90deg)}.diagram .arrow{transform:rotate(90deg)}.controls{position:sticky;bottom:0;z-index:3;flex-wrap:wrap;padding:8px}.panel{padding:16px}.progress{position:sticky;bottom:0}.return{flex-direction:column}}
-@media(min-width:701px) and (max-height:760px){.slide{gap:14px;padding-block:16px}.body{gap:12px;font-size:1rem}.panel{padding:15px}.slide h2{font-size:clamp(1.9rem,3vw,2.65rem)}}
-/* Keep the heading anchored; center only the lesson content below it. */
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+body {
+  margin: 0;
+  height: 100vh;
+  height: 100dvh;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto auto;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  overflow: hidden;
+}
+
+.chrome {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 9px clamp(16px, 3vw, 40px);
+  background: var(--secondary-bg);
+  border-bottom: 1px solid var(--line);
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+.chrome a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 700;
+}
+.chrome a:hover { text-decoration: underline; }
+
+.deck {
+  min-height: 0;
+  overflow: auto;
+  position: relative;
+}
+
 .slide {
-  height: 100%;
   min-height: 100%;
+  padding: clamp(18px, 3vh, 30px) clamp(24px, 4.5vw, 64px);
+  display: flex;
+  flex-direction: column;
   justify-content: flex-start;
-  gap: 20px;
-  padding: 24px clamp(24px, 4vw, 64px);
+  gap: clamp(14px, 2.2vh, 22px);
+  animation: enter 0.28s ease-out;
+}
+
+.slide-header,
+.body {
+  width: min(100%, 1240px);
+  margin-inline: auto;
 }
 .slide-header { flex: 0 0 auto; }
-.slide h1 { font-size: clamp(2.3rem, 4vw, 3.6rem); }
-.slide h2 { font-size: clamp(2rem, 3vw, 2.65rem); }
-.body { flex: 1 0 auto; min-height: 0; font-size: 1.15rem; gap: 20px; }
-.body.split, .body.triplet { align-content: center; }
-.body > *, .split > *, .triplet > *, .exercise > * { min-width: 0; }
-.split { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.triplet { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.split > .callout, .split > .small, .triplet > .callout { grid-column: 1 / -1; }
-.stack { display: flex; flex-direction: column; gap: 12px; }
-pre { max-width: 100%; font-size: .94rem; line-height: 1.45; }
-.table-wrap { overflow-x: auto; }
-.counter { min-width: 0; max-width: 56vw; font-size: .9rem; }
-.controls { flex-wrap: wrap; }
-.arrow svg { display: block; width: 36px; height: 24px; overflow: visible; }
-.arrow svg path { fill: none; stroke: currentColor; stroke-width: 2.5; }
-.arrow .tag { display: block; max-width: 110px; margin-top: 8px; font-weight: 400; }
-.call-route { display: flex; flex-direction: column; gap: 12px; }
-.route-nodes { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
-.route-svg { width: 100%; height: 58px; overflow: visible; }
-.route-svg path { fill: none; stroke: var(--flow); stroke-width: 2; }
-.route-svg text { fill: var(--text); font: 16px Arial, sans-serif; text-anchor: middle; }
-.route-mobile-svg { display: none; }
-.route-mobile-svg rect { fill: var(--surface); stroke: var(--line); }
-.route-mobile-svg path { fill: none; stroke: var(--flow); stroke-width: 2; }
-.route-mobile-svg text { fill: var(--text); font: 16px Arial, sans-serif; text-anchor: middle; }
-.boundary { border: 1px solid var(--accent); border-radius: 16px; padding: 24px; background: var(--secondary-bg); }
-.package-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
-.package-list .node { text-align: left; }
-.help article button { min-height: 44px; padding: 8px 16px; font: inherit; }
-@media (min-width: 701px) and (max-height: 760px) {
-  .slide { padding-block: 20px; gap: 16px; }
-  .body { font-size: 1.1rem; gap: 16px; }
-  .panel { padding: 18px; }
+
+.eyebrow {
+  color: var(--highlight);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+  margin-bottom: 8px;
 }
-@media (max-width: 700px) {
-  body { height: 100dvh; min-height: 0; overflow: hidden; }
-  .chrome { min-width: 0; }
-  .chrome span { max-width: 65%; }
-  .deck { overflow: auto; min-width: 0; }
-  .slide { height: auto; min-height: 100%; padding: 24px 18px; gap: 24px; }
-  .slide h1, .slide h2 { font-size: 2rem; }
-  .body { flex: 0 0 auto; width: 100%; font-size: 1.08rem; }
-  .split, .triplet, .exercise, .package-list { grid-template-columns: minmax(0, 1fr); }
-  .panel { max-width: 100%; }
-  pre { font-size: .94rem; white-space: pre-wrap; overflow-wrap: anywhere; }
-  .node { overflow-wrap: anywhere; }
-  .controls { position: static; gap: 8px; padding: 8px; }
-  .counter { order: -1; flex-basis: 100%; max-width: 100%; font-size: .8rem; }
-  .progress { position: static; }
-  .arrow { transform: rotate(90deg); }
-  .arrow:has(.tag) { display: flex; align-items: center; gap: 8px; transform: none; }
-  .arrow:has(.tag) svg { transform: rotate(90deg); }
-  .arrow .tag { margin: 0; }
-  .route-nodes { display: none; }
-  .route-svg { display: none; }
-  .route-mobile { display: none !important; }
-  .route-mobile-svg { display: block; width: 100%; }
-  .boundary { padding: 16px; }
+
+.slide h1,
+.slide h2 {
+  margin: 0;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  max-width: 1120px;
+}
+.slide h1 { font-size: clamp(2.2rem, 3.8vw, 3.35rem); font-weight: 800; }
+.slide h2 { font-size: clamp(1.85rem, 2.8vw, 2.55rem); font-weight: 750; }
+.slide h3 { margin: 0 0 8px; font-size: 1.08rem; color: var(--text); }
+
+.body {
+  flex: 1 0 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16px;
+  font-size: clamp(0.98rem, 1.25vw, 1.14rem);
+  line-height: 1.48;
+}
+.body > *,
+.split > *,
+.triplet > *,
+.quad > *,
+.exercise > * { min-width: 0; }
+
+.lead {
+  font-size: clamp(1.08rem, 1.5vw, 1.32rem);
+  line-height: 1.42;
+  margin: 0;
+  max-width: 1060px;
+}
+.small { font-size: 0.9rem; color: var(--muted); }
+p { margin: 0.3em 0; }
+ul.list { margin: 0.25em 0 0; padding-left: 1.2em; line-height: 1.5; }
+ul.list li + li { margin-top: 6px; }
+
+code {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  background: rgb(255 255 255 / 0.06);
+  padding: 1px 5px;
+  border-radius: 5px;
+}
+pre code { background: transparent; padding: 0; font-size: inherit; }
+
+.split {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  align-items: center;
+}
+.split.align-start { align-items: start; }
+.split.wide-left { grid-template-columns: 1.22fr 0.78fr; }
+.split.wide-right { grid-template-columns: 0.82fr 1.18fr; }
+.split > .span-all,
+.triplet > .span-all { grid-column: 1 / -1; }
+
+.triplet {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+.quad {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+.stack { display: flex; flex-direction: column; gap: 12px; }
+
+.panel {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+  padding: 16px 18px;
+  box-shadow: var(--shadow);
+}
+.panel.tint { background: var(--secondary-bg); border-color: #466176; }
+.panel.accent-box { background: #162936; border-color: var(--accent); }
+.panel.warn-box { background: #26221e; border-color: var(--warning); }
+.panel.danger-box { background: #291c22; border-color: var(--danger); }
+
+.label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.11em;
+  color: var(--accent);
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.label code { text-transform: none; letter-spacing: 0; }
+.label.warn { color: var(--warning); }
+.label.danger { color: var(--danger); }
+.label.good { color: var(--success); }
+.label.violet { color: var(--highlight); }
+
+.badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: var(--surface-2);
+  color: var(--accent);
+  border: 1px solid var(--line);
+}
+.badge.ok { background: #17362b; color: var(--success); border-color: #2f6c53; }
+.badge.warn { background: #382a1a; color: var(--warning); border-color: #7d5b2d; }
+.badge.err { background: #3a1e24; color: var(--danger); border-color: #84404b; }
+.badge.violet { background: #292242; color: var(--highlight); border-color: #5b4b8a; }
+
+.callout {
+  border-left: 4px solid var(--flow);
+  padding: 11px 16px;
+  background: var(--secondary-bg);
+  border-radius: 0 10px 10px 0;
+  line-height: 1.45;
+}
+.callout.warn { border-color: var(--warning); }
+.callout.good { border-color: var(--success); }
+.callout.danger { border-color: var(--danger); }
+
+.facts {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px 16px;
+  align-items: baseline;
+}
+.facts span { color: var(--muted); }
+.facts strong { text-align: right; }
+
+.flow {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: 10px;
+}
+.node {
+  flex: 1;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  background: var(--surface);
+  padding: 14px 12px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  min-width: 0;
+}
+.node.primary { border-color: var(--accent); background: #162b38; }
+.node.warn-node { border-color: var(--warning); background: #27221d; }
+.node.danger-node { border-color: var(--danger); background: #2a1c22; }
+.node.good-node { border-color: var(--success); background: #182b24; }
+.node.dashed { border-style: dashed; border-color: var(--highlight); background: #1c2233; }
+
+.arrow {
+  align-self: center;
+  color: var(--flow);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  flex: 0 0 auto;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+.arrow svg { display: block; width: 32px; height: 20px; overflow: visible; }
+.arrow svg path { fill: none; stroke: var(--flow); stroke-width: 2.3; stroke-linecap: round; stroke-linejoin: round; }
+.arrow.danger svg path { stroke: var(--danger); }
+.arrow.dashed svg path { stroke: var(--highlight); stroke-dasharray: 5 4; }
+
+.code-label {
+  font-size: 0.78rem;
+  color: var(--accent);
+  font-weight: 700;
+  margin-bottom: 6px;
+  letter-spacing: 0.03em;
+}
+pre {
+  margin: 0;
+  padding: 14px 16px;
+  overflow: auto;
+  background: var(--ink-panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  color: #f2f4f8;
+  font: clamp(0.78rem, 1.02vw, 0.92rem) / 1.48 var(--font-mono);
+  white-space: pre;
+  max-width: 100%;
+}
+.tok-keyword { color: #d6a8ff; }
+.tok-type { color: #70d9e8; }
+.tok-string { color: #a6e3a1; }
+.tok-number { color: #ffc78a; }
+.tok-ann { color: #ffc78a; }
+.tok-comment { color: #8c9bb0; }
+.code-focus {
+  display: inline-block;
+  width: 100%;
+  background: rgb(112 217 232 / 0.14);
+  border-left: 3px solid var(--accent);
+  padding-left: 6px;
+  margin-left: -9px;
+}
+.code-warn {
+  display: inline-block;
+  width: 100%;
+  background: rgb(255 123 123 / 0.14);
+  border-left: 3px solid var(--danger);
+  padding-left: 6px;
+  margin-left: -9px;
+}
+.code-dim { opacity: 0.62; }
+
+.table-wrap { overflow-x: auto; max-width: 100%; }
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92em;
+}
+.table th,
+.table td {
+  text-align: left;
+  border: 1px solid var(--line);
+  padding: 8px 11px;
+  vertical-align: top;
+}
+.table th {
+  background: var(--table-head);
+  color: var(--text);
+  font-weight: 700;
+}
+.table td { background: var(--surface); }
+.table tr:nth-child(even) td { background: var(--secondary-bg); }
+
+.boundary {
+  border: 2px solid var(--accent);
+  border-radius: 16px;
+  padding: 16px 18px;
+  background: #142533;
+}
+.inner-boundary {
+  border: 1px solid var(--highlight);
+  border-radius: 12px;
+  padding: 12px 14px;
+  background: #1c2438;
+}
+
+.svg-box {
+  width: 100%;
+  display: block;
+  overflow: visible;
+}
+.svg-desktop { display: block; width: 100%; height: auto; }
+.svg-mobile { display: none; width: 100%; height: auto; }
+
+.state-group {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 12px 14px;
+  background: var(--secondary-bg);
+}
+.state-group.active { border-color: var(--accent); }
+.state-row {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 10px;
+  align-items: center;
+  margin-top: 8px;
+}
+.state-chip {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 8px 10px;
+  background: var(--surface);
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.tree {
+  margin: 0;
+  padding: 14px 16px;
+  background: var(--ink-panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  font: clamp(0.78rem, 0.98vw, 0.9rem) / 1.52 var(--font-mono);
+  white-space: pre;
+  overflow-x: auto;
+  color: #e6edf3;
+}
+.tree-dir { color: var(--accent); font-weight: 700; }
+.tree-core { color: var(--success); font-weight: 700; }
+.tree-warn { color: var(--danger); font-weight: 700; }
+.tree-note { color: var(--muted); }
+
+.exercise {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+.exercise .panel { padding: 14px 16px; }
+
+.progress {
+  height: 4px;
+  background: var(--surface);
+}
+.progress span {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--flow);
+  transition: width 0.2s ease-out;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 8px clamp(14px, 3vw, 40px);
+  background: var(--secondary-bg);
+  border-top: 1px solid var(--line);
+}
+.controls button {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 6px 13px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.92rem;
+  cursor: pointer;
+  transition: border-color 0.15s ease-out, background 0.15s ease-out;
+}
+.controls button:hover:not(:disabled) { border-color: var(--accent); }
+.controls button[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: #173342;
+  color: var(--accent);
+}
+.controls button:disabled { opacity: 0.42; cursor: default; }
+.counter {
+  min-width: 0;
+  max-width: 44vw;
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.notes-drawer {
+  position: fixed;
+  right: 18px;
+  bottom: 72px;
+  width: min(92vw, 460px);
+  max-height: 40vh;
+  overflow: auto;
+  padding: 16px 18px;
+  border: 1px solid var(--accent);
+  border-radius: 14px;
+  background: #15212d;
+  box-shadow: var(--shadow);
+  z-index: 4;
+}
+.notes-drawer-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.notes-drawer button {
+  min-height: 36px;
+  padding: 4px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  cursor: pointer;
+}
+
+.help {
+  position: fixed;
+  inset: 0;
+  background: rgb(0 0 0 / 0.72);
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  z-index: 6;
+}
+.help article {
+  width: min(92vw, 540px);
+  padding: 22px 24px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+.help h2 { margin: 0 0 12px; font-size: 1.4rem; }
+.help article button {
+  margin-top: 12px;
+  min-height: 44px;
+  padding: 8px 18px;
+  border: 1px solid var(--accent);
+  border-radius: 10px;
+  background: var(--accent);
+  color: #0d161e;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+button:focus-visible,
+a:focus-visible,
+.table-wrap:focus-visible {
+  outline: 3px solid var(--flow);
+  outline-offset: 3px;
+}
+
+@keyframes enter {
+  from { opacity: 0.65; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media (min-width: 721px) and (max-height: 760px) {
+  .slide { padding: 14px clamp(22px, 4vw, 52px); gap: 11px; }
+  .eyebrow { margin-bottom: 4px; font-size: 0.72rem; }
+  .slide h1 { font-size: clamp(2rem, 3.2vw, 2.75rem); }
+  .slide h2 { font-size: clamp(1.65rem, 2.4vw, 2.15rem); }
+  .body { gap: 11px; font-size: 0.96rem; line-height: 1.42; }
+  .lead { font-size: 1.06rem; }
+  .panel { padding: 12px 14px; }
+  .callout { padding: 9px 13px; font-size: 0.93rem; }
+  pre, .tree { padding: 10px 13px; font-size: 0.82rem; line-height: 1.42; }
+  .table th, .table td { padding: 6px 9px; font-size: 0.88rem; }
+  .node { padding: 10px 10px; }
+  .boundary { padding: 12px 14px; }
+}
+
+@media (max-width: 720px) {
+  .chrome { font-size: 0.76rem; padding: 8px 14px; }
+  .chrome span { max-width: 62%; text-align: right; }
+  .slide { padding: 18px 16px 26px; gap: 16px; min-height: 100%; }
+  .slide h1 { font-size: 1.95rem; }
+  .slide h2 { font-size: 1.6rem; }
+  .body { flex: 0 0 auto; font-size: 0.98rem; gap: 14px; justify-content: flex-start; }
+  .split,
+  .split.wide-left,
+  .split.wide-right,
+  .triplet,
+  .quad,
+  .exercise { grid-template-columns: minmax(0, 1fr); }
+  .flow { flex-direction: column; }
+  .arrow svg { transform: rotate(90deg); }
+  .state-row { grid-template-columns: 1fr; }
+  pre, .tree { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 0.82rem; }
+  .svg-desktop { display: none; }
+  .svg-mobile { display: block; }
+  .controls { gap: 6px; padding: 8px 10px; }
+  .controls button { padding: 6px 10px; font-size: 0.84rem; }
+  .counter { order: -1; flex-basis: 100%; max-width: 100%; font-size: 0.8rem; }
+  .notes-drawer { right: 10px; left: 10px; width: auto; bottom: 112px; }
 }
 </style>
 </head>
 <body>
-<header class="chrome"><a href="../">Curso de Java</a><span>Arquitectura · cambiar persistencia sin cambiar el caso de uso</span></header>
+<header class="chrome">
+  <a href="../">Curso de Java</a>
+  <span>Arquitectura hexagonal · aislar reglas ante cambios de tecnología</span>
+</header>
+
 <main class="deck" id="deck" tabindex="-1" aria-label="Presentación: arquitectura hexagonal" aria-live="polite">
-<section class="slide" data-title="El equipo mantiene una API de pedidos"><header class="slide-header"><div class="eyebrow">Arquitectura hexagonal · Java 21</div><h1>El equipo mantiene una API de pedidos que ya funciona</h1></header><div class="body split"><div class="stack"><p class="lead">La operación <strong>GET /pedidos/A-17</strong> recupera un pedido guardado en PostgreSQL.</p><p>Un <strong>pedido</strong> registra una compra: A-17 contiene 3 cuadernos de S/ 12 cada uno.</p><p class="small">Partimos de una versión ampliada del ejemplo anterior: ahora la consulta sí lee datos guardados.</p></div><div class="panel tint"><div class="label">Consulta exitosa · A-17</div><p class="lead"><strong>3 × S/ 12 = S/ 36</strong></p><p>Estado: <strong>EN_PREPARACION</strong></p><p>HTTP: <strong>200 OK</strong> y datos del pedido.</p></div></div></section>
-<section class="slide" data-title="El equipo estipula una migración"><header class="slide-header"><div class="eyebrow">Cambio solicitado</div><h2>El equipo debe pasar de PostgreSQL a MongoDB</h2></header><div class="body"><p class="lead">La migración es un requisito estipulado del equipo; no afirmamos que una base sea superior para todo caso.</p><div class="flow"><div class="node"><b>Hoy</b><br>PostgreSQL<br><span class="small">relacional: filas y columnas</span></div><div class="arrow" aria-hidden="true">→</div><div class="node primary"><b>Destino requerido</b><br>MongoDB<br><span class="small">base de datos de documentos</span></div></div><div class="callout">En MongoDB, un <strong>documento</strong> es un registro con campos nombrados agrupados, parecido a un objeto expresado como JSON.</div></div></section>
-<section class="slide" data-title="El mismo A-17 en dos modelos"><header class="slide-header"><div class="eyebrow">Mismos datos · distinta representación</div><h2>Fila y documento describen el mismo A-17</h2></header><div class="body split"><div class="panel"><div class="label">PostgreSQL · fila simplificada</div><div class="table-wrap" tabindex="0" role="region" aria-label="Campos de la fila A-17"><table class="table"><tr><th>Campo</th><th>Valor</th></tr><tr><td>id</td><td>A-17</td></tr><tr><td>cantidad</td><td>3</td></tr><tr><td>precio_soles</td><td>12</td></tr><tr><td>total_soles</td><td>36</td></tr><tr><td>estado</td><td>EN_PREPARACION</td></tr></table></div></div><div class="panel tint"><div class="label">MongoDB · documento de A-17</div><pre>{
-  "id": "A-17",
-  "cantidad": 3,
-  "precioSoles": 12,
-  "totalSoles": 36,
-  "estado": "EN_PREPARACION"
-}</pre></div><p class="small">El total es 3 × S/ 12 = S/ 36. Guardarlo también es una simplificación del modelo para esta comparación; no prescribe cómo diseñar todas las compras.</p></div></section>
-<section class="slide" data-title="Lo que debe permanecer estable"><header class="slide-header"><div class="eyebrow">Contrato de la API</div><h2>El cambio de base debe conservar la respuesta acordada</h2></header><div class="body"><div class="split"><div class="panel tint"><div class="label">Operación estable</div><strong>GET /pedidos/A-17</strong><p>Si existe: 200 y estos cinco campos.</p><p>Si no existe, como A-99: 404.</p><p>Para esta lección ampliamos la respuesta anterior con cantidad y precio unitario.</p></div><div><div class="code-label">Respuesta JSON con cualquiera de las dos bases</div><pre>{
-  "id": "A-17",
-  "cantidad": 3,
-  "precioSoles": 12,
-  "totalSoles": 36,
-  "estado": "EN_PREPARACION"
-}</pre></div></div><div class="callout">El equipo cambia la persistencia, no este contrato. Mantenerlo requiere que el nuevo adaptador conserve el significado de los datos.</div></div></section>
-<section class="slide" data-title="Una implementación actual que funciona"><header class="slide-header"><div class="eyebrow">Punto de partida técnico</div><h2>El servicio consulta directamente PostgreSQL</h2></header><div class="body split"><div><div class="code-label">Dentro de ConsultarPedidoService · fragmento de éxito</div><pre><code><span class="tok-type">Pedido</span> buscar(<span class="tok-type">String</span> id) {
-  <span class="tok-type">String</span> sql =
-      <span class="tok-string">"SELECT * "</span> +
-      <span class="tok-string">"FROM pedidos WHERE id = ?"</span>;
-  <span class="tok-type">Map</span>&lt;<span class="tok-type">String</span>, <span class="tok-type">Object</span>&gt; fila = jdbc.queryForMap(sql, id);
-  <span class="tok-keyword">return new</span> <span class="tok-type">Pedido</span>(
-      (String) fila.get(<span class="tok-string">"id"</span>),
-      (int) fila.get(<span class="tok-string">"cantidad"</span>),
-      (int) fila.get(<span class="tok-string">"precio_soles"</span>),
-      (int) fila.get(<span class="tok-string">"total_soles"</span>),
-      (String) fila.get(<span class="tok-string">"estado"</span>));
-}</code></pre></div><div class="stack"><p><strong>SQL</strong> es un lenguaje para consultar datos relacionales; <code>?</code> recibe el ID como parámetro.</p><p><strong>JdbcTemplate</strong> es una ayuda de Spring. Aquí <code>jdbc</code> lo representa; la fila se recibe como un mapa de nombres de columna a valores.</p><div class="callout warn">El código funciona. Mostramos solo el caso exitoso y suponemos columnas de enteros para cantidad y soles; omitimos conexión, imports y tratamiento de ausencia.</div></div></div></section>
-<section class="slide" data-title="Qué líneas dependen de persistencia"><header class="slide-header"><div class="eyebrow">Cambio localizado en código</div><h2>Para MongoDB habría que cambiar SQL y el mapeo</h2></header><div class="body"><p>La tarea que ofrece la aplicación —aquí, consultar un pedido— se llama <strong>caso de uso</strong>.</p><div class="triplet"><div class="panel"><span class="badge">1 · Consulta</span><p>SQL y tabla <code>pedidos</code>: sustituir por búsqueda de documentos.</p></div><div class="panel"><span class="badge">2 · Lectura</span><p>Columnas de la fila: sustituir por campos del documento.</p></div><div class="panel tint"><span class="badge">3 · Conversión</span><p>Crear el mismo Pedido a partir de la nueva representación.</p></div></div><div class="callout">La tarea sigue siendo buscar A-17, pero hoy el servicio debe editarse porque contiene esos detalles de persistencia.</div><p class="lead">A eso llamamos <strong>acoplamiento</strong>: una parte del código conoce y depende de decisiones de otra. Aquí depende del acceso SQL usado con PostgreSQL.</p></div></section>
-<section class="slide" data-title="La presión al probar el caso de uso"><header class="slide-header"><div class="eyebrow">Costo visible</div><h2>El comportamiento queda difícil de revisar sin la base</h2></header><div class="body split"><div class="panel tint"><div class="label">Prueba del caso de uso</div><p>¿Al pedir A-17, el servicio devuelve el pedido recibido?</p><p>El servicio actual crea la consulta y depende de la conexión real.</p></div><div class="panel"><div class="label">Consecuencia práctica</div><p>Para ejecutar esa lógica se necesita preparar o simular infraestructura de datos, aunque solo queramos comprobar la coordinación.</p></div><div class="callout good">Las pruebas de integración con base real siguen siendo valiosas. La necesidad no es fingir que fallan, sino poder probar por separado cada responsabilidad.</div></div></section>
-<section class="slide" data-title="Separar la petición de su transporte y almacenamiento"><header class="slide-header"><div class="eyebrow">La idea antes del nombre</div><h2>El caso de uso solo necesita «buscar un pedido por ID»</h2></header><div class="body"><div class="diagram" role="img" aria-label="HTTP solicita la operación a la aplicación; la aplicación solicita recuperar el pedido a la persistencia elegida."><div class="node">Llega por HTTP<br><span class="small">GET /pedidos/A-17</span></div><div class="arrow"><svg viewBox="0 0 40 24" aria-hidden="true"><path d="M1 12H37 M29 4L37 12L29 20"/></svg><span class="tag">solicita</span></div><div class="node primary boundary">Aplicación<br><strong>buscar un pedido por ID</strong></div><div class="arrow"><svg viewBox="0 0 40 24" aria-hidden="true"><path d="M1 12H37 M29 4L37 12L29 20"/></svg><span class="tag">pide recuperar</span></div><div class="node">Se recupera de<br>PostgreSQL o MongoDB</div></div><div class="callout">La aplicación coordina la operación sin expresar cómo llegó la llamada ni cómo se recuperó el registro. A esta organización la llamamos <strong>arquitectura hexagonal</strong>; también se conoce como puertos y adaptadores.</div><p class="small">No exige seis capas ni una forma geométrica literal: sus límites separan contratos y detalles intercambiables.</p></div></section>
-<section class="slide" data-title="Qué necesitas saber para seguir"><header class="slide-header"><div class="eyebrow">Ruta · después de la motivación</div><h2>Prerrequisitos para leer los ejemplos</h2></header><div class="body"><div class="triplet"><div class="panel"><div class="label">Java</div><p>Clases, interfaces y constructores.</p></div><div class="panel"><div class="label">Aplicaciones web</div><p>Una ruta HTTP y un controlador básico de Spring.</p></div><div class="panel"><div class="label">No hace falta asumir</div><p>Experiencia con MongoDB, su driver, <code>Optional</code>, inyección de dependencias o JUnit.</p></div></div><div class="callout">Veremos cada término nuevo antes de usarlo. El ejemplo conceptual emplea Java 21.</div></div></section>
-<section class="slide" data-title="Dominio y aplicación"><header class="slide-header"><div class="eyebrow">Dos responsabilidades del núcleo</div><h2>El núcleo representa el pedido y coordina la consulta</h2></header><div class="body split"><div class="panel tint"><div class="label">Dominio · qué representa</div><p><code>Pedido</code> modela el registro A-17: ID, cantidad, precio unitario y total.</p></div><div class="panel"><div class="label">Aplicación · qué hacer</div><p>El caso de uso recibe un ID, solicita buscarlo y comunica el resultado.</p></div><div class="callout">Para esta búsqueda sencilla no inventamos reglas de negocio. Elegimos un núcleo Java simple, sin imports de Spring. No es una obligación universal de toda arquitectura.</div></div></section>
-<section class="slide" data-title="Resultado presente o ausente"><header class="slide-header"><div class="eyebrow">Definir el comportamiento</div><h2>Buscar un ID puede devolver un pedido o ninguno</h2></header><div class="body"><div class="flow"><div class="node primary">Entrada<br><strong>"A-17"</strong></div><div class="arrow">→</div><div class="node">Resultado presente<br><strong>Pedido A-17</strong></div></div><div class="flow"><div class="node primary">Entrada<br><strong>"A-99"</strong></div><div class="arrow">→</div><div class="node">Resultado ausente<br><strong>sin Pedido</strong></div></div><p class="lead"><code>Optional&lt;Pedido&gt;</code> es un tipo de Java que expresa que puede haber un valor <code>Pedido</code> o no.</p><div class="callout">La ausencia en el núcleo aún no es un estado HTTP: es el resultado de la búsqueda.</div></div></section>
-<section class="slide" data-title="Puerto de entrada"><header class="slide-header"><div class="eyebrow">Contrato que ofrece la aplicación</div><h2>El puerto de entrada nombra la operación disponible</h2></header><div class="body split"><div><div class="code-label">Contrato Java · puerto de entrada</div><pre><code><span class="tok-keyword">public interface</span> <span class="tok-type">ConsultarPedido</span> {
-  <span class="tok-type">Optional</span>&lt;<span class="tok-type">Pedido</span>&gt; buscarPorId(
-      <span class="tok-type">String</span> id);
-}</code></pre></div><div><p>La interfaz declara qué puede pedir un llamador a la aplicación: consultar por ID.</p><div class="callout">Aquí elegimos una interfaz como representación del puerto. No todo puerto tiene que representarse con una interfaz Java.</div></div></div></section>
-<section class="slide" data-title="Puerto de salida"><header class="slide-header"><div class="eyebrow">Capacidad que necesita la aplicación</div><h2>El puerto de salida expresa lo que el caso de uso necesita</h2></header><div class="body split"><div><div class="code-label">Contrato Java · puerto de salida</div><pre><code><span class="tok-keyword">public interface</span> <span class="tok-type">BuscarPedido</span> {
-  <span class="tok-type">Optional</span>&lt;<span class="tok-type">Pedido</span>&gt; buscarPorId(
-      <span class="tok-type">String</span> id);
-}</code></pre></div><div><p>La aplicación inicia esta interacción: necesita que alguien busque el pedido.</p><p><code>BuscarPedido</code> y <code>ConsultarPedido</code> pueden tener la misma firma y aun así roles distintos.</p><div class="callout warn">Puerto de salida no significa respuesta HTTP. Es un contrato interno de la aplicación.</div></div></div></section>
-<section class="slide" data-title="Adaptador de entrada HTTP"><header class="slide-header"><div class="eyebrow">El exterior llama al caso de uso</div><h2>El controlador traduce HTTP al puerto de entrada</h2></header><div class="body"><div class="diagram" role="img" aria-label="La solicitud HTTP llega al controlador; el controlador extrae el ID y llama a ConsultarPedido."><div class="node">Solicitud HTTP<br><strong>GET /pedidos/A-17</strong></div><div class="arrow"><svg viewBox="0 0 40 24" aria-hidden="true"><path d="M1 12H37 M29 4L37 12L29 20"/></svg><span class="tag">recibe</span></div><div class="node tint">Adaptador de entrada<br><strong>Controlador</strong><br>traduce la ruta y el ID</div><div class="arrow"><svg viewBox="0 0 40 24" aria-hidden="true"><path d="M1 12H37 M29 4L37 12L29 20"/></svg><span class="tag">invoca con ID</span></div><div class="node primary">Puerto de entrada<br><strong>ConsultarPedido</strong></div></div><div class="callout">Un adaptador es código que conecta un mecanismo externo con un puerto. Aquí el mecanismo es HTTP; el controlador lo traduce a una llamada de Java.</div></div></section>
-<section class="slide" data-title="Adaptadores de salida"><header class="slide-header"><div class="eyebrow">Implementaciones de la capacidad</div><h2>El núcleo define el contrato; los adaptadores lo cumplen</h2></header><div class="body"><div class="split"><div class="boundary stack"><div class="label">Dentro · núcleo de la aplicación</div><p><strong>Pedido</strong>: datos del dominio.</p><p><strong>ConsultarPedido</strong>: operación ofrecida.</p><p><strong>Servicio</strong>: coordina la consulta.</p><p><strong>BuscarPedido</strong>: capacidad necesaria.</p></div><div class="stack"><div class="panel"><div class="label">Fuera del núcleo · adaptador PostgreSQL</div><strong>PedidoPostgresAdapter</strong><p>Implementa BuscarPedido; convierte fila SQL a Pedido.</p></div><div class="panel"><div class="label">Alternativa · adaptador MongoDB</div><strong>PedidoMongoAdapter</strong><p>Implementa BuscarPedido; convierte documento a Pedido.</p></div></div></div><div class="callout">El adaptador es código que conecta con una tecnología. La base de datos no es el adaptador. Para la consulta elegimos una implementación a la vez.</div></div></section>
-<section class="slide" data-title="Llamadas en tiempo de ejecución"><header class="slide-header"><div class="eyebrow">Diagrama 1 · ejecución</div><h2>En ejecución, el servicio llama al adaptador concreto</h2></header><div class="body"><div class="diagram" role="img" aria-label="Controlador invoca al servicio; el servicio llama a PedidoPostgresAdapter mediante BuscarPedido."><div class="node">Controlador</div><div class="arrow"><svg viewBox="0 0 40 24" aria-hidden="true"><path d="M1 12H37 M29 4L37 12L29 20"/></svg><span class="tag">invoca</span></div><div class="node primary">Servicio<br>tiene BuscarPedido</div><div class="arrow"><svg viewBox="0 0 40 24" aria-hidden="true"><path d="M1 12H37 M29 4L37 12L29 20"/></svg><span class="tag">llama vía puerto</span></div><div class="node">PedidoPostgresAdapter<br>consulta PostgreSQL</div></div><div class="callout">El objeto real recibido por constructor ejecuta la búsqueda. En otra configuración, ese objeto podría ser PedidoMongoAdapter.</div><p class="small">Estas flechas muestran llamadas, no dependencias de código. El resultado vuelve al llamador; veremos el recorrido completo más adelante.</p></div></section>
-<section class="slide" data-title="Dependencias en el código fuente"><header class="slide-header"><div class="eyebrow">Diagrama 2 · dependencias de código</div><h2>En el código, ambos lados dependen del contrato</h2></header><div class="body"><div class="flow" role="img" aria-label="ConsultarPedidoService usa BuscarPedido. PedidoPostgresAdapter implementa BuscarPedido. Ambas flechas apuntan a la interfaz."><div class="node">ConsultarPedidoService</div><div class="arrow"><svg viewBox="0 0 40 24" aria-hidden="true"><path d="M1 12H37 M29 4L37 12L29 20"/></svg><span class="tag">usa / importa</span></div><div class="node primary">BuscarPedido<br><span class="small">interfaz del núcleo</span></div><div class="arrow"><svg viewBox="0 0 40 24" aria-hidden="true"><path d="M39 12H3 M11 4L3 12L11 20"/></svg><span class="tag">implementa</span></div><div class="node">PedidoPostgresAdapter</div></div><div class="callout">Una dependencia significa que el código necesita otro tipo para compilar. El servicio nombra BuscarPedido, no PedidoPostgresAdapter.</div><p class="small">La implementación depende del contrato definido por la aplicación: este es el cambio de dirección respecto al servicio que conocía SQL.</p></div></section>
-<section class="slide" data-title="Contratos Java"><header class="slide-header"><div class="eyebrow">Forma concreta de los puertos</div><h2>Los contratos usan tipos del dominio, no tipos de base</h2></header><div class="body split"><div><div class="code-label">Fragmentos Java · dominio y puertos</div><pre><code><span class="tok-keyword">record</span> <span class="tok-type">Pedido</span>(
-    <span class="tok-type">String</span> id,
-    <span class="tok-type">int</span> cantidad,
-    <span class="tok-type">int</span> precioSoles,
-    <span class="tok-type">int</span> totalSoles,
-    <span class="tok-type">String</span> estado) {}
 
-<span class="tok-keyword">interface</span> <span class="tok-type">ConsultarPedido</span> {
-  <span class="tok-type">Optional</span>&lt;<span class="tok-type">Pedido</span>&gt; buscarPorId(<span class="tok-type">String</span> id);
-}
-<span class="tok-keyword">interface</span> <span class="tok-type">BuscarPedido</span> {
-  <span class="tok-type">Optional</span>&lt;<span class="tok-type">Pedido</span>&gt; buscarPorId(<span class="tok-type">String</span> id);
-}</code></pre></div><div class="stack"><p><code>record</code> es una forma de Java para declarar una clase sencilla de datos; aquí <code>Pedido</code> agrupa los cinco valores de A-17.</p><p>Son fragmentos: importación de <code>Optional</code> omitida por brevedad.</p><div class="callout">Ningún contrato expone una fila SQL ni un documento MongoDB.</div></div></div></section>
-<section class="slide" data-title="Servicio con constructor"><header class="slide-header"><div class="eyebrow">Implementación de la aplicación</div><h2>El servicio recibe el puerto de salida</h2></header><div class="body split"><div><div class="code-label">Fragmento Java · implementación del caso de uso</div><pre><code><span class="tok-keyword">final class</span> <span class="tok-type">ConsultarPedidoService</span>
-    <span class="tok-keyword">implements</span> <span class="tok-type">ConsultarPedido</span> {
-  <span class="tok-keyword">private final</span> <span class="tok-type">BuscarPedido</span> pedidos;
-
-  <span class="tok-type">ConsultarPedidoService</span>(<span class="tok-type">BuscarPedido</span> pedidos) {
-    <span class="tok-keyword">this</span>.pedidos = pedidos;
-  }
-
-  <span class="tok-keyword">public</span> <span class="tok-type">Optional</span>&lt;<span class="tok-type">Pedido</span>&gt;
-      buscarPorId(<span class="tok-type">String</span> id) {
-    <span class="tok-keyword">return</span> pedidos.buscarPorId(id);
-  }
-}</code></pre></div><div><p>Un <strong>constructor</strong> prepara una instancia al recibir sus dependencias.</p><p><strong>Inyección por constructor</strong> significa que quien crea el servicio le suministra el colaborador <code>BuscarPedido</code>.</p><div class="callout">No se necesita un framework para esta relación. El servicio coordina la capacidad requerida y no importa una clase de base de datos.</div></div></div></section>
-<section class="slide" data-title="Adaptador PostgreSQL"><header class="slide-header"><div class="eyebrow">Una implementación realista en su límite</div><h2>El adaptador convierte fila SQL a Pedido</h2></header><div class="body split"><div><div class="code-label">Fragmento Java · encontrado o ausente</div><pre><code><span class="tok-keyword">final class</span> <span class="tok-type">PedidoPostgresAdapter</span>
-    <span class="tok-keyword">implements</span> <span class="tok-type">BuscarPedido</span> {
-  <span class="tok-keyword">public</span> <span class="tok-type">Optional</span>&lt;<span class="tok-type">Pedido</span>&gt;
-      buscarPorId(<span class="tok-type">String</span> id) {
-    <span class="tok-type">List</span>&lt;<span class="tok-type">Pedido</span>&gt; filas = jdbc.query(
-      <span class="tok-string">"SELECT * "</span> +
-      <span class="tok-string">"FROM pedidos WHERE id = ?"</span>, mapper, id);
-    <span class="tok-keyword">return</span> filas.stream().findFirst();
-  }
-}</code></pre></div><div class="stack"><p><code>mapper</code> es un conversor: lee los cinco campos de cada fila y crea un <code>Pedido</code>, como en el ejemplo anterior.</p><p><code>findFirst()</code> devuelve el primer pedido de la lista, o ausencia si está vacía. El ID debe identificar una sola fila.</p><div class="callout warn">Omitimos campos, constructor y configuración de <code>jdbc</code> y <code>mapper</code>. La consulta SQL queda dentro del adaptador, no del servicio.</div></div></div></section>
-<section class="slide" data-title="Adaptador MongoDB"><header class="slide-header"><div class="eyebrow">Mismo contrato · otra traducción</div><h2>El adaptador Mongo mapea campos a Pedido</h2></header><div class="body split"><div><div class="code-label">Pseudocódigo Java · acceso al driver omitido</div><pre><code><span class="tok-keyword">final class</span> <span class="tok-type">PedidoMongoAdapter</span>
-    <span class="tok-keyword">implements</span> <span class="tok-type">BuscarPedido</span> {
-  <span class="tok-keyword">public</span> <span class="tok-type">Optional</span>&lt;<span class="tok-type">Pedido</span>&gt;
-      buscarPorId(<span class="tok-type">String</span> id) {
-    documento = coleccion.findOne(<span class="tok-string">"id"</span>, id);
-    <span class="tok-keyword">if</span> (documento == null) {
-      <span class="tok-keyword">return</span> Optional.empty();
-    }
-    <span class="tok-keyword">return</span> Optional.of(<span class="tok-keyword">new</span> <span class="tok-type">Pedido</span>(
-      documento.getString(<span class="tok-string">"id"</span>),
-      documento.getInteger(<span class="tok-string">"cantidad"</span>),
-      documento.getInteger(<span class="tok-string">"precioSoles"</span>),
-       documento.getInteger(<span class="tok-string">"totalSoles"</span>),
-       documento.getString(<span class="tok-string">"estado"</span>)));
-  }
-}</code></pre></div><div class="stack"><p>Un <strong>driver</strong> permite comunicarse con MongoDB; una <strong>colección</strong> agrupa documentos relacionados.</p><p>Este pseudocódigo supone que no encontrar un documento devuelve <code>null</code>. No es la sintaxis de un driver concreto; el ID debe ser único.</p><div class="callout">El adaptador convierte los campos a <code>Pedido</code> y la ausencia a <code>Optional.empty()</code>. Ningún documento sale hacia el núcleo.</div></div></div></section>
-<section class="slide" data-title="Controlador HTTP"><header class="slide-header"><div class="eyebrow">Traducir de vuelta al contrato web</div><h2>El controlador transforma el resultado a HTTP</h2></header><div class="body split"><div><div class="code-label">Fragmento Spring Web · dentro de PedidoController</div><pre><code>@GetMapping(<span class="tok-string">"/pedidos/{id}"</span>)
-<span class="tok-keyword">public</span> ResponseEntity&lt;Pedido&gt; consultar(
-    @PathVariable(<span class="tok-string">"id"</span>) String id) {
-  Optional&lt;Pedido&gt; pedido =
-      servicio.buscarPorId(id);
-  <span class="tok-keyword">if</span> (pedido.isEmpty()) {
-    <span class="tok-keyword">return</span> ResponseEntity.notFound().build();
-  }
-  <span class="tok-keyword">return</span> ResponseEntity.ok(pedido.get());
-}</code></pre></div><div class="stack"><p><code>{id}</code> es la parte variable de la ruta. <code>@PathVariable</code> pasa su valor al argumento: A-17 o A-99.</p><p><code>ResponseEntity</code> es un tipo de Spring para respuestas HTTP. Aquí Spring convierte los cinco campos del pedido a JSON.</p><div class="callout">Omitimos imports, anotación de clase y constructor. <code>servicio</code> es el puerto <code>ConsultarPedido</code>. El núcleo no usa tipos HTTP.</div></div></div></section>
-<section class="slide" data-title="Ensamblar las piezas"><header class="slide-header"><div class="eyebrow">Elegir implementación</div><h2>El cableado conecta contratos y objetos concretos</h2></header><div class="body"><div class="split"><div class="panel tint"><div class="label">Pseudocódigo · construcción manual</div><pre><code>BuscarPedido salida = <span class="tok-keyword">new</span> PedidoPostgresAdapter(...);
-ConsultarPedido caso =
-    <span class="tok-keyword">new</span> ConsultarPedidoService(salida);
-PedidoController http =
-     <span class="tok-keyword">new</span> PedidoController(caso);</code></pre></div><div class="panel"><div class="label">Esquema Spring · ... omite dependencias</div><pre><code><span class="tok-keyword">@Configuration</span>
-<span class="tok-keyword">class</span> Config {
-  <span class="tok-keyword">@Bean</span> BuscarPedido buscarPedido(...) {
-    <span class="tok-keyword">return new</span> PedidoPostgresAdapter(...);
-  }
-}</code></pre></div></div><p>Spring puede crear objetos y suministrar dependencias: <code>@Configuration</code> agrupa configuración y <code>@Bean</code> declara un objeto administrado.</p><div class="callout warn">Registra una sola implementación activa de <code>BuscarPedido</code> para este caso. Si hay varias, selecciona una de forma explícita. La configuración queda fuera del núcleo.</div></div></section>
-<section class="slide" data-title="Recorrido completo de A-17 y A-99">
-  <header class="slide-header"><div class="eyebrow">La ida y el regreso visibles</div><h2>El resultado de la búsqueda vuelve hasta HTTP</h2></header>
-  <div class="body">
-    <div class="call-route">
-      <div class="route-nodes">
-        <div class="node">1 · Controlador<br>extrae el ID de HTTP</div>
-        <div class="node primary">2 · Servicio<br>ConsultarPedido</div>
-        <div class="node">3 · Adaptador<br>BuscarPedido</div>
-        <div class="node">4 · Base<br>consulta el ID</div>
+<!-- SLIDE 1 -->
+<section class="slide" data-title="Arquitectura hexagonal en Spring Boot">
+  <header class="slide-header">
+    <div class="eyebrow">TECSUP · CURSO DE JAVA · ARQUITECTURA</div>
+    <h1>Arquitectura hexagonal en Spring Boot</h1>
+  </header>
+  <div class="body split">
+    <div class="stack">
+      <p class="lead">Ya construimos APIs REST con Spring Boot, JPA y PostgreSQL. El reto real llega cuando el repositorio debe <strong>cambiar tecnologías</strong> o <strong>sumar nuevos canales e integraciones</strong>.</p>
+      <p>Tomaremos como caso base un endpoint con reglas de negocio reales: <code>PATCH /pedidos/{id}/cancelar</code>.</p>
+      <div class="callout">Objetivo: aislar las reglas de negocio para cambiar BD, pasarelas de pago, mensajería o canales de entrada sin reescribir el núcleo.</div>
+    </div>
+    <div class="panel accent-box stack">
+      <div class="label">Reglas del endpoint · PATCH /pedidos/{id}/cancelar</div>
+      <div class="facts">
+        <span><strong>ORD-101</strong> · S/ 120 · <code>EN_PREPARACION</code></span>
+        <strong><span class="badge ok">200 OK</span> → <code>CANCELADO</code></strong>
+        <span><strong>ORD-102</strong> · S/ 85 · <code>ENTREGADO</code></span>
+        <strong><span class="badge warn">409 Conflict</span> · rechazado</strong>
+        <span><strong>ORD-999</strong> · ID inexistente</span>
+        <strong><span class="badge err">404 Not Found</span></strong>
       </div>
-      <svg class="route-svg" viewBox="0 0 1000 58" role="img" aria-labelledby="roundtrip-title roundtrip-desc">
-        <title id="roundtrip-title">Llamadas y retorno entre las cuatro piezas</title>
-        <desc id="roundtrip-desc">Arriba: controlador llama a servicio, servicio llama a adaptador, adaptador consulta base. Abajo: resultado de base vuelve al adaptador, al servicio y al controlador.</desc>
-        <path d="M125 12H375 M366 6L375 12L366 18 M375 12H625 M616 6L625 12L616 18 M625 12H875 M866 6L875 12L866 18"/>
-        <path d="M875 46H625 M634 40L625 46L634 52 M625 46H375 M384 40L375 46L384 52 M375 46H125 M134 40L125 46L134 52"/>
-        <text x="500" y="33">Ida: ID solicitado · Regreso: resultado</text>
-      </svg>
-      <svg class="route-mobile-svg" viewBox="0 0 354 355" role="img" aria-labelledby="mobile-trip-title mobile-trip-desc">
-        <title id="mobile-trip-title">Llamadas hacia abajo y resultados hacia arriba</title>
-        <desc id="mobile-trip-desc">El controlador llama al servicio, el servicio al adaptador y el adaptador a la base. Las flechas a la izquierda devuelven el resultado desde la base al adaptador, luego al servicio y finalmente al controlador.</desc>
-        <rect x="50" y="10" width="280" height="52" rx="10"/>
-        <rect x="50" y="95" width="280" height="52" rx="10"/>
-        <rect x="50" y="180" width="280" height="52" rx="10"/>
-        <rect x="50" y="265" width="280" height="52" rx="10"/>
-        <text x="190" y="32">1 · Controlador</text><text x="190" y="51">extrae el ID de HTTP</text>
-        <text x="190" y="117">2 · Servicio</text><text x="190" y="136">ConsultarPedido</text>
-        <text x="190" y="202">3 · Adaptador</text><text x="190" y="221">BuscarPedido</text>
-        <text x="190" y="287">4 · Base</text><text x="190" y="306">consulta el ID</text>
-        <path d="M190 62V94 M184 86L190 94L196 86 M190 147V179 M184 171L190 179L196 171 M190 232V264 M184 256L190 264L196 256"/>
-        <path d="M50 291H25V206H49 M41 200L49 206L41 212 M50 206H25V121H49 M41 115L49 121L41 127 M50 121H25V36H49 M41 30L49 36L41 42"/>
-        <text x="190" y="345">Baja: ID · Izquierda: resultado</text>
-      </svg>
+      <p class="small"><code>409 Conflict</code> indica que la operación choca con el estado actual del recurso.</p>
     </div>
-    <div class="split">
-      <div class="panel tint"><div class="label">A-17 · encontrado</div><p>Base: datos de A-17.</p><p>Adaptador y servicio: <code>Optional</code> con Pedido.</p><p>Controlador: <strong>200 + JSON</strong>.</p></div>
-      <div class="panel"><div class="label">A-99 · ausente</div><p>Base: ninguna coincidencia.</p><p>Adaptador y servicio: <code>Optional</code> vacío.</p><p>Controlador: <strong>404</strong>.</p></div>
-    </div>
-    <p class="small">Un fallo de conexión no es una ausencia; debe tratarse como error. El núcleo no decide estados HTTP.</p>
   </div>
+  <aside class="speaker-notes" hidden>A esta altura el grupo ya sabe construir APIs REST en Spring Boot con JPA. Arrancamos directo en un escenario backend realista con reglas de negocio y el problema de evolucionar el repositorio.</aside>
 </section>
-<section class="slide" data-title="Prueba unitaria del servicio"><header class="slide-header"><div class="eyebrow">Comprobar sin infraestructura</div><h2>Un doble de prueba controla la salida del puerto</h2></header><div class="body split"><div><div class="code-label">Fragmento Java · dentro de un método de prueba</div><pre><code>Pedido pedidoA17 = <span class="tok-keyword">new</span> Pedido(
-    <span class="tok-string">"A-17"</span>, 3, 12, 36, <span class="tok-string">"EN_PREPARACION"</span>);
-BuscarPedido falso = id -&gt; Optional.of(pedidoA17);
-ConsultarPedido servicio =
-    <span class="tok-keyword">new</span> ConsultarPedidoService(falso);
 
-boolean coincide = servicio.buscarPorId(<span class="tok-string">"A-17"</span>)
-    .equals(Optional.of(pedidoA17));
-System.out.println(coincide); <span class="tok-comment">// true</span></code></pre></div><div class="stack"><p>Un <strong>doble de prueba</strong> sustituye una dependencia para controlar lo que devuelve.</p><p><code>id -&gt; ...</code> es una función breve de Java: implementa el único método del puerto. Este doble devuelve siempre A-17.</p><div class="callout warn">Solo comprobamos que el servicio devuelve el resultado recibido. No demostramos búsqueda por ID ni mapeo correcto. No iniciamos Spring ni una base.</div></div></div></section>
-<section class="slide" data-title="Pruebas de integración"><header class="slide-header"><div class="eyebrow">Cada límite requiere su propia comprobación</div><h2>Integración comprueba adaptadores y contrato web</h2></header><div class="body triplet"><div class="panel tint"><div class="label">Integración de adaptador</div><p>Con PostgreSQL o MongoDB real, verifica mapeo de A-17 y ausencia de A-99.</p></div><div class="panel"><div class="label">Prueba HTTP</div><p>Comprueba que la API mantiene JSON y estados 200 / 404 acordados.</p></div><div class="panel"><div class="label">Qué significa integración</div><p>Probar piezas conectadas entre sí, por ejemplo código y base de datos.</p></div><div class="callout">No todas las pruebas tienen que usar las mismas piezas: cada tipo aporta evidencia distinta.</div></div></section>
-<section class="slide" data-title="El cambio de base no es una migración automática"><header class="slide-header"><div class="eyebrow">Alcance real del cambio</div><h2>Separar código ayuda; no mueve datos por sí solo</h2></header><div class="body"><div class="flow"><div class="node">Cambiar adaptador<br>y su configuración</div><div class="arrow">≠</div><div class="node primary">Migrar datos<br>y validar el comportamiento</div></div><div class="triplet"><div class="panel">Copiar registros y comprobar que A-17 conserva todos sus valores.</div><div class="panel">Diseñar documentos y verificar que buscar por ID sea correcto y suficientemente rápido.</div><div class="panel">Preparar conexión y credenciales; planear cómo pasar a la nueva base sin perder cambios.</div></div><div class="callout warn">Cambiar cableado solo preserva el comportamiento si la nueva implementación cumple el mismo contrato. Los fallos de conexión son errores, no «pedido ausente».</div></div></section>
-<section class="slide" data-title="Una posible organización de paquetes"><header class="slide-header"><div class="eyebrow">Ubicar el código · opción, no regla</div><h2>Los paquetes pueden hacer visibles los límites</h2></header><div class="body"><div class="package-list"><div class="node">dominio<br><strong>Pedido</strong><p class="small">No conoce adaptadores ni Spring.</p></div><div class="node primary">aplicacion<br><strong>puertos · servicio</strong><p class="small">Usa Pedido y define los contratos.</p></div><div class="node">adaptadores / configuracion<br><strong>HTTP · Postgres · Mongo</strong><p class="small">Usan los contratos y tipos del núcleo.</p></div></div><div class="callout">Este es un mapa de ubicación, no de llamadas. Los nombres de carpetas no crean la arquitectura: importan las dependencias. Todo puede vivir en una sola aplicación, sin servicios separados.</div></div></section>
-<section class="slide" data-title="Cuándo compensa y cuánto cuesta"><header class="slide-header"><div class="eyebrow">Beneficios y costos</div><h2>Los límites tienen un costo y un propósito</h2></header><div class="body split"><div class="panel tint"><div class="label">Puede ayudar cuando</div><p>Existen límites de responsabilidad claros, alternativas concretas de integración o necesidad de probar la aplicación aislada.</p></div><div class="panel"><div class="label">También cuesta</div><p>Más contratos, mapeos y cableado que mantener. Una API con pocas operaciones sencillas puede necesitar menos estructura.</p></div><div class="callout">Si un componente de acceso a datos ya oculta bien la persistencia, puede que ya tengas una frontera útil. No agregues capas por cumplir un dibujo.</div></div></section>
-<section class="slide" data-title="Resumen: volver al cambio PostgreSQL a MongoDB"><header class="slide-header"><div class="eyebrow">Recuperar las ideas clave</div><h2>La pregunta es quién cambia y qué permanece igual</h2></header><div class="body"><div class="triplet"><div class="node">Se conserva<br><strong>HTTP y sus cinco campos</strong></div><div class="node primary">Se conserva<br><strong>ConsultarPedidoService</strong></div><div class="node">Se reemplaza<br><strong>Adaptador de persistencia y configuración</strong></div></div><div class="triplet"><div class="panel">¿Qué pide el puerto de salida?<p class="small">BuscarPedido solicita recuperar un pedido; no devolver JSON.</p></div><div class="panel">¿Quién depende de quién?<p class="small">Servicio y adaptador conocen el contrato del núcleo.</p></div><div class="panel">¿Qué queda pendiente?<p class="small">Migrar datos y comprobar integración y operación.</p></div></div><p class="lead">A-17 conserva sus cinco valores y A-99 sigue ausente, si el adaptador cumple el mismo contrato.</p></div></section>
-<section class="slide" data-title="Práctica: doble controlado para la migración"><header class="slide-header"><div class="eyebrow">Práctica · sin solución completa</div><h2>Comprueba el caso de uso antes de cambiar su adaptador</h2></header><div class="body"><div class="exercise"><div class="panel tint"><div class="label">Objetivo y punto de partida</div><p>Con los contratos <code>ConsultarPedido</code>, <code>BuscarPedido</code>, servicio y <code>Pedido</code> de esta lección, implementa un doble de prueba en memoria.</p></div><div class="panel"><div class="label">Resultado observable</div><p>Buscar A-17 devuelve sus 3 cuadernos, S/ 12 y total S/ 36; buscar A-99 devuelve ausencia.</p></div><div class="panel"><div class="label">Restricciones</div><p>No edites el núcleo, no conectes base ni Spring. El doble debe implementar <code>BuscarPedido</code>.</p></div><div class="panel"><div class="label">Entrega y desafío</div><p>Muestra ambas comprobaciones. Opcional: enumera qué trabajo de datos y configuración faltaría para MongoDB.</p></div></div><div class="callout good">La prueba reduce incertidumbre del caso de uso, pero no demuestra que el adaptador Postgres o Mongo consulte y mapee bien.</div></div></section>
+<!-- SLIDE 2 -->
+<section class="slide" data-title="El repositorio actual en capas funciona" hidden>
+  <header class="slide-header">
+    <div class="eyebrow">Punto de partida · lo que ya construimos</div>
+    <h2>La distribución en capas de Spring Boot ya resuelve esto</h2>
+  </header>
+  <div class="body">
+    <p class="lead">Con nuestra estructura actual (<code>controller</code>, <code>service</code>, <code>repository</code>, <code>entity</code>, <code>dto</code>), el endpoint <code>PATCH /pedidos/{id}/cancelar</code> funciona de extremo a extremo.</p>
+    <div class="flow" role="group" aria-label="Flujo en capas desde HTTP hasta PostgreSQL">
+      <div class="node">
+        <span class="label">Entrada HTTP</span>
+        <strong>PATCH /pedidos/{id}/cancelar</strong>
+      </div>
+      <div class="arrow" aria-hidden="true"><svg viewBox="0 0 36 20"><path d="M2 10H32 M25 4L32 10L25 16"/></svg></div>
+      <div class="node">
+        <span class="label">controller · dto</span>
+        <strong>PedidoController</strong>
+        <span class="small">usa PedidoResponse</span>
+      </div>
+      <div class="arrow" aria-hidden="true"><svg viewBox="0 0 36 20"><path d="M2 10H32 M25 4L32 10L25 16"/></svg></div>
+      <div class="node primary">
+        <span class="label">service</span>
+        <strong>PedidoService</strong>
+        <span class="small">valida regla y guarda</span>
+      </div>
+      <div class="arrow" aria-hidden="true"><svg viewBox="0 0 36 20"><path d="M2 10H32 M25 4L32 10L25 16"/></svg></div>
+      <div class="node">
+        <span class="label">repository · entity</span>
+        <strong>PedidoRepository</strong>
+        <span class="small">JPA → PostgreSQL</span>
+      </div>
+    </div>
+    <div class="triplet">
+      <div class="panel tint"><div class="label">controller / dto</div><p class="small">Recibe la ruta HTTP y serializa <code>PedidoResponse</code>.</p></div>
+      <div class="panel tint"><div class="label">service</div><p class="small">Aplica la regla de cancelación sobre <code>ORD-101</code> / <code>ORD-102</code>.</p></div>
+      <div class="panel tint"><div class="label">repository / entity</div><p class="small"><code>JpaRepository</code> lee y actualiza <code>PedidoEntity</code> en PostgreSQL.</p></div>
+    </div>
+    <div class="callout">Esta arquitectura en capas <strong>funciona bien</strong> para entregar la primera versión. El problema no está en cómo corre hoy, sino en qué pasa al evolucionar el repositorio.</div>
+  </div>
+  <aside class="speaker-notes" hidden>Refuerza que la arquitectura en capas no está «mal»: es la misma estructura de spring-introduccion y entrega resultados válidos. Ahora inspeccionaremos el acoplamiento interno.</aside>
+</section>
+
+<!-- SLIDE 3 -->
+<section class="slide" data-title="Dentro de PedidoService: regla y tecnología juntas" hidden>
+  <header class="slide-header">
+    <div class="eyebrow">Mirar dentro del servicio actual</div>
+    <h2>La regla de negocio convive con JPA, Spring y DTOs</h2>
+  </header>
+  <div class="body split wide-left">
+    <div>
+      <div class="code-label">Fragmento Java · service/PedidoService.java (en capas)</div>
+      <pre><code><span class="code-warn"><span class="tok-ann">@Service</span></span>
+<span class="tok-keyword">public class</span> <span class="tok-type">PedidoService</span> {
+<span class="code-warn">  <span class="tok-keyword">private final</span> <span class="tok-type">PedidoRepository</span> repo; <span class="tok-comment">// extiende JpaRepository</span></span>
+
+  <span class="tok-keyword">public</span> <span class="tok-type">Optional</span>&lt;<span class="tok-type">PedidoResponse</span>&gt; cancelar(<span class="tok-type">String</span> id) {
+<span class="code-warn">    <span class="tok-type">Optional</span>&lt;<span class="tok-type">PedidoEntity</span>&gt; encontrado = repo.findById(id);</span>
+    <span class="tok-keyword">if</span> (encontrado.isEmpty()) <span class="tok-keyword">return</span> <span class="tok-type">Optional</span>.empty();
+
+    <span class="tok-type">PedidoEntity</span> entity = encontrado.get();
+<span class="code-focus">    <span class="tok-keyword">if</span> (!<span class="tok-string">"EN_PREPARACION"</span>.equals(entity.getEstado())) {</span>
+<span class="code-focus">      <span class="tok-keyword">throw new</span> <span class="tok-type">IllegalStateException</span>(<span class="tok-string">"Ya entregado"</span>);</span>
+<span class="code-focus">    }</span>
+<span class="code-focus">    entity.setEstado(<span class="tok-string">"CANCELADO"</span>);</span>
+<span class="code-warn">    repo.save(entity);</span>
+<span class="code-warn">    <span class="tok-keyword">return</span> <span class="tok-type">Optional</span>.of(toResponse(entity));</span>
+  }
+}</code></pre>
+    </div>
+    <div class="stack">
+      <div class="panel accent-box">
+        <div class="label">Regla real del negocio (celeste)</div>
+        <p>Solo 4 líneas expresan la regla: comprobar <code>EN_PREPARACION</code> y pasar el pedido a <code>CANCELADO</code>.</p>
+      </div>
+      <div class="panel danger-box">
+        <div class="label danger">Detalles técnicos pegados (rojo)</div>
+        <ul class="list">
+          <li><code>@Service</code> de Spring.</li>
+          <li><code>PedidoEntity</code> (<code>@Entity</code> / columnas SQL) y <code>JpaRepository</code>.</li>
+          <li><code>PedidoResponse</code> (formato de respuesta HTTP).</li>
+        </ul>
+      </div>
+      <p class="small">Constructor e imports omitidos por brevedad. Mientras nada cambie, este código cumple su tarea.</p>
+    </div>
+  </div>
+  <aside class="speaker-notes" hidden>Pide a los estudiantes notar lo familiar que es este código respecto a TareaService.java: funciona, pero mezcla reglas con anotaciones JPA y DTOs HTTP.</aside>
+</section>
+
+<!-- SLIDE 4 -->
+<section class="slide" data-title="Cambios reales que llegan al repositorio" hidden>
+  <header class="slide-header">
+    <div class="eyebrow">El proyecto evoluciona · nuevas demandas</div>
+    <h2>Cuatro cambios frecuentes en un backend Spring Boot</h2>
+  </header>
+  <div class="body">
+    <div class="exercise">
+      <div class="panel accent-box">
+        <div class="label">1 · Cambiar persistencia</div>
+        <p>Migrar de <strong>PostgreSQL (JPA)</strong> a <strong>MongoDB</strong>, o incluso reemplazar JPA por <strong>JDBC nativo</strong> en el mismo PostgreSQL por rendimiento.</p>
+      </div>
+      <div class="panel tint">
+        <div class="label violet">2 · Sumar mensajería por eventos</div>
+        <p>Publicar un aviso en <strong>Apache Kafka</strong> (<em>topic</em> <code>pedidos-cancelados</code>) cuando se cancele <strong>ORD-101</strong>, para que inventario y facturación reaccionen.</p>
+      </div>
+      <div class="panel tint">
+        <div class="label good">3 · Cambiar APIs o proveedores</div>
+        <p>Reembolsos con <strong>Stripe → Culqi / Mercado Pago</strong>, correos con <strong>SendGrid → AWS SES</strong>, o comprobantes de disco local a <strong>Amazon S3</strong>.</p>
+      </div>
+      <div class="panel tint">
+        <div class="label warn">4 · Nuevos canales de entrada</div>
+        <p>Ejecutar la misma cancelación desde una <strong>tarea programada (<code>@Scheduled</code>)</strong> para pedidos vencidos o un consumidor de eventos, no solo por HTTP.</p>
+      </div>
+    </div>
+    <div class="callout"><strong>Apache Kafka</strong> es una plataforma de mensajería por eventos donde una aplicación publica avisos en un <em>topic</em> para que otros sistemas los lean sin acoplarse por HTTP. En los cuatro cambios, las reglas de <strong>ORD-101</strong>, <strong>ORD-102</strong> y <strong>ORD-999</strong> siguen siendo las mismas.</div>
+  </div>
+  <aside class="speaker-notes" hidden>Amplía la perspectiva: no hace falta migrar de motor de BD para sufrir acoplamiento. Cambiar pasarelas de pago, pasar de disco local a S3 o reutilizar lógica desde @Scheduled pasa todo el tiempo en proyectos reales.</aside>
+</section>
+
+<!-- SLIDE 5 -->
+<section class="slide" data-title="Problema 1: migrar PostgreSQL a MongoDB en capas" hidden>
+  <header class="slide-header">
+    <div class="eyebrow">Presión 1 · módulos acoplados</div>
+    <h2>Cambiar de base obliga a editar el servicio de negocio</h2>
+  </header>
+  <div class="body">
+    <p class="lead">La operación «cancelar un pedido según su estado» se llama <strong>caso de uso</strong>. Veamos qué se rompe en el repo actual al reemplazar PostgreSQL/JPA por MongoDB:</p>
+    <svg class="svg-desktop" viewBox="0 0 1100 185" role="img" aria-labelledby="ripple-db-title ripple-db-desc">
+      <title id="ripple-db-title">Efecto dominó al migrar de PostgreSQL a MongoDB en capas</title>
+      <desc id="ripple-db-desc">Cambiar de tabla PostgreSQL a documento MongoDB obliga a reemplazar PedidoEntity por PedidoDocument, cambia PedidoRepository y golpea directamente a PedidoService donde viven las reglas de ORD-101 y ORD-102.</desc>
+      <rect x="10" y="34" width="215" height="106" rx="12" fill="#202c3c" stroke="#ff7b7b" stroke-width="2"/>
+      <text x="117" y="66" fill="#ff7b7b" font-size="13" font-weight="700" text-anchor="middle">1 · MODELO DE BD</text>
+      <text x="117" y="92" fill="#e6edf3" font-size="16" font-weight="700" text-anchor="middle">PedidoEntity (@Entity)</text>
+      <text x="117" y="116" fill="#a8b3c5" font-size="13" text-anchor="middle">→ pasa a PedidoDocument</text>
+
+      <path d="M225 87 H296 M286 79 L296 87 L286 95" fill="none" stroke="#ff7b7b" stroke-width="2.5"/>
+      <text x="260" y="74" fill="#ffc78a" font-size="12" text-anchor="middle">rompe tipo</text>
+
+      <rect x="300" y="34" width="235" height="106" rx="12" fill="#202c3c" stroke="#ff7b7b" stroke-width="2"/>
+      <text x="417" y="66" fill="#ff7b7b" font-size="13" font-weight="700" text-anchor="middle">2 · REPOSITORIO</text>
+      <text x="417" y="92" fill="#e6edf3" font-size="16" font-weight="700" text-anchor="middle">PedidoRepository</text>
+      <text x="417" y="116" fill="#a8b3c5" font-size="13" text-anchor="middle">JpaRepository → Mongo</text>
+
+      <path d="M535 87 H610 M600 79 L610 87 L600 95" fill="none" stroke="#ff7b7b" stroke-width="2.5"/>
+      <text x="572" y="74" fill="#ffc78a" font-size="12" text-anchor="middle">obliga a editar</text>
+
+      <rect x="614" y="24" width="270" height="126" rx="12" fill="#291c22" stroke="#ff7b7b" stroke-width="2.5"/>
+      <text x="749" y="54" fill="#ff7b7b" font-size="13" font-weight="700" text-anchor="middle">3 · SERVICIO AFECTADO</text>
+      <text x="749" y="82" fill="#e6edf3" font-size="17" font-weight="700" text-anchor="middle">PedidoService</text>
+      <text x="749" y="106" fill="#e6edf3" font-size="13" text-anchor="middle">Importa Entity + JpaRepository</text>
+      <text x="749" y="128" fill="#ffc78a" font-size="13" text-anchor="middle">Aquí vive la regla ORD-101 / ORD-102</text>
+
+      <path d="M884 87 H935 M925 79 L935 87 L925 95" fill="none" stroke="#70d9e8" stroke-width="2" stroke-dasharray="5 4"/>
+      <rect x="939" y="42" width="150" height="90" rx="12" fill="#182330" stroke="#39495d" stroke-width="1.5"/>
+      <text x="1014" y="76" fill="#a8b3c5" font-size="13" font-weight="700" text-anchor="middle">CONTROLLER</text>
+      <text x="1014" y="100" fill="#e6edf3" font-size="14" text-anchor="middle">PedidoController</text>
+      <text x="1014" y="119" fill="#a8b3c5" font-size="12" text-anchor="middle">mismo HTTP</text>
+    </svg>
+    <div class="svg-mobile stack">
+      <div class="panel danger-box"><div class="label danger">1 · PedidoEntity → PedidoDocument</div><p>Las anotaciones JPA no aplican a documentos MongoDB.</p></div>
+      <div class="panel danger-box"><div class="label danger">2 · PedidoRepository cambia</div><p><code>JpaRepository</code> se reemplaza por acceso a MongoDB.</p></div>
+      <div class="panel danger-box"><div class="label danger">3 · PedidoService se edita</div><p>Aunque la regla de ORD-101 y ORD-102 no cambió, hay que tocar el archivo que la contiene.</p></div>
+    </div>
+    <div class="callout warn">A esto llamamos <strong>acoplamiento</strong>: un cambio en una decisión técnica (la base de datos) obliga a modificar los archivos donde vive la lógica de negocio.</div>
+  </div>
+  <aside class="speaker-notes" hidden>Destaca la palabra acoplamiento con el efecto dominó concreto: si la lógica de ORD-101 y ORD-102 no cambió, no debería ser necesario editar su clase por cambiar de BD.</aside>
+</section>
+
+<!-- SLIDE 6 -->
+<section class="slide" data-title="Problema 2: integraciones externas invaden el servicio" hidden>
+  <header class="slide-header">
+    <div class="eyebrow">Presión 2 · sumar nuevas tecnologías</div>
+    <h2>En la estructura actual, cada integración termina dentro del servicio</h2>
+  </header>
+  <div class="body split wide-left">
+    <div>
+      <div class="code-label">Qué ocurre en service/PedidoService.java al crecer las integraciones</div>
+      <pre><code><span class="tok-ann">@Service</span>
+<span class="tok-keyword">public class</span> <span class="tok-type">PedidoService</span> {
+<span class="code-warn">  <span class="tok-keyword">private final</span> <span class="tok-type">PedidoRepository</span> repo;       <span class="tok-comment">// JPA / SQL</span></span>
+<span class="code-warn">  <span class="tok-keyword">private final</span> <span class="tok-type">KafkaTemplate</span>&lt;<span class="tok-type">String</span>, <span class="tok-type">String</span>&gt; kafka; <span class="tok-comment">// Kafka</span></span>
+<span class="code-warn">  <span class="tok-keyword">private final</span> <span class="tok-type">StripeClient</span> stripe;          <span class="tok-comment">// API pagos</span></span>
+
+  <span class="tok-keyword">public</span> <span class="tok-type">Optional</span>&lt;<span class="tok-type">PedidoResponse</span>&gt; cancelar(<span class="tok-type">String</span> id) {
+    <span class="tok-comment">// ... valida ORD-101 / ORD-102 / ORD-999 y guarda con repo ...</span>
+<span class="code-warn">    stripe.refund(entity.getId(), entity.getTotalSoles());</span>
+<span class="code-warn">    kafka.send(<span class="tok-string">"pedidos-cancelados"</span>, entity.getId());</span>
+    <span class="tok-keyword">return</span> <span class="tok-type">Optional</span>.of(toResponse(entity));
+  }
+}</code></pre>
+    </div>
+    <div class="stack">
+      <div class="panel warn-box">
+        <div class="label warn">¿Dónde encajan Kafka, Stripe o S3 en 5 carpetas?</div>
+        <p>No son <code>controller</code>, ni <code>entity</code> JPA, ni <code>repository</code> SQL. El repositorio actual no separa integraciones externas del negocio.</p>
+      </div>
+      <div class="panel danger-box">
+        <div class="label danger">Un servicio frágil que sabe demasiado</div>
+        <p><code>PedidoService</code> mezcla <strong>JPA</strong>, <strong>HTTP DTOs</strong>, <strong>Kafka</strong> y <strong>Stripe</strong>. Cambiar de Stripe a Culqi o de Kafka a RabbitMQ obliga a editar la misma clase de reglas.</p>
+      </div>
+    </div>
+  </div>
+  <aside class="speaker-notes" hidden>Este síntoma es universal en Spring Boot: cada nuevo SDK (Stripe, SendGrid, S3, Kafka, clientes REST externos) se inyecta directo en el @Service hasta volverlo imposible de mantener.</aside>
+</section>
+
+<!-- SLIDE 7 -->
+<section class="slide" data-title="Problema 3: probar reglas acopladas a infraestructura" hidden>
+  <header class="slide-header">
+    <div class="eyebrow">Presión 3 · costo diario al probar</div>
+    <h2>Probar una regla simple arrastra toda la infraestructura</h2>
+  </header>
+  <div class="body">
+    <p class="lead">Supón que solo quieres escribir una prueba JUnit para verificar las reglas de <strong>ORD-101</strong>, <strong>ORD-102</strong> y <strong>ORD-999</strong>. Al instanciar el servicio actual, el constructor te exige tres tecnologías:</p>
+    <div class="split wide-left align-start">
+      <div class="stack">
+        <div>
+          <div class="code-label">Intento de prueba unitaria sobre el PedidoService acoplado</div>
+          <pre><code><span class="tok-comment">// Solo queremos probar un if: ¿ORD-102 (ENTREGADO) se rechaza?</span>
+<span class="tok-type">PedidoService</span> service = <span class="tok-keyword">new</span> <span class="tok-type">PedidoService</span>(
+<span class="code-warn">    ???, <span class="tok-comment">// PedidoRepository (extiende JpaRepository: +30 métodos)</span></span>
+<span class="code-warn">    ???, <span class="tok-comment">// KafkaTemplate&lt;String, String&gt; (Spring Kafka)</span></span>
+<span class="code-warn">    ???  <span class="tok-comment">// StripeClient (SDK / credenciales de pagos)</span></span>
+);</code></pre>
+        </div>
+        <div class="panel accent-box">
+          <div class="label good">Lo único que queríamos comprobar (Java puro)</div>
+          <p class="small"><strong>ORD-101</strong> → <code>CANCELADO</code>, guarda y avisa · <strong>ORD-102</strong> → rechaza sin guardar ni avisar · <strong>ORD-999</strong> → vacío.</p>
+        </div>
+      </div>
+      <div class="stack">
+        <div class="panel warn-box">
+          <div class="label warn">Salida 1 · Levantar todo (<code>@SpringBootTest</code>)</div>
+          <p class="small">Arrancar Spring, PostgreSQL y Kafka tarda varios segundos y falla si falta algún servicio externo, solo para probar una regla en memoria.</p>
+        </div>
+        <div class="panel danger-box">
+          <div class="label danger">Salida 2 · Simular librerías externas</div>
+          <p class="small">Simular <code>JpaRepository</code>, <code>KafkaTemplate</code> y <code>StripeClient</code> con <em>mocks</em> (p. ej. Mockito) acopla tus pruebas a detalles internos de cada framework.</p>
+        </div>
+      </div>
+    </div>
+    <div class="callout good"><strong>Matiz clave:</strong> las pruebas de integración con PostgreSQL y Kafka reales siguen siendo valiosas. La necesidad no es eliminarlas, sino poder probar las reglas de negocio rápido, en Java puro y por separado.</div>
+  </div>
+  <aside class="speaker-notes" hidden>El bloque new PedidoService(???, ???, ???) hace tangible el dolor de inmediato: incluso si nunca cambias de BD, el acoplamiento dificulta probar cada regla día a día. Luego en la diapositiva 25 verán el contraste con new CancelarPedidoService(repoEnMemoria, avisosEnMemoria).</aside>
+</section>
+
+<!-- SLIDE 8 -->
+<section class="slide" data-title="La idea antes del nombre: aislar el núcleo" hidden>
+  <header class="slide-header">
+    <div class="eyebrow">La idea antes del nombre técnico</div>
+    <h2>Proteger las reglas en el centro y dejar tecnologías en los bordes</h2>
+  </header>
+  <div class="body">
+    <p class="lead">Separamos lo que representa al negocio (<code>Pedido</code> y sus reglas) de los mecanismos externos que pueden cambiar o sumarse (HTTP, PostgreSQL, MongoDB, Kafka).</p>
+    <div class="flow" role="group" aria-label="Entrada en el borde izquierdo, núcleo en el centro y tecnologías de salida en el borde derecho">
+      <div class="node">
+        <span class="label">Entrada · quién llama</span>
+        <strong>HTTP (hoy)</strong>
+        <span class="small">o consumidor Kafka / tarea</span>
+      </div>
+      <div class="arrow" aria-hidden="true"><svg viewBox="0 0 36 20"><path d="M2 10H32 M25 4L32 10L25 16"/></svg><span>solicita</span></div>
+      <div class="node primary" style="flex: 1.35;">
+        <span class="label">Núcleo de la aplicación</span>
+        <strong>Pedido + Cancelar pedido</strong>
+        <span class="small">Solo Java · sin JPA, Mongo ni Kafka</span>
+      </div>
+      <div class="arrow" aria-hidden="true"><svg viewBox="0 0 36 20"><path d="M2 10H32 M25 4L32 10L25 16"/></svg><span>pide</span></div>
+      <div class="node">
+        <span class="label">Salida · tecnologías</span>
+        <strong>PostgreSQL / MongoDB</strong>
+        <span class="small">y Apache Kafka · o memoria</span>
+      </div>
+    </div>
+    <div class="callout">A esta organización la llamamos <strong>arquitectura hexagonal</strong> (también conocida como <strong>puertos y adaptadores</strong>).</div>
+    <p class="small">Veamos cómo se representa en su diagrama clásico antes de bajar al código Java.</p>
+  </div>
+  <aside class="speaker-notes" hidden>Presentamos primero la separación centro/bordes en lenguaje común y luego nombramos «arquitectura hexagonal». En la siguiente diapositiva mostramos el diagrama clásico del hexágono.</aside>
+</section>
+
+<!-- SLIDE 9 (NEW · CLASSIC HEXAGONAL GRAPHIC) -->
+<section class="slide" data-title="El diagrama clásico de la arquitectura hexagonal" hidden>
+  <header class="slide-header">
+    <div class="eyebrow">Mapa visual · puertos y adaptadores (Alistair Cockburn)</div>
+    <h2>El diagrama clásico: núcleo, puertos en el borde y adaptadores</h2>
+  </header>
+  <div class="body">
+    <svg class="svg-desktop" viewBox="0 0 1160 348" role="img" aria-labelledby="hex-classic-title hex-classic-desc">
+      <title id="hex-classic-title">Diagrama clásico de arquitectura hexagonal con dominio, aplicación, puertos y adaptadores</title>
+      <desc id="hex-classic-desc">En el centro, un hexágono interior representa el Dominio (Pedido y reglas de negocio) dentro del hexágono de Aplicación (casos de uso). Sobre las caras izquierdas están los puertos de entrada invocados por adaptadores primarios (HTTP REST, tarea programada, consumidor Kafka o pruebas). Sobre las caras derechas están los puertos de salida implementados por adaptadores secundarios (PostgreSQL o MongoDB, Apache Kafka, pasarelas de pago o almacenamiento S3).</desc>
+
+      <text x="131" y="20" fill="#70d9e8" font-size="12" font-weight="700" text-anchor="middle">ADAPTADORES DE ENTRADA (PRIMARIOS)</text>
+      <text x="580" y="20" fill="#b9a0ff" font-size="12" font-weight="700" text-anchor="middle">NÚCLEO · PUERTOS EN EL BORDE</text>
+      <text x="1029" y="20" fill="#a6e3a1" font-size="12" font-weight="700" text-anchor="middle">ADAPTADORES DE SALIDA (SECUNDARIOS)</text>
+
+      <!-- Outer hexagon: Aplicación -->
+      <polygon points="726,184 653,310 507,310 434,184 507,58 653,58" fill="#162b38" stroke="#70d9e8" stroke-width="2.6"/>
+      <!-- Inner hexagon: Dominio -->
+      <polygon points="664,184 622,256 538,256 496,184 538,112 622,112" fill="#1d2740" stroke="#b9a0ff" stroke-width="2.2"/>
+
+      <text x="580" y="92" fill="#70d9e8" font-size="11.5" font-weight="700" text-anchor="middle">APLICACIÓN · CASOS DE USO</text>
+      <text x="580" y="168" fill="#b9a0ff" font-size="12" font-weight="700" text-anchor="middle">DOMINIO</text>
+      <text x="580" y="192" fill="#e6edf3" font-size="18" font-weight="700" text-anchor="middle">Pedido</text>
+      <text x="580" y="213" fill="#a8b3c5" font-size="12.5" text-anchor="middle">Reglas de negocio</text>
+      <text x="580" y="289" fill="#a8b3c5" font-size="12" text-anchor="middle">Java puro · sin frameworks</text>
+
+      <!-- Left adapters (Driving / Primary) -->
+      <rect x="14" y="56" width="234" height="64" rx="12" fill="#202c3c" stroke="#39495d" stroke-width="1.8"/>
+      <text x="131" y="83" fill="#e6edf3" font-size="15" font-weight="700" text-anchor="middle">HTTP REST</text>
+      <text x="131" y="104" fill="#a8b3c5" font-size="12.5" text-anchor="middle">PedidoController</text>
+
+      <rect x="14" y="152" width="234" height="64" rx="12" fill="#202c3c" stroke="#39495d" stroke-width="1.8"/>
+      <text x="131" y="179" fill="#e6edf3" font-size="15" font-weight="700" text-anchor="middle">Tarea programada</text>
+      <text x="131" y="200" fill="#a8b3c5" font-size="12.5" text-anchor="middle">PedidosExpiradosJob (@Scheduled)</text>
+
+      <rect x="14" y="248" width="234" height="64" rx="12" fill="#1c2233" stroke="#b9a0ff" stroke-width="1.6" stroke-dasharray="5 4"/>
+      <text x="131" y="275" fill="#e6edf3" font-size="15" font-weight="700" text-anchor="middle">Eventos / Pruebas</text>
+      <text x="131" y="296" fill="#a8b3c5" font-size="12.5" text-anchor="middle">KafkaConsumer · JUnit</text>
+
+      <!-- Left connectors + Inbound Ports on hexagon faces -->
+      <path d="M248 88 H378 M369 81 L378 88 L369 95" fill="none" stroke="#70d9e8" stroke-width="2.2"/>
+      <text x="313" y="79" fill="#a8b3c5" font-size="11.5" text-anchor="middle">invoca</text>
+      <rect x="382" y="74" width="108" height="28" rx="14" fill="#102530" stroke="#70d9e8" stroke-width="1.8"/>
+      <text x="436" y="92" fill="#70d9e8" font-size="12" font-weight="700" text-anchor="middle">UseCase (IN)</text>
+
+      <path d="M248 184 H330 M321 177 L330 184 L321 191" fill="none" stroke="#70d9e8" stroke-width="2.2"/>
+      <text x="289" y="175" fill="#a8b3c5" font-size="11.5" text-anchor="middle">invoca</text>
+      <rect x="334" y="170" width="108" height="28" rx="14" fill="#102530" stroke="#70d9e8" stroke-width="1.8"/>
+      <text x="388" y="188" fill="#70d9e8" font-size="12" font-weight="700" text-anchor="middle">UseCase (IN)</text>
+
+      <path d="M248 280 H378 M369 273 L378 280 L369 287" fill="none" stroke="#b9a0ff" stroke-width="2" stroke-dasharray="5 4"/>
+      <text x="313" y="271" fill="#a8b3c5" font-size="11.5" text-anchor="middle">invoca</text>
+      <rect x="382" y="266" width="108" height="28" rx="14" fill="#102530" stroke="#70d9e8" stroke-width="1.8"/>
+      <text x="436" y="284" fill="#70d9e8" font-size="12" font-weight="700" text-anchor="middle">UseCase (IN)</text>
+
+      <!-- Right adapters (Driven / Secondary) -->
+      <rect x="912" y="56" width="234" height="64" rx="12" fill="#202c3c" stroke="#39495d" stroke-width="1.8"/>
+      <text x="1029" y="83" fill="#e6edf3" font-size="15" font-weight="700" text-anchor="middle">Persistencia</text>
+      <text x="1029" y="104" fill="#a8b3c5" font-size="12.5" text-anchor="middle">PostgreSQL (JPA) · Mongo · JDBC</text>
+
+      <rect x="912" y="152" width="234" height="64" rx="12" fill="#182b24" stroke="#a6e3a1" stroke-width="1.8"/>
+      <text x="1029" y="179" fill="#e6edf3" font-size="15" font-weight="700" text-anchor="middle">Mensajería</text>
+      <text x="1029" y="200" fill="#a8b3c5" font-size="12.5" text-anchor="middle">Apache Kafka (topic)</text>
+
+      <rect x="912" y="248" width="234" height="64" rx="12" fill="#1c2233" stroke="#b9a0ff" stroke-width="1.6" stroke-dasharray="5 4"/>
+      <text x="1029" y="275" fill="#e6edf3" font-size="15" font-weight="700" text-anchor="middle">APIs / Archivos</text>
+      <text x="1029" y="296" fill="#a8b3c5" font-size="12.5" text-anchor="middle">Stripe · Culqi · Amazon S3</text>
+
+      <!-- Right connectors + Outbound Ports on hexagon faces -->
+      <rect x="670" y="74" width="108" height="28" rx="14" fill="#142921" stroke="#a6e3a1" stroke-width="1.8"/>
+      <text x="724" y="92" fill="#a6e3a1" font-size="12" font-weight="700" text-anchor="middle">RepoPort (OUT)</text>
+      <path d="M912 88 H782 M791 81 L782 88 L791 95" fill="none" stroke="#a6e3a1" stroke-width="2.2"/>
+      <text x="847" y="79" fill="#a8b3c5" font-size="11.5" text-anchor="middle">implementa</text>
+
+      <rect x="718" y="170" width="108" height="28" rx="14" fill="#142921" stroke="#a6e3a1" stroke-width="1.8"/>
+      <text x="772" y="188" fill="#a6e3a1" font-size="12" font-weight="700" text-anchor="middle">EventoPort</text>
+      <path d="M912 184 H830 M839 177 L830 184 L839 191" fill="none" stroke="#a6e3a1" stroke-width="2.2"/>
+      <text x="871" y="175" fill="#a8b3c5" font-size="11.5" text-anchor="middle">implementa</text>
+
+      <rect x="670" y="266" width="108" height="28" rx="14" fill="#142921" stroke="#a6e3a1" stroke-width="1.8"/>
+      <text x="724" y="284" fill="#a6e3a1" font-size="12" font-weight="700" text-anchor="middle">PagoPort (OUT)</text>
+      <path d="M912 280 H782 M791 273 L782 280 L791 287" fill="none" stroke="#b9a0ff" stroke-width="2" stroke-dasharray="5 4"/>
+      <text x="847" y="271" fill="#a8b3c5" font-size="11.5" text-anchor="middle">implementa</text>
+
+      <text x="580" y="340" fill="#a8b3c5" font-size="12" text-anchor="middle">Todas las dependencias apuntan hacia el núcleo · Los lados del hexágono representan múltiples puertos, no 6 capas.</text>
+    </svg>
+
+    <svg class="svg-mobile" viewBox="0 0 360 440" role="img" aria-labelledby="hex-mob-title hex-mob-desc">
+      <title id="hex-mob-title">Diagrama hexagonal en formato vertical</title>
+      <desc id="hex-mob-desc">Arriba, adaptadores de entrada (HTTP, Scheduled, Kafka/JUnit) invocan el puerto de entrada del hexágono central (Aplicación y Dominio). Abajo, adaptadores de salida (PostgreSQL/Mongo, Kafka, Stripe/S3) implementan los puertos de salida del hexágono.</desc>
+      <rect x="20" y="10" width="320" height="62" rx="10" fill="#202c3c" stroke="#70d9e8" stroke-width="1.6"/>
+      <text x="180" y="34" fill="#70d9e8" font-size="12" font-weight="700" text-anchor="middle">ADAPTADORES DE ENTRADA</text>
+      <text x="180" y="56" fill="#e6edf3" font-size="13.5" text-anchor="middle">HTTP REST · @Scheduled · Kafka · JUnit</text>
+
+      <path d="M180 72 V106 M174 98 L180 106 L186 98" fill="none" stroke="#70d9e8" stroke-width="2.2"/>
+      <text x="236" y="94" fill="#a8b3c5" font-size="11.5" text-anchor="middle">invocan</text>
+
+      <polygon points="310,218 245,322 115,322 50,218 115,114 245,114" fill="#162b38" stroke="#70d9e8" stroke-width="2.4"/>
+      <polygon points="256,218 218,274 142,274 104,218 142,162 218,162" fill="#1d2740" stroke="#b9a0ff" stroke-width="2"/>
+      <rect x="120" y="102" width="120" height="24" rx="12" fill="#102530" stroke="#70d9e8" stroke-width="1.6"/>
+      <text x="180" y="118" fill="#70d9e8" font-size="11.5" font-weight="700" text-anchor="middle">Puertos de entrada</text>
+      <text x="180" y="148" fill="#70d9e8" font-size="11" font-weight="700" text-anchor="middle">APLICACIÓN</text>
+      <text x="180" y="210" fill="#b9a0ff" font-size="11.5" font-weight="700" text-anchor="middle">DOMINIO</text>
+      <text x="180" y="232" fill="#e6edf3" font-size="16" font-weight="700" text-anchor="middle">Pedido · Reglas</text>
+      <rect x="120" y="310" width="120" height="24" rx="12" fill="#142921" stroke="#a6e3a1" stroke-width="1.6"/>
+      <text x="180" y="326" fill="#a6e3a1" font-size="11.5" font-weight="700" text-anchor="middle">Puertos de salida</text>
+
+      <path d="M180 368 V338 M174 346 L180 338 L186 346" fill="none" stroke="#a6e3a1" stroke-width="2.2"/>
+      <text x="242" y="357" fill="#a8b3c5" font-size="11.5" text-anchor="middle">implementan</text>
+
+      <rect x="20" y="370" width="320" height="62" rx="10" fill="#182b24" stroke="#a6e3a1" stroke-width="1.6"/>
+      <text x="180" y="394" fill="#a6e3a1" font-size="12" font-weight="700" text-anchor="middle">ADAPTADORES DE SALIDA</text>
+      <text x="180" y="416" fill="#e6edf3" font-size="13.5" text-anchor="middle">PostgreSQL / Mongo · Kafka · Stripe / S3</text>
+    </svg>
+
+    <div class="callout"><strong>¿Por qué un hexágono?</strong> Alistair Cockburn eligió la figura para tener espacio visual donde dibujar varios puertos y adaptadores alrededor del núcleo; <strong>no</strong> significa 6 capas ni obliga a crear microservicios.</div>
+  </div>
+  <aside class="speaker-notes" hidden>Este es el diagrama mental que los alumnos reconocerán en libros y entrevistas. Señala cómo todas las flechas de dependencia apuntan hacia el hexágono central y los puertos actúan como enchufes en sus bordes.</aside>
+</section>
+
+<!-- SLIDE 9 -->
+<section class="slide" data-title="Prerrequisitos y ruta para reorganizar el repo" hidden>
+  <header class="slide-header">
+    <div class="eyebrow">Ruta · después de entender el problema</div>
+    <h2>Qué usaremos y cómo reorganizaremos el repositorio</h2>
+  </header>
+  <div class="body">
+    <div class="triplet">
+      <div class="panel tint"><div class="label">Java 21 conocido</div><p>Clases, interfaces, <code>enum</code>, excepciones, <code>Optional</code> y constructores.</p></div>
+      <div class="panel tint"><div class="label">Spring Boot conocido</div><p><code>@RestController</code>, <code>ResponseEntity</code>, <code>JpaRepository</code>, <code>@Entity</code> e inyección.</p></div>
+      <div class="panel tint"><div class="label">No hace falta dominar</div><p>Configuración avanzada de Kafka, driver de MongoDB ni <code>@Bean</code>: lo definimos al usarlo.</p></div>
+    </div>
+    <div class="quad">
+      <div class="panel"><span class="badge violet">Paso 1</span><h3>Núcleo</h3><p class="small">Separar <code>Pedido</code> de <code>PedidoEntity</code> y extraer el caso de uso.</p></div>
+      <div class="panel"><span class="badge violet">Paso 2</span><h3>Puertos y adaptadores</h3><p class="small">Contratos en el borde; HTTP, JPA/Mongo y Kafka afuera.</p></div>
+      <div class="panel"><span class="badge violet">Paso 3</span><h3>Dependencias y Spring</h3><p class="small">Ejecución vs. compilación, <code>@Configuration</code> y carpetas del repo.</p></div>
+      <div class="panel"><span class="badge violet">Paso 4</span><h3>Pruebas y criterio</h3><p class="small">Probar sin BD ni Kafka, integración real y cuándo compensa.</p></div>
+    </div>
+  </div>
+  <aside class="speaker-notes" hidden>Ubicamos la ruta después de la motivación para que cada paso tenga sentido respecto a los problemas de migración de BD y Kafka.</aside>
+</section>
+
+<!-- SLIDE 11 (NEW · MODEL VS ENTITY) -->
+<section class="slide" data-title="Diferencia entre Model y Entity y por qué tener el Model" hidden>
+  <header class="slide-header">
+    <div class="eyebrow">Paso 1 · separar negocio de persistencia</div>
+    <h2>¿Cuál es la diferencia entre <code>Model</code> y <code>Entity</code>?</h2>
+  </header>
+  <div class="body">
+    <div class="split">
+      <div class="panel accent-box">
+        <div class="label good">Model de dominio · <code>domain/model/Pedido</code></div>
+        <ul class="list">
+          <li><strong>Qué representa:</strong> el concepto del negocio y sus <strong>reglas</strong> (<code>cancelar()</code>).</li>
+          <li><strong>Forma:</strong> Java puro, sin anotaciones de BD y sin <code>setEstado(...)</code> abierto que permita saltarse reglas.</li>
+          <li><strong>Cuándo cambia:</strong> cuando cambia una <strong>regla de negocio</strong>.</li>
+        </ul>
+      </div>
+      <div class="panel warn-box">
+        <div class="label warn">Entity de persistencia · <code>PedidoEntity</code></div>
+        <ul class="list">
+          <li><strong>Qué representa:</strong> una <strong>fila de tabla SQL</strong> en PostgreSQL (<code>@Entity</code>, <code>@Table</code>, <code>@Column</code>, <code>@ManyToOne</code>).</li>
+          <li><strong>Forma:</strong> adaptada a Hibernate/JPA (constructor vacío, getters/setters públicos, tipos de columna).</li>
+          <li><strong>Cuándo cambia:</strong> cuando cambia el <strong>esquema SQL</strong> o migras a MongoDB (<code>PedidoDocument</code>).</li>
+        </ul>
+      </div>
+    </div>
+    <div class="triplet">
+      <div class="panel tint"><div class="label">1 · Negocio sin framework</div><p class="small">Si quitamos JPA o pasamos a MongoDB/JDBC, el <code>Model</code> sigue compilando intacto.</p></div>
+      <div class="panel tint"><div class="label">2 · Reglas protegidas</div><p class="small">La <code>Entity</code> suele exponer <code>setters</code> para Hibernate; el <code>Model</code> obliga a pasar por <code>cancelar()</code>.</p></div>
+      <div class="panel tint"><div class="label">3 · Esquema desacoplado</div><p class="small">Una tabla puede renombrarse o dividirse en dos sin obligar a cambiar la lógica del negocio.</p></div>
+    </div>
+    <div class="callout"><strong>¿Por qué tener el <code>Model</code> si parece duplicar campos?</strong> Porque aunque hoy tengan atributos parecidos, tienen <strong>razones distintas para cambiar</strong>. El costo es un <em>mapper</em>; el beneficio es que la base de datos no dicta tus reglas.</div>
+  </div>
+  <aside class="speaker-notes" hidden>Esta es la pregunta #1 de todo estudiante que viene de Spring Data JPA: «¿por qué crear Pedido si ya tengo PedidoEntity?». Enfatiza los tres motivos: sin anotaciones JPA en el núcleo, encapsulamiento real sin setters abiertos, y libertad para evolucionar tablas o cambiar de BD sin romper reglas.</aside>
+</section>
+
+<!-- SLIDE 12 -->
+<section class="slide" data-title="El modelo Pedido en código Java puro" hidden>
+  <header class="slide-header">
+    <div class="eyebrow">Paso 1 · el modelo de dominio en código</div>
+    <h2>Así protege las reglas nuestro modelo <code>Pedido</code></h2>
+  </header>
+  <div class="body split wide-left">
+    <div>
+      <div class="code-label">Fragmento Java puro · domain/model/Pedido.java</div>
+      <pre><code><span class="tok-keyword">public enum</span> <span class="tok-type">EstadoPedido</span> { EN_PREPARACION, ENTREGADO, CANCELADO }
+
+<span class="tok-keyword">public class</span> <span class="tok-type">Pedido</span> {
+  <span class="tok-keyword">private final</span> <span class="tok-type">String</span> id;
+  <span class="tok-keyword">private final int</span> totalSoles;
+  <span class="tok-keyword">private</span> <span class="tok-type">EstadoPedido</span> estado;
+
+<span class="code-focus">  <span class="tok-keyword">public void</span> cancelar() {</span>
+<span class="code-focus">    <span class="tok-keyword">if</span> (estado != <span class="tok-type">EstadoPedido</span>.EN_PREPARACION) {</span>
+<span class="code-focus">      <span class="tok-keyword">throw new</span> <span class="tok-type">PedidoNoCancelableException</span>(id, estado);</span>
+<span class="code-focus">    }</span>
+<span class="code-focus">    <span class="tok-keyword">this</span>.estado = <span class="tok-type">EstadoPedido</span>.CANCELADO;</span>
+<span class="code-focus">  }</span>
+}</code></pre>
+    </div>
+    <div class="stack">
+      <div class="state-group active">
+        <div class="label good">Objeto Pedido ORD-101 · cambio válido</div>
+        <div class="state-row">
+          <div class="state-chip"><strong>ORD-101</strong><br><span class="badge ok">EN_PREPARACION</span></div>
+          <div class="small" style="text-align:center;"><code>cancelar()</code> →</div>
+          <div class="state-chip"><strong>ORD-101</strong><br><span class="badge violet">CANCELADO</span></div>
+        </div>
+      </div>
+      <div class="state-group">
+        <div class="label warn">Objeto Pedido ORD-102 · regla lo protege</div>
+        <div class="state-row">
+          <div class="state-chip"><strong>ORD-102</strong><br><span class="badge warn">ENTREGADO</span></div>
+          <div class="small" style="text-align:center;"><code>cancelar()</code> →</div>
+          <div class="state-chip"><strong>ORD-102</strong> sin cambios<br><span class="small">lanza excepción</span></div>
+        </div>
+      </div>
+      <div class="callout">Observa que <code>Pedido</code> no tiene <code>@Entity</code>, ni <code>@Table</code>, ni un <code>setEstado(...)</code> público: la única forma de cancelar pasa por la regla <code>cancelar()</code>.</div>
+    </div>
+  </div>
+  <aside class="speaker-notes" hidden>Omitimos constructor y getters por claridad. PedidoNoCancelableException es una RuntimeException simple del dominio. Nota cómo cada recuadro mantiene la identidad del mismo objeto antes y después del evento cancelar().</aside>
+</section>
+
+<!-- SLIDE 13 -->
+<section class="slide" data-title="Dominio y aplicación dentro del núcleo" hidden>
+  <header class="slide-header">
+    <div class="eyebrow">Paso 1 · dos capas internas del núcleo</div>
+    <h2>Dominio y Aplicación: ¿qué hace cada uno dentro del núcleo?</h2>
+  </header>
+  <div class="body">
+    <p class="lead">Dentro del núcleo separamos <strong>qué reglas cumple el objeto</strong> (Dominio) de <strong>en qué orden se ejecuta la operación</strong> (Aplicación).</p>
+    <div class="boundary stack">
+      <div class="label">Núcleo · Java puro (sin Spring, JPA, MongoDB ni Kafka)</div>
+      <div class="flow" role="group" aria-label="La capa de Aplicación orquesta los 4 pasos y llama a pedido.cancelar() en la capa de Dominio">
+        <div class="panel tint" style="flex:1.15;text-align:left;">
+          <div class="label violet">Aplicación · <code>CancelarPedidoService</code></div>
+          <p class="small"><em>«¿En qué orden ocurren los pasos del caso de uso?»</em></p>
+          <ol style="margin:0.35em 0;padding-left:1.25em;line-height:1.45;">
+            <li>Pide buscar el pedido por <code>id</code>.</li>
+            <li>Si existe, invoca <code>pedido.cancelar()</code>.</li>
+            <li>Pide guardar el pedido actualizado.</li>
+            <li>Pide notificar la cancelación.</li>
+          </ol>
+          <p class="small"><strong>No hace:</strong> no implementa el <code>if</code> de estados ni elige la BD.</p>
+        </div>
+        <div class="arrow" aria-hidden="true">
+          <span>paso 2</span>
+          <svg viewBox="0 0 36 20"><path d="M2 10H32 M25 4L32 10L25 16"/></svg>
+          <span><code>cancelar()</code></span>
+        </div>
+        <div class="inner-boundary" style="flex:1;text-align:left;">
+          <div class="label good">Dominio · <code>Pedido</code> · <code>EstadoPedido</code></div>
+          <p class="small"><em>«¿Es válida esta acción sobre el pedido?»</em></p>
+          <ul class="list">
+            <li><strong>ORD-101</strong> (<code>EN_PREPARACION</code>) → cambia a <code>CANCELADO</code>.</li>
+            <li><strong>ORD-102</strong> (<code>ENTREGADO</code>) → lanza <code>PedidoNoCancelableException</code> y detiene los pasos 3 y 4.</li>
+          </ul>
+          <p class="small" style="margin-top:8px;"><strong>No hace:</strong> no busca en BD, no guarda registros ni envía eventos.</p>
+        </div>
+      </div>
+    </div>
+    <div class="callout good"><strong>Regla práctica:</strong> si el código valida una regla propia del pedido (estados, montos, invariantes) va en <strong>Dominio</strong>; si coordina pasos con el exterior (buscar, guardar, notificar) va en <strong>Aplicación</strong>.</div>
+  </div>
+  <aside class="speaker-notes" hidden>Refuerza la separación: Pedido nunca inyecta un repositorio. CancelarPedidoService nunca duplica la validación de estados porque delega en pedido.cancelar(). Así varios casos de uso pueden reutilizar la misma regla del dominio.</aside>
+</section>
+
+<!-- SLIDE 14 (NEW · INFRASTRUCTURE LAYER) -->
+<section class="slide" data-title="La capa de Infraestructura: qué vive fuera del núcleo" hidden>
+  <header class="slide-header">
+    <div class="eyebrow">Paso 1 · fuera del núcleo</div>
+    <h2>Infraestructura: ¿qué vive fuera del núcleo?</h2>
+  </header>
+  <div class="body">
+    <p class="lead">Todo lo que depende de <strong>Spring, HTTP, bases de datos, Kafka o APIs externas</strong> vive en <code>infrastructure</code>. Responde a: <em>«¿con qué tecnología concreta nos conectamos?»</em></p>
+    <div class="exercise">
+      <div class="panel tint">
+        <div class="label">1 · Adaptadores de entrada (<code>adapter/in</code>)</div>
+        <p class="small"><code>PedidoController</code> (<code>@RestController</code>, rutas HTTP, <code>ResponseEntity</code>), <code>PedidosExpiradosJob</code> (<code>@Scheduled</code>) o consumidores de eventos.</p>
+      </div>
+      <div class="panel tint">
+        <div class="label good">2 · Adaptadores de salida (<code>adapter/out</code>)</div>
+        <p class="small"><code>PedidoJpaAdapter</code> (<code>@Entity</code>, <code>JpaRepository</code>), <code>PedidoMongoAdapter</code>, <code>PedidoKafkaAdapter</code>, clientes de Stripe, Culqi o S3.</p>
+      </div>
+      <div class="panel tint">
+        <div class="label violet">3 · Mappers y DTOs técnicos</div>
+        <p class="small">Traducen entre el modelo <code>Pedido</code> y formatos externos: <code>PedidoEntity</code>, <code>PedidoDocument</code>, <code>PedidoResponse</code> y <code>PedidoCanceladoEvent</code>.</p>
+      </div>
+      <div class="panel tint">
+        <div class="label warn">4 · Configuración y cableado (<code>config</code>)</div>
+        <p class="small">Clases <code>@Configuration</code> y <code>@Bean</code> de Spring Boot que ensamblan el núcleo con los adaptadores activos y sus propiedades.</p>
+      </div>
+    </div>
+    <div class="callout warn"><strong>Lo que NO hace Infraestructura:</strong> nunca decide reglas de negocio (como si <code>ORD-102</code> puede cancelarse). <strong>Regla de dependencia:</strong> <code>infrastructure</code> importa <code>application</code> y <code>domain</code>, nunca al revés.</div>
+  </div>
+  <aside class="speaker-notes" hidden>Con esto cerramos las tres grandes capas (domain, application, infrastructure). Destaca que infraestructura es la capa más cambiante: migrar de PostgreSQL a MongoDB o pasar de Stripe a Culqi ocurre aquí sin tocar el núcleo.</aside>
+</section>
+
+<!-- SLIDE 12 -->
+<section class="slide" data-title="Puerto de entrada: qué ofrece la aplicación" hidden>
+  <header class="slide-header">
+    <div class="eyebrow">Paso 2 · contratos en el borde del núcleo</div>
+    <h2>El puerto de entrada declara la operación disponible</h2>
+  </header>
+  <div class="body split">
+    <div>
+      <div class="code-label">Contrato Java · application/port/in/CancelarPedidoUseCase.java</div>
+      <pre><code><span class="tok-keyword">package</span> com.tienda.pedidos.application.port.in;
+
+<span class="tok-keyword">import</span> com.tienda.pedidos.domain.model.<span class="tok-type">Pedido</span>;
+<span class="tok-keyword">import</span> java.util.<span class="tok-type">Optional</span>;
+
+<span class="code-focus"><span class="tok-keyword">public interface</span> <span class="tok-type">CancelarPedidoUseCase</span> {</span>
+<span class="code-focus">  <span class="tok-type">Optional</span>&lt;<span class="tok-type">Pedido</span>&gt; cancelar(<span class="tok-type">String</span> id);</span>
+<span class="code-focus">}</span></code></pre>
+    </div>
+    <div class="stack">
+      <p>Un <strong>puerto</strong> es un contrato en la frontera del núcleo.</p>
+      <p>El <strong>puerto de entrada</strong> nombra qué puede pedir un llamador externo a la aplicación: cancelar un pedido por su ID.</p>
+      <div class="panel tint">
+        <div class="label">Un solo contrato, varios canales posibles</div>
+        <p>Hoy lo llama un controlador HTTP (<code>PATCH /pedidos/ORD-101/cancelar</code>). Mañana podría llamarlo un consumidor de Kafka o una tarea programada, sin cambiar el contrato.</p>
+      </div>
+      <p class="small">Usa solo tipos de Java y del dominio; nunca <code>ResponseEntity</code> ni <code>PedidoResponse</code>. Aquí elegimos una interfaz, aunque no todo puerto exige una interfaz obligatoriamente.</p>
+    </div>
+  </div>
+  <aside class="speaker-notes" hidden>Nota que Optional&lt;Pedido&gt; ya es conocido de spring-introduccion. El contrato habla únicamente el lenguaje del negocio.</aside>
+</section>
+
+<!-- SLIDE 13 -->
+<section class="slide" data-title="Puertos de salida: persistencia y mensajería" hidden>
+  <header class="slide-header">
+    <div class="eyebrow">Paso 2 · capacidades que necesita el núcleo</div>
+    <h2>Los puertos de salida declaran qué necesita la aplicación</h2>
+  </header>
+  <div class="body">
+    <div class="split">
+      <div>
+        <div class="code-label">Puerto de salida 1 · persistencia</div>
+        <pre><code><span class="tok-keyword">public interface</span> <span class="tok-type">PedidoRepositoryPort</span> {
+  <span class="tok-type">Optional</span>&lt;<span class="tok-type">Pedido</span>&gt; buscarPorId(<span class="tok-type">String</span> id);
+  <span class="tok-type">Pedido</span> guardar(<span class="tok-type">Pedido</span> pedido);
+}</code></pre>
+        <p class="small">Solo 2 métodos necesarios (no los ~30 de <code>JpaRepository</code>) y trabaja con <code>Pedido</code>, no con <code>PedidoEntity</code>.</p>
+      </div>
+      <div>
+        <div class="code-label">Puerto de salida 2 · notificación de eventos</div>
+        <pre><code><span class="tok-keyword">public interface</span> <span class="tok-type">NotificarPedidoCanceladoPort</span> {
+  <span class="tok-keyword">void</span> notificarCancelacion(<span class="tok-type">Pedido</span> pedido);
+}</code></pre>
+        <p class="small">Expresa la intención del negocio («notificar cancelación»), sin nombrar <code>KafkaTemplate</code> ni el <em>topic</em>.</p>
+      </div>
+    </div>
+    <div class="callout warn"><strong>Confusión frecuente:</strong> «puerto de salida» <strong>no significa respuesta HTTP</strong>. «Entrada» indica quién inicia una llamada hacia el núcleo; «salida» indica una capacidad externa que el núcleo solicita hacia afuera (BD, Kafka, correo, API).</div>
+  </div>
+  <aside class="speaker-notes" hidden>Esta distinción entrada/salida (driving vs driven) evita el malentendido más común al aprender arquitectura hexagonal.</aside>
+</section>
+
+<!-- SLIDE 14 -->
+<section class="slide" data-title="El caso de uso desacoplado" hidden>
+  <header class="slide-header">
+    <div class="eyebrow">Paso 2 · implementación en el núcleo</div>
+    <h2><code>CancelarPedidoService</code> depende solo de los puertos</h2>
+  </header>
+  <div class="body split wide-left">
+    <div>
+      <div class="code-label">Java puro · application/service/CancelarPedidoService.java</div>
+      <pre><code><span class="tok-keyword">public class</span> <span class="tok-type">CancelarPedidoService</span> <span class="tok-keyword">implements</span> <span class="tok-type">CancelarPedidoUseCase</span> {
+  <span class="tok-keyword">private final</span> <span class="tok-type">PedidoRepositoryPort</span> pedidos;
+  <span class="tok-keyword">private final</span> <span class="tok-type">NotificarPedidoCanceladoPort</span> notificador;
+
+  <span class="tok-keyword">public</span> <span class="tok-type">CancelarPedidoService</span>(
+      <span class="tok-type">PedidoRepositoryPort</span> pedidos,
+      <span class="tok-type">NotificarPedidoCanceladoPort</span> notificador) {
+    <span class="tok-keyword">this</span>.pedidos = pedidos;
+    <span class="tok-keyword">this</span>.notificador = notificador;
+  }
+
+  <span class="tok-keyword">public</span> <span class="tok-type">Optional</span>&lt;<span class="tok-type">Pedido</span>&gt; cancelar(<span class="tok-type">String</span> id) {
+<span class="code-focus">    <span class="tok-type">Optional</span>&lt;<span class="tok-type">Pedido</span>&gt; encontrado = pedidos.buscarPorId(id);</span>
+    <span class="tok-keyword">if</span> (encontrado.isEmpty()) <span class="tok-keyword">return</span> <span class="tok-type">Optional</span>.empty();
+
+    <span class="tok-type">Pedido</span> pedido = encontrado.get();
+<span class="code-focus">    pedido.cancelar(); <span class="tok-comment">// ORD-102 lanza excepción aquí</span></span>
+<span class="code-focus">    <span class="tok-type">Pedido</span> guardado = pedidos.guardar(pedido);</span>
+<span class="code-focus">    notificador.notificarCancelacion(guardado);</span>
+    <span class="tok-keyword">return</span> <span class="tok-type">Optional</span>.of(guardado);
+  }
+}</code></pre>
+    </div>
+    <div class="stack">
+      <div class="panel accent-box">
+        <div class="label good">Comparación con el servicio anterior</div>
+        <ul class="list">
+          <li>Cero <code>@Service</code> ni <code>@Entity</code>.</li>
+          <li>Cero <code>JpaRepository</code> ni <code>PedidoDocument</code>.</li>
+          <li>Cero <code>KafkaTemplate</code> ni <code>PedidoResponse</code>.</li>
+        </ul>
+      </div>
+      <div class="callout">Si migramos a MongoDB o cambiamos Kafka por otro mensajero, <strong>este archivo no necesita editarse</strong>.</div>
+    </div>
+  </div>
+  <aside class="speaker-notes" hidden>Pide comparar mentalmente esta clase con las diapositivas 3 y 6: cada línea ahora expresa intención de negocio pura.</aside>
+</section>
+
+<!-- SLIDE 15 -->
+<section class="slide" data-title="Qué son los adaptadores: tecnologías en los bordes" hidden>
+  <header class="slide-header">
+    <div class="eyebrow">Paso 2 · conectar el mundo exterior</div>
+    <h2>Los adaptadores traducen cada tecnología hacia un puerto</h2>
+  </header>
+  <div class="body">
+    <p class="lead">Un <strong>adaptador</strong> es la clase Java que conecta una tecnología externa (HTTP, JPA, MongoDB, Kafka) con un puerto del núcleo.</p>
+    <div class="flow" role="group" aria-label="Adaptadores de entrada a la izquierda, núcleo en el centro y adaptadores de salida a la derecha">
+      <div class="stack" style="flex: 0.95;">
+        <div class="node">
+          <span class="label">Adaptador de entrada</span>
+          <strong>PedidoController</strong>
+          <span class="small">HTTP → CancelarPedidoUseCase</span>
+        </div>
+        <div class="node dashed">
+          <span class="label violet">Posible entrada futura</span>
+          <strong>PedidoKafkaConsumer</strong>
+          <span class="small">Evento → mismo puerto</span>
+        </div>
+      </div>
+      <div class="arrow" aria-hidden="true"><svg viewBox="0 0 36 20"><path d="M2 10H32 M25 4L32 10L25 16"/></svg><span>llama</span></div>
+      <div class="node primary" style="flex: 1.05;">
+        <span class="label">Núcleo</span>
+        <strong>CancelarPedidoService</strong>
+        <span class="small">+ Pedido</span>
+        <span class="small">define los 3 puertos</span>
+      </div>
+      <div class="arrow" aria-hidden="true"><svg viewBox="0 0 36 20"><path d="M2 10H32 M25 4L32 10L25 16"/></svg><span>usa puertos</span></div>
+      <div class="stack" style="flex: 1.05;">
+        <div class="node">
+          <span class="label">Adaptador salida · BD actual</span>
+          <strong>PedidoJpaAdapter</strong>
+          <span class="small">JPA → PostgreSQL</span>
+        </div>
+        <div class="node dashed">
+          <span class="label violet">Alternativa BD</span>
+          <strong>PedidoMongoAdapter</strong>
+          <span class="small">Documentos → MongoDB</span>
+        </div>
+        <div class="node good-node">
+          <span class="label good">Adaptador salida · mensajería</span>
+          <strong>PedidoKafkaAdapter</strong>
+          <span class="small">Publica en Kafka</span>
+        </div>
+      </div>
+    </div>
+    <div class="callout warn"><strong>Precisión clave:</strong> PostgreSQL, MongoDB y Kafka <strong>no son los adaptadores</strong>. Los adaptadores son nuestras clases Java que implementan o invocan los puertos.</div>
+  </div>
+  <aside class="speaker-notes" hidden>La línea punteada señala alternativas o extensiones futuras (MongoDB o un consumidor Kafka) que encajan en los mismos puertos sin tocar el núcleo.</aside>
+</section>
+
+<!-- SLIDE 16 -->
+<section class="slide" data-title="Adaptador de entrada: PedidoController" hidden>
+  <header class="slide-header">
+    <div class="eyebrow">Paso 2 · adaptador web</div>
+    <h2>El controlador traduce HTTP al puerto y el resultado a códigos web</h2>
+  </header>
+  <div class="body split wide-left">
+    <div>
+      <div class="code-label">Spring Web · infrastructure/adapter/in/web/PedidoController.java</div>
+      <pre><code><span class="tok-ann">@RestController</span>
+<span class="tok-keyword">public class</span> <span class="tok-type">PedidoController</span> {
+  <span class="tok-keyword">private final</span> <span class="tok-type">CancelarPedidoUseCase</span> cancelarPedido;
+
+  <span class="tok-ann">@PatchMapping</span>(<span class="tok-string">"/pedidos/{id}/cancelar"</span>)
+  <span class="tok-keyword">public</span> <span class="tok-type">ResponseEntity</span>&lt;<span class="tok-type">PedidoResponse</span>&gt; cancelar(
+      <span class="tok-ann">@PathVariable</span> <span class="tok-type">String</span> id) {
+    <span class="tok-keyword">try</span> {
+      <span class="tok-keyword">return</span> cancelarPedido.cancelar(id)
+          .map(p -&gt; <span class="tok-type">ResponseEntity</span>.ok(<span class="tok-type">PedidoResponse</span>.from(p)))
+          .orElseGet(() -&gt; <span class="tok-type">ResponseEntity</span>.notFound().build());
+    } <span class="tok-keyword">catch</span> (<span class="tok-type">PedidoNoCancelableException</span> ex) {
+      <span class="tok-keyword">return</span> <span class="tok-type">ResponseEntity</span>.status(<span class="tok-number">409</span>).build();
+    }
+  }
+}</code></pre>
+    </div>
+    <div class="stack">
+      <div class="panel tint">
+        <div class="label">Traducción del controlador</div>
+        <div class="facts">
+          <span><strong>ORD-101</strong> (<code>Optional</code> con pedido)</span><strong><span class="badge ok">200 OK</span> + JSON</strong>
+          <span><strong>ORD-102</strong> (<code>PedidoNoCancelableException</code>)</span><strong><span class="badge warn">409 Conflict</span></strong>
+          <span><strong>ORD-999</strong> (<code>Optional.empty()</code>)</span><strong><span class="badge err">404 Not Found</span></strong>
+        </div>
+      </div>
+      <div class="callout"><code>PedidoResponse</code> es el DTO de la API y vive en el adaptador web. El núcleo nunca decide estados HTTP.</div>
+      <p class="small">Constructor e imports omitidos por brevedad.</p>
+    </div>
+  </div>
+  <aside class="speaker-notes" hidden>También podría traducirse PedidoNoCancelableException con un @RestControllerAdvice; aquí lo mostramos con try/catch directo para que el recorrido completo sea visible en una sola pantalla.</aside>
+</section>
+
+<!-- SLIDE 17 (NEW) -->
+<section class="slide" data-title="Múltiples adaptadores de entrada: HTTP, @Scheduled y eventos" hidden>
+  <header class="slide-header">
+    <div class="eyebrow">Reutilizar el núcleo · varios canales de entrada</div>
+    <h2>Un mismo puerto de entrada atiende HTTP, tareas programadas y eventos</h2>
+  </header>
+  <div class="body split wide-left">
+    <div>
+      <div class="code-label">Segundo adaptador de entrada · infrastructure/adapter/in/scheduler/PedidosExpiradosJob.java</div>
+      <pre><code><span class="tok-ann">@Component</span>
+<span class="tok-keyword">public class</span> <span class="tok-type">PedidosExpiradosJob</span> {
+  <span class="tok-keyword">private final</span> <span class="tok-type">CancelarPedidoUseCase</span> cancelarPedido;
+
+<span class="code-focus">  <span class="tok-ann">@Scheduled</span>(cron = <span class="tok-string">"0 0 * * * *"</span>) <span class="tok-comment">// cada hora</span></span>
+  <span class="tok-keyword">public void</span> cancelarVencidos(<span class="tok-type">List</span>&lt;<span class="tok-type">String</span>&gt; idsVencidos) {
+    <span class="tok-keyword">for</span> (<span class="tok-type">String</span> id : idsVencidos) {
+<span class="code-focus">      cancelarPedido.cancelar(id);</span>
+    }
+  }
+}</code></pre>
+    </div>
+    <div class="stack">
+      <div class="panel accent-box">
+        <div class="label good">Tres canales, una sola regla</div>
+        <ul class="list">
+          <li><strong>HTTP REST:</strong> <code>PedidoController</code> (web / app móvil).</li>
+          <li><strong>Tarea programada:</strong> <code>@Scheduled</code> cancela pedidos vencidos sin HTTP.</li>
+          <li><strong>Mensajería:</strong> un <code>PedidoKafkaConsumer</code> o un comando CLI.</li>
+        </ul>
+      </div>
+      <div class="callout">Como el caso de uso no devuelve <code>ResponseEntity</code> ni <code>PedidoResponse</code>, ningún adaptador tiene que fingir peticiones HTTP ni duplicar los <code>if</code> de <code>ORD-101</code> y <code>ORD-102</code>.</div>
+      <p class="small">Esquema simplificado: la consulta de IDs vencidos y manejo de excepciones por ítem se omiten por brevedad.</p>
+    </div>
+  </div>
+  <aside class="speaker-notes" hidden>Este ejemplo hace clic de inmediato: en un servicio acoplado a DTOs HTTP o RequestContext, reutilizar lógica desde un cron @Scheduled suele terminar en código duplicado.</aside>
+</section>
+
+<!-- SLIDE 18 -->
+<section class="slide" data-title="Cambio de persistencia: JPA, JDBC nativo o MongoDB" hidden>
+  <header class="slide-header">
+    <div class="eyebrow">Adaptador de salida · persistencia intercambiable</div>
+    <h2>Cambiar de motor o de librería SQL queda aislado en un adaptador</h2>
+  </header>
+  <div class="body split wide-left">
+    <div>
+      <div class="code-label">Adaptador actual · infrastructure/adapter/out/persistence/PedidoJpaAdapter.java</div>
+      <pre><code><span class="tok-ann">@Repository</span>
+<span class="tok-keyword">public class</span> <span class="tok-type">PedidoJpaAdapter</span> <span class="tok-keyword">implements</span> <span class="tok-type">PedidoRepositoryPort</span> {
+  <span class="tok-keyword">private final</span> <span class="tok-type">SpringDataPedidoRepository</span> jpaRepo;
+  <span class="tok-keyword">private final</span> <span class="tok-type">PedidoMapper</span> mapper;
+
+  <span class="tok-keyword">public</span> <span class="tok-type">Optional</span>&lt;<span class="tok-type">Pedido</span>&gt; buscarPorId(<span class="tok-type">String</span> id) {
+    <span class="tok-keyword">return</span> jpaRepo.findById(id).map(mapper::toDomain);
+  }
+
+  <span class="tok-keyword">public</span> <span class="tok-type">Pedido</span> guardar(<span class="tok-type">Pedido</span> pedido) {
+    <span class="tok-type">PedidoEntity</span> saved = jpaRepo.save(mapper.toEntity(pedido));
+    <span class="tok-keyword">return</span> mapper.toDomain(saved);
+  }
+}</code></pre>
+    </div>
+    <div class="stack">
+      <div class="panel tint">
+        <div class="label">¿Qué hace <code>PedidoMapper</code>?</div>
+        <p>Un <strong>mapper</strong> traduce los datos de <code>ORD-101</code> entre <code>Pedido</code> (dominio) y <code>PedidoEntity</code> (JPA).</p>
+      </div>
+      <div class="panel accent-box">
+        <div class="label violet">Dos reemplazos posibles sin tocar el núcleo</div>
+        <p><strong>MongoDB:</strong> <code>PedidoMongoAdapter</code> con <code>PedidoDocument</code>.</p>
+        <p><strong>Mismo PostgreSQL, más rápido:</strong> <code>PedidoJdbcAdapter</code> con SQL nativo si Hibernate se vuelve lento en una consulta crítica.</p>
+      </div>
+      <p class="small">No desechamos Spring Data JPA: lo confinamos detrás de <code>PedidoRepositoryPort</code>.</p>
+    </div>
+  </div>
+  <aside class="speaker-notes" hidden>Subraya el segundo caso: incluso si tu empresa nunca abandona PostgreSQL, poder cambiar JPA por JDBC o jOOQ en un adaptador sin tocar el dominio es muy valioso.</aside>
+</section>
+
+<!-- SLIDE 18 -->
+<section class="slide" data-title="Cambio 2 resuelto: PedidoKafkaAdapter" hidden>
+  <header class="slide-header">
+    <div class="eyebrow">Cambio 2 resuelto · agregar una tecnología nueva</div>
+    <h2>Kafka entra como un adaptador sin ensuciar el caso de uso</h2>
+  </header>
+  <div class="body split wide-left">
+    <div>
+      <div class="code-label">Esquema simplificado · infrastructure/adapter/out/messaging/PedidoKafkaAdapter.java</div>
+      <pre><code><span class="tok-ann">@Component</span>
+<span class="tok-keyword">public class</span> <span class="tok-type">PedidoKafkaAdapter</span>
+    <span class="tok-keyword">implements</span> <span class="tok-type">NotificarPedidoCanceladoPort</span> {
+
+  <span class="tok-keyword">private static final</span> <span class="tok-type">String</span> TOPIC = <span class="tok-string">"pedidos-cancelados"</span>;
+  <span class="tok-keyword">private final</span> <span class="tok-type">KafkaTemplate</span>&lt;<span class="tok-type">String</span>, <span class="tok-type">PedidoCanceladoEvent</span>&gt; kafka;
+
+  <span class="tok-keyword">public void</span> notificarCancelacion(<span class="tok-type">Pedido</span> pedido) {
+    <span class="tok-type">PedidoCanceladoEvent</span> evento = <span class="tok-type">PedidoCanceladoEvent</span>.from(pedido);
+    kafka.send(TOPIC, pedido.id(), evento);
+  }
+}</code></pre>
+    </div>
+    <div class="stack">
+      <div class="panel accent-box">
+        <div class="label good">Qué queda encapsulado aquí</div>
+        <ul class="list">
+          <li>El cliente <code>KafkaTemplate</code> de Spring Kafka.</li>
+          <li>El nombre del <em>topic</em> (<code>pedidos-cancelados</code>).</li>
+          <li>El formato del evento <code>PedidoCanceladoEvent</code> para <strong>ORD-101</strong>.</li>
+        </ul>
+      </div>
+      <div class="callout">Si mañana cambiamos Kafka por RabbitMQ o correo, solo reemplazamos este adaptador. Y si otro sistema enviara cancelaciones <em>desde</em> Kafka, un consumidor sería un nuevo <strong>adaptador de entrada</strong> llamando a <code>CancelarPedidoUseCase</code>.</div>
+      <p class="small">Esquema simplificado: omite constructor, imports y manejo de errores de envío.</p>
+    </div>
+  </div>
+  <aside class="speaker-notes" hidden>Conecta directamente con el problema de la diapositiva 6: ahora Kafka tiene un hogar claro (infrastructure/adapter/out/messaging) y no contamina PedidoService.</aside>
+</section>
+
+<!-- SLIDE 20 (NEW) -->
+<section class="slide" data-title="Más allá de BD y Kafka: puertos en proyectos reales" hidden>
+  <header class="slide-header">
+    <div class="eyebrow">El mismo patrón en todo el backend</div>
+    <h2>Más allá de BD y Kafka: dónde más brillan puertos y adaptadores</h2>
+  </header>
+  <div class="body">
+    <p class="lead">En producción rara vez migras de PostgreSQL a MongoDB cada mes, pero <strong>sí cambias proveedores externos, almacenamiento y clientes HTTP</strong> con frecuencia:</p>
+    <div class="table-wrap" tabindex="0" role="region" aria-label="Ejemplos reales de puertos de salida y sus adaptadores intercambiables">
+      <table class="table">
+        <thead>
+          <tr><th>Capacidad del negocio</th><th>Puerto en el núcleo</th><th>Adaptadores intercambiables afuera</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Pasarela de pagos / reembolsos</strong></td>
+            <td><code>ProcesarReembolsoPort</code></td>
+            <td><code>StripeReembolsoAdapter</code> ↔ <code>CulqiAdapter</code> / <code>MercadoPagoAdapter</code></td>
+          </tr>
+          <tr>
+            <td><strong>Notificaciones al cliente</strong></td>
+            <td><code>EnviarNotificacionPort</code></td>
+            <td><code>SendGridEmailAdapter</code> ↔ <code>AwsSesAdapter</code> / <code>WhatsAppAdapter</code></td>
+          </tr>
+          <tr>
+            <td><strong>Archivos y comprobantes PDF</strong></td>
+            <td><code>GuardarComprobantePort</code></td>
+            <td><code>DiscoLocalAdapter</code> (dev) ↔ <code>AmazonS3Adapter</code> (producción)</td>
+          </tr>
+          <tr>
+            <td><strong>Consultas a servicios externos</strong></td>
+            <td><code>ValidarDocumentoPort</code></td>
+            <td><code>ReniecRestAdapter</code> ↔ <code>ProveedorAlternoAdapter</code> / doble en pruebas</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout good"><strong>Ventaja en desarrollo local:</strong> mientras desarrollas, puedes usar <code>DiscoLocalAdapter</code> o un doble en memoria para pagos y correos sin gastar cuotas ni depender de credenciales de Stripe o AWS.</div>
+  </div>
+  <aside class="speaker-notes" hidden>Este cuadro muestra por qué los equipos usan hexagonal incluso cuando nunca cambian de base de datos: aislar Stripe/Culqi, S3, correos o APIs externas paga dividendos desde la primera semana.</aside>
+</section>
+
+<!-- SLIDE 19 -->
+<section class="slide" data-title="Diagrama 1: flujo en tiempo de ejecución" hidden>
+  <header class="slide-header">
+    <div class="eyebrow">Diagrama 1 · qué ocurre al ejecutarse</div>
+    <h2>En ejecución, las llamadas viajan y regresan por los puertos</h2>
+  </header>
+  <div class="body">
+    <svg class="svg-desktop" viewBox="0 0 1180 192" role="img" aria-labelledby="rt-desk-title rt-desk-desc">
+      <title id="rt-desk-title">Recorrido de llamadas y retorno en tiempo de ejecución</title>
+      <desc id="rt-desk-desc">PedidoController invoca CancelarPedidoService. El servicio consulta y guarda a través de PedidoJpaAdapter en PostgreSQL, y si ORD-101 se cancela, invoca PedidoKafkaAdapter hacia Kafka. El resultado vuelve hasta PedidoController.</desc>
+      <rect x="8" y="44" width="182" height="78" rx="12" fill="#202c3c" stroke="#39495d" stroke-width="1.8"/>
+      <text x="99" y="74" fill="#70d9e8" font-size="12" font-weight="700" text-anchor="middle">1 · ENTRADA HTTP</text>
+      <text x="99" y="98" fill="#e6edf3" font-size="15" font-weight="700" text-anchor="middle">PedidoController</text>
+
+      <path d="M190 68 H306 M297 61 L306 68 L297 75" fill="none" stroke="#70d9e8" stroke-width="2.2"/>
+      <text x="248" y="57" fill="#a8b3c5" font-size="12" text-anchor="middle">cancelar(id)</text>
+      <path d="M306 104 H190 M199 97 L190 104 L199 111" fill="none" stroke="#a6e3a1" stroke-width="2.2"/>
+      <text x="248" y="124" fill="#a6e3a1" font-size="12" text-anchor="middle">resultado / error</text>
+
+      <rect x="310" y="30" width="234" height="106" rx="14" fill="#162b38" stroke="#70d9e8" stroke-width="2.4"/>
+      <text x="427" y="58" fill="#70d9e8" font-size="12" font-weight="700" text-anchor="middle">2 · NÚCLEO</text>
+      <text x="427" y="83" fill="#e6edf3" font-size="16" font-weight="700" text-anchor="middle">CancelarPedidoService</text>
+      <text x="427" y="106" fill="#a8b3c5" font-size="13" text-anchor="middle">ejecuta pedido.cancelar()</text>
+
+      <path d="M544 58 H676 M667 51 L676 58 L667 65" fill="none" stroke="#70d9e8" stroke-width="2.2"/>
+      <text x="610" y="47" fill="#a8b3c5" font-size="12" text-anchor="middle">buscar / guardar</text>
+      <path d="M676 78 H544 M553 72 L544 78 L553 84" fill="none" stroke="#a6e3a1" stroke-width="2"/>
+
+      <rect x="680" y="18" width="212" height="72" rx="12" fill="#202c3c" stroke="#39495d" stroke-width="1.8"/>
+      <text x="786" y="46" fill="#70d9e8" font-size="12" font-weight="700" text-anchor="middle">3 · SALIDA BD</text>
+      <text x="786" y="70" fill="#e6edf3" font-size="15" font-weight="700" text-anchor="middle">PedidoJpaAdapter</text>
+
+      <path d="M892 54 H968 M959 47 L968 54 L959 61" fill="none" stroke="#70d9e8" stroke-width="2"/>
+      <rect x="972" y="22" width="198" height="64" rx="12" fill="#182330" stroke="#39495d" stroke-width="1.5"/>
+      <text x="1071" y="59" fill="#e6edf3" font-size="15" font-weight="700" text-anchor="middle">PostgreSQL / Mongo</text>
+
+      <path d="M544 122 H676 M667 115 L676 122 L667 129" fill="none" stroke="#a6e3a1" stroke-width="2.2"/>
+      <text x="610" y="146" fill="#a6e3a1" font-size="12" text-anchor="middle">solo si se canceló</text>
+
+      <rect x="680" y="106" width="212" height="72" rx="12" fill="#182b24" stroke="#a6e3a1" stroke-width="1.8"/>
+      <text x="786" y="134" fill="#a6e3a1" font-size="12" font-weight="700" text-anchor="middle">4 · SALIDA EVENTO</text>
+      <text x="786" y="158" fill="#e6edf3" font-size="15" font-weight="700" text-anchor="middle">PedidoKafkaAdapter</text>
+
+      <path d="M892 142 H968 M959 135 L968 142 L959 149" fill="none" stroke="#a6e3a1" stroke-width="2"/>
+      <rect x="972" y="110" width="198" height="64" rx="12" fill="#182330" stroke="#39495d" stroke-width="1.5"/>
+      <text x="1071" y="147" fill="#e6edf3" font-size="15" font-weight="700" text-anchor="middle">Kafka · topic</text>
+    </svg>
+
+    <svg class="svg-mobile" viewBox="0 0 360 368" role="img" aria-labelledby="rt-mob-title rt-mob-desc">
+      <title id="rt-mob-title">Flujo de ejecución móvil</title>
+      <desc id="rt-mob-desc">Controlador llama al núcleo; el núcleo llama por separado al adaptador de base de datos y, solo si el pedido se cancela, al adaptador de Kafka; el resultado vuelve hacia el controlador.</desc>
+      <rect x="52" y="10" width="268" height="52" rx="10" fill="#202c3c" stroke="#39495d"/>
+      <text x="186" y="41" fill="#e6edf3" font-size="15" font-weight="700" text-anchor="middle">1 · PedidoController (HTTP)</text>
+      <path d="M186 62 V94 M180 86 L186 94 L192 86" fill="none" stroke="#70d9e8" stroke-width="2"/>
+
+      <rect x="52" y="96" width="268" height="62" rx="10" fill="#162b38" stroke="#70d9e8" stroke-width="2"/>
+      <text x="186" y="123" fill="#e6edf3" font-size="15" font-weight="700" text-anchor="middle">2 · CancelarPedidoService</text>
+      <text x="186" y="145" fill="#a8b3c5" font-size="13" text-anchor="middle">+ Pedido.cancelar()</text>
+
+      <path d="M186 158 V192 M180 184 L186 192 L192 184" fill="none" stroke="#70d9e8" stroke-width="2"/>
+      <text x="176" y="180" fill="#a8b3c5" font-size="11" text-anchor="end">buscar/guardar</text>
+
+      <rect x="52" y="194" width="268" height="54" rx="10" fill="#202c3c" stroke="#39495d"/>
+      <text x="186" y="226" fill="#e6edf3" font-size="15" font-weight="700" text-anchor="middle">3 · PedidoJpaAdapter → BD</text>
+
+      <path d="M320 127 H344 V311 H322 M330 305 L322 311 L330 317" fill="none" stroke="#a6e3a1" stroke-width="2"/>
+      <text x="342" y="274" fill="#a6e3a1" font-size="11" text-anchor="end">solo si se canceló</text>
+
+      <rect x="52" y="284" width="268" height="54" rx="10" fill="#182b24" stroke="#a6e3a1"/>
+      <text x="186" y="316" fill="#e6edf3" font-size="15" font-weight="700" text-anchor="middle">4 · PedidoKafkaAdapter → Kafka</text>
+
+      <path d="M52 127 H24 V36 H50 M42 30 L50 36 L42 42" fill="none" stroke="#a6e3a1" stroke-width="2"/>
+      <text x="186" y="358" fill="#a8b3c5" font-size="12" text-anchor="middle">Izquierda: resultado a HTTP · Derecha: evento a Kafka</text>
+    </svg>
+
+    <div class="triplet">
+      <div class="panel accent-box"><div class="label good">ORD-101 · EN_PREPARACION</div><p class="small">Busca → <code>cancelar()</code> → guarda → publica en Kafka → <strong>200 OK</strong>.</p></div>
+      <div class="panel warn-box"><div class="label warn">ORD-102 · ENTREGADO</div><p class="small">Busca → <code>cancelar()</code> lanza excepción → <strong>no guarda ni publica</strong> → <strong>409</strong>.</p></div>
+      <div class="panel"><div class="label danger">ORD-999 · ausente</div><p class="small">Busca → <code>Optional.empty()</code> → <strong>no guarda ni publica</strong> → <strong>404</strong>.</p></div>
+    </div>
+  </div>
+  <aside class="speaker-notes" hidden>Subraya que estas flechas muestran llamadas en tiempo de ejecución. En la siguiente diapositiva veremos por qué las flechas de dependencia en código apuntan al revés.</aside>
+</section>
+
+<!-- SLIDE 20 -->
+<section class="slide" data-title="Diagrama 2: inversión de dependencias en el código" hidden>
+  <header class="slide-header">
+    <div class="eyebrow">Diagrama 2 · dependencias de compilación (import)</div>
+    <h2>En el código fuente, todos los adaptadores apuntan hacia el núcleo</h2>
+  </header>
+  <div class="body">
+    <p class="lead">Una <strong>dependencia en código</strong> significa que una clase necesita importar otro tipo para compilar. Aquí está la diferencia clave con el repositorio en capas:</p>
+    <svg class="svg-desktop" viewBox="0 0 1120 262" role="img" aria-labelledby="dep-desk-title dep-desk-desc">
+      <title id="dep-desk-title">Comparación de dependencias de código: capas frente a hexagonal</title>
+      <desc id="dep-desk-desc">Arriba, en capas, PedidoService importa directamente JpaRepository, PedidoEntity y KafkaTemplate. Abajo, en hexagonal, CancelarPedidoService solo usa los puertos del núcleo, y PedidoJpaAdapter, PedidoMongoAdapter y PedidoKafkaAdapter apuntan hacia adentro implementando esos puertos.</desc>
+
+      <text x="12" y="20" fill="#ff7b7b" font-size="13" font-weight="700">ANTES · CAPAS ACOPLADAS (las flechas salen hacia la infraestructura)</text>
+      <rect x="12" y="32" width="275" height="58" rx="12" fill="#291c22" stroke="#ff7b7b" stroke-width="2"/>
+      <text x="149" y="66" fill="#e6edf3" font-size="16" font-weight="700" text-anchor="middle">PedidoService</text>
+
+      <path d="M287 61 H436 M426 54 L436 61 L426 68" fill="none" stroke="#ff7b7b" stroke-width="2.4"/>
+      <text x="361" y="51" fill="#ffc78a" font-size="12" text-anchor="middle">importa directo</text>
+
+      <rect x="440" y="32" width="305" height="58" rx="12" fill="#202c3c" stroke="#39495d" stroke-width="1.6"/>
+      <text x="592" y="66" fill="#e6edf3" font-size="15" text-anchor="middle">JpaRepository + PedidoEntity</text>
+
+      <rect x="775" y="32" width="330" height="58" rx="12" fill="#202c3c" stroke="#39495d" stroke-width="1.6"/>
+      <text x="940" y="66" fill="#e6edf3" font-size="15" text-anchor="middle">KafkaTemplate + topic</text>
+      <path d="M149 90 V116 H940 V94 M933 102 L940 94 L947 102" fill="none" stroke="#ff7b7b" stroke-width="2" stroke-dasharray="5 4"/>
+      <text x="592" y="111" fill="#ffc78a" font-size="11.5" text-anchor="middle">importa directo también</text>
+
+      <line x1="12" y1="138" x2="1105" y2="138" stroke="#39495d" stroke-width="1"/>
+
+      <text x="12" y="163" fill="#a6e3a1" font-size="13" font-weight="700">AHORA · INVERSIÓN DE DEPENDENCIAS (los adaptadores dependen de los puertos del núcleo)</text>
+      <rect x="12" y="178" width="265" height="68" rx="12" fill="#162b38" stroke="#70d9e8" stroke-width="2.2"/>
+      <text x="144" y="208" fill="#e6edf3" font-size="15" font-weight="700" text-anchor="middle">CancelarPedidoService</text>
+      <text x="144" y="230" fill="#a8b3c5" font-size="12" text-anchor="middle">núcleo · cero imports externos</text>
+
+      <path d="M277 212 H366 M357 205 L366 212 L357 219" fill="none" stroke="#70d9e8" stroke-width="2.4"/>
+      <text x="321" y="201" fill="#70d9e8" font-size="12" text-anchor="middle">usa</text>
+
+      <rect x="370" y="174" width="315" height="76" rx="12" fill="#182b24" stroke="#a6e3a1" stroke-width="2.2"/>
+      <text x="527" y="205" fill="#a6e3a1" font-size="14" font-weight="700" text-anchor="middle">Puertos de salida (núcleo)</text>
+      <text x="527" y="230" fill="#e6edf3" font-size="13" text-anchor="middle">PedidoRepositoryPort · Notificar...Port</text>
+
+      <path d="M792 212 H689 M698 205 L689 212 L698 219" fill="none" stroke="#a6e3a1" stroke-width="2.5"/>
+      <text x="740" y="201" fill="#a6e3a1" font-size="12" text-anchor="middle">implementan</text>
+
+      <rect x="796" y="174" width="310" height="76" rx="12" fill="#202c3c" stroke="#b9a0ff" stroke-width="2"/>
+      <text x="951" y="203" fill="#e6edf3" font-size="14" font-weight="700" text-anchor="middle">PedidoJpaAdapter / MongoAdapter</text>
+      <text x="951" y="229" fill="#b9a0ff" font-size="14" font-weight="700" text-anchor="middle">PedidoKafkaAdapter</text>
+    </svg>
+
+    <div class="svg-mobile stack">
+      <div class="panel danger-box"><div class="label danger">Antes · capas</div><p><code>PedidoService</code> importa directamente <code>JpaRepository</code>, <code>PedidoEntity</code> y <code>KafkaTemplate</code>.</p></div>
+      <div class="panel accent-box"><div class="label good">Ahora · inversión de dependencias</div><p><code>CancelarPedidoService</code> solo usa los puertos. <code>PedidoJpaAdapter</code>, <code>PedidoMongoAdapter</code> y <code>PedidoKafkaAdapter</code> implementan esos puertos apuntando hacia adentro.</p></div>
+    </div>
+
+    <div class="callout"><strong>Compilación ≠ ejecución:</strong> al ejecutarse, el servicio llama al adaptador; al compilar, el servicio solo conoce el puerto. Puedes borrar <code>PedidoJpaAdapter</code> o <code>PedidoKafkaAdapter</code> y el núcleo sigue compilando.</div>
+  </div>
+  <aside class="speaker-notes" hidden>Pregunta rápida al grupo: ¿por qué compila CancelarPedidoService si todavía no escribimos PedidoMongoAdapter? Porque depende únicamente de PedidoRepositoryPort.</aside>
+</section>
+
+<!-- SLIDE 21 -->
+<section class="slide" data-title="Cableado en Spring Boot: @Configuration y @Bean" hidden>
+  <header class="slide-header">
+    <div class="eyebrow">Paso 3 · ensamblar las piezas al iniciar</div>
+    <h2>Spring conecta el núcleo puro con los adaptadores activos</h2>
+  </header>
+  <div class="body split wide-left">
+    <div>
+      <div class="code-label">Spring Boot · infrastructure/config/PedidoConfig.java</div>
+      <pre><code><span class="tok-ann">@Configuration</span>
+<span class="tok-keyword">public class</span> <span class="tok-type">PedidoConfig</span> {
+
+  <span class="tok-ann">@Bean</span>
+  <span class="tok-type">CancelarPedidoUseCase</span> cancelarPedidoUseCase(
+      <span class="tok-type">PedidoRepositoryPort</span> pedidos,
+      <span class="tok-type">NotificarPedidoCanceladoPort</span> notificador) {
+    <span class="tok-keyword">return new</span> <span class="tok-type">CancelarPedidoService</span>(pedidos, notificador);
+  }
+}</code></pre>
+      <div class="code-label" style="margin-top:10px;">Sin Spring · construcción manual equivalente</div>
+      <pre><code><span class="tok-type">CancelarPedidoUseCase</span> caso = <span class="tok-keyword">new</span> <span class="tok-type">CancelarPedidoService</span>(
+    <span class="tok-keyword">new</span> <span class="tok-type">PedidoJpaAdapter</span>(...), <span class="tok-keyword">new</span> <span class="tok-type">PedidoKafkaAdapter</span>(...));</code></pre>
+    </div>
+    <div class="stack">
+      <div class="panel tint">
+        <div class="label">Dos anotaciones nuevas</div>
+        <p><strong><code>@Configuration</code></strong> marca una clase de ensamblaje fuera del núcleo.</p>
+        <p><strong><code>@Bean</code></strong> indica a Spring cómo crear el objeto e inyectarle los adaptadores activos.</p>
+      </div>
+      <div class="callout warn"><strong>Importante:</strong> mantén <strong>una sola implementación activa</strong> de <code>PedidoRepositoryPort</code> (por ejemplo, activar JPA o MongoDB con <code>@Profile</code> o un único bean); si Spring encuentra dos a la vez, no sabrá cuál inyectar.</div>
+    </div>
+  </div>
+  <aside class="speaker-notes" hidden>Antes usaban @Service en PedidoService. Aquí mostramos por qué @Configuration + @Bean permite mantener CancelarPedidoService sin imports de Spring.</aside>
+</section>
+
+<!-- SLIDE 22 -->
+<section class="slide" data-title="Nueva distribución del repositorio" hidden>
+  <header class="slide-header">
+    <div class="eyebrow">Paso 3 · del repositorio en capas al repositorio hexagonal</div>
+    <h2>Cómo se reorganizan las carpetas en el mismo proyecto Spring</h2>
+  </header>
+  <div class="body split wide-right align-start">
+    <div class="stack">
+      <div class="code-label">Antes · distribución actual (capas)</div>
+      <pre class="tree"><span class="tree-dir">com/tienda/pedidos/</span>
+├── <span class="tree-dir">controller/</span>  PedidoController
+├── <span class="tree-dir">dto/</span>         PedidoResponse
+├── <span class="tree-warn">service/</span>     PedidoService <span class="tree-note">← JPA + Kafka</span>
+├── <span class="tree-dir">repository/</span>  PedidoRepository (JPA)
+└── <span class="tree-dir">entity/</span>      PedidoEntity (@Entity)</pre>
+      <div class="callout warn">Los nombres de carpetas hacen visibles las fronteras, pero <strong>no crean la arquitectura por sí solos</strong>: lo esencial es que <code>domain</code> y <code>application</code> no importen nada de <code>infrastructure</code>.</div>
+    </div>
+    <div>
+      <div class="code-label">Después · distribución hexagonal (un solo proyecto)</div>
+      <pre class="tree"><span class="tree-dir">com/tienda/pedidos/</span>
+├── <span class="tree-core">domain/model/</span>
+│   └── Pedido · EstadoPedido · PedidoNoCancelableException
+├── <span class="tree-core">application/</span>
+│   ├── port/in/    CancelarPedidoUseCase
+│   ├── port/out/   PedidoRepositoryPort · NotificarPedidoCanceladoPort
+│   └── service/    CancelarPedidoService
+└── <span class="tree-dir">infrastructure/</span>
+    ├── adapter/in/web/          PedidoController · PedidoResponse
+    ├── adapter/in/scheduler/    PedidosExpiradosJob (@Scheduled)
+    ├── adapter/out/persistence/ PedidoJpaAdapter · PedidoEntity · Mapper
+    ├── adapter/out/messaging/   PedidoKafkaAdapter · PedidoCanceladoEvent
+    ├── adapter/out/payment/     StripeAdapter <span class="tree-note">(o CulqiAdapter)</span>
+    └── config/                  PedidoConfig (@Configuration)</pre>
+    </div>
+  </div>
+  <aside class="speaker-notes" hidden>Conecta directamente con los paquetes reales de spring-introduccion. Señala dónde aterriza Kafka (adapter/out/messaging) y dónde aterriza MongoDB (adapter/out/persistence).</aside>
+</section>
+
+<!-- SLIDE 23 -->
+<section class="slide" data-title="Probar reglas sin BD ni Kafka" hidden>
+  <header class="slide-header">
+    <div class="eyebrow">Paso 4 · recompensa inmediata al probar</div>
+    <h2>Probamos ORD-101, ORD-102 y ORD-999 en milisegundos con dobles en memoria</h2>
+  </header>
+  <div class="body split wide-left">
+    <div>
+      <div class="code-label">Prueba unitaria JUnit · CancelarPedidoServiceTest.java</div>
+      <pre><code><span class="tok-ann">@Test</span>
+<span class="tok-keyword">void</span> rechazaEntregadoSinGuardarNiNotificar() {
+  <span class="tok-type">RepositorioPedidosEnMemoria</span> repo = <span class="tok-keyword">new</span> <span class="tok-type">RepositorioPedidosEnMemoria</span>();
+  <span class="tok-type">NotificadorEnMemoria</span> avisos = <span class="tok-keyword">new</span> <span class="tok-type">NotificadorEnMemoria</span>();
+  repo.guardar(<span class="tok-keyword">new</span> <span class="tok-type">Pedido</span>(<span class="tok-string">"ORD-102"</span>, <span class="tok-number">85</span>, ENTREGADO));
+
+  <span class="tok-type">CancelarPedidoUseCase</span> caso = <span class="tok-keyword">new</span> <span class="tok-type">CancelarPedidoService</span>(repo, avisos);
+
+<span class="code-focus">  assertThrows(<span class="tok-type">PedidoNoCancelableException</span>.<span class="tok-keyword">class</span>,</span>
+<span class="code-focus">      () -&gt; caso.cancelar(<span class="tok-string">"ORD-102"</span>));</span>
+<span class="code-focus">  assertEquals(ENTREGADO, repo.buscarPorId(<span class="tok-string">"ORD-102"</span>).get().estado());</span>
+<span class="code-focus">  assertTrue(avisos.idsNotificados().isEmpty());</span>
+}</code></pre>
+    </div>
+    <div class="stack">
+      <p>Un <strong>doble de prueba (fake)</strong> implementa un puerto en memoria (<code>Map</code> o <code>List</code>) para controlar entradas y observar salidas sin infraestructura.</p>
+      <div class="table-wrap" tabindex="0" role="region" aria-label="Casos cubiertos por pruebas unitarias">
+        <table class="table">
+          <thead><tr><th>Caso</th><th>Qué verificamos</th></tr></thead>
+          <tbody>
+            <tr><td><strong>ORD-101</strong></td><td>Queda <code>CANCELADO</code>, guardado y registrado en <code>avisos</code>.</td></tr>
+            <tr><td><strong>ORD-102</strong></td><td>Lanza excepción; estado sigue <code>ENTREGADO</code>; <code>avisos</code> vacío.</td></tr>
+            <tr><td><strong>ORD-999</strong></td><td>Devuelve <code>Optional.empty()</code>; nada guardado ni notificado.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small">Sin arrancar Spring, sin PostgreSQL, sin MongoDB y sin broker Kafka.</p>
+    </div>
+  </div>
+  <aside class="speaker-notes" hidden>Recuerda que JUnit (@Test, assertThrows, assertEquals) se vio en la lección de POO. Nota que esta prueba valida una regla crítica: un pedido entregado nunca dispara un evento falso hacia Kafka.</aside>
+</section>
+
+<!-- SLIDE 24 -->
+<section class="slide" data-title="Pruebas de integración: validar adaptadores y HTTP" hidden>
+  <header class="slide-header">
+    <div class="eyebrow">Paso 4 · lo que las pruebas unitarias NO cubren</div>
+    <h2>Integración comprueba JPA, MongoDB, Kafka y HTTP reales</h2>
+  </header>
+  <div class="body">
+    <p class="lead">Un doble en memoria confirma la lógica del núcleo, pero <strong>no demuestra</strong> que una consulta SQL, un documento MongoDB o un envío a Kafka funcionen de verdad.</p>
+    <div class="table-wrap" tabindex="0" role="region" aria-label="Matriz de tipos de prueba y evidencia">
+      <table class="table">
+        <thead>
+          <tr><th>Tipo de prueba</th><th>Qué piezas ejecuta</th><th>Qué errores detecta</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Unitaria del núcleo</strong></td>
+            <td><code>Pedido</code> + <code>CancelarPedidoService</code> + dobles en memoria</td>
+            <td>Reglas rotas (por ejemplo, cancelar <code>ORD-102</code> o notificar cuando falla).</td>
+          </tr>
+          <tr>
+            <td><strong>Integración de adaptador BD</strong></td>
+            <td><code>PedidoJpaAdapter</code> o <code>PedidoMongoAdapter</code> + BD real/de prueba</td>
+            <td>Columnas mal mapeadas en <code>PedidoMapper</code>, anotaciones <code>@Entity</code>, ausencia de <code>ORD-999</code>.</td>
+          </tr>
+          <tr>
+            <td><strong>Integración de mensajería</strong></td>
+            <td><code>PedidoKafkaAdapter</code> + broker Kafka de prueba</td>
+            <td>Error de serialización de <code>PedidoCanceladoEvent</code> o nombre incorrecto del <em>topic</em>.</td>
+          </tr>
+          <tr>
+            <td><strong>Prueba HTTP (web)</strong></td>
+            <td><code>PedidoController</code> + Spring Web</td>
+            <td>Ruta mal escrita, JSON incompleto o códigos <code>200 / 409 / 404</code> incorrectos.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout good">Cada nivel aporta evidencia distinta: las pruebas unitarias rápidas <strong>complementan</strong> —no reemplazan— a las de integración.</div>
+  </div>
+  <aside class="speaker-notes" hidden>Evita vender las pruebas unitarias como garantía total: si PedidoMapper mapea mal una columna o el estado, solo una prueba sobre el adaptador/mapper lo atrapa.</aside>
+</section>
+
+<!-- SLIDE 25 -->
+<section class="slide" data-title="Alcance real: aislar código no migra datos ni infraestructura" hidden>
+  <header class="slide-header">
+    <div class="eyebrow">Realismo técnico · límites de la arquitectura</div>
+    <h2>Cambiar un adaptador ayuda, pero no resuelve toda la migración</h2>
+  </header>
+  <div class="body">
+    <div class="flow" role="group" aria-label="Cambiar código de adaptador no equivale a migrar datos ni infraestructura">
+      <div class="node"><strong>Reemplazar adaptador</strong><br><span class="small"><code>PedidoJpaAdapter</code> → <code>PedidoMongoAdapter</code></span></div>
+      <div class="arrow danger" aria-hidden="true"><strong style="font-size:1.6rem;color:var(--danger);">≠</strong></div>
+      <div class="node primary"><strong>Migrar datos y operación</strong><br><span class="small">trasladar registros, configurar Kafka y validar producción</span></div>
+    </div>
+    <div class="triplet">
+      <div class="panel"><div class="label">1 · Migrar registros</div><p>Copiar pedidos existentes de PostgreSQL a MongoDB y verificar que <code>ORD-101</code> y <code>ORD-102</code> conserven exactamente sus valores.</p></div>
+      <div class="panel"><div class="label">2 · Infraestructura real</div><p>Configurar índices en MongoDB, crear el <em>topic</em> <code>pedidos-cancelados</code> en Kafka, credenciales, reintentos y monitoreo.</p></div>
+      <div class="panel"><div class="label warn">3 · Fallos técnicos</div><p>Una caída de BD o de Kafka es un <strong>error técnico</strong>, nunca un <code>Optional.empty()</code> («pedido ausente»).</p></div>
+    </div>
+    <div class="callout warn">La arquitectura hexagonal reduce el riesgo de tocar las reglas de negocio durante el cambio, pero el trabajo de datos y operación sigue siendo imprescindible.</div>
+  </div>
+  <aside class="speaker-notes" hidden>Honestidad profesional: cambiar de base de datos o introducir Kafka en producción conlleva migración de datos, consistencia (por ejemplo, qué pasa si guarda en BD y falla Kafka) y configuración operativa.</aside>
+</section>
+
+<!-- SLIDE 26 -->
+<section class="slide" data-title="Trade-offs: capas frente a hexagonal" hidden>
+  <header class="slide-header">
+    <div class="eyebrow">Criterio de ingeniería · beneficios y costos</div>
+    <h2>Cuándo basta con capas y cuándo compensa hexagonal</h2>
+  </header>
+  <div class="body">
+    <div class="table-wrap" tabindex="0" role="region" aria-label="Comparación entre arquitectura en capas y hexagonal">
+      <table class="table">
+        <thead>
+          <tr><th>Criterio</th><th>Capas (<code>controller / service / repository / entity</code>)</th><th>Arquitectura hexagonal (puertos y adaptadores)</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Complejidad inicial</strong></td>
+            <td>Menor: menos archivos y arranque muy rápido.</td>
+            <td>Mayor: puertos, <code>Pedido</code> separado de <code>PedidoEntity</code>, mappers y <code>@Bean</code>.</td>
+          </tr>
+          <tr>
+            <td><strong>Cambiar BD o sumar Kafka</strong></td>
+            <td>Impacta <code>service</code> y mezcla tecnologías junto a reglas.</td>
+            <td>Cambios localizados en nuevos adaptadores; núcleo intacto.</td>
+          </tr>
+          <tr>
+            <td><strong>Probar reglas de negocio</strong></td>
+            <td>Suele arrastrar <code>JpaRepository</code>, Spring o mocks complejos.</td>
+            <td>Pruebas unitarias rápidas en Java puro con dobles en memoria.</td>
+          </tr>
+          <tr>
+            <td><strong>Cuándo encaja mejor</strong></td>
+            <td>CRUD sencillo, pocas reglas, persistencia estable, prototipos.</td>
+            <td>Reglas clave, múltiples canales o integraciones cambiantes (BD, Kafka, APIs).</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout">No agregues puertos ni mappers por cumplir un diagrama. Adopta estas fronteras donde realmente necesites aislar reglas de cambios externos.</div>
+  </div>
+  <aside class="speaker-notes" hidden>Refuerza criterio adulto: ambas arquitecturas son herramientas válidas según el contexto y el ciclo de vida del repositorio.</aside>
+</section>
+
+<!-- SLIDE 29 -->
+<section class="slide" data-title="Resumen: qué cambia y qué permanece protegido" hidden>
+  <header class="slide-header">
+    <div class="eyebrow">Resumen · volver a los cuatro cambios del repositorio</div>
+    <h2>Las reglas de ORD-101 y ORD-102 permanecen; las tecnologías cambian en los bordes</h2>
+  </header>
+  <div class="body">
+    <div class="quad">
+      <div class="panel accent-box">
+        <div class="label good">Intacto en el núcleo</div>
+        <p><strong><code>Pedido.cancelar()</code></strong> y <strong><code>CancelarPedidoService</code></strong> sin imports externos.</p>
+      </div>
+      <div class="panel tint">
+        <div class="label">Persistencia</div>
+        <p>Reemplazas <code>PedidoJpaAdapter</code> por <strong>MongoDB</strong> o <strong>JDBC nativo</strong> tras el mismo puerto.</p>
+      </div>
+      <div class="panel tint">
+        <div class="label violet">Integraciones</div>
+        <p>Sumas o cambias <strong>Kafka</strong>, <strong>Stripe/Culqi</strong>, correo o <strong>S3</strong> como adaptadores de salida.</p>
+      </div>
+      <div class="panel tint">
+        <div class="label warn">Entradas</div>
+        <p><strong>HTTP</strong>, <strong><code>@Scheduled</code></strong> o un consumidor Kafka reutilizan el mismo puerto.</p>
+      </div>
+    </div>
+    <div class="triplet">
+      <div class="panel"><strong>Comprueba 1:</strong> ¿Por qué separamos <code>Pedido</code> de <code>PedidoEntity</code>?<p class="small">Para que JPA no contamine las reglas al migrar de BD o pasar a JDBC.</p></div>
+      <div class="panel"><strong>Comprueba 2:</strong> ¿Hacia dónde apunta la dependencia de un adaptador?<p class="small">Hacia adentro: cada adaptador implementa un puerto del núcleo.</p></div>
+      <div class="panel"><strong>Comprueba 3:</strong> ¿Qué NO prueban los dobles en memoria?<p class="small">Mapeos SQL/Mongo, envío real a Kafka, pasarelas externas ni HTTP.</p></div>
+    </div>
+  </div>
+  <aside class="speaker-notes" hidden>Cierra el ciclo preguntando a la clase las tres comprobaciones antes de mostrar o discutir el ejercicio práctico.</aside>
+</section>
+
+<!-- SLIDE 30 -->
+<section class="slide" data-title="Práctica: aislar reglas ante cambios de tecnología" hidden>
+  <header class="slide-header">
+    <div class="eyebrow">Práctica · sin solución completa</div>
+    <h2>Prepara un caso de uso para cambiar tecnologías sin tocar sus reglas</h2>
+  </header>
+  <div class="body">
+    <div class="exercise">
+      <div class="panel accent-box">
+        <div class="label">Objetivo</div>
+        <p>Refactorizar <strong>«cancelar pedido»</strong> (o <strong>«completar tarea»</strong> de <code>spring-introduccion</code>) separando <code>domain</code>, <code>PedidoRepositoryPort</code>, <code>NotificarPedidoCanceladoPort</code> y el servicio de aplicación, y validarlo con dobles en memoria.</p>
+      </div>
+      <div class="panel">
+        <div class="label">Punto de partida</div>
+        <p>Un servicio en capas acoplado a <code>Entity</code>, <code>JpaRepository</code> y clientes externos, con los casos <strong>ORD-101</strong> (<code>EN_PREPARACION</code>), <strong>ORD-102</strong> (<code>ENTREGADO</code>) y <strong>ORD-999</strong> (ausente).</p>
+      </div>
+      <div class="panel">
+        <div class="label good">Resultado esperado</div>
+        <p>Pruebas unitarias JUnit que verifiquen: <code>ORD-101</code> queda <code>CANCELADO</code>, guardado y notificado; <code>ORD-102</code> lanza excepción sin guardar ni notificar; <code>ORD-999</code> devuelve vacío sin guardar ni notificar.</p>
+      </div>
+      <div class="panel warn-box">
+        <div class="label warn">Restricciones</div>
+        <p>Cero imports de Spring, JPA, MongoDB, Kafka ni clientes HTTP en <code>domain</code> y <code>application</code>. Las pruebas unitarias no deben conectarse a infraestructura real.</p>
+      </div>
+    </div>
+    <div class="callout good"><strong>Desafío opcional:</strong> implementa y cablea con <code>@Configuration</code> / <code>@Bean</code> al menos dos adaptadores reales o simulados —por ejemplo <code>PedidoJpaAdapter</code> + un segundo adaptador a elección (<code>PedidoKafkaAdapter</code>, un job <code>@Scheduled</code> o un <code>ProcesarReembolsoPort</code> para Stripe/Culqi).</div>
+  </div>
+  <aside class="speaker-notes" hidden>Los alumnos pueden aplicar el mismo patrón directamente sobre TareaService.completarTarea de spring-introduccion o sobre el ejercicio del gimnasio si prefieren practicar en su propio repositorio.</aside>
+</section>
+
 </main>
+
 <div class="progress" aria-hidden="true"><span id="fill"></span></div>
-<nav class="controls" aria-label="Controles de presentación"><button type="button" id="prev" aria-label="Diapositiva anterior">←</button><span class="counter slide-indicator" id="counter" role="status" aria-live="polite"></span><button type="button" id="next" aria-label="Diapositiva siguiente">→</button><button type="button" id="help-button" aria-haspopup="dialog">Ayuda</button><button type="button" id="fullscreen" aria-pressed="false">Pantalla completa</button></nav>
-<div class="help" id="help" hidden><article role="dialog" aria-modal="true" aria-labelledby="help-title"><h2 id="help-title">Ayuda de teclado</h2><p>← / ↑ anterior · → / ↓ / espacio siguiente</p><p>Inicio primera · Fin última · F pantalla completa · Esc cierra ayuda</p><button type="button" id="close-help">Cerrar ayuda</button></article></div>
+
+<nav class="controls" aria-label="Controles de presentación">
+  <button type="button" id="prev" aria-label="Diapositiva anterior">←</button>
+  <span class="counter slide-indicator" id="counter" role="status" aria-live="polite">1 / 33</span>
+  <button type="button" id="next" aria-label="Diapositiva siguiente">→</button>
+  <button type="button" id="notes-button" aria-pressed="false" aria-controls="notes-drawer">Notas</button>
+  <button type="button" id="help-button" aria-haspopup="dialog">Ayuda</button>
+  <button type="button" id="fullscreen" aria-pressed="false">Pantalla completa</button>
+</nav>
+
+<aside class="notes-drawer" id="notes-drawer" role="region" aria-labelledby="notes-title" hidden>
+  <div class="notes-drawer-head">
+    <strong id="notes-title">Notas del docente</strong>
+    <button type="button" id="close-notes" aria-label="Cerrar notas">Cerrar</button>
+  </div>
+  <p id="notes-content" class="small"></p>
+</aside>
+
+<div class="help" id="help" hidden>
+  <article role="dialog" aria-modal="true" aria-labelledby="help-title">
+    <h2 id="help-title">Ayuda de teclado</h2>
+    <p><strong>← / ↑</strong> anterior · <strong>→ / ↓ / espacio</strong> siguiente</p>
+    <p><strong>Inicio</strong> primera · <strong>Fin</strong> última · <strong>N</strong> notas · <strong>F</strong> pantalla completa · <strong>Esc</strong> cerrar panel</p>
+    <button type="button" id="close-help">Cerrar ayuda</button>
+  </article>
+</div>
+
 <script>
 (() => {
   'use strict';
+
   const slides = [...document.querySelectorAll('.slide')];
-  const previous = document.getElementById('prev');
-  const next = document.getElementById('next');
+  const previousButton = document.getElementById('prev');
+  const nextButton = document.getElementById('next');
   const counter = document.getElementById('counter');
-  const fill = document.getElementById('fill');
+  const progressFill = document.getElementById('fill');
   const deck = document.getElementById('deck');
-  const help = document.getElementById('help');
-  const fullscreen = document.getElementById('fullscreen');
-  let index = 0;
-  let helpReturn = null;
-  function render(requested, updateHash = true) {
-    index = Math.max(0, Math.min(slides.length - 1, requested));
-    slides.forEach((slide, i) => {
-      slide.hidden = i !== index;
-      slide.setAttribute('aria-current', i === index ? 'step' : 'false');
+  const controls = document.querySelector('.controls');
+  const notesButton = document.getElementById('notes-button');
+  const notesDrawer = document.getElementById('notes-drawer');
+  const notesContent = document.getElementById('notes-content');
+  const closeNotesButton = document.getElementById('close-notes');
+  const helpOverlay = document.getElementById('help');
+  const helpButton = document.getElementById('help-button');
+  const closeHelpButton = document.getElementById('close-help');
+  const fullscreenButton = document.getElementById('fullscreen');
+
+  let currentIndex = 0;
+  let helpReturnFocus = null;
+
+  function updateNotes() {
+    const noteElement = slides[currentIndex].querySelector('.speaker-notes');
+    notesContent.textContent = noteElement
+      ? noteElement.textContent.trim()
+      : 'Sin notas adicionales para esta diapositiva.';
+  }
+
+  function setNotesOpen(open) {
+    notesDrawer.hidden = !open;
+    notesButton.setAttribute('aria-pressed', String(open));
+    if (open) {
+      updateNotes();
+    }
+  }
+
+  function render(requestedIndex, updateHash = true) {
+    currentIndex = Math.max(0, Math.min(slides.length - 1, requestedIndex));
+    slides.forEach((slide, index) => {
+      const isActive = index === currentIndex;
+      slide.hidden = !isActive;
+      slide.setAttribute('aria-current', isActive ? 'step' : 'false');
     });
-    counter.textContent = `${index + 1} / ${slides.length} · ${slides[index].dataset.title}`;
-    fill.style.width = `${((index + 1) / slides.length) * 100}%`;
-    previous.disabled = index === 0;
-    next.disabled = index === slides.length - 1;
-    document.title = `${slides[index].dataset.title} — Arquitectura hexagonal`;
+
+    const title = slides[currentIndex].dataset.title || `Diapositiva ${currentIndex + 1}`;
+    counter.textContent = `${currentIndex + 1} / ${slides.length} · ${title}`;
+    progressFill.style.width = `${((currentIndex + 1) / slides.length) * 100}%`;
+    previousButton.disabled = currentIndex === 0;
+    nextButton.disabled = currentIndex === slides.length - 1;
+    document.title = `${title} — Arquitectura hexagonal`;
+
     if (updateHash) {
-      try { history.replaceState(null, '', `#slide-${index + 1}`); } catch { /* Navegación sigue disponible sin hash. */ }
+      try {
+        history.replaceState(null, '', `#slide-${currentIndex + 1}`);
+      } catch {
+        /* La navegación sigue funcionando si el entorno restringe replaceState. */
+      }
+    }
+
+    if (!notesDrawer.hidden) {
+      updateNotes();
     }
     deck.scrollTop = 0;
   }
-  function fromHash() {
+
+  function syncFromHash() {
     const match = /^#slide-([1-9]\d*)$/.exec(location.hash);
-    const target = match ? Number(match[1]) - 1 : 0;
-    render(Number.isSafeInteger(target) && target >= 0 && target < slides.length ? target : 0);
+    const parsedIndex = match ? Number(match[1]) - 1 : 0;
+    const validIndex = Number.isSafeInteger(parsedIndex) && parsedIndex >= 0 && parsedIndex < slides.length
+      ? parsedIndex
+      : 0;
+    render(validIndex, false);
   }
-  previous.addEventListener('click', () => render(index - 1));
-  next.addEventListener('click', () => render(index + 1));
-  window.addEventListener('hashchange', fromHash);
-  function openHelp() { helpReturn = document.activeElement; help.hidden = false; deck.inert = true; document.querySelector('.controls').inert = true; document.getElementById('close-help').focus(); }
-  function closeHelp() { help.hidden = true; deck.inert = false; document.querySelector('.controls').inert = false; if (helpReturn) helpReturn.focus(); }
-  document.getElementById('help-button').addEventListener('click', openHelp);
-  document.getElementById('close-help').addEventListener('click', closeHelp);
-  help.addEventListener('click', event => { if (event.target === help) closeHelp(); });
+
+  function openHelp() {
+    helpReturnFocus = document.activeElement;
+    helpOverlay.hidden = false;
+    deck.inert = true;
+    controls.inert = true;
+    closeHelpButton.focus();
+  }
+
+  function closeHelp() {
+    helpOverlay.hidden = true;
+    deck.inert = false;
+    controls.inert = false;
+    if (helpReturnFocus && typeof helpReturnFocus.focus === 'function') {
+      helpReturnFocus.focus();
+    }
+  }
+
   async function toggleFullscreen() {
     try {
-      if (document.fullscreenElement) await document.exitFullscreen();
-      else if (document.documentElement.requestFullscreen) await document.documentElement.requestFullscreen();
-    } catch { counter.textContent = `${index + 1} / ${slides.length} · Pantalla completa no disponible`; }
+      if (document.fullscreenElement) {
+        await document.exitFullscreen();
+      } else if (document.documentElement.requestFullscreen) {
+        await document.documentElement.requestFullscreen();
+      }
+    } catch {
+      counter.textContent = `${currentIndex + 1} / ${slides.length} · Pantalla completa no disponible`;
+    }
   }
-  if (!document.documentElement.requestFullscreen || document.fullscreenEnabled === false) {
-    fullscreen.disabled = true;
-    fullscreen.title = 'Pantalla completa no disponible en este navegador';
-  }
-  fullscreen.addEventListener('click', toggleFullscreen);
-  document.addEventListener('fullscreenchange', () => fullscreen.setAttribute('aria-pressed', String(Boolean(document.fullscreenElement))));
-  document.addEventListener('keydown', event => {
-    if (event.key === 'Escape' && !help.hidden) { closeHelp(); return; }
-    if (!help.hidden) { if (event.key === 'Tab') { event.preventDefault(); document.getElementById('close-help').focus(); } return; }
-    if (event.ctrlKey || event.altKey || event.metaKey || event.shiftKey) return;
-    if (event.target.closest('button, input, textarea, select, a, [contenteditable="true"]')) return;
-    const actions = {ArrowLeft: () => render(index - 1), ArrowUp: () => render(index - 1), ArrowRight: () => render(index + 1), ArrowDown: () => render(index + 1), ' ': () => render(index + 1), Home: () => render(0), End: () => render(slides.length - 1), f: toggleFullscreen, F: toggleFullscreen};
-    if (actions[event.key]) { event.preventDefault(); actions[event.key](); }
+
+  previousButton.addEventListener('click', () => render(currentIndex - 1));
+  nextButton.addEventListener('click', () => render(currentIndex + 1));
+  window.addEventListener('hashchange', syncFromHash);
+
+  notesButton.addEventListener('click', () => setNotesOpen(notesDrawer.hidden));
+  closeNotesButton.addEventListener('click', () => {
+    setNotesOpen(false);
+    notesButton.focus();
   });
-  fromHash();
+
+  helpButton.addEventListener('click', openHelp);
+  closeHelpButton.addEventListener('click', closeHelp);
+  helpOverlay.addEventListener('click', event => {
+    if (event.target === helpOverlay) {
+      closeHelp();
+    }
+  });
+
+  if (!document.documentElement.requestFullscreen || document.fullscreenEnabled === false) {
+    fullscreenButton.disabled = true;
+    fullscreenButton.title = 'Pantalla completa no disponible en este navegador';
+  }
+  fullscreenButton.addEventListener('click', toggleFullscreen);
+  document.addEventListener('fullscreenchange', () => {
+    fullscreenButton.setAttribute('aria-pressed', String(Boolean(document.fullscreenElement)));
+  });
+
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape') {
+      if (!helpOverlay.hidden) {
+        event.preventDefault();
+        closeHelp();
+        return;
+      }
+      if (!notesDrawer.hidden) {
+        event.preventDefault();
+        setNotesOpen(false);
+        return;
+      }
+      return;
+    }
+
+    if (!helpOverlay.hidden) {
+      if (event.key === 'Tab') {
+        event.preventDefault();
+        closeHelpButton.focus();
+      }
+      return;
+    }
+
+    if (event.ctrlKey || event.altKey || event.metaKey || event.shiftKey) {
+      return;
+    }
+    if (event.target instanceof Element && event.target.closest('button, input, textarea, select, a, [contenteditable="true"]')) {
+      return;
+    }
+
+    const actions = {
+      ArrowLeft: () => render(currentIndex - 1),
+      ArrowUp: () => render(currentIndex - 1),
+      ArrowRight: () => render(currentIndex + 1),
+      ArrowDown: () => render(currentIndex + 1),
+      ' ': () => render(currentIndex + 1),
+      Home: () => render(0),
+      End: () => render(slides.length - 1),
+      n: () => setNotesOpen(notesDrawer.hidden),
+      N: () => setNotesOpen(notesDrawer.hidden),
+      f: toggleFullscreen,
+      F: toggleFullscreen,
+    };
+
+    if (actions[event.key]) {
+      event.preventDefault();
+      actions[event.key]();
+    }
+  });
+
+  syncFromHash();
 })();
 </script>
 </body>
