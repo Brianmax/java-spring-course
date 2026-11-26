@@ -17,13 +17,17 @@ public class UsuarioRequest {
     @Size(max = 150, message = "El email no debe superar los 150 caracteres")
     private String email;
 
-    @NotBlank(message = "El nombre es obligatorio")
-    @Size(min = 2, max = 50, message = "El nombre debe tener entre 2 y 50 caracteres")
-    private String nombre;
+//    @NotBlank(message = "El nombre es obligatorio")
+//    @Size(min = 2, max = 50, message = "El nombre debe tener entre 2 y 50 caracteres")
+//    private String nombre;
+//
+//    @NotBlank(message = "El apellido es obligatorio")
+//    @Size(min = 2, max = 50, message = "El apellido debe tener entre 2 y 50 caracteres")
+//    private String apellido;
 
-    @NotBlank(message = "El apellido es obligatorio")
-    @Size(min = 2, max = 50, message = "El apellido debe tener entre 2 y 50 caracteres")
-    private String apellido;
+    @NotBlank(message = "El dni es obligatorio")
+    @Size(min = 8, max = 8)
+    private String dni;
 
     @NotNull(message = "La edad es obligatoria")
     @Min(value = 1, message = "La edad debe ser mayor a 0")

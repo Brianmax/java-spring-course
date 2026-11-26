@@ -8,7 +8,6 @@ import com.codigo.codigo.repository.UsuarioRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import static org.junit.jupiter.api.Assertions.*;
@@ -37,8 +36,6 @@ class UsuarioServiceTest {
         UsuarioRequest usuarioRequest = new UsuarioRequest();
         usuarioRequest.setUsername("george.maxi");
         usuarioRequest.setEmail("george.maxi@gmail.com");
-        usuarioRequest.setNombre("George");
-        usuarioRequest.setApellido("Maxi");
         usuarioRequest.setEdad(29);
         usuarioRequest.setPassword("92999");
 
@@ -56,7 +53,6 @@ class UsuarioServiceTest {
 
         // assert
         assertNotNull(usuarioResponse.getId());
-        assertEquals(usuarioResponse.getNombre(), usuarioRequest.getNombre());
         assertEquals(usuarioResponse.getEmail(), usuarioRequest.getEmail());
 
     }
@@ -67,8 +63,6 @@ class UsuarioServiceTest {
         UsuarioRequest usuarioRequest = new UsuarioRequest();
         usuarioRequest.setUsername("george.maxi");
         usuarioRequest.setEmail("george.maxi@gmail.com");
-        usuarioRequest.setNombre("George");
-        usuarioRequest.setApellido("Maxi");
         usuarioRequest.setEdad(29);
         usuarioRequest.setPassword("92999");
 
