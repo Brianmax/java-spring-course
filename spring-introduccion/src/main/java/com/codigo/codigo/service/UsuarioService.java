@@ -5,6 +5,7 @@ import com.codigo.codigo.dto.UsuarioResponse;
 import com.codigo.codigo.entity.UsuarioEntity;
 import com.codigo.codigo.exception.DuplicateResourceException;
 import com.codigo.codigo.repository.UsuarioRepository;
+import lombok.extern.log4j.Log4j;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -34,16 +35,14 @@ public class UsuarioService {
         }
         if (usuarioRepository.existsByEmail(email)) {
             System.out.println("El email ya existe");
-            FieldError fieldError = new FieldError(
-                    UsuarioRequest.class.toString(),
-                    "email",
-                    "El email ya existe"
-                    );
             throw new DuplicateResourceException("El email ya existe");
         }
 
         UsuarioEntity usuarioEntity = new UsuarioEntity();
         usuarioEntity.setUsername(username);
+//        // normalizar email
+//        String emailRequest = usuarioRequest.getEmail();
+//        usuarioRequest.setEmail(emailRequest.replace("@", "@ "));
         usuarioEntity.setEmail(email);
         usuarioEntity.setNombre(usuarioRequest.getNombre().trim());
         usuarioEntity.setApellido(usuarioRequest.getApellido().trim());
